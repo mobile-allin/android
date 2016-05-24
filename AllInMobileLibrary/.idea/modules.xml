@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AllInMobileLibrary.iml" filepath="$PROJECT_DIR$/AllInMobileLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/allinmobilelibrary-sample/allinmobilelibrary-sample.iml" filepath="$PROJECT_DIR$/allinmobilelibrary-sample/allinmobilelibrary-sample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pushnotifications-library/pushnotifications-library.iml" filepath="$PROJECT_DIR$/pushnotifications-library/pushnotifications-library.iml" />
+    </modules>
+  </component>
+</project>

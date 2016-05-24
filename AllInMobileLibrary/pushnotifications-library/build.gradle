@@ -1,0 +1,60 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "23.0.0"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+configurations {
+    jaxDoclet
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.google.android.gms:play-services-gcm:7.8.0'
+    compile 'com.google.android.gms:play-services-location:7.8.0'
+
+    jaxDoclet("com.google.doclava:doclava:1.0.6")
+}
+
+task androidJavadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    title = null
+
+    def sdkDir = plugins.getPlugin('com.android.library').sdkHandler.getSdkFolder()
+
+    ext.playServices = "${sdkDir}/extras/google/google_play_services/libproject/google-play-services_lib/libs/google-play-services.jar"
+    ext.appCompatv7 = "${sdkDir}/extras/android/support/v7/appcompat/libs/android-support-v7-appcompat.jar"
+    ext.appCompatv4 = "${sdkDir}/extras/android/support/v7/appcompat/libs/android-support-v4.jar"
+
+    options.docletpath = configurations.jaxDoclet.files.asType(List)
+    options.bootClasspath new File(System.getenv('JAVA_HOME') + "/jre/lib/rt.jar")
+    options {
+        doclet "com.google.doclava.Doclava"
+        addStringOption "hdf project.name", project.name
+    }
+    //noinspection GroovyAssignabilityCheck
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+    //noinspection GroovyAssignabilityCheck
+    classpath += files(ext.playServices)
+    //noinspection GroovyAssignabilityCheck
+    classpath += files(ext.appCompatv4)
+    //noinspection GroovyAssignabilityCheck
+    classpath += files(ext.appCompatv7)
+    failOnError true
+}

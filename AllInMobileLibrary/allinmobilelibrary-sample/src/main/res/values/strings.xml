@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">AllIn</string>
+
+    <string name="txt_enable_notification">Habilitar notificação</string>
+
+    <string-array name="allin_list">
+        <item>Cadastrar e-mail</item>
+        <item>Enviar informações para lista</item>
+    </string-array>
+</resources>
