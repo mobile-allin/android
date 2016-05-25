@@ -2,10 +2,11 @@ package br.com.allin.mobile.allinmobilelibrary;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
+
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.model.ConfigurationOptions;
 import br.com.allin.mobile.pushnotification.model.NotificationSettings;
-import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
 public class SampleApplication extends Application {
