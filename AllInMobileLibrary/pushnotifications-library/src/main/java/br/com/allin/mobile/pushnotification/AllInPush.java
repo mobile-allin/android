@@ -12,7 +12,11 @@ import br.com.allin.mobile.pushnotification.model.ConfigurationOptions;
 
 /**
  * @author lucasrodrigues
- * <p>
+ * <br>
+ * <br>
+ * <b>MINIMUN VERSION OF ANDROID: 4.0 (14)</b>
+ * <br>
+ * <br>
  * <b>To add value to the strings file with the name "all_in_token"</b>
  * and own lib will try to get this information
  *
@@ -52,10 +56,13 @@ import br.com.allin.mobile.pushnotification.model.ConfigurationOptions;
  * <br><br>
  * {@code
  * <activity
- *     android:name="br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity" />
+ *     android:name="br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity"
+ *     android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
  * }
  * <br><br>
  * <u><b>To configure the GCM:</b></u>
+ * <br>
+ * <br>
  * <pre>{@code <service
  *     android:name="br.com.allin.mobile.pushnotification.gcm.AllInGcmListenerService"
  *     android:exported="false">
@@ -74,6 +81,16 @@ import br.com.allin.mobile.pushnotification.model.ConfigurationOptions;
  *             <category android:name="br.com.allin.mobile.pushnotification" />
  *         </intent-filter>
  * </receiver>} </pre>
+ * <u><b>You need to add to your gradle file the following dependencies:</b></u>
+ * <br>
+ * <br>
+ * compile 'com.google.android.gms:play-services-gcm:7.8.0'
+ * <br>
+ * compile 'com.google.android.gms:play-services-location:7.8.0'
+ * <br>
+ * compile 'com.android.support:appcompat-v7:23.4.0'
+ * <br>
+ * <br>
  * <br>
  * <b>OBS: These settings are required for the proper functioning of lib.</b>
  */

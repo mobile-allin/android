@@ -71,12 +71,7 @@ public class AllInGcmNotification {
         intent.putExtra(AllInWebViewActivity.TITLE, title);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(AllInWebViewActivity.class);
-        stackBuilder.addNextIntent(intent);
-
-        pendingIntent = stackBuilder.getPendingIntent(Integer.MAX_VALUE,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
         String backgroundColor = sharedPreferencesManager.getData(SharedPreferencesManager.KEY_BACKGROUND_NOTIFICATION, null);

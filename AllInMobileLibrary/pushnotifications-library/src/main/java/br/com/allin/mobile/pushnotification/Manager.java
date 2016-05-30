@@ -127,9 +127,13 @@ public class Manager {
                         token = instanceID.getToken(configOptions.getSenderId(),
                                 GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
                     } catch (IOException e) {
-                        configurationListener.onError(
-                                new GenerateDeviceIdException(
-                                        configOptions.getSenderId(), e.getMessage()));
+                        if (configurationListener != null) {
+                            configurationListener.onError(
+                                    new GenerateDeviceIdException(
+                                            configOptions.getSenderId(), e.getMessage()));
+                        } else {
+                            e.printStackTrace();
+                        }
 
                         return null;
                     }
