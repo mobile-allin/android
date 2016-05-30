@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId "br.com.allin.mobile.allinmobilelibrary"
-        minSdkVersion 16
+        minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
         versionName "0.1"
