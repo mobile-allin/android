@@ -28,6 +28,7 @@ import br.com.allin.mobile.pushnotification.model.ConfigurationOptions;
  * <br><br>
  *
  * {@code <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />}
+ * {@code <uses-permission android:name="android.permission.WAKE_LOCK" />}
  *
  * <br><br>
  * <u><b>Permission to access the internet:</b></u>

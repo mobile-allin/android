@@ -192,6 +192,7 @@ public class HttpManager {
 
             if (requestType == RequestType.POST) {
                 connection.setDoOutput(true);
+                connection.setConnectTimeout(30000);
 
                 if (data != null) {
                     OutputStream outputStream = connection.getOutputStream();
