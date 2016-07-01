@@ -70,7 +70,8 @@ public class HttpManager {
     private static final int DEFAULT_REQUEST_TIMEOUT = 15000;
 
 //    private static final String SERVER_URL = "http://lucasrodrigues.allinmedia.com.br/webservice/mobile-api/";
-    private static final String SERVER_URL = "http://homol-mob.allinmedia.com.br/src/api/";
+//    private static final String SERVER_URL = "http://homol-mob.allinmedia.com.br/src/api/";
+    private static final String SERVER_URL = "https://mobile-api.allin.com.br/";
 
     /**
      * Sends data to the server AllIn
