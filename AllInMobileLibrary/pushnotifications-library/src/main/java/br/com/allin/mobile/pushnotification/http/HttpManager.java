@@ -1,7 +1,6 @@
 package br.com.allin.mobile.pushnotification.http;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -16,6 +15,16 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import br.com.allin.mobile.pushnotification.Util;
 import br.com.allin.mobile.pushnotification.cache.DBCache;
@@ -26,6 +35,8 @@ import br.com.allin.mobile.pushnotification.model.ResponseData;
  * Class that manages connections to the server
  */
 public class HttpManager {
+
+    private static String TAG = HttpManager.class.toString().toUpperCase();
 
     public enum RequestType {
         GET, POST
@@ -69,20 +80,18 @@ public class HttpManager {
 
     private static final int DEFAULT_REQUEST_TIMEOUT = 15000;
 
-//    private static final String SERVER_URL = "http://lucasrodrigues.allinmedia.com.br/webservice/mobile-api/";
+    //    private static final String SERVER_URL = "http://lucasrodrigues.allinmedia.com.br/webservice/mobile-api/";
 //    private static final String SERVER_URL = "http://homol-mob.allinmedia.com.br/src/api/";
-    private static final String SERVER_URL = "http://mobile-api.allin.com.br/";
+    private static final String SERVER_URL = "https://mobile-api.allin.com.br/";
 
     /**
      * Sends data to the server AllIn
      *
      * @param context Application context
-     * @param action Action to complete the URL of the request
-     * @param data Parameters passed in the request header
-     * @param params Parameters that will be passed in the URL
-     *
+     * @param action  Action to complete the URL of the request
+     * @param data    Parameters passed in the request header
+     * @param params  Parameters that will be passed in the URL
      * @return Returns the responseData object according to the server information
-     *
      * @throws WebServiceException If the server is in trouble
      */
     public static ResponseData post(Context context, String action, JSONObject data, String[] params) throws WebServiceException {
@@ -92,14 +101,12 @@ public class HttpManager {
     /**
      * Sends data to the server AllIn
      *
-     * @param context Application context
-     * @param action Action to complete the URL of the request
-     * @param data Parameters passed in the request header
-     * @param params Parameters that will be passed in the URL
+     * @param context   Application context
+     * @param action    Action to complete the URL of the request
+     * @param data      Parameters passed in the request header
+     * @param params    Parameters that will be passed in the URL
      * @param withCache Determine whether there is any connection problem that should be written to the cache for future synchronization
-     *
      * @return Returns the responseData object according to the server information
-     *
      * @throws WebServiceException If the server is in trouble
      */
     public static ResponseData post(Context context, String action, JSONObject data, String[] params, boolean withCache) throws WebServiceException {
@@ -110,11 +117,9 @@ public class HttpManager {
      * Receives from the server data AllIn
      *
      * @param context Application context
-     * @param action Action to complete the URL of the request
-     * @param params Parameters that will be passed in the URL
-     *
+     * @param action  Action to complete the URL of the request
+     * @param params  Parameters that will be passed in the URL
      * @return Returns the responseData object according to the server information
-     *
      * @throws WebServiceException If the server is in trouble
      */
     public static ResponseData get(Context context, String action, String[] params) throws WebServiceException {
@@ -124,13 +129,11 @@ public class HttpManager {
     /**
      * Receives from the server data AllIn
      *
-     * @param context Application context
-     * @param action Action to complete the URL of the request
-     * @param params Parameters that will be passed in the URL
+     * @param context   Application context
+     * @param action    Action to complete the URL of the request
+     * @param params    Parameters that will be passed in the URL
      * @param withCache Determine whether there is any connection problem that should be written to the cache for future synchronization
-     *
      * @return Returns the responseData object according to the server information
-     *
      * @throws WebServiceException If the server is in trouble
      */
     public static ResponseData get(Context context, String action, String[] params, boolean withCache) throws WebServiceException {
@@ -152,14 +155,12 @@ public class HttpManager {
     /**
      * Performs server request sending or receiving data
      *
-     * @param context Application context
-     * @param urlString URL to make the request to the server
+     * @param context     Application context
+     * @param urlString   URL to make the request to the server
      * @param requestType Tells whether a GET or a POST type of request param Parameters data that will be sent to the server
-     * @param data Parameters passed in the request header
-     * @param withCache Determine whether there is any connection problem that should be written to the cache for future synchronization
-     *
+     * @param data        Parameters passed in the request header
+     * @param withCache   Determine whether there is any connection problem that should be written to the cache for future synchronization
      * @return Returns the responseData object according to the server information
-     *
      * @throws WebServiceException If the server is in trouble
      */
     public static ResponseData makeRequestURL(Context context, String urlString, RequestType requestType, JSONObject data, boolean withCache) throws WebServiceException {
@@ -180,10 +181,12 @@ public class HttpManager {
         String token = Util.getToken(context);
 
         ResponseData response = null;
-        HttpURLConnection connection = null;
+        HttpsURLConnection connection = null;
+
+        HttpManager.certificate();
 
         try {
-            connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpsURLConnection) url.openConnection();
 
             connection.setDoInput(true);
             connection.setConnectTimeout(DEFAULT_REQUEST_TIMEOUT);
@@ -221,7 +224,7 @@ public class HttpManager {
 
                 throw new WebServiceException(
                         "Code: " + String.valueOf(connection.getResponseCode()) + "\n" +
-                        "Message: " + connection.getResponseMessage()
+                                "Message: " + connection.getResponseMessage()
                 );
             }
 
@@ -259,5 +262,52 @@ public class HttpManager {
         }
 
         return response;
+    }
+
+    private static void certificate() {
+        try {
+            TrustManager[] trustManagerArray = new TrustManager[] {
+                new X509TrustManager() {
+
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return new X509Certificate[0];
+                    }
+
+                    @Override
+                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                        checkTrusted(certs, authType);
+                    }
+
+                    @Override
+                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                        checkTrusted(certs, authType);
+                    }
+
+                    private void checkTrusted(X509Certificate[] chain, String authType) {
+                        if (authType == null || authType.length() == 0) {
+                            Log.e(TAG, "Null or zero-length authentication type");
+                        }
+
+                        try {
+                            chain[0].checkValidity();
+                        } catch (Exception e) {
+                            Log.e(TAG, "Invalid certificate");
+                        }
+                    }
+                }
+            };
+
+            SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustManagerArray, new SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String s, SSLSession sslSession) {
+                    return true;
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
