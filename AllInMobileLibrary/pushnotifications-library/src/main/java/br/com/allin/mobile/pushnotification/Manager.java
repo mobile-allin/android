@@ -647,7 +647,7 @@ public class Manager {
         return data;
     }
 
-    private Application getApplication() {
+    public Application getApplication() {
         return application;
     }
 

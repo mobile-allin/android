@@ -45,9 +45,6 @@ public class AllInGcmNotification {
 
         AllInPush.registerNotificationAction(AllInPush.Action.SHOW, null);
 
-        Intent intent = null;
-        PendingIntent pendingIntent = null;
-
         NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(context);
 
         String scheme = extras.getString(AllInGcmNotification.ALLIN_SCHEME);
@@ -66,12 +63,12 @@ public class AllInGcmNotification {
             }
         }
 
-        intent = new Intent(context, AllInWebViewActivity.class);
+        Intent intent = new Intent(context, AllInWebViewActivity.class);
         intent.putExtras(extras);
         intent.putExtra(AllInWebViewActivity.TITLE, title);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
         String backgroundColor = sharedPreferencesManager.getData(SharedPreferencesManager.KEY_BACKGROUND_NOTIFICATION, null);
