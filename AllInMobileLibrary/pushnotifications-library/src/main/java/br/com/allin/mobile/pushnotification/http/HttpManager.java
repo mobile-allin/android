@@ -52,6 +52,8 @@ public class HttpManager {
 
     public static final String ACTION_DEVICE_DISABLE = "device/disable";
 
+    public static final String ACTION_DEVICE_LOGOUT = "device/logout";
+
     public static final String ACTION_EMAIL = "email";
 
     public static final String ACTION_ADD_LIST = "addlist";

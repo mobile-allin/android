@@ -157,6 +157,10 @@ public class AllInPush {
         Manager.getInstance().enable(configurationListener);
     }
 
+    public static void logout(ConfigurationListener configurationListener) {
+        Manager.getInstance().logout(configurationListener);
+    }
+
     /**
      * <b>Asynchronous</b> - Checks whether notifications are enabled on the server
      *

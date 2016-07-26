@@ -365,6 +365,58 @@ public class Manager {
         }.execute();
     }
 
+    public void logout(ConfigurationListener configurationListener) {
+        if (!isNetworkAvailable(configurationListener)) {
+            return;
+        }
+
+        logoutAsync(configurationListener);
+    }
+
+    private void logoutAsync(final ConfigurationListener configurationListener) {
+        new AsyncTask<Void, Void, Object>() {
+            @Override
+            protected Object doInBackground(Void... params) {
+                JSONObject data = new JSONObject();
+
+                try {
+                    data.put(HttpManager.PARAM_KEY_DEVICE_TOKEN, AllInPush.getDeviceId(application));
+                    data.put(HttpManager.PARAM_KEY_USER_EMAIL, AllInPush.getUserEmail(application));
+
+                    return HttpManager.post(Manager.this.getApplication(),
+                            HttpManager.ACTION_DEVICE_LOGOUT, data, null);
+                } catch (Exception e) {
+                    return e.getMessage();
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Object object) {
+                super.onPostExecute(object);
+
+                if (object instanceof ResponseData) {
+                    ResponseData responseData = (ResponseData) object;
+
+                    if (!responseData.isSuccess()) {
+                        if (configurationListener != null) {
+                            configurationListener.onError(
+                                    new WebServiceException(responseData.getMessage()));
+                        }
+                    } else {
+                        if (configurationListener != null) {
+                            configurationListener.onFinish(responseData.getMessage());
+                        }
+                    }
+                } else {
+                    if (configurationListener != null) {
+                        configurationListener.onError(
+                                new WebServiceException(String.valueOf(object)));
+                    }
+                }
+            }
+        }.execute();
+    }
+
     /**
      * <b>Asynchronous</b> - Checks whether notifications are enabled on the server
      *
