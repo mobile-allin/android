@@ -122,7 +122,8 @@ public class Manager {
 
                 String token = null;
 
-                for (int attempts = 0; attempts < 3; attempts++) {
+                for (int attempts = 0; attempts < 3 &&
+                        (token == null || TextUtils.isEmpty(token)); attempts++) {
                     try {
                         token = instanceID.getToken(configOptions.getSenderId(),
                                 GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
