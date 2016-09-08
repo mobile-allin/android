@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.model;
+package br.com.allin.mobile.pushnotification.entity;
 
 import br.com.allin.mobile.pushnotification.exception.NotNullAttributeOrPropertyException;
 
@@ -14,7 +14,8 @@ public class ConfigurationOptions {
      * default constructor of {@link ConfigurationOptions} class.
      *
      * <p>
-     * To use the library, you must complete the basic information for use in the project from the methods {@link #setSenderId (String)}.
+     * To use the library, you must complete the basic information for use
+     * in the project from the methods {@link #setSenderId (String)}.
      */
     public ConfigurationOptions() {
     }
@@ -25,11 +26,13 @@ public class ConfigurationOptions {
 
     /**
      * <p>
-     * Builder standard class {@link ConfigurationOptions} with all the necessary settings for the function library.
+     * Builder standard class {@link ConfigurationOptions}
+     * with all the necessary settings for the function library.
      * @param senderId It is the id of the notification delivery project (project number) in
      * <a href="https://console.developers.google.com">Google Developers Console</a>.
      *
-     * @param notificationSettings Are the notifications settings that are displayed as color and icon
+     * @param notificationSettings Are the
+     *                             notifications settings that are displayed as color and icon
      */
     public ConfigurationOptions(String senderId, NotificationSettings notificationSettings)
             throws NotNullAttributeOrPropertyException {

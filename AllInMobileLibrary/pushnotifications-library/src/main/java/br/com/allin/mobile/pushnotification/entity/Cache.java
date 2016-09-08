@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.cache;
+package br.com.allin.mobile.pushnotification.entity;
 
 /**
  * Cache object from local database

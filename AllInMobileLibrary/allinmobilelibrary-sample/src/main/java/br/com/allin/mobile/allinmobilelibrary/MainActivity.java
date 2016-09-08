@@ -21,7 +21,7 @@ import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.Util;
-import br.com.allin.mobile.pushnotification.listener.ConfigurationListener;
+import br.com.allin.mobile.pushnotification.interfaces.ConfigurationListener;
 
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {

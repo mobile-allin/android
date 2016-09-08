@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.model;
+package br.com.allin.mobile.pushnotification.entity;
 
 /**
  * Class color setting and notification of images

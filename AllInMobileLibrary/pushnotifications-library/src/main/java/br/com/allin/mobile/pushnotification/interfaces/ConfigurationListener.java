@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.listener;
+package br.com.allin.mobile.pushnotification.interfaces;
 
 /**
  * <p>

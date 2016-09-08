@@ -7,8 +7,8 @@ import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.exception.GenerateDeviceIdException;
 import br.com.allin.mobile.pushnotification.exception.NotNullAttributeOrPropertyException;
-import br.com.allin.mobile.pushnotification.listener.ConfigurationListener;
-import br.com.allin.mobile.pushnotification.model.ConfigurationOptions;
+import br.com.allin.mobile.pushnotification.interfaces.ConfigurationListener;
+import br.com.allin.mobile.pushnotification.entity.ConfigurationOptions;
 
 /**
  * @author lucasrodrigues
@@ -114,7 +114,8 @@ public class AllInPush {
      * @param application Application (Context)
      * @param configurationOptions Settings such as SenderID and TokenAllIn
      *
-     * @throws NotNullAttributeOrPropertyException Parameter application or configurationOptions is null
+     * @throws NotNullAttributeOrPropertyException Parameter
+     * application or configurationOptions is null
      * @throws GenerateDeviceIdException Problems Generating Device ID on Google
      */
     public static void configure(Application application, ConfigurationOptions configurationOptions)
@@ -130,7 +131,8 @@ public class AllInPush {
      * @param configurationOptions Settings such as SenderID and TokenAllIn
      * @param configurationListener Interface that returns success or error in the request
      *
-     * @throws NotNullAttributeOrPropertyException Parameter application or configurationOptions is null
+     * @throws NotNullAttributeOrPropertyException Parameter
+     * application or configurationOptions is null
      * @throws GenerateDeviceIdException Problems Generating Device ID on Google
      */
     public static void configure(Application application, ConfigurationOptions configurationOptions,

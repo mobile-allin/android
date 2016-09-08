@@ -17,16 +17,15 @@ import android.widget.RelativeLayout;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.Util;
+import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
 import br.com.allin.mobile.pushnotification.gcm.AllInGcmNotification;
-import br.com.allin.mobile.pushnotification.listener.ConfigurationListener;
+import br.com.allin.mobile.pushnotification.interfaces.ConfigurationListener;
 
 /**
  * Activity to search the HTML and display it or redirects
  * to the scheme according to the sent by the server
  */
 public class AllInWebViewActivity extends AppCompatActivity {
-    public static String TITLE = "TITLE";
-
     private ProgressBar pbAllIn;
     private WebView wvAllIn;
     private AllInWebViewClient mWebViewClient;
@@ -69,7 +68,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
 
     private void configureActionBar() {
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getIntent().getStringExtra(AllInWebViewActivity.TITLE));
+            getSupportActionBar().setTitle(getIntent().getStringExtra(NotificationConstants.SUBJECT));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
@@ -120,8 +119,10 @@ public class AllInWebViewActivity extends AppCompatActivity {
     }
 
     private void init() {
-        if (getIntent().hasExtra(AllInGcmNotification.ALLIN_SCHEME)) {
-            wvAllIn.loadUrl(getIntent().getStringExtra(AllInGcmNotification.ALLIN_SCHEME));
+        if (getIntent().hasExtra(NotificationConstants.URL_SCHEME)) {
+            wvAllIn.loadUrl(getIntent().getStringExtra(NotificationConstants.URL_SCHEME));
+        } else if (getIntent().hasExtra(NotificationConstants.ID_TEMPLATE)) {
+            // TODO Abrir URL com o id do template
         } else {
             loadHTML(getIntent().getExtras());
         }

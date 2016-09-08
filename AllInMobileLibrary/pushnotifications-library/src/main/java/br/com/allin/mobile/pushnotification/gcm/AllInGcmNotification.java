@@ -18,15 +18,13 @@ import java.net.URLDecoder;
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
 import br.com.allin.mobile.pushnotification.Util;
+import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
 import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
 
 /**
  * Class that provides the notification of receipt of a push GCM.
  */
 public class AllInGcmNotification {
-
-    public static String ALLIN_SCHEME = "AllInScheme";
-
     private AllInGcmNotification() {
     }
 
@@ -34,11 +32,12 @@ public class AllInGcmNotification {
      * Create a standard notification with title and text, sending additional parameters from a @code {Bundle}.
      *
      * @param context Application context
-     * @param title Notification itle
+     * @param title Notification title
      * @param content Content (text) notification
      * @param extras Parameters to be included in the notification.
      */
-    public static void showNotification(Context context, String title, String content, Bundle extras) {
+    public static void showNotification(Context context,
+                                        String title, String content, Bundle extras) {
         if (content == null || extras == null) {
             return;
         }
@@ -47,7 +46,7 @@ public class AllInGcmNotification {
 
         NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(context);
 
-        String scheme = extras.getString(AllInGcmNotification.ALLIN_SCHEME);
+        String scheme = extras.getString(NotificationConstants.URL_SCHEME);
 
         if (scheme != null && scheme.trim().length() > 0) {
             try {
@@ -59,21 +58,27 @@ public class AllInGcmNotification {
                     scheme = scheme.replace("##id_push##", Util.md5(AllInPush.getDeviceId(context)));
                 }
 
-                extras.putString(AllInGcmNotification.ALLIN_SCHEME, scheme);
+                extras.putString(NotificationConstants.URL_SCHEME, scheme);
             }
         }
 
         Intent intent = new Intent(context, AllInWebViewActivity.class);
         intent.putExtras(extras);
-        intent.putExtra(AllInWebViewActivity.TITLE, title);
+        intent.putExtra(NotificationConstants.SUBJECT, title);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent
+                .getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
-        String backgroundColor = sharedPreferencesManager.getData(SharedPreferencesManager.KEY_BACKGROUND_NOTIFICATION, null);
-        int whiteIcon = sharedPreferencesManager.getData(SharedPreferencesManager.KEY_WHITE_ICON_NOTIFICATION, 0);
-        int icon = sharedPreferencesManager.getData(SharedPreferencesManager.KEY_ICON_NOTIFICATION, 0);
+        String backgroundColor = sharedPreferencesManager
+                .getData(SharedPreferencesManager.KEY_BACKGROUND_NOTIFICATION, null);
+
+        int whiteIcon = sharedPreferencesManager
+                .getData(SharedPreferencesManager.KEY_WHITE_ICON_NOTIFICATION, 0);
+
+        int icon = sharedPreferencesManager
+                .getData(SharedPreferencesManager.KEY_ICON_NOTIFICATION, 0);
 
         if (icon == 0) {
             notificationCompatBuilder
@@ -85,9 +90,11 @@ public class AllInGcmNotification {
         }
 
         notificationCompatBuilder
-                .setColor(backgroundColor != null ? Color.parseColor(backgroundColor) : Color.TRANSPARENT)
+                .setColor(backgroundColor != null ?
+                        Color.parseColor(backgroundColor) : Color.TRANSPARENT)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(content))
-                .setDefaults(NotificationCompat.DEFAULT_LIGHTS | NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE)
+                .setDefaults(NotificationCompat.DEFAULT_LIGHTS
+                        | NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setGroupSummary(true)
                 .setGroup("messages")
@@ -96,7 +103,8 @@ public class AllInGcmNotification {
                 .setContentTitle(title)
                 .setAutoCancel(true);
 
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(Integer.MAX_VALUE, notificationCompatBuilder.build());
     }
 
@@ -114,7 +122,8 @@ public class AllInGcmNotification {
         int iconResource = 0;
 
         try {
-            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+            ApplicationInfo applicationInfo = packageManager
+                    .getApplicationInfo(packageName, PackageManager.GET_META_DATA);
             iconResource = applicationInfo.icon;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

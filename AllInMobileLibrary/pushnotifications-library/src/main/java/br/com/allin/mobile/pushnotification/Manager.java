@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.allin.mobile.pushnotification.cache.DBCache;
+import br.com.allin.mobile.pushnotification.dao.CacheDAO;
 import br.com.allin.mobile.pushnotification.exception.GenerateDeviceIdException;
 import br.com.allin.mobile.pushnotification.exception.NetworkException;
 import br.com.allin.mobile.pushnotification.exception.NotNullAttributeOrPropertyException;
@@ -21,11 +21,11 @@ import br.com.allin.mobile.pushnotification.exception.WebServiceException;
 import br.com.allin.mobile.pushnotification.gcm.AllInLocation;
 import br.com.allin.mobile.pushnotification.gcm.OnAllInLocationChange;
 import br.com.allin.mobile.pushnotification.http.HttpManager;
-import br.com.allin.mobile.pushnotification.listener.ConfigurationListener;
-import br.com.allin.mobile.pushnotification.model.ConfigurationOptions;
-import br.com.allin.mobile.pushnotification.model.DeviceInfos;
-import br.com.allin.mobile.pushnotification.model.NotificationSettings;
-import br.com.allin.mobile.pushnotification.model.ResponseData;
+import br.com.allin.mobile.pushnotification.interfaces.ConfigurationListener;
+import br.com.allin.mobile.pushnotification.entity.ConfigurationOptions;
+import br.com.allin.mobile.pushnotification.entity.DeviceInfos;
+import br.com.allin.mobile.pushnotification.entity.NotificationSettings;
+import br.com.allin.mobile.pushnotification.entity.ResponseData;
 
 /**
  * Class used to intermediate requests to the server
@@ -73,7 +73,7 @@ public class Manager {
         this.configOptions = configurationOptions;
         this.prefManager = new SharedPreferencesManager(application);
 
-        DBCache.getInstance(application).sync();
+        CacheDAO.getInstance(application).sync();
 
         configureNotifications(configurationOptions.getNotificationSettings());
 

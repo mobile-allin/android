@@ -6,8 +6,8 @@ import com.crashlytics.android.Crashlytics;
 
 import br.com.allin.mobile.pushnotification.AllInApplication;
 import br.com.allin.mobile.pushnotification.AllInPush;
-import br.com.allin.mobile.pushnotification.model.ConfigurationOptions;
-import br.com.allin.mobile.pushnotification.model.NotificationSettings;
+import br.com.allin.mobile.pushnotification.entity.ConfigurationOptions;
+import br.com.allin.mobile.pushnotification.entity.NotificationSettings;
 import io.fabric.sdk.android.Fabric;
 
 public class SampleApplication extends AllInApplication {

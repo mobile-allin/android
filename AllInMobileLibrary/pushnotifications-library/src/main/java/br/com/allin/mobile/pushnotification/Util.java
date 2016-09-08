@@ -49,7 +49,8 @@ public class Util {
     }
 
     /**
-     * Return the application version. The version is set in the key {@code android:versionCode} of {@code AndroidManifest.xml}.
+     * Return the application version. The version is set in the key
+     * {@code android:versionCode} of {@code AndroidManifest.xml}.
      *
      * @param context Application context.
      *
@@ -69,21 +70,24 @@ public class Util {
      * Verifies that the device is connected to any network (WiFi or Mobile).
      *
      * <b>Attention:</b> This method only checks if the device is connected,
-     * there is no connectivity (eg does not check for available WiFi networks or if there is 3G signal).
+     * there is no connectivity (eg does not check for
+     * available WiFi networks or if there is 3G signal).
      *
      * @param context Application context.
      *
      * @return If the device is connected returns {@code true}. Otherwise, returns {@code false}.
      */
     public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
 
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     /**
-     * Returns the AllIn token saved in the key {@code all_in_token}. The token must be informed in the XML string.
+     * Returns the AllIn token saved in the
+     * key {@code all_in_token}. The token must be informed in the XML string.
      *
      * @param context Application context.
      *
@@ -91,7 +95,8 @@ public class Util {
      */
     public static String getToken(Context context) {
 
-        int tokenId = context.getResources().getIdentifier("all_in_token", "string", context.getPackageName());
+        int tokenId = context.getResources()
+                .getIdentifier("all_in_token", "string", context.getPackageName());
 
         if (tokenId > 0) {
             return context.getString(tokenId);
@@ -101,7 +106,8 @@ public class Util {
     }
 
     /**
-     * For questions regarding the MD5 MD5 <a href="https://pt.wikipedia.org/wiki/MD5">https://pt.wikipedia.org/wiki/MD5</a>
+     * For questions regarding the MD5
+     * MD5 <a href="https://pt.wikipedia.org/wiki/MD5">https://pt.wikipedia.org/wiki/MD5</a>
      *
      * @param value Value that will be generated MD5
      *

@@ -15,7 +15,7 @@ import android.widget.EditText;
 import java.util.regex.Pattern;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
-import br.com.allin.mobile.pushnotification.listener.ConfigurationListener;
+import br.com.allin.mobile.pushnotification.interfaces.ConfigurationListener;
 
 /**
  * Created by lucasrodrigues on 4/8/16.

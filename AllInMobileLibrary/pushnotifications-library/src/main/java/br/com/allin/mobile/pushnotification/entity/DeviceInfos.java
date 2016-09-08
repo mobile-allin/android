@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.model;
+package br.com.allin.mobile.pushnotification.entity;
 
 /**
  * Object that returns server information

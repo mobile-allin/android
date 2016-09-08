@@ -16,7 +16,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.SecureRandom;
-import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 import javax.net.ssl.HostnameVerifier;
@@ -27,15 +26,14 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import br.com.allin.mobile.pushnotification.Util;
-import br.com.allin.mobile.pushnotification.cache.DBCache;
+import br.com.allin.mobile.pushnotification.dao.CacheDAO;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
-import br.com.allin.mobile.pushnotification.model.ResponseData;
+import br.com.allin.mobile.pushnotification.entity.ResponseData;
 
 /**
  * Class that manages connections to the server
  */
 public class HttpManager {
-
     private static String TAG = HttpManager.class.toString().toUpperCase();
 
     public enum RequestType {
@@ -82,9 +80,9 @@ public class HttpManager {
 
     private static final int DEFAULT_REQUEST_TIMEOUT = 15000;
 
-    //    private static final String SERVER_URL = "http://lucasrodrigues.allinmedia.com.br/webservice/mobile-api/";
+    private static final String SERVER_URL = "http://lucasrodrigues.allinmedia.com.br/webservice/mobile-api/";
 //    private static final String SERVER_URL = "http://homol-mob.allinmedia.com.br/src/api/";
-    private static final String SERVER_URL = "https://mobile-api.allin.com.br/";
+//    private static final String SERVER_URL = "https://mobile-api.allin.com.br/";
 
     /**
      * Sends data to the server AllIn
@@ -96,7 +94,8 @@ public class HttpManager {
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseData post(Context context, String action, JSONObject data, String[] params) throws WebServiceException {
+    public static ResponseData post(Context context, String action,
+                                    JSONObject data, String[] params) throws WebServiceException {
         return post(context, action, data, params, false);
     }
 
@@ -107,11 +106,14 @@ public class HttpManager {
      * @param action    Action to complete the URL of the request
      * @param data      Parameters passed in the request header
      * @param params    Parameters that will be passed in the URL
-     * @param withCache Determine whether there is any connection problem that should be written to the cache for future synchronization
+     * @param withCache Determine whether there is any connection problem that
+     *                  should be written to the cache for future synchronization
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseData post(Context context, String action, JSONObject data, String[] params, boolean withCache) throws WebServiceException {
+    public static ResponseData post(Context context, String action,
+                                    JSONObject data, String[] params,
+                                    boolean withCache) throws WebServiceException {
         return makeRequest(context, action, RequestType.POST, params, data, withCache);
     }
 
@@ -124,7 +126,8 @@ public class HttpManager {
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseData get(Context context, String action, String[] params) throws WebServiceException {
+    public static ResponseData get(Context context,
+                                   String action, String[] params) throws WebServiceException {
         return get(context, action, params, false);
     }
 
@@ -134,15 +137,19 @@ public class HttpManager {
      * @param context   Application context
      * @param action    Action to complete the URL of the request
      * @param params    Parameters that will be passed in the URL
-     * @param withCache Determine whether there is any connection problem that should be written to the cache for future synchronization
+     * @param withCache Determine whether there is any connection problem that should
+     *                  be written to the cache for future synchronization
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseData get(Context context, String action, String[] params, boolean withCache) throws WebServiceException {
+    public static ResponseData get(Context context, String action,
+                                   String[] params, boolean withCache) throws WebServiceException {
         return makeRequest(context, action, RequestType.GET, params, null, withCache);
     }
 
-    private static ResponseData makeRequest(Context context, String action, RequestType requestType, String[] params, JSONObject data, boolean withCache) throws WebServiceException {
+    private static ResponseData makeRequest(
+            Context context, String action, RequestType requestType,
+            String[] params, JSONObject data, boolean withCache) throws WebServiceException {
         String urlString = SERVER_URL + action;
 
         if (params != null) {
@@ -159,15 +166,19 @@ public class HttpManager {
      *
      * @param context     Application context
      * @param urlString   URL to make the request to the server
-     * @param requestType Tells whether a GET or a POST type of request param Parameters data that will be sent to the server
+     * @param requestType Tells whether a GET or a POST type of request param
+     *                    arameters data that will be sent to the server
      * @param data        Parameters passed in the request header
-     * @param withCache   Determine whether there is any connection problem that should be written to the cache for future synchronization
+     * @param withCache   Determine whether there is any connection problem that
+     *                    should be written to the cache for future synchronization
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseData makeRequestURL(Context context, String urlString, RequestType requestType, JSONObject data, boolean withCache) throws WebServiceException {
+    public static ResponseData makeRequestURL(Context context, String urlString,
+                                              RequestType requestType, JSONObject data,
+                                              boolean withCache) throws WebServiceException {
         if (withCache && !Util.isNetworkAvailable(context)) {
-            DBCache.getInstance(context).insert(urlString, data != null ? data.toString() : "");
+            CacheDAO.getInstance(context).insert(urlString, data != null ? data.toString() : "");
 
             throw new WebServiceException("Internet não está disponível");
         }
@@ -183,12 +194,12 @@ public class HttpManager {
         String token = Util.getToken(context);
 
         ResponseData response = null;
-        HttpsURLConnection connection = null;
+        HttpURLConnection connection = null;
 
         HttpManager.certificate();
 
         try {
-            connection = (HttpsURLConnection) url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
 
             connection.setDoInput(true);
             connection.setConnectTimeout(DEFAULT_REQUEST_TIMEOUT);
@@ -202,7 +213,8 @@ public class HttpManager {
 
                 if (data != null) {
                     OutputStream outputStream = connection.getOutputStream();
-                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                    BufferedWriter bufferedWriter =
+                            new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                     bufferedWriter.write(data.toString());
                     bufferedWriter.flush();
                     bufferedWriter.close();
@@ -211,7 +223,8 @@ public class HttpManager {
             }
 
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                BufferedReader bufferedReader =
+                        new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
                 String line;
 
@@ -221,7 +234,8 @@ public class HttpManager {
 
             } else {
                 if (withCache) {
-                    DBCache.getInstance(context).insert(urlString, data != null ? data.toString() : "");
+                    CacheDAO.getInstance(context)
+                            .insert(urlString, data != null ? data.toString() : "");
                 }
 
                 throw new WebServiceException(
@@ -247,15 +261,17 @@ public class HttpManager {
                 response.setMessage(message);
 
             } catch (JSONException e) {
-                throw new WebServiceException("Ocorreu um erro ao tentar realizar o parse da resposta da requisição:\n\n" + responseString);
+                throw new WebServiceException("Ocorreu um erro " +
+                        "ao tentar realizar o parse da resposta da requisição:\n\n" + responseString);
             }
 
         } catch (IOException e) {
             if (withCache) {
-                DBCache.getInstance(context).insert(urlString, data != null ? data.toString() : "");
+                CacheDAO.getInstance(context).insert(urlString, data != null ? data.toString() : "");
             }
 
-            throw new WebServiceException("Ocorreu um erro durante a execução da requisição: " + e.getMessage());
+            throw new WebServiceException("Ocorreu um erro " +
+                    "durante a execução da requisição: " + e.getMessage());
         } finally {
             if (connection != null) {
                 connection.disconnect();
