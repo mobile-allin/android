@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private ConfigurationListener toggleSwitch(final boolean enable) {
-        ConfigurationListener configurationListener = new ConfigurationListener<String>() {
+        return new ConfigurationListener<String>() {
             @Override
             public void onFinish(final String value) {
                 MainActivity.this.hideNotificationLoad();
@@ -91,8 +91,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 alertDialog.create().show();
             }
         };
-
-        return configurationListener;
     }
 
     public void deviceIsEnable() {
