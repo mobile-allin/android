@@ -8,6 +8,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import br.com.allin.mobile.pushnotification.interfaces.OnAllInLocationChange;
+
 /**
  * Class that initializes the geolocation
  */

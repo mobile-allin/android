@@ -2,7 +2,6 @@ package br.com.allin.mobile.pushnotification.gcm;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -19,30 +18,29 @@ import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
 import br.com.allin.mobile.pushnotification.Util;
 import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
-import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
+import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
+import br.com.allin.mobile.pushnotification.enumarator.Action;
 
 /**
  * Class that provides the notification of receipt of a push GCM.
  */
 public class AllInGcmNotification {
-    private AllInGcmNotification() {
+    AllInGcmNotification() {
     }
 
     /**
      * Create a standard notification with title and text, sending additional parameters from a @code {Bundle}.
      *
-     * @param context Application context
      * @param title Notification title
      * @param content Content (text) notification
      * @param extras Parameters to be included in the notification.
      */
-    public static void showNotification(Context context,
-                                        String title, String content, Bundle extras) {
+    void showNotification(Context context, String title, String content, Bundle extras) {
         if (content == null || extras == null) {
             return;
         }
 
-        AllInPush.registerNotificationAction(AllInPush.Action.SHOW, null);
+        AllInPush.registerNotificationAction(Action.SHOW, null);
 
         NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(context);
 
@@ -62,23 +60,23 @@ public class AllInGcmNotification {
             }
         }
 
-        Intent intent = new Intent(context, AllInWebViewActivity.class);
+        Intent intent = new Intent(BroadcastNotification.BROADCAST_NOTIFICATION);
         intent.putExtras(extras);
         intent.putExtra(NotificationConstants.SUBJECT, title);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        PendingIntent pendingIntent = PendingIntent
-                .getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent =
+                PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
         String backgroundColor = sharedPreferencesManager
-                .getData(SharedPreferencesManager.KEY_BACKGROUND_NOTIFICATION, null);
+                .getData(PreferencesConstants.KEY_BACKGROUND_NOTIFICATION, null);
 
         int whiteIcon = sharedPreferencesManager
-                .getData(SharedPreferencesManager.KEY_WHITE_ICON_NOTIFICATION, 0);
+                .getData(PreferencesConstants.KEY_WHITE_ICON_NOTIFICATION, 0);
 
         int icon = sharedPreferencesManager
-                .getData(SharedPreferencesManager.KEY_ICON_NOTIFICATION, 0);
+                .getData(PreferencesConstants.KEY_ICON_NOTIFICATION, 0);
 
         if (icon == 0) {
             notificationCompatBuilder
@@ -115,7 +113,7 @@ public class AllInGcmNotification {
      *
      * @return Application icon id.
      */
-    private static int getNotificationIcon(Context context) {
+    private int getNotificationIcon(Context context) {
         String packageName = context.getApplicationContext().getPackageName();
         PackageManager packageManager = context.getPackageManager();
 

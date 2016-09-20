@@ -12,6 +12,7 @@ import java.util.List;
 
 import br.com.allin.mobile.pushnotification.constants.CacheConstants;
 import br.com.allin.mobile.pushnotification.entity.Cache;
+import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.http.HttpManager;
 import br.com.allin.mobile.pushnotification.entity.ResponseData;
 
@@ -133,7 +134,7 @@ public class CacheDAO {
             protected Object doInBackground(Void... params) {
                 try {
                     return HttpManager.makeRequestURL(context, cache.getUrl(),
-                            HttpManager.RequestType.POST, new JSONObject(cache.getJson()), false);
+                            RequestType.POST, new JSONObject(cache.getJson()), false);
                 } catch (Exception e) {
                     return e.getMessage();
                 }

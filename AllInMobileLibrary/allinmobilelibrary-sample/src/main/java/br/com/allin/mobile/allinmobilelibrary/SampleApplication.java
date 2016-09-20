@@ -1,7 +1,5 @@
 package br.com.allin.mobile.allinmobilelibrary;
 
-import android.widget.Toast;
-
 import com.crashlytics.android.Crashlytics;
 
 import br.com.allin.mobile.pushnotification.AllInApplication;
@@ -27,10 +25,5 @@ public class SampleApplication extends AllInApplication {
         }
 
         Fabric.with(this, new Crashlytics());
-    }
-
-    @Override
-    public void onActionNotification(String action) {
-        Toast.makeText(SampleApplication.this, "onActionNotification", Toast.LENGTH_LONG).show();
     }
 }

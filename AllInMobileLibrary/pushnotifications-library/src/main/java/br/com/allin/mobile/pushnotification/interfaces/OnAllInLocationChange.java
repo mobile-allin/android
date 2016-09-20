@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.gcm;
+package br.com.allin.mobile.pushnotification.interfaces;
 
 /**
  * Request the return interface

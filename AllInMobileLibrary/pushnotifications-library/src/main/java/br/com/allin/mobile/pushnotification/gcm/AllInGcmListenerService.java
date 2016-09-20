@@ -35,12 +35,12 @@ public class AllInGcmListenerService extends GcmListenerService {
                     public void handleMessage(Message message) {
                         AllInApplication allInApplication =
                                 (AllInApplication) Manager.getInstance().getApplication();
-                        allInApplication.onActionNotification(action);
+                        allInApplication.onAction(action);
                     }
                 }.sendEmptyMessage(0);
             }
         } else if (!Util.isNullOrClear(subject) && !Util.isNullOrClear(description)) {
-            AllInGcmNotification.showNotification(this, subject, description, data);
+            new AllInGcmNotification().showNotification(this, subject, description, data);
         }
     }
 }

@@ -26,7 +26,9 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import br.com.allin.mobile.pushnotification.Util;
+import br.com.allin.mobile.pushnotification.constants.HttpConstants;
 import br.com.allin.mobile.pushnotification.dao.CacheDAO;
+import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
 import br.com.allin.mobile.pushnotification.entity.ResponseData;
 
@@ -34,56 +36,6 @@ import br.com.allin.mobile.pushnotification.entity.ResponseData;
  * Class that manages connections to the server
  */
 public class HttpManager {
-    private static String TAG = HttpManager.class.toString().toUpperCase();
-
-    public enum RequestType {
-        GET, POST
-    }
-
-    public static final String ACTION_CAMPAIGN = "campanha";
-
-    public static final String ACTION_DEVICE = "device";
-
-    public static final String ACTION_DEVICE_STATUS = "device/status";
-
-    public static final String ACTION_DEVICE_ENABLE = "device/enable";
-
-    public static final String ACTION_DEVICE_DISABLE = "device/disable";
-
-    public static final String ACTION_DEVICE_LOGOUT = "device/logout";
-
-    public static final String ACTION_EMAIL = "email";
-
-    public static final String ACTION_ADD_LIST = "addlist";
-
-    public static final String PARAM_KEY_DEVICE_TOKEN = "device_token";
-
-    public static final String PARAM_KEY_PLATFORM = "platform";
-
-    public static final String PARAM_KEY_USER_EMAIL = "user_email";
-
-    public static final String PARAM_VALUE_PLATFORM = "ANDROID";
-
-    public static final String PARAM_NM_LISTA = "nm_lista";
-
-    public static final String PARAM_CAMPOS = "campos";
-
-    public static final String PARAM_VALOR = "valor";
-
-    public static final String ACTION_NOTIFICATION = "notification";
-
-    public static final String PARAM_ACTION = "action";
-
-    public static final String PARAM_LATITUDE = "latitude";
-
-    public static final String PARAM_LONGITUDE = "longitude";
-
-    private static final int DEFAULT_REQUEST_TIMEOUT = 15000;
-
-    private static final String SERVER_URL = "http://lucasrodrigues.allinmedia.com.br/webservice/mobile-api/";
-//    private static final String SERVER_URL = "http://homol-mob.allinmedia.com.br/src/api/";
-//    private static final String SERVER_URL = "https://mobile-api.allin.com.br/";
-
     /**
      * Sends data to the server AllIn
      *
@@ -150,7 +102,7 @@ public class HttpManager {
     private static ResponseData makeRequest(
             Context context, String action, RequestType requestType,
             String[] params, JSONObject data, boolean withCache) throws WebServiceException {
-        String urlString = SERVER_URL + action;
+        String urlString = HttpConstants.SERVER_URL + action;
 
         if (params != null) {
             for (String param : params) {
@@ -196,13 +148,13 @@ public class HttpManager {
         ResponseData response = null;
         HttpURLConnection connection = null;
 
-        HttpManager.certificate();
+        new Certificate().start();
 
         try {
             connection = (HttpURLConnection) url.openConnection();
 
             connection.setDoInput(true);
-            connection.setConnectTimeout(DEFAULT_REQUEST_TIMEOUT);
+            connection.setConnectTimeout(HttpConstants.DEFAULT_REQUEST_TIMEOUT);
             connection.setRequestProperty("Authorization", token);
 
             String responseString = "";
@@ -231,7 +183,6 @@ public class HttpManager {
                 while ((line = bufferedReader.readLine()) != null) {
                     responseString += line;
                 }
-
             } else {
                 if (withCache) {
                     CacheDAO.getInstance(context)
@@ -280,52 +231,5 @@ public class HttpManager {
         }
 
         return response;
-    }
-
-    private static void certificate() {
-        try {
-            TrustManager[] trustManagerArray = new TrustManager[] {
-                new X509TrustManager() {
-
-                    public X509Certificate[] getAcceptedIssuers() {
-                        return new X509Certificate[0];
-                    }
-
-                    @Override
-                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
-                        checkTrusted(certs, authType);
-                    }
-
-                    @Override
-                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
-                        checkTrusted(certs, authType);
-                    }
-
-                    private void checkTrusted(X509Certificate[] chain, String authType) {
-                        if (authType == null || authType.length() == 0) {
-                            Log.e(TAG, "Null or zero-length authentication type");
-                        }
-
-                        try {
-                            chain[0].checkValidity();
-                        } catch (Exception e) {
-                            Log.e(TAG, "Invalid certificate");
-                        }
-                    }
-                }
-            };
-
-            SSLContext sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(null, trustManagerArray, new SecureRandom());
-            HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String s, SSLSession sslSession) {
-                    return true;
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

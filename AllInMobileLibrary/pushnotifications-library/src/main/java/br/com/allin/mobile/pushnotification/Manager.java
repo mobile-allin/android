@@ -13,26 +13,29 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.allin.mobile.pushnotification.constants.HttpConstants;
+import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
 import br.com.allin.mobile.pushnotification.dao.CacheDAO;
+import br.com.allin.mobile.pushnotification.entity.ConfigurationOptions;
+import br.com.allin.mobile.pushnotification.entity.DeviceInfos;
+import br.com.allin.mobile.pushnotification.entity.NotificationSettings;
+import br.com.allin.mobile.pushnotification.entity.ResponseData;
+import br.com.allin.mobile.pushnotification.enumarator.Action;
 import br.com.allin.mobile.pushnotification.exception.GenerateDeviceIdException;
 import br.com.allin.mobile.pushnotification.exception.NetworkException;
 import br.com.allin.mobile.pushnotification.exception.NotNullAttributeOrPropertyException;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
 import br.com.allin.mobile.pushnotification.gcm.AllInLocation;
-import br.com.allin.mobile.pushnotification.gcm.OnAllInLocationChange;
 import br.com.allin.mobile.pushnotification.http.HttpManager;
 import br.com.allin.mobile.pushnotification.interfaces.ConfigurationListener;
-import br.com.allin.mobile.pushnotification.entity.ConfigurationOptions;
-import br.com.allin.mobile.pushnotification.entity.DeviceInfos;
-import br.com.allin.mobile.pushnotification.entity.NotificationSettings;
-import br.com.allin.mobile.pushnotification.entity.ResponseData;
+import br.com.allin.mobile.pushnotification.interfaces.OnAllInLocationChange;
 
 /**
  * Class used to intermediate requests to the server
  */
 public class Manager {
     private static Manager manager;
-    private Application application = null;
+    private AllInApplication allInApplication = null;
     private ConfigurationOptions configOptions = null;
     private SharedPreferencesManager prefManager = null;
 
@@ -56,24 +59,25 @@ public class Manager {
      * <b>Asynchronous</b> - Configure the application by sending to the default list,
      * starting GCM (Google Cloud Message) and checking the ID of AllIn
      *
-     * @param application Application (Context)
+     * @param allInApplication Application (Context)
      * @param configurationOptions Settings such as SenderID and TokenAllIn
      * @param configurationListener Interface that returns success or error in the request
      *
      * @throws NotNullAttributeOrPropertyException Parameter application or configurationOptions is null
      * @throws GenerateDeviceIdException Problems Generating Device ID on Google
      */
-    public void configure(final Application application, final ConfigurationOptions configurationOptions,
+    public void configure(final AllInApplication allInApplication,
+                          final ConfigurationOptions configurationOptions,
                           final ConfigurationListener configurationListener)
             throws NotNullAttributeOrPropertyException, GenerateDeviceIdException {
 
-        validateParams(application, configurationOptions);
+        validateParams(allInApplication, configurationOptions);
 
-        this.application = application;
+        this.allInApplication = allInApplication;
         this.configOptions = configurationOptions;
-        this.prefManager = new SharedPreferencesManager(application);
+        this.prefManager = new SharedPreferencesManager(allInApplication);
 
-        CacheDAO.getInstance(application).sync();
+        CacheDAO.getInstance(allInApplication).sync();
 
         configureNotifications(configurationOptions.getNotificationSettings());
 
@@ -88,15 +92,15 @@ public class Manager {
     }
 
     private DeviceInfos getDeviceId() {
-        String deviceId = prefManager.getData(SharedPreferencesManager.KEY_DEVICE_ID, null);
-        Integer registeredVersion = prefManager.getData(SharedPreferencesManager.KEY_APPVERSION, 1);
-        String sharedProjectId = prefManager.getData(SharedPreferencesManager.KEY_PROJECT_ID, null);
+        String deviceId = prefManager.getData(PreferencesConstants.KEY_DEVICE_ID, null);
+        Integer registeredVersion = prefManager.getData(PreferencesConstants.KEY_APPVERSION, 1);
+        String sharedProjectId = prefManager.getData(PreferencesConstants.KEY_PROJECT_ID, null);
 
         if (Util.isNullOrClear(deviceId)) {
             return null;
         }
 
-        if (registeredVersion != Util.getAppVersion(application)
+        if (registeredVersion != Util.getAppVersion(allInApplication)
                 || !configOptions.getSenderId().equals(sharedProjectId)) {
             return new DeviceInfos(deviceId, true);
         }
@@ -118,7 +122,7 @@ public class Manager {
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                InstanceID instanceID = InstanceID.getInstance(application);
+                InstanceID instanceID = InstanceID.getInstance(allInApplication);
 
                 String token = null;
 
@@ -140,8 +144,8 @@ public class Manager {
                     }
                 }
 
-                prefManager.storeData(SharedPreferencesManager.KEY_DEVICE_ID, token);
-                prefManager.storeData(SharedPreferencesManager.KEY_PROJECT_ID,
+                prefManager.storeData(PreferencesConstants.KEY_DEVICE_ID, token);
+                prefManager.storeData(PreferencesConstants.KEY_PROJECT_ID,
                         configOptions.getSenderId());
 
                 return token;
@@ -160,11 +164,11 @@ public class Manager {
 
     private void configureNotifications(NotificationSettings notificationSettings) {
         if (notificationSettings != null) {
-            prefManager.storeData(SharedPreferencesManager.KEY_ICON_NOTIFICATION,
+            prefManager.storeData(PreferencesConstants.KEY_ICON_NOTIFICATION,
                     notificationSettings.getIcon());
-            prefManager.storeData(SharedPreferencesManager.KEY_WHITE_ICON_NOTIFICATION,
+            prefManager.storeData(PreferencesConstants.KEY_WHITE_ICON_NOTIFICATION,
                     notificationSettings.getWhiteIcon());
-            prefManager.storeData(SharedPreferencesManager.KEY_BACKGROUND_NOTIFICATION,
+            prefManager.storeData(PreferencesConstants.KEY_BACKGROUND_NOTIFICATION,
                     notificationSettings.getColorBackground());
         }
     }
@@ -185,18 +189,18 @@ public class Manager {
                 JSONObject data = new JSONObject();
 
                 try {
-                    data.put(HttpManager.PARAM_KEY_DEVICE_TOKEN, AllInPush.getDeviceId(application));
-                    data.put(HttpManager.PARAM_KEY_PLATFORM, HttpManager.PARAM_VALUE_PLATFORM);
+                    data.put(HttpConstants.PARAM_KEY_DEVICE_TOKEN, AllInPush.getDeviceId(allInApplication));
+                    data.put(HttpConstants.PARAM_KEY_PLATFORM, HttpConstants.PARAM_VALUE_PLATFORM);
 
                     if (deviceInfos != null &&
                             !TextUtils.isEmpty(deviceInfos.getDeviceId()) &&
                             deviceInfos.isRenewId()) {
                         return HttpManager.post(Manager.this.getApplication(),
-                                HttpManager.ACTION_DEVICE, data,
+                                HttpConstants.ACTION_DEVICE, data,
                                 new String[]{"update", deviceInfos.getDeviceId()});
                     } else {
                         return HttpManager.post(Manager.this.getApplication(),
-                                HttpManager.ACTION_DEVICE, data, null);
+                                HttpConstants.ACTION_DEVICE, data, null);
                     }
 
                 } catch (Exception e) {
@@ -216,12 +220,12 @@ public class Manager {
                             listener.onError(new WebServiceException(responseData.getMessage()));
                         }
                     } else {
-                        String pushId = AllInPush.getDeviceId(application);
+                        String pushId = AllInPush.getDeviceId(allInApplication);
 
                         Map<String, String> map = new HashMap<>();
                         map.put("id_push", Util.md5(pushId));
                         map.put("push_id", pushId);
-                        map.put("plataforma", HttpManager.PARAM_VALUE_PLATFORM);
+                        map.put("plataforma", HttpConstants.PARAM_VALUE_PLATFORM);
 
                         AllInPush.sendList("Lista Padrao Push", map, listener);
                     }
@@ -256,12 +260,12 @@ public class Manager {
                 JSONObject data = new JSONObject();
 
                 try {
-                    data.put(HttpManager.PARAM_KEY_DEVICE_TOKEN, AllInPush.getDeviceId(application));
-                    data.put(HttpManager.PARAM_KEY_PLATFORM, HttpManager.PARAM_VALUE_PLATFORM);
-                    data.put(HttpManager.PARAM_KEY_USER_EMAIL, userEmail);
+                    data.put(HttpConstants.PARAM_KEY_DEVICE_TOKEN, AllInPush.getDeviceId(allInApplication));
+                    data.put(HttpConstants.PARAM_KEY_PLATFORM, HttpConstants.PARAM_VALUE_PLATFORM);
+                    data.put(HttpConstants.PARAM_KEY_USER_EMAIL, userEmail);
 
                     return HttpManager.post(
-                            Manager.this.getApplication(), HttpManager.ACTION_EMAIL, data, null);
+                            Manager.this.getApplication(), HttpConstants.ACTION_EMAIL, data, null);
                 } catch (Exception e) {
                     return e.getMessage();
                 }
@@ -328,12 +332,12 @@ public class Manager {
                 JSONObject data = new JSONObject();
 
                 try {
-                    data.put(HttpManager.PARAM_KEY_DEVICE_TOKEN, AllInPush.getDeviceId(application));
-                    data.put(HttpManager.PARAM_KEY_PLATFORM, HttpManager.PARAM_VALUE_PLATFORM);
+                    data.put(HttpConstants.PARAM_KEY_DEVICE_TOKEN, AllInPush.getDeviceId(allInApplication));
+                    data.put(HttpConstants.PARAM_KEY_PLATFORM, HttpConstants.PARAM_VALUE_PLATFORM);
 
                     return HttpManager.post(Manager.this.getApplication(),
-                            (enable ? HttpManager.ACTION_DEVICE_ENABLE :
-                                    HttpManager.ACTION_DEVICE_DISABLE), data, null);
+                            (enable ? HttpConstants.ACTION_DEVICE_ENABLE :
+                                    HttpConstants.ACTION_DEVICE_DISABLE), data, null);
                 } catch (Exception e) {
                     return e.getMessage();
                 }
@@ -381,11 +385,11 @@ public class Manager {
                 JSONObject data = new JSONObject();
 
                 try {
-                    data.put(HttpManager.PARAM_KEY_DEVICE_TOKEN, AllInPush.getDeviceId(application));
-                    data.put(HttpManager.PARAM_KEY_USER_EMAIL, AllInPush.getUserEmail(application));
+                    data.put(HttpConstants.PARAM_KEY_DEVICE_TOKEN, AllInPush.getDeviceId(allInApplication));
+                    data.put(HttpConstants.PARAM_KEY_USER_EMAIL, AllInPush.getUserEmail(allInApplication));
 
                     return HttpManager.post(Manager.this.getApplication(),
-                            HttpManager.ACTION_DEVICE_LOGOUT, data, null);
+                            HttpConstants.ACTION_DEVICE_LOGOUT, data, null);
                 } catch (Exception e) {
                     return e.getMessage();
                 }
@@ -438,9 +442,9 @@ public class Manager {
 
                 try {
                     return HttpManager.get(Manager.this.getApplication(),
-                            HttpManager.ACTION_DEVICE_STATUS,
-                            new String[]{HttpManager.PARAM_VALUE_PLATFORM,
-                                    AllInPush.getDeviceId(application)});
+                            HttpConstants.ACTION_DEVICE_STATUS,
+                            new String[]{ HttpConstants.PARAM_VALUE_PLATFORM,
+                                    AllInPush.getDeviceId(allInApplication) });
                 } catch (Exception e) {
                     return e.getMessage();
                 }
@@ -496,7 +500,7 @@ public class Manager {
 
                 try {
                     return HttpManager.get(Manager.this.getApplication(),
-                            HttpManager.ACTION_CAMPAIGN, new String[]{String.valueOf(id)});
+                            HttpConstants.ACTION_CAMPAIGN, new String[]{String.valueOf(id)});
                 } catch (Exception e) {
                     return e.getMessage();
                 }
@@ -563,21 +567,21 @@ public class Manager {
 
                 try {
                     if (columns.endsWith(";")) {
-                        data.put(HttpManager.PARAM_CAMPOS, columns.substring(0, columns.length() - 1));
+                        data.put(HttpConstants.PARAM_CAMPOS, columns.substring(0, columns.length() - 1));
                     } else {
-                        data.put(HttpManager.PARAM_CAMPOS, columns);
+                        data.put(HttpConstants.PARAM_CAMPOS, columns);
                     }
 
                     if (values.endsWith(";")) {
-                        data.put(HttpManager.PARAM_VALOR, values.substring(0, values.length() - 1));
+                        data.put(HttpConstants.PARAM_VALOR, values.substring(0, values.length() - 1));
                     } else {
-                        data.put(HttpManager.PARAM_VALOR, values);
+                        data.put(HttpConstants.PARAM_VALOR, values);
                     }
 
-                    data.put(HttpManager.PARAM_NM_LISTA, name);
+                    data.put(HttpConstants.PARAM_NM_LISTA, name);
 
                     return HttpManager.post(
-                            Manager.this.getApplication(), HttpManager.ACTION_ADD_LIST, data, null);
+                            Manager.this.getApplication(), HttpConstants.ACTION_ADD_LIST, data, null);
                 } catch (Exception e) {
                     return e.getMessage();
                 }
@@ -614,12 +618,12 @@ public class Manager {
      * @param action Action push notification (according to options in the Action Enum)
      * @param configurationListener Interface that returns success or error in the request
      */
-    public void registerNotificationAction(final AllInPush.Action action,
+    public void registerNotificationAction(final Action action,
                                            final ConfigurationListener configurationListener) {
-        boolean withLocation = action == AllInPush.Action.CLICK;
+        boolean withLocation = action == Action.CLICK;
 
         if (withLocation) {
-            AllInLocation.initialize(application, new OnAllInLocationChange() {
+            AllInLocation.initialize(allInApplication, new OnAllInLocationChange() {
                 @Override
                 public void locationFound(double latitude, double longitude) {
                     registerNotificationActionAsync(
@@ -644,7 +648,7 @@ public class Manager {
 
                 try {
                     return HttpManager.post(Manager.this.getApplication(),
-                            HttpManager.ACTION_NOTIFICATION, data, null, true);
+                            HttpConstants.ACTION_NOTIFICATION, data, null, true);
                 } catch (Exception e) {
                     return e.getMessage();
                 }
@@ -677,21 +681,21 @@ public class Manager {
         }.execute();
     }
 
-    private JSONObject createData(AllInPush.Action action) {
+    private JSONObject createData(Action action) {
         return createData(action, 0.0, 0.0);
     }
 
-    private JSONObject createData(AllInPush.Action action, double latitude, double longitude) {
+    private JSONObject createData(Action action, double latitude, double longitude) {
         JSONObject data = new JSONObject();
 
         try {
-            data.put(HttpManager.PARAM_KEY_PLATFORM, HttpManager.PARAM_VALUE_PLATFORM);
-            data.put(HttpManager.PARAM_KEY_DEVICE_TOKEN, AllInPush.getDeviceId(application));
-            data.put(HttpManager.PARAM_ACTION, action.toString());
+            data.put(HttpConstants.PARAM_KEY_PLATFORM, HttpConstants.PARAM_VALUE_PLATFORM);
+            data.put(HttpConstants.PARAM_KEY_DEVICE_TOKEN, AllInPush.getDeviceId(allInApplication));
+            data.put(HttpConstants.PARAM_ACTION, action.toString());
 
             if (latitude != 0.0 && longitude != 0.0) {
-                data.put(HttpManager.PARAM_LATITUDE, String.valueOf(latitude));
-                data.put(HttpManager.PARAM_LONGITUDE, String.valueOf(longitude));
+                data.put(HttpConstants.PARAM_LATITUDE, String.valueOf(latitude));
+                data.put(HttpConstants.PARAM_LONGITUDE, String.valueOf(longitude));
             }
         } catch (Exception e) {
             data = null;
@@ -701,14 +705,14 @@ public class Manager {
     }
 
     public Application getApplication() {
-        return application;
+        return allInApplication;
     }
 
     /**
      * @return Settings have been loaded and recorded information
      */
     public boolean isConfigurationLoaded() {
-        return application != null && configOptions != null && prefManager != null;
+        return allInApplication != null && configOptions != null && prefManager != null;
     }
 
     /**
@@ -716,13 +720,13 @@ public class Manager {
      * @param userEmail User e-mail
      */
     public void configureUserEmail(String userEmail) {
-        prefManager.storeData(SharedPreferencesManager.KEY_USER_EMAIL, userEmail);
+        prefManager.storeData(PreferencesConstants.KEY_USER_EMAIL, userEmail);
     }
 
-    private void validateParams(Application application, ConfigurationOptions configOptions)
+    private void validateParams(AllInApplication allinApplication, ConfigurationOptions configOptions)
             throws NotNullAttributeOrPropertyException {
-        if (application == null) {
-            throw new NotNullAttributeOrPropertyException("application", "configure");
+        if (allinApplication == null) {
+            throw new NotNullAttributeOrPropertyException("allinApplication", "configure");
         }
         if (configOptions == null) {
             throw new NotNullAttributeOrPropertyException("configOptions", "configure");
@@ -730,7 +734,7 @@ public class Manager {
     }
 
     private boolean isNetworkAvailable(ConfigurationListener listener) {
-        if (Util.isNetworkAvailable(this.application)) {
+        if (Util.isNetworkAvailable(this.allInApplication)) {
             return true;
         } else {
             listener.onError(new NetworkException(null, "Internet não está disponível"));

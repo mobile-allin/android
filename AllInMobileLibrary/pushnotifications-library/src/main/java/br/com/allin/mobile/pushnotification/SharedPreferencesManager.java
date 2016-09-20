@@ -3,48 +3,14 @@ package br.com.allin.mobile.pushnotification;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
+
 /**
  * Manager preferences in the library.
  * Responsible for saving/edit the saved values in the device preferences.
  */
 public class SharedPreferencesManager {
 
-    /**
-     * Storage key application version.
-     */
-    public final static String KEY_APPVERSION = "allin_key_appversion";
-
-    /**
-     * Storage key device id.
-     */
-    public final static String KEY_DEVICE_ID = "allin_key_device_id";
-
-    /**
-     * Storage key user email.
-     */
-    public final static String KEY_USER_EMAIL = "allin_key_user_email";
-
-    /**
-     * Storage key background color of the notification.
-     */
-    public final static String KEY_BACKGROUND_NOTIFICATION = "allin_key_background_notification";
-
-    /**
-     * Storage key of the notification icon.
-     */
-    public final static String KEY_WHITE_ICON_NOTIFICATION = "allin_key_white_icon_notification";
-
-    /**
-     * Storage key of the notification icon.
-     */
-    public final static String KEY_ICON_NOTIFICATION = "allin_key_icon_notification";
-
-    /**
-     * Storage Key Project ID used to generate the device Id.
-     */
-    public final static String KEY_PROJECT_ID = "allin_key_project_id";
-
-    private final static String PREFERENCES_ID = "allin_notifications";
     private final SharedPreferences preferences;
 
     /**
@@ -53,7 +19,7 @@ public class SharedPreferencesManager {
      * @param context Application context
      */
     public SharedPreferencesManager(Context context) {
-        preferences = context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE);
+        preferences = context.getSharedPreferences(PreferencesConstants.PREFERENCES_ID, Context.MODE_PRIVATE);
     }
 
     /**

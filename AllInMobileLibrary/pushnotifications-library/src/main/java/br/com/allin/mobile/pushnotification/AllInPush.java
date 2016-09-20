@@ -5,6 +5,8 @@ import android.content.Context;
 
 import java.util.Map;
 
+import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
+import br.com.allin.mobile.pushnotification.enumarator.Action;
 import br.com.allin.mobile.pushnotification.exception.GenerateDeviceIdException;
 import br.com.allin.mobile.pushnotification.exception.NotNullAttributeOrPropertyException;
 import br.com.allin.mobile.pushnotification.interfaces.ConfigurationListener;
@@ -96,14 +98,6 @@ import br.com.allin.mobile.pushnotification.entity.ConfigurationOptions;
  * <b>OBS: These settings are required for the proper functioning of lib.</b>
  */
 public class AllInPush {
-    /**
-     * Enum for registration on the server (click or show)
-     */
-    public enum Action {
-        CLICK,
-        SHOW
-    }
-
     private AllInPush() {
     }
 
@@ -111,23 +105,24 @@ public class AllInPush {
      * <b>Asynchronous</b> - Configure the application by sending to the default list,
      * starting GCM (Google Cloud Message) and checking the ID of AllIn
      *
-     * @param application Application (Context)
+     * @param allInApplication Application (Context)
      * @param configurationOptions Settings such as SenderID and TokenAllIn
      *
      * @throws NotNullAttributeOrPropertyException Parameter
      * application or configurationOptions is null
      * @throws GenerateDeviceIdException Problems Generating Device ID on Google
      */
-    public static void configure(Application application, ConfigurationOptions configurationOptions)
-            throws NotNullAttributeOrPropertyException, GenerateDeviceIdException {
-        configure(application, configurationOptions, null);
+    public static void configure(
+            AllInApplication allInApplication, ConfigurationOptions configurationOptions)
+                throws NotNullAttributeOrPropertyException, GenerateDeviceIdException {
+        configure(allInApplication, configurationOptions, null);
     }
 
     /**
      * <b>Asynchronous</b> - Configure the application by sending to the default list,
      * starting GCM (Google Cloud Message) and checking the ID of AllIn
      *
-     * @param application Application (Context)
+     * @param allInApplication Application (Context)
      * @param configurationOptions Settings such as SenderID and TokenAllIn
      * @param configurationListener Interface that returns success or error in the request
      *
@@ -135,10 +130,11 @@ public class AllInPush {
      * application or configurationOptions is null
      * @throws GenerateDeviceIdException Problems Generating Device ID on Google
      */
-    public static void configure(Application application, ConfigurationOptions configurationOptions,
+    public static void configure(AllInApplication allInApplication,
+                                 ConfigurationOptions configurationOptions,
                                  ConfigurationListener configurationListener)
             throws NotNullAttributeOrPropertyException, GenerateDeviceIdException {
-        Manager.getInstance().configure(application, configurationOptions, configurationListener);
+        Manager.getInstance().configure(allInApplication, configurationOptions, configurationListener);
     }
 
     /**
@@ -258,7 +254,7 @@ public class AllInPush {
     public static String getUserEmail(Context context) {
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
         String userEmail = sharedPreferencesManager
-                .getData(SharedPreferencesManager.KEY_USER_EMAIL, null);
+                .getData(PreferencesConstants.KEY_USER_EMAIL, null);
 
         return userEmail != null && userEmail.trim().length() > 0 ? userEmail : null;
     }
@@ -270,7 +266,7 @@ public class AllInPush {
     public static String getDeviceId(Context context) {
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
         String deviceId = sharedPreferencesManager
-                .getData(SharedPreferencesManager.KEY_DEVICE_ID, null);
+                .getData(PreferencesConstants.KEY_DEVICE_ID, null);
 
         return deviceId != null && deviceId.trim().length() > 0 ? deviceId : null;
     }

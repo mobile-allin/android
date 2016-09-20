@@ -36,8 +36,6 @@ public class AllInWebViewActivity extends AppCompatActivity {
 
         setContentView(initViews());
 
-        AllInPush.registerNotificationAction(AllInPush.Action.CLICK, null);
-
         if (this.mWebViewClient == null) {
             this.mWebViewClient = new AllInWebViewClient(AllInWebViewActivity.this, pbAllIn);
         }
@@ -129,7 +127,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
     }
 
     private void loadHTML(Bundle bundle) {
-        String idCampaignString = bundle.getString("AllInNotificationCampaign");
+        String idCampaignString = bundle.getString(NotificationConstants.ID_CAMPAIGN);
 
         if (idCampaignString == null) {
             return;
