@@ -25,7 +25,7 @@ import br.com.allin.mobile.pushnotification.enumarator.Action;
  * Class that provides the notification of receipt of a push GCM.
  */
 public class AllInGcmNotification {
-    AllInGcmNotification() {
+    private AllInGcmNotification() {
     }
 
     /**
@@ -35,7 +35,7 @@ public class AllInGcmNotification {
      * @param content Content (text) notification
      * @param extras Parameters to be included in the notification.
      */
-    void showNotification(Context context, String title, String content, Bundle extras) {
+    public static void showNotification(Context context, String title, String content, Bundle extras) {
         if (content == null || extras == null) {
             return;
         }
@@ -113,7 +113,7 @@ public class AllInGcmNotification {
      *
      * @return Application icon id.
      */
-    private int getNotificationIcon(Context context) {
+    private static int getNotificationIcon(Context context) {
         String packageName = context.getApplicationContext().getPackageName();
         PackageManager packageManager = context.getPackageManager();
 

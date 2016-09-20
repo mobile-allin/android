@@ -40,7 +40,7 @@ public class AllInGcmListenerService extends GcmListenerService {
                 }.sendEmptyMessage(0);
             }
         } else if (!Util.isNullOrClear(subject) && !Util.isNullOrClear(description)) {
-            new AllInGcmNotification().showNotification(this, subject, description, data);
+            AllInGcmNotification.showNotification(this, subject, description, data);
         }
     }
 }

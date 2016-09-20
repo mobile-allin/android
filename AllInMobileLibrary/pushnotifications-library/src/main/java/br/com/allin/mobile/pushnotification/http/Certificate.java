@@ -19,7 +19,10 @@ import br.com.allin.mobile.pushnotification.constants.HttpConstants;
  */
 
 public class Certificate {
-    public void start() {
+    private Certificate() {
+    }
+
+    public static void start() {
         try {
             TrustManager[] trustManagerArray = new TrustManager[] {
                     new X509TrustManager() {

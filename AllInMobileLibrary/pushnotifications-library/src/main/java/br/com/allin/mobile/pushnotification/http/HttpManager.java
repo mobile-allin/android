@@ -148,7 +148,7 @@ public class HttpManager {
         ResponseData response = null;
         HttpURLConnection connection = null;
 
-        new Certificate().start();
+        Certificate.start();
 
         try {
             connection = (HttpURLConnection) url.openConnection();
