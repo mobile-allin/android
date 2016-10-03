@@ -1,11 +1,12 @@
-package br.com.allin.mobile.pushnotification.service;
+package br.com.allin.mobile.pushnotification.task;
 
 import android.content.Context;
 
 import org.json.JSONObject;
 
-import br.com.allin.mobile.pushnotification.Util;
+import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.constants.HttpBody;
+import br.com.allin.mobile.pushnotification.constants.Parameters;
 import br.com.allin.mobile.pushnotification.constants.Route;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
@@ -15,28 +16,22 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
  * Created by lucasrodrigues on 10/3/16.
  */
 
-public class NotificationCampaignService extends BaseService<String> {
-    private int id;
+public class ToggleTask extends BaseTask<String> {
+    private boolean enable;
 
-    public NotificationCampaignService(int id, Context context,
-                                       OnRequest onRequest) {
+    public ToggleTask(boolean enable,
+                      Context context, OnRequest onRequest) {
         super(context, RequestType.POST, true, onRequest);
 
-        this.id = id;
-    }
-
-    @Override
-    public String getUrl() {
-        return Route.NOTIFICATION_CAMPAIGN;
+        this.enable = enable;
     }
 
     @Override
     public JSONObject getData() {
         try {
             JSONObject data = new JSONObject();
-
-            data.put(HttpBody.ID, id);
-            data.put(HttpBody.DATE, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
+            data.put(HttpBody.DEVICE_TOKEN, AllInPush.getInstance().getDeviceId());
+            data.put(HttpBody.PLATFORM, Parameters.ANDROID);
 
             return data;
         } catch (Exception e) {
@@ -44,6 +39,11 @@ public class NotificationCampaignService extends BaseService<String> {
 
             return null;
         }
+    }
+
+    @Override
+    public String getUrl() {
+        return enable ? Route.DEVICE_ENABLE : Route.DEVICE_DISABLE;
     }
 
     @Override

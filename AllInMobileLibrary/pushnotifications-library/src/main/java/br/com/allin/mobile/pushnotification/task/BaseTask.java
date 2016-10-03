@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.service;
+package br.com.allin.mobile.pushnotification.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -9,21 +9,21 @@ import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
 import br.com.allin.mobile.pushnotification.http.HttpManager;
-import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 import br.com.allin.mobile.pushnotification.interfaces.OnInvoke;
+import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 /**
  * Created by lucasrodrigues on 10/3/16.
  */
 
-abstract class BaseService<T> extends AsyncTask<Void, Void, Object> implements OnInvoke<T> {
+abstract class BaseTask<T> extends AsyncTask<Void, Void, Object> implements OnInvoke<T> {
     protected Context context;
     protected OnRequest onRequest;
     protected RequestType requestType;
     protected boolean withCache;
 
-    public BaseService(Context context, RequestType requestType,
-                          boolean withCache, OnRequest onRequest) {
+    public BaseTask(Context context, RequestType requestType,
+                    boolean withCache, OnRequest onRequest) {
         this.onRequest = onRequest;
         this.context = context;
         this.requestType = requestType;

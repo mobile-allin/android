@@ -13,14 +13,15 @@ import br.com.allin.mobile.pushnotification.exception.NotNullAttributeOrProperty
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 import br.com.allin.mobile.pushnotification.service.ConfigurationService;
 import br.com.allin.mobile.pushnotification.service.DeviceService;
-import br.com.allin.mobile.pushnotification.service.EmailService;
-import br.com.allin.mobile.pushnotification.service.ListService;
-import br.com.allin.mobile.pushnotification.service.LogoutService;
-import br.com.allin.mobile.pushnotification.service.NotificationCampaignService;
-import br.com.allin.mobile.pushnotification.service.NotificationTransactionalService;
-import br.com.allin.mobile.pushnotification.service.StatusService;
-import br.com.allin.mobile.pushnotification.service.TemplateService;
-import br.com.allin.mobile.pushnotification.service.ToggleService;
+import br.com.allin.mobile.pushnotification.task.DeviceTask;
+import br.com.allin.mobile.pushnotification.task.EmailTask;
+import br.com.allin.mobile.pushnotification.task.ListTask;
+import br.com.allin.mobile.pushnotification.task.LogoutTask;
+import br.com.allin.mobile.pushnotification.task.NotificationCampaignTask;
+import br.com.allin.mobile.pushnotification.task.NotificationTransactionalTask;
+import br.com.allin.mobile.pushnotification.task.StatusTask;
+import br.com.allin.mobile.pushnotification.task.TemplateTask;
+import br.com.allin.mobile.pushnotification.task.ToggleTask;
 
 /**
  * @author lucasrodrigues
@@ -178,7 +179,7 @@ public class AllInPush {
      * @param onRequest Interface that returns success or error in the request
      */
     public void disable(final OnRequest onRequest) {
-        new ToggleService(false, this.alliNApplication, onRequest).execute();
+        new ToggleTask(false, this.alliNApplication, onRequest).execute();
     }
 
     /**
@@ -187,11 +188,11 @@ public class AllInPush {
      * @param onRequest Interface that returns success or error in the request
      */
     public void enable(final OnRequest onRequest) {
-        new ToggleService(true, this.alliNApplication, onRequest).execute();
+        new ToggleTask(true, this.alliNApplication, onRequest).execute();
     }
 
     public void logout(final OnRequest onRequest) {
-        new LogoutService(this.alliNApplication, onRequest).execute();
+        new LogoutTask(this.alliNApplication, onRequest).execute();
     }
 
     /**
@@ -200,7 +201,7 @@ public class AllInPush {
      * @param onRequest Interface that returns success or error in the request
      */
     public void deviceIsEnable(final OnRequest onRequest) {
-        new StatusService(this.alliNApplication, onRequest).execute();
+        new StatusTask(this.alliNApplication, onRequest).execute();
     }
 
     /**
@@ -210,7 +211,7 @@ public class AllInPush {
      * @param onRequest Interface that returns success or error in the request
      */
     public void getHtmlTemplate(final int id, final OnRequest onRequest) {
-        new TemplateService(id, this.alliNApplication, onRequest).execute();
+        new TemplateTask(id, this.alliNApplication, onRequest).execute();
     }
 
     /**
@@ -220,7 +221,7 @@ public class AllInPush {
      * @param onRequest Interface that returns success or error in the request
      */
     public void updateUserEmail(final String userEmail, final OnRequest onRequest) {
-        new EmailService(userEmail, this.alliNApplication, onRequest).execute();
+        new EmailTask(userEmail, this.alliNApplication, onRequest).execute();
     }
 
     /**
@@ -232,7 +233,7 @@ public class AllInPush {
      */
     public void sendList(final String nmList,
                          final Map<String, String> values, final OnRequest onRequest) {
-        new ListService(nmList, values, this.alliNApplication, onRequest).execute();
+        new ListTask(nmList, values, this.alliNApplication, onRequest).execute();
     }
 
     /**
@@ -242,32 +243,15 @@ public class AllInPush {
      * @param onRequest Interface that returns success or error in the request
      */
     public void notificationCampaign(final int idCampaign, final OnRequest onRequest) {
-        new NotificationCampaignService(idCampaign, this.alliNApplication, onRequest).execute();
+        new NotificationCampaignTask(idCampaign, this.alliNApplication, onRequest).execute();
     }
 
     public void notificationTransactional(final int idSend, final OnRequest onRequest) {
-        new NotificationTransactionalService(idSend, this.alliNApplication, onRequest).execute();
+        new NotificationTransactionalTask(idSend, this.alliNApplication, onRequest).execute();
     }
 
     public void sendDeviceInfo(final DeviceEntity deviceEntity, final OnRequest onRequest) {
-        new DeviceService(deviceEntity, this.alliNApplication, new OnRequest() {
-            @Override
-            public void onFinish(Object value) {
-                String pushId = AllInPush.getInstance().getDeviceId();
-                Map<String, String> map = new HashMap<>();
-                map.put("id_push", Util.md5(pushId));
-                map.put("push_id", pushId);
-                map.put("plataforma", Parameters.ANDROID);
-
-
-                AllInPush.getInstance().sendList("Lista Padrao Push", map, onRequest);
-            }
-
-            @Override
-            public void onError(Exception exception) {
-
-            }
-        }).execute();
+        new DeviceService().sendDeviceInfo(this.alliNApplication, deviceEntity, onRequest);
     }
 
     /**

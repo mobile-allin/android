@@ -1,64 +1,41 @@
 package br.com.allin.mobile.pushnotification.service;
 
 import android.content.Context;
-import android.text.TextUtils;
 
-import org.json.JSONObject;
+import java.util.HashMap;
+import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
-import br.com.allin.mobile.pushnotification.constants.HttpBody;
+import br.com.allin.mobile.pushnotification.Util;
 import br.com.allin.mobile.pushnotification.constants.Parameters;
-import br.com.allin.mobile.pushnotification.constants.Route;
 import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
-import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
-import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
+import br.com.allin.mobile.pushnotification.task.DeviceTask;
 
 /**
  * Created by lucasrodrigues on 10/3/16.
  */
 
-public class DeviceService extends BaseService<String> {
-    private DeviceEntity deviceEntity;
+public class DeviceService {
+    public void sendDeviceInfo(final Context context,
+                               final DeviceEntity deviceEntity, final OnRequest onRequest) {
+        new DeviceTask(deviceEntity, context, new OnRequest() {
+            @Override
+            public void onFinish(Object value) {
+                String pushId = AllInPush.getInstance().getDeviceId();
+                Map<String, String> map = new HashMap<>();
+                map.put("id_push", Util.md5(pushId));
+                map.put("push_id", pushId);
+                map.put("plataforma", Parameters.ANDROID);
 
-    public DeviceService(DeviceEntity deviceEntity,
-                         Context context, OnRequest onRequest) {
-        super(context, RequestType.POST, true, onRequest);
 
-        this.deviceEntity = deviceEntity;
-    }
+                AllInPush.getInstance().sendList("Lista Padrao Push", map, onRequest);
+            }
 
-    @Override
-    public String getUrl() {
-        return Route.DEVICE;
-    }
+            @Override
+            public void onError(Exception exception) {
 
-    @Override
-    public String[] getParams() {
-        boolean renew = this.deviceEntity != null &&
-                !TextUtils.isEmpty(this.deviceEntity.getDeviceId()) && this.deviceEntity.isRenewId();
-
-        return renew ? new String[] { "update", deviceEntity.getDeviceId() } : null;
-    }
-
-    @Override
-    public JSONObject getData() {
-        try {
-            JSONObject data = new JSONObject();
-
-            data.put(HttpBody.DEVICE_TOKEN, AllInPush.getInstance().getDeviceId());
-            data.put(HttpBody.PLATFORM, Parameters.ANDROID);
-
-            return data;
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            return null;
-        }
-    }
-
-    @Override
-    public String onSuccess(ResponseEntity responseEntity) {
-        return responseEntity.getMessage();
+            }
+        }).execute();
     }
 }

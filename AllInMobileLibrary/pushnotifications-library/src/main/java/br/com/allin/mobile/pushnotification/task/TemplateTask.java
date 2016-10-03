@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.service;
+package br.com.allin.mobile.pushnotification.task;
 
 import android.content.Context;
 
@@ -11,11 +11,11 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
  * Created by lucasrodrigues on 10/3/16.
  */
 
-public class TemplateService extends BaseService<String> {
+public class TemplateTask extends BaseTask<String> {
     private int id;
 
-    public TemplateService(int id,
-                           Context context, OnRequest onRequest) {
+    public TemplateTask(int id,
+                        Context context, OnRequest onRequest) {
         super(context, RequestType.GET, false, onRequest);
 
         this.id = id;

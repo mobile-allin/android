@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.service;
+package br.com.allin.mobile.pushnotification.task;
 
 import android.content.Context;
 
@@ -13,8 +13,8 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
  * Created by lucasrodrigues on 10/3/16.
  */
 
-public class StatusService extends BaseService<Boolean> {
-    public StatusService(Context context, OnRequest onRequest) {
+public class StatusTask extends BaseTask<Boolean> {
+    public StatusTask(Context context, OnRequest onRequest) {
         super(context, RequestType.GET, false, onRequest);
     }
 

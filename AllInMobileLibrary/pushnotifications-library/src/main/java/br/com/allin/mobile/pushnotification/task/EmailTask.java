@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.service;
+package br.com.allin.mobile.pushnotification.task;
 
 import android.content.Context;
 
@@ -18,11 +18,11 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
  * Created by lucasrodrigues on 10/3/16.
  */
 
-public class EmailService extends BaseService<String> {
+public class EmailTask extends BaseTask<String> {
     private String email;
 
-    public EmailService(String email,
-                        Context context, OnRequest onRequest) {
+    public EmailTask(String email,
+                     Context context, OnRequest onRequest) {
         super(context, RequestType.POST, true, onRequest);
 
         this.email = email;

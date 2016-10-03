@@ -1,6 +1,7 @@
-package br.com.allin.mobile.pushnotification.service;
+package br.com.allin.mobile.pushnotification.task;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import org.json.JSONObject;
 
@@ -8,6 +9,7 @@ import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.constants.HttpBody;
 import br.com.allin.mobile.pushnotification.constants.Parameters;
 import br.com.allin.mobile.pushnotification.constants.Route;
+import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -16,20 +18,34 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
  * Created by lucasrodrigues on 10/3/16.
  */
 
-public class ToggleService extends BaseService<String> {
-    private boolean enable;
+public class DeviceTask extends BaseService<String> {
+    private DeviceEntity deviceEntity;
 
-    public ToggleService(boolean enable,
-                         Context context, OnRequest onRequest) {
+    public DeviceTask(DeviceEntity deviceEntity,
+                      Context context, OnRequest onRequest) {
         super(context, RequestType.POST, true, onRequest);
 
-        this.enable = enable;
+        this.deviceEntity = deviceEntity;
+    }
+
+    @Override
+    public String getUrl() {
+        return Route.DEVICE;
+    }
+
+    @Override
+    public String[] getParams() {
+        boolean renew = this.deviceEntity != null &&
+                !TextUtils.isEmpty(this.deviceEntity.getDeviceId()) && this.deviceEntity.isRenewId();
+
+        return renew ? new String[] { "update", deviceEntity.getDeviceId() } : null;
     }
 
     @Override
     public JSONObject getData() {
         try {
             JSONObject data = new JSONObject();
+
             data.put(HttpBody.DEVICE_TOKEN, AllInPush.getInstance().getDeviceId());
             data.put(HttpBody.PLATFORM, Parameters.ANDROID);
 
@@ -39,11 +55,6 @@ public class ToggleService extends BaseService<String> {
 
             return null;
         }
-    }
-
-    @Override
-    public String getUrl() {
-        return enable ? Route.DEVICE_ENABLE : Route.DEVICE_DISABLE;
     }
 
     @Override

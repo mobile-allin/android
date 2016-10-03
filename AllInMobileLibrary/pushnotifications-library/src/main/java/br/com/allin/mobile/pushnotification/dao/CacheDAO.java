@@ -3,54 +3,21 @@ package br.com.allin.mobile.pushnotification.dao;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.allin.mobile.pushnotification.constants.Cache;
 import br.com.allin.mobile.pushnotification.entity.CacheEntity;
-import br.com.allin.mobile.pushnotification.enumarator.RequestType;
-import br.com.allin.mobile.pushnotification.http.HttpManager;
-import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 
 /**
  * Class that manages the CacheEntity database requests
  */
 public class CacheDAO {
-
-    private CacheDAO() {
-    }
-
-    private Context context;
     private SQLiteDatabase sqliteDatabase;
 
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    private static CacheDAO cache;
-
-    /**
-    * Creates (if there) and opens the connection to the database cache data
-    *
-    * @return Object instance
-    */
-    public static CacheDAO getInstance(Context context) {
-        if (cache == null) {
-            cache = new CacheDAO();
-        }
-
-        cache.setContext(context);
-        cache.openDatabase();
-
-        return cache;
-    }
-
-    private void openDatabase() {
-        sqliteDatabase = context.openOrCreateDatabase(Cache.DB_NAME, Context.MODE_PRIVATE, null);
+    public CacheDAO(Context context) {
+        this.sqliteDatabase = context.openOrCreateDatabase(Cache.DB_NAME, Context.MODE_PRIVATE, null);
 
         createTable();
     }
@@ -83,7 +50,7 @@ public class CacheDAO {
         closeDatabase();
     }
 
-    private void delete(int id) {
+    public void delete(int id) {
         if (sqliteDatabase != null) {
             sqliteDatabase.execSQL(Cache.DELETE_CACHE.replace("#VALUE1", String.valueOf(id)));
         }
@@ -91,18 +58,7 @@ public class CacheDAO {
         closeDatabase();
     }
 
-    /**
-     * Search all requests not made yet and performs according to the recorded information
-    */
-    public  void sync() {
-        List<CacheEntity> cacheList = getAll();
-
-        for (CacheEntity cacheEntity : cacheList) {
-            sync(cacheEntity);
-        }
-    }
-
-    private List<CacheEntity> getAll() {
+    public List<CacheEntity> getAll() {
         List<CacheEntity> cacheEntityList = new ArrayList<>();
 
         if (sqliteDatabase != null) {
@@ -126,28 +82,5 @@ public class CacheDAO {
         closeDatabase();
 
         return cacheEntityList;
-    }
-
-    private void sync(final CacheEntity cacheEntity) {
-        new AsyncTask<Void, Void, Object>() {
-            @Override
-            protected Object doInBackground(Void... params) {
-                try {
-                    return HttpManager.makeRequestURL(context, cacheEntity.getUrl(),
-                            RequestType.POST, new JSONObject(cacheEntity.getJson()), false);
-                } catch (Exception e) {
-                    return e.getMessage();
-                }
-            }
-
-            @Override
-            protected void onPostExecute(Object object) {
-                super.onPostExecute(object);
-
-                if (object instanceof ResponseEntity) {
-                    delete(cacheEntity.getId());
-                }
-            }
-        }.execute();
     }
 }

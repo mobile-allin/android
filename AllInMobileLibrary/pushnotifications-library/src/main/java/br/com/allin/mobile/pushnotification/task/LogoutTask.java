@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.service;
+package br.com.allin.mobile.pushnotification.task;
 
 import android.content.Context;
 
@@ -15,8 +15,8 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
  * Created by lucasrodrigues on 10/3/16.
  */
 
-public class LogoutService extends BaseService<String> {
-    public LogoutService(Context context, OnRequest onRequest) {
+public class LogoutTask extends BaseTask<String> {
+    public LogoutTask(Context context, OnRequest onRequest) {
         super(context, RequestType.POST, true, onRequest);
     }
 

@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.service;
+package br.com.allin.mobile.pushnotification.task;
 
 import android.content.Context;
 
@@ -15,13 +15,13 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
  * Created by lucasrodrigues on 10/3/16.
  */
 
-public class ListService extends BaseService<String> {
+public class ListTask extends BaseTask<String> {
     private String nameList;
     private String campos;
     private String valor;
 
-    public ListService(String nameList, Map<String, String> values,
-                       Context context, OnRequest onRequest) {
+    public ListTask(String nameList, Map<String, String> values,
+                    Context context, OnRequest onRequest) {
         super(context, RequestType.POST, true, onRequest);
 
         StringBuilder campos = new StringBuilder();

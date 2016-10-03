@@ -21,6 +21,7 @@ import br.com.allin.mobile.pushnotification.dao.CacheDAO;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
+import br.com.allin.mobile.pushnotification.service.CacheService;
 
 /**
  * Class that manages connections to the server
@@ -120,7 +121,7 @@ public class HttpManager {
                                                 RequestType requestType, JSONObject data,
                                                 boolean withCache) throws WebServiceException {
         if (withCache && !Util.isNetworkAvailable(context)) {
-            CacheDAO.getInstance(context).insert(urlString, data != null ? data.toString() : "");
+            new CacheService(context).insert(urlString, data != null ? data.toString() : "");
 
             throw new WebServiceException("Internet não está disponível");
         }
@@ -175,7 +176,7 @@ public class HttpManager {
                 }
             } else {
                 if (withCache) {
-                    CacheDAO.getInstance(context)
+                    new CacheService(context)
                             .insert(urlString, data != null ? data.toString() : "");
                 }
 
@@ -208,7 +209,7 @@ public class HttpManager {
 
         } catch (IOException e) {
             if (withCache) {
-                CacheDAO.getInstance(context).insert(urlString, data != null ? data.toString() : "");
+                new CacheService(context).insert(urlString, data != null ? data.toString() : "");
             }
 
             throw new WebServiceException("Ocorreu um erro " +

@@ -3,16 +3,10 @@ package br.com.allin.mobile.pushnotification.service;
 import android.content.Context;
 import android.text.TextUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import br.com.allin.mobile.pushnotification.AllInApplication;
-import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
 import br.com.allin.mobile.pushnotification.Util;
-import br.com.allin.mobile.pushnotification.constants.Parameters;
 import br.com.allin.mobile.pushnotification.constants.Preferences;
-import br.com.allin.mobile.pushnotification.dao.CacheDAO;
 import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
 import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
 import br.com.allin.mobile.pushnotification.entity.NotificationEntity;
@@ -38,6 +32,7 @@ public class ConfigurationService {
         if (allInApplication == null) {
             throw new NotNullAttributeOrPropertyException("allinApplication", "configure");
         }
+
         if (configurationEntity == null) {
             throw new NotNullAttributeOrPropertyException("configOptions", "configure");
         }
@@ -50,7 +45,7 @@ public class ConfigurationService {
     }
 
     public void init() {
-        CacheDAO.getInstance(this.context).sync();
+        new CacheService(this.context).sync();
 
         if (notificationEntity != null) {
             sharedPreferencesManager.storeData(Preferences.ICON_NOTIFICATION,
@@ -65,27 +60,9 @@ public class ConfigurationService {
 
         if (deviceEntity == null ||
                 TextUtils.isEmpty(deviceEntity.getDeviceId()) || deviceEntity.isRenewId()) {
-            new GCMService(deviceEntity, this.context,
-                    this.configurationEntity, onRequest).execute();
+            new GCMService(deviceEntity, this.context, this.configurationEntity, onRequest).execute();
         } else {
-            new DeviceService(deviceEntity, this.context, new OnRequest() {
-                @Override
-                public void onFinish(Object value) {
-                    String pushId = AllInPush.getInstance().getDeviceId();
-                    Map<String, String> map = new HashMap<>();
-                    map.put("id_push", Util.md5(pushId));
-                    map.put("push_id", pushId);
-                    map.put("plataforma", Parameters.ANDROID);
-
-
-                    AllInPush.getInstance().sendList("Lista Padrao Push", map, onRequest);
-                }
-
-                @Override
-                public void onError(Exception exception) {
-
-                }
-            }).execute();
+            new DeviceService().sendDeviceInfo(this.context, deviceEntity, onRequest);
         }
     }
 }
