@@ -148,19 +148,4 @@ public class Util {
     public static String currentDate(String format) {
         return new SimpleDateFormat(format, Locale.getDefault()).format(new Date());
     }
-
-    public static DeviceEntity getDeviceInfos(Context context, String senderId) {
-        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
-
-        String deviceId = sharedPreferencesManager.getData(Preferences.DEVICE_ID, null);
-        Integer registeredVersion = sharedPreferencesManager.getData(Preferences.APPVERSION, 1);
-        String sharedProjectId = sharedPreferencesManager.getData(Preferences.PROJECT_ID, null);
-
-        if (Util.isNullOrClear(deviceId)) {
-            return null;
-        }
-
-        return new DeviceEntity(deviceId,
-                registeredVersion != Util.getAppVersion(context) || !senderId.equals(sharedProjectId));
-    }
 }

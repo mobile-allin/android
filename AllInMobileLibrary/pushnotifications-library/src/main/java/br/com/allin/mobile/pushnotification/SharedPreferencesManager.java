@@ -48,7 +48,7 @@ public class SharedPreferencesManager {
 
     /**
      * Returns a value recorded in
-     * <a href="http://developer.android.com/guide/topics/data/data-storage.html#pref" >SharedPreferences</a>.
+     * <a href="http://developer.android.com/guide/topics/data/data-storage.html#pref">SharedPreferences</a>.
      *
      * @param key Identifier value
      * @param defaultValue Default value if the value is not found or NULL.

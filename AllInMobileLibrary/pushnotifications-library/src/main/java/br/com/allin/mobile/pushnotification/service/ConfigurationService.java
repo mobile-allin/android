@@ -56,13 +56,14 @@ public class ConfigurationService {
                     notificationEntity.getColorBackground());
         }
 
-        DeviceEntity deviceEntity = Util.getDeviceInfos(context, this.configurationEntity.getSenderId());
+        DeviceEntity deviceEntity =
+                new DeviceService(context).getDeviceInfos(this.configurationEntity.getSenderId());
 
         if (deviceEntity == null ||
                 TextUtils.isEmpty(deviceEntity.getDeviceId()) || deviceEntity.isRenewId()) {
             new GCMService(deviceEntity, this.context, this.configurationEntity, onRequest).execute();
         } else {
-            new DeviceService().sendDeviceInfo(this.context, deviceEntity, onRequest);
+            new DeviceService(this.context, onRequest).sendDeviceInfo(deviceEntity);
         }
     }
 }

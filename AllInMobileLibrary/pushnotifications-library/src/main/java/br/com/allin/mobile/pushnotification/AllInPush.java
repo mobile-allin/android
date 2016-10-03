@@ -2,26 +2,17 @@ package br.com.allin.mobile.pushnotification;
 
 import android.content.Context;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import br.com.allin.mobile.pushnotification.constants.Parameters;
-import br.com.allin.mobile.pushnotification.constants.Preferences;
 import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
 import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
 import br.com.allin.mobile.pushnotification.exception.NotNullAttributeOrPropertyException;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
+import br.com.allin.mobile.pushnotification.service.CampaignService;
 import br.com.allin.mobile.pushnotification.service.ConfigurationService;
 import br.com.allin.mobile.pushnotification.service.DeviceService;
-import br.com.allin.mobile.pushnotification.task.DeviceTask;
-import br.com.allin.mobile.pushnotification.task.EmailTask;
-import br.com.allin.mobile.pushnotification.task.ListTask;
-import br.com.allin.mobile.pushnotification.task.LogoutTask;
-import br.com.allin.mobile.pushnotification.task.NotificationCampaignTask;
-import br.com.allin.mobile.pushnotification.task.NotificationTransactionalTask;
-import br.com.allin.mobile.pushnotification.task.StatusTask;
-import br.com.allin.mobile.pushnotification.task.TemplateTask;
-import br.com.allin.mobile.pushnotification.task.ToggleTask;
+import br.com.allin.mobile.pushnotification.service.NotificationService;
+import br.com.allin.mobile.pushnotification.service.StatusService;
 
 /**
  * @author lucasrodrigues
@@ -175,11 +166,25 @@ public class AllInPush {
 
     /**
      * <b>Asynchronous</b> - Disable notifications on the server
+     */
+    public void disable() {
+        new StatusService(getContext(), null).disable();
+    }
+
+    /**
+     * <b>Asynchronous</b> - Disable notifications on the server
      *
      * @param onRequest Interface that returns success or error in the request
      */
     public void disable(final OnRequest onRequest) {
-        new ToggleTask(false, this.alliNApplication, onRequest).execute();
+        new StatusService(getContext(), onRequest).disable();
+    }
+
+    /**
+     * <b>Asynchronous</b> - Enable notifications on the server
+     */
+    public void enable() {
+        new StatusService(getContext(), null).enable();
     }
 
     /**
@@ -188,11 +193,7 @@ public class AllInPush {
      * @param onRequest Interface that returns success or error in the request
      */
     public void enable(final OnRequest onRequest) {
-        new ToggleTask(true, this.alliNApplication, onRequest).execute();
-    }
-
-    public void logout(final OnRequest onRequest) {
-        new LogoutTask(this.alliNApplication, onRequest).execute();
+        new StatusService(getContext(), onRequest).enable();
     }
 
     /**
@@ -201,17 +202,26 @@ public class AllInPush {
      * @param onRequest Interface that returns success or error in the request
      */
     public void deviceIsEnable(final OnRequest onRequest) {
-        new StatusTask(this.alliNApplication, onRequest).execute();
+        new StatusService(getContext(), onRequest).deviceIsEnable();
     }
 
     /**
      * <b>Asynchronous</b> - Returns the HTML campaign created
      *
-     * @param id Template ID that the push notification returns
+     * @param idCampaign Template ID that the push notification returns
      * @param onRequest Interface that returns success or error in the request
      */
-    public void getHtmlTemplate(final int id, final OnRequest onRequest) {
-        new TemplateTask(id, this.alliNApplication, onRequest).execute();
+    public void getHtmlTemplate(final int idCampaign, final OnRequest onRequest) {
+        new CampaignService(getContext(), onRequest).getTemplate(idCampaign);
+    }
+
+    /**
+     * <b>Asynchronous</b> - Updates the e-mail in the database
+     *
+     * @param userEmail E-mail that is registered in the database of AllIn
+     */
+    public void updateUserEmail(final String userEmail) {
+        this.updateUserEmail(userEmail, null);
     }
 
     /**
@@ -221,7 +231,25 @@ public class AllInPush {
      * @param onRequest Interface that returns success or error in the request
      */
     public void updateUserEmail(final String userEmail, final OnRequest onRequest) {
-        new EmailTask(userEmail, this.alliNApplication, onRequest).execute();
+        new DeviceService(getContext(), onRequest).updateEmail(userEmail);
+    }
+
+    public void sendDeviceInfo(final DeviceEntity deviceEntity) {
+        this.sendDeviceInfo(deviceEntity, null);
+    }
+
+    public void sendDeviceInfo(final DeviceEntity deviceEntity, final OnRequest onRequest) {
+        new DeviceService(getContext(), onRequest).sendDeviceInfo(deviceEntity);
+    }
+
+    /**
+     * <b>Asynchronous</b> - Shipping to list
+     *
+     * @param nmList Mailing list that will be sent
+     * @param values Map with key and value for formation of the JSON API
+     */
+    public void sendList(final String nmList, final Map<String, String> values) {
+        this.sendList(nmList, values, null);
     }
 
     /**
@@ -233,7 +261,24 @@ public class AllInPush {
      */
     public void sendList(final String nmList,
                          final Map<String, String> values, final OnRequest onRequest) {
-        new ListTask(nmList, values, this.alliNApplication, onRequest).execute();
+        new DeviceService(getContext(), onRequest).sendList(nmList, values);
+    }
+
+    public void logout() {
+        this.logout(null);
+    }
+
+    public void logout(final OnRequest onRequest) {
+        new DeviceService(getContext(), onRequest).logout();
+    }
+
+    /**
+     * <b>Asynchronous</b> - Register push the event (According to the enum Action)
+     *
+     * @param idCampaign Action push notification (according to options in the Action Enum)
+     */
+    public void notificationCampaign(final int idCampaign) {
+        this.notificationCampaign(idCampaign, null);
     }
 
     /**
@@ -243,37 +288,28 @@ public class AllInPush {
      * @param onRequest Interface that returns success or error in the request
      */
     public void notificationCampaign(final int idCampaign, final OnRequest onRequest) {
-        new NotificationCampaignTask(idCampaign, this.alliNApplication, onRequest).execute();
+        new NotificationService().sendCampaign(idCampaign, getContext(), onRequest);
+    }
+
+    public void notificationTransactional(final int idSend) {
+        this.notificationTransactional(idSend, null);
     }
 
     public void notificationTransactional(final int idSend, final OnRequest onRequest) {
-        new NotificationTransactionalTask(idSend, this.alliNApplication, onRequest).execute();
-    }
-
-    public void sendDeviceInfo(final DeviceEntity deviceEntity, final OnRequest onRequest) {
-        new DeviceService().sendDeviceInfo(this.alliNApplication, deviceEntity, onRequest);
+        new NotificationService().sendTransactional(idSend, getContext(), onRequest);
     }
 
     /**
      * @return E-mail the saved user in SharedPreferences
      */
     public String getUserEmail() {
-        SharedPreferencesManager sharedPreferencesManager =
-                new SharedPreferencesManager(this.alliNApplication);
-        String userEmail = sharedPreferencesManager
-                .getData(Preferences.USER_EMAIL, null);
-
-        return userEmail != null && userEmail.trim().length() > 0 ? userEmail : null;
+        return new DeviceService(getContext()).getUserEmail();
     }
 
     /**
      * @return Device identification on Google
      */
     public String getDeviceId() {
-        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(this.alliNApplication);
-        String deviceId = sharedPreferencesManager
-                .getData(Preferences.DEVICE_ID, null);
-
-        return deviceId != null && deviceId.trim().length() > 0 ? deviceId : null;
+        return new DeviceService(getContext()).getDeviceToken();
     }
 }
