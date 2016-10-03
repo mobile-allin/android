@@ -15,7 +15,7 @@ import android.widget.EditText;
 import java.util.regex.Pattern;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
-import br.com.allin.mobile.pushnotification.interfaces.ConfigurationListener;
+import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 /**
  * Created by lucasrodrigues on 4/8/16.
@@ -32,7 +32,7 @@ public class MailRegisterActivity extends AppCompatActivity {
 
         etEmail = (EditText) findViewById(R.id.etEmail);
 
-        String email = AllInPush.getUserEmail(MailRegisterActivity.this);
+        String email = AllInPush.getInstance().getUserEmail();
 
         if (email == null || TextUtils.isEmpty(email)) {
             Pattern emailPattern = Patterns.EMAIL_ADDRESS;
@@ -54,7 +54,7 @@ public class MailRegisterActivity extends AppCompatActivity {
     public void register(View view) {
         progressDialog = ProgressDialog.show(this, null, "Cadastrando e-mail");
 
-        AllInPush.updateUserEmail(etEmail.getText().toString(), new ConfigurationListener<String>() {
+        AllInPush.getInstance().updateUserEmail(etEmail.getText().toString(), new OnRequest<String>() {
             @Override
             public void onFinish(String value) {
                 progressDialog.dismiss();

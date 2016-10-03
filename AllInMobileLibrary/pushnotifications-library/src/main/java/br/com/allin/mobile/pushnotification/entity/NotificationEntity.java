@@ -3,7 +3,7 @@ package br.com.allin.mobile.pushnotification.entity;
 /**
  * Class color setting and notification of images
  */
-public class NotificationSettings {
+public class NotificationEntity {
     private String colorBackground;
     private int whiteIcon;
     private int icon;
@@ -15,7 +15,7 @@ public class NotificationSettings {
      * @param colorBackground Color notification of image background
      * @param whiteIcon Client white icon
      */
-    public NotificationSettings(String colorBackground, int whiteIcon) {
+    public NotificationEntity(String colorBackground, int whiteIcon) {
         this.colorBackground = colorBackground;
         this.whiteIcon = whiteIcon;
     }
@@ -28,7 +28,7 @@ public class NotificationSettings {
      * @param icon Client normal icon
      * @param whiteIcon Client white icon
      */
-    public NotificationSettings(String colorBackground, int icon, int whiteIcon) {
+    public NotificationEntity(String colorBackground, int icon, int whiteIcon) {
         this.colorBackground = colorBackground;
         this.icon = icon;
         this.whiteIcon = whiteIcon;

@@ -18,8 +18,8 @@ import br.com.allin.mobile.pushnotification.constants.HttpConstants;
  * Created by lucasrodrigues on 9/20/16.
  */
 
-public class Certificate {
-    private Certificate() {
+public class HttpCertificate {
+    private HttpCertificate() {
     }
 
     public static void start() {
@@ -43,13 +43,13 @@ public class Certificate {
 
                         private void checkTrusted(X509Certificate[] chain, String authType) {
                             if (authType == null || authType.length() == 0) {
-                                Log.e(HttpConstants.TAG, "Null or zero-length authentication type");
+                                Log.e("AlliNCertificate", "Null or zero-length authentication type");
                             }
 
                             try {
                                 chain[0].checkValidity();
                             } catch (Exception e) {
-                                Log.e(HttpConstants.TAG, "Invalid certificate");
+                                Log.e("AlliNCertificate", "Invalid certificate");
                             }
                         }
                     }

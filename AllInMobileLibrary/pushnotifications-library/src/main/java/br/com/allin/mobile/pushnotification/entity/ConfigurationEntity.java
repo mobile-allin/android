@@ -5,39 +5,39 @@ import br.com.allin.mobile.pushnotification.exception.NotNullAttributeOrProperty
 /**
  * Model configuration options.
  */
-public class ConfigurationOptions {
+public class ConfigurationEntity {
     private String senderId = null;
-    private NotificationSettings notificationSettings = null;
+    private NotificationEntity notificationEntity = null;
 
     /**
      * <p>
-     * default constructor of {@link ConfigurationOptions} class.
+     * default constructor of {@link ConfigurationEntity} class.
      *
      * <p>
      * To use the library, you must complete the basic information for use
      * in the project from the methods {@link #setSenderId (String)}.
      */
-    public ConfigurationOptions() {
+    public ConfigurationEntity() {
     }
 
-    public ConfigurationOptions(String senderId) throws NotNullAttributeOrPropertyException {
+    public ConfigurationEntity(String senderId) throws NotNullAttributeOrPropertyException {
         setSenderId(senderId);
     }
 
     /**
      * <p>
-     * Builder standard class {@link ConfigurationOptions}
+     * Builder standard class {@link ConfigurationEntity}
      * with all the necessary settings for the function library.
      * @param senderId It is the id of the notification delivery project (project number) in
      * <a href="https://console.developers.google.com">Google Developers Console</a>.
      *
-     * @param notificationSettings Are the
+     * @param notificationEntity Are the
      *                             notifications settings that are displayed as color and icon
      */
-    public ConfigurationOptions(String senderId, NotificationSettings notificationSettings)
+    public ConfigurationEntity(String senderId, NotificationEntity notificationEntity)
             throws NotNullAttributeOrPropertyException {
         setSenderId(senderId);
-        setNotificationSettings(notificationSettings);
+        setNotificationEntity(notificationEntity);
     }
 
     /**
@@ -65,16 +65,16 @@ public class ConfigurationOptions {
     /**
      * @return Notifications settings.
      */
-    public NotificationSettings getNotificationSettings() {
-        return notificationSettings;
+    public NotificationEntity getNotificationEntity() {
+        return notificationEntity;
     }
 
     /**
      * Configure notifications to be displayed (color and symbol)
      *
-     * @param notificationSettings Settings that will be added to display the notification.
+     * @param notificationEntity Settings that will be added to display the notification.
      */
-    public void setNotificationSettings(NotificationSettings notificationSettings) {
-        this.notificationSettings = notificationSettings;
+    public void setNotificationEntity(NotificationEntity notificationEntity) {
+        this.notificationEntity = notificationEntity;
     }
 }

@@ -1,7 +1,6 @@
 package br.com.allin.mobile.pushnotification.http;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,22 +14,13 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import br.com.allin.mobile.pushnotification.Util;
 import br.com.allin.mobile.pushnotification.constants.HttpConstants;
 import br.com.allin.mobile.pushnotification.dao.CacheDAO;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
-import br.com.allin.mobile.pushnotification.entity.ResponseData;
+import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 
 /**
  * Class that manages connections to the server
@@ -46,8 +36,8 @@ public class HttpManager {
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseData post(Context context, String action,
-                                    JSONObject data, String[] params) throws WebServiceException {
+    public static ResponseEntity post(Context context, String action,
+                                      JSONObject data, String[] params) throws WebServiceException {
         return post(context, action, data, params, false);
     }
 
@@ -63,9 +53,9 @@ public class HttpManager {
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseData post(Context context, String action,
-                                    JSONObject data, String[] params,
-                                    boolean withCache) throws WebServiceException {
+    public static ResponseEntity post(Context context, String action,
+                                      JSONObject data, String[] params,
+                                      boolean withCache) throws WebServiceException {
         return makeRequest(context, action, RequestType.POST, params, data, withCache);
     }
 
@@ -78,8 +68,8 @@ public class HttpManager {
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseData get(Context context,
-                                   String action, String[] params) throws WebServiceException {
+    public static ResponseEntity get(Context context,
+                                     String action, String[] params) throws WebServiceException {
         return get(context, action, params, false);
     }
 
@@ -94,12 +84,12 @@ public class HttpManager {
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseData get(Context context, String action,
-                                   String[] params, boolean withCache) throws WebServiceException {
+    public static ResponseEntity get(Context context, String action,
+                                     String[] params, boolean withCache) throws WebServiceException {
         return makeRequest(context, action, RequestType.GET, params, null, withCache);
     }
 
-    private static ResponseData makeRequest(
+    private static ResponseEntity makeRequest(
             Context context, String action, RequestType requestType,
             String[] params, JSONObject data, boolean withCache) throws WebServiceException {
         String urlString = HttpConstants.SERVER_URL + action;
@@ -126,9 +116,9 @@ public class HttpManager {
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseData makeRequestURL(Context context, String urlString,
-                                              RequestType requestType, JSONObject data,
-                                              boolean withCache) throws WebServiceException {
+    public static ResponseEntity makeRequestURL(Context context, String urlString,
+                                                RequestType requestType, JSONObject data,
+                                                boolean withCache) throws WebServiceException {
         if (withCache && !Util.isNetworkAvailable(context)) {
             CacheDAO.getInstance(context).insert(urlString, data != null ? data.toString() : "");
 
@@ -145,10 +135,10 @@ public class HttpManager {
 
         String token = Util.getToken(context);
 
-        ResponseData response = null;
+        ResponseEntity response = null;
         HttpURLConnection connection = null;
 
-        Certificate.start();
+        HttpCertificate.start();
 
         try {
             connection = (HttpURLConnection) url.openConnection();
@@ -198,7 +188,7 @@ public class HttpManager {
             try {
                 JSONObject responseJson = new JSONObject(responseString);
 
-                response = new ResponseData();
+                response = new ResponseEntity();
 
                 boolean isError = responseJson.getBoolean("error");
                 String message = responseJson.getString("message");

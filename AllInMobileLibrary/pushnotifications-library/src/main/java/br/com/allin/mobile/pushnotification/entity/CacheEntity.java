@@ -1,9 +1,9 @@
 package br.com.allin.mobile.pushnotification.entity;
 
 /**
- * Cache object from local database
+ * CacheEntity object from local database
  */
-public class Cache {
+public class CacheEntity {
     private int id;
     private String url;
     private String json;
@@ -15,7 +15,7 @@ public class Cache {
      * @param url URL attempt request
      * @param json JSON attempt request
     */
-    public Cache(int id, String url, String json) {
+    public CacheEntity(int id, String url, String json) {
         this.id = id;
         this.url = url;
         this.json = json;

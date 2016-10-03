@@ -14,8 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import br.com.allin.mobile.pushnotification.exception.NetworkException;
-import br.com.allin.mobile.pushnotification.interfaces.ConfigurationListener;
+import br.com.allin.mobile.pushnotification.constants.Preferences;
+import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
 
 /**
  * Class that contains common methods that will be used throughout the library.
@@ -147,5 +147,20 @@ public class Util {
 
     public static String currentDate(String format) {
         return new SimpleDateFormat(format, Locale.getDefault()).format(new Date());
+    }
+
+    public static DeviceEntity getDeviceInfos(Context context, String senderId) {
+        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
+
+        String deviceId = sharedPreferencesManager.getData(Preferences.DEVICE_ID, null);
+        Integer registeredVersion = sharedPreferencesManager.getData(Preferences.APPVERSION, 1);
+        String sharedProjectId = sharedPreferencesManager.getData(Preferences.PROJECT_ID, null);
+
+        if (Util.isNullOrClear(deviceId)) {
+            return null;
+        }
+
+        return new DeviceEntity(deviceId,
+                registeredVersion != Util.getAppVersion(context) || !senderId.equals(sharedProjectId));
     }
 }

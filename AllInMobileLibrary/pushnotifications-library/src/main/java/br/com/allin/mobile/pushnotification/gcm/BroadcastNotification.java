@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.constants.Notification;
 import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
 
@@ -17,7 +16,7 @@ public class BroadcastNotification extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intentReceiver) {
-        AllInPush.registerNotificationAction(Action.CLICK, null);
+//        AllInPush.notificationCampaign();
 
         Bundle extras = intentReceiver.getExtras();
 

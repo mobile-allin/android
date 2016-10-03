@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.Util;
 import br.com.allin.mobile.pushnotification.constants.Notification;
-import br.com.allin.mobile.pushnotification.interfaces.ConfigurationListener;
+import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 /**
  * Activity to search the HTML and display it or redirects
@@ -135,11 +135,11 @@ public class AllInWebViewActivity extends AppCompatActivity {
         int idCampaign = Integer.valueOf(idCampaignString);
 
         try {
-            AllInPush.getHtmlTemplate(idCampaign, new ConfigurationListener<String>() {
+            AllInPush.getInstance().getHtmlTemplate(idCampaign, new OnRequest<String>() {
                 @Override
                 public void onFinish(String value) {
                     wvAllIn.loadData(value.replace("##id_push##",
-                            Util.md5(AllInPush.getDeviceId(AllInWebViewActivity.this))),
+                            Util.md5(AllInPush.getInstance().getDeviceId())),
                             "text/html; charset=utf-8", null);
                 }
 

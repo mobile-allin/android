@@ -11,12 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.allin.mobile.pushnotification.constants.Cache;
+import br.com.allin.mobile.pushnotification.entity.CacheEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.http.HttpManager;
-import br.com.allin.mobile.pushnotification.entity.ResponseData;
+import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 
 /**
- * Class that manages the Cache database requests
+ * Class that manages the CacheEntity database requests
  */
 public class CacheDAO {
 
@@ -94,15 +95,15 @@ public class CacheDAO {
      * Search all requests not made yet and performs according to the recorded information
     */
     public  void sync() {
-        List<br.com.allin.mobile.pushnotification.entity.Cache> cacheList = getAll();
+        List<CacheEntity> cacheList = getAll();
 
-        for (br.com.allin.mobile.pushnotification.entity.Cache cache : cacheList) {
-            sync(cache);
+        for (CacheEntity cacheEntity : cacheList) {
+            sync(cacheEntity);
         }
     }
 
-    private List<br.com.allin.mobile.pushnotification.entity.Cache> getAll() {
-        List<br.com.allin.mobile.pushnotification.entity.Cache> cacheList = new ArrayList<>();
+    private List<CacheEntity> getAll() {
+        List<CacheEntity> cacheEntityList = new ArrayList<>();
 
         if (sqliteDatabase != null) {
             Cursor cursor = sqliteDatabase.rawQuery(Cache.QUERY_CACHE, null);
@@ -113,7 +114,7 @@ public class CacheDAO {
                     String url = cursor.getString(cursor.getColumnIndex(Cache.DB_FIELD_URL));
                     String json = cursor.getString(cursor.getColumnIndex(Cache.DB_FIELD_JSON));
 
-                    cacheList.add(new br.com.allin.mobile.pushnotification.entity.Cache(id, url, json));
+                    cacheEntityList.add(new CacheEntity(id, url, json));
 
                     cursor.moveToNext();
                 }
@@ -124,16 +125,16 @@ public class CacheDAO {
 
         closeDatabase();
 
-        return cacheList;
+        return cacheEntityList;
     }
 
-    private void sync(final br.com.allin.mobile.pushnotification.entity.Cache cache) {
+    private void sync(final CacheEntity cacheEntity) {
         new AsyncTask<Void, Void, Object>() {
             @Override
             protected Object doInBackground(Void... params) {
                 try {
-                    return HttpManager.makeRequestURL(context, cache.getUrl(),
-                            RequestType.POST, new JSONObject(cache.getJson()), false);
+                    return HttpManager.makeRequestURL(context, cacheEntity.getUrl(),
+                            RequestType.POST, new JSONObject(cacheEntity.getJson()), false);
                 } catch (Exception e) {
                     return e.getMessage();
                 }
@@ -143,8 +144,8 @@ public class CacheDAO {
             protected void onPostExecute(Object object) {
                 super.onPostExecute(object);
 
-                if (object instanceof ResponseData) {
-                    delete(cache.getId());
+                if (object instanceof ResponseEntity) {
+                    delete(cacheEntity.getId());
                 }
             }
         }.execute();

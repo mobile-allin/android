@@ -3,7 +3,7 @@ package br.com.allin.mobile.pushnotification.entity;
 /**
  * Object that returns server information
  */
-public class DeviceInfos {
+public class DeviceEntity {
     private String deviceId;
     private boolean renewId;
 
@@ -13,7 +13,7 @@ public class DeviceInfos {
      * @param deviceId Device Token
      * @param renewId Flag device that checks whether the Token has changed or not
      */
-    public DeviceInfos(String deviceId, boolean renewId) {
+    public DeviceEntity(String deviceId, boolean renewId) {
         this.deviceId = deviceId;
         this.renewId = renewId;
     }

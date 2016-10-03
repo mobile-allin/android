@@ -6,7 +6,7 @@ package br.com.allin.mobile.pushnotification.interfaces;
  * <p>
  *     É usado para notificar sucesso e falha nas principais ações assíncronas da biblioteca.
  */
-public interface ConfigurationListener<T> {
+public interface OnRequest<T> {
 
     /**
      * Método chamado no fim de uma determinada ação.

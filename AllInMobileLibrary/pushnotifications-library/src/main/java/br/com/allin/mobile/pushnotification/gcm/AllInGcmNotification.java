@@ -39,8 +39,6 @@ public class AllInGcmNotification {
             return;
         }
 
-        AllInPush.registerNotificationAction(Action.SHOW, null);
-
         NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(context);
 
         String scheme = extras.getString(Notification.URL_SCHEME);
@@ -52,7 +50,7 @@ public class AllInGcmNotification {
                 Log.e(AllInGcmNotification.class.toString(), "ERRO IN DECODE URL");
             } finally {
                 if (scheme.contains("##id_push##")) {
-                    scheme = scheme.replace("##id_push##", Util.md5(AllInPush.getDeviceId(context)));
+                    scheme = scheme.replace("##id_push##", Util.md5(AllInPush.getInstance().getDeviceId()));
                 }
 
                 extras.putString(Notification.URL_SCHEME, scheme);

@@ -21,7 +21,7 @@ import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.Util;
-import br.com.allin.mobile.pushnotification.interfaces.ConfigurationListener;
+import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -50,12 +50,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 MainActivity.this.showNotificationLoad();
 
-                ConfigurationListener configurationListener = toggleSwitch(isChecked);
+                OnRequest onRequest = toggleSwitch(isChecked);
 
                 if (isChecked) {
-                    AllInPush.enable(configurationListener);
+                    AllInPush.getInstance().enable(onRequest);
                 } else {
-                    AllInPush.disable(configurationListener);
+                    AllInPush.getInstance().disable(onRequest);
                 }
             }
         });
@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         deviceIsEnable();
     }
 
-    private ConfigurationListener toggleSwitch(final boolean enable) {
-        return new ConfigurationListener<String>() {
+    private OnRequest toggleSwitch(final boolean enable) {
+        return new OnRequest<String>() {
             @Override
             public void onFinish(final String value) {
                 MainActivity.this.hideNotificationLoad();
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void deviceIsEnable() {
         MainActivity.this.showNotificationLoad();
 
-        AllInPush.deviceIsEnable(new ConfigurationListener<Boolean>() {
+        AllInPush.getInstance().deviceIsEnable(new OnRequest<Boolean>() {
             @Override
             public void onFinish(final Boolean value) {
                 MainActivity.this.hideNotificationLoad();
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 progressDialog = ProgressDialog.show(MainActivity.this, null, "Enviando informações");
 
-                String pushId = AllInPush.getDeviceId(MainActivity.this);
+                String pushId = AllInPush.getInstance().getDeviceId();
 
                 Map<String, String> map = new HashMap<>();
                 map.put("id_push", Util.md5(pushId));
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 map.put("dt_ultima_abertura", null);
                 map.put("dt_ultimo_clique", null);
 
-                AllInPush.sendList("Lista Padrao Push", map, new ConfigurationListener<String>() {
+                AllInPush.getInstance().sendList("Lista Padrao Push", map, new OnRequest<String>() {
                     @Override
                     public void onFinish(String value) {
                         progressDialog.dismiss();
