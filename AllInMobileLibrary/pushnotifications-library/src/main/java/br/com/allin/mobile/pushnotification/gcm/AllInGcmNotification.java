@@ -17,9 +17,8 @@ import java.net.URLDecoder;
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
 import br.com.allin.mobile.pushnotification.Util;
-import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
-import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
-import br.com.allin.mobile.pushnotification.enumarator.Action;
+import br.com.allin.mobile.pushnotification.constants.Notification;
+import br.com.allin.mobile.pushnotification.constants.Preferences;
 
 /**
  * Class that provides the notification of receipt of a push GCM.
@@ -44,7 +43,7 @@ public class AllInGcmNotification {
 
         NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(context);
 
-        String scheme = extras.getString(NotificationConstants.URL_SCHEME);
+        String scheme = extras.getString(Notification.URL_SCHEME);
 
         if (scheme != null && scheme.trim().length() > 0) {
             try {
@@ -56,13 +55,13 @@ public class AllInGcmNotification {
                     scheme = scheme.replace("##id_push##", Util.md5(AllInPush.getDeviceId(context)));
                 }
 
-                extras.putString(NotificationConstants.URL_SCHEME, scheme);
+                extras.putString(Notification.URL_SCHEME, scheme);
             }
         }
 
         Intent intent = new Intent(BroadcastNotification.BROADCAST_NOTIFICATION);
         intent.putExtras(extras);
-        intent.putExtra(NotificationConstants.SUBJECT, title);
+        intent.putExtra(Notification.SUBJECT, title);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent =
@@ -70,13 +69,13 @@ public class AllInGcmNotification {
 
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
         String backgroundColor = sharedPreferencesManager
-                .getData(PreferencesConstants.KEY_BACKGROUND_NOTIFICATION, null);
+                .getData(Preferences.BACKGROUND_NOTIFICATION, null);
 
         int whiteIcon = sharedPreferencesManager
-                .getData(PreferencesConstants.KEY_WHITE_ICON_NOTIFICATION, 0);
+                .getData(Preferences.WHITE_ICON_NOTIFICATION, 0);
 
         int icon = sharedPreferencesManager
-                .getData(PreferencesConstants.KEY_ICON_NOTIFICATION, 0);
+                .getData(Preferences.ICON_NOTIFICATION, 0);
 
         if (icon == 0) {
             notificationCompatBuilder

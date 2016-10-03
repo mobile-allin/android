@@ -17,8 +17,7 @@ import android.widget.RelativeLayout;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.Util;
-import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
-import br.com.allin.mobile.pushnotification.gcm.AllInGcmNotification;
+import br.com.allin.mobile.pushnotification.constants.Notification;
 import br.com.allin.mobile.pushnotification.interfaces.ConfigurationListener;
 
 /**
@@ -66,7 +65,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
 
     private void configureActionBar() {
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getIntent().getStringExtra(NotificationConstants.SUBJECT));
+            getSupportActionBar().setTitle(getIntent().getStringExtra(Notification.SUBJECT));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
@@ -117,9 +116,9 @@ public class AllInWebViewActivity extends AppCompatActivity {
     }
 
     private void init() {
-        if (getIntent().hasExtra(NotificationConstants.URL_SCHEME)) {
-            wvAllIn.loadUrl(getIntent().getStringExtra(NotificationConstants.URL_SCHEME));
-        } else if (getIntent().hasExtra(NotificationConstants.ID_TEMPLATE)) {
+        if (getIntent().hasExtra(Notification.URL_SCHEME)) {
+            wvAllIn.loadUrl(getIntent().getStringExtra(Notification.URL_SCHEME));
+        } else if (getIntent().hasExtra(Notification.ID_TEMPLATE)) {
             // TODO Abrir URL com o id do template
         } else {
             loadHTML(getIntent().getExtras());
@@ -127,7 +126,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
     }
 
     private void loadHTML(Bundle bundle) {
-        String idCampaignString = bundle.getString(NotificationConstants.ID_CAMPAIGN);
+        String idCampaignString = bundle.getString(Notification.ID_CAMPAIGN);
 
         if (idCampaignString == null) {
             return;

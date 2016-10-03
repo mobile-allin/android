@@ -13,14 +13,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.allin.mobile.pushnotification.constants.HttpConstants;
-import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
+import br.com.allin.mobile.pushnotification.constants.HttpBody;
+import br.com.allin.mobile.pushnotification.constants.Parameters;
+import br.com.allin.mobile.pushnotification.constants.Preferences;
+import br.com.allin.mobile.pushnotification.constants.Route;
 import br.com.allin.mobile.pushnotification.dao.CacheDAO;
 import br.com.allin.mobile.pushnotification.entity.ConfigurationOptions;
 import br.com.allin.mobile.pushnotification.entity.DeviceInfos;
 import br.com.allin.mobile.pushnotification.entity.NotificationSettings;
 import br.com.allin.mobile.pushnotification.entity.ResponseData;
-import br.com.allin.mobile.pushnotification.enumarator.Action;
 import br.com.allin.mobile.pushnotification.exception.GenerateDeviceIdException;
 import br.com.allin.mobile.pushnotification.exception.NetworkException;
 import br.com.allin.mobile.pushnotification.exception.NotNullAttributeOrPropertyException;
@@ -59,12 +60,11 @@ public class Manager {
      * <b>Asynchronous</b> - Configure the application by sending to the default list,
      * starting GCM (Google Cloud Message) and checking the ID of AllIn
      *
-     * @param allInApplication Application (Context)
-     * @param configurationOptions Settings such as SenderID and TokenAllIn
+     * @param allInApplication      Application (Context)
+     * @param configurationOptions  Settings such as SenderID and TokenAllIn
      * @param configurationListener Interface that returns success or error in the request
-     *
      * @throws NotNullAttributeOrPropertyException Parameter application or configurationOptions is null
-     * @throws GenerateDeviceIdException Problems Generating Device ID on Google
+     * @throws GenerateDeviceIdException           Problems Generating Device ID on Google
      */
     public void configure(final AllInApplication allInApplication,
                           final ConfigurationOptions configurationOptions,
@@ -92,9 +92,9 @@ public class Manager {
     }
 
     private DeviceInfos getDeviceId() {
-        String deviceId = prefManager.getData(PreferencesConstants.KEY_DEVICE_ID, null);
-        Integer registeredVersion = prefManager.getData(PreferencesConstants.KEY_APPVERSION, 1);
-        String sharedProjectId = prefManager.getData(PreferencesConstants.KEY_PROJECT_ID, null);
+        String deviceId = prefManager.getData(Preferences.DEVICE_ID, null);
+        Integer registeredVersion = prefManager.getData(Preferences.APPVERSION, 1);
+        String sharedProjectId = prefManager.getData(Preferences.PROJECT_ID, null);
 
         if (Util.isNullOrClear(deviceId)) {
             return null;
@@ -144,8 +144,8 @@ public class Manager {
                     }
                 }
 
-                prefManager.storeData(PreferencesConstants.KEY_DEVICE_ID, token);
-                prefManager.storeData(PreferencesConstants.KEY_PROJECT_ID,
+                prefManager.storeData(Preferences.DEVICE_ID, token);
+                prefManager.storeData(Preferences.PROJECT_ID,
                         configOptions.getSenderId());
 
                 return token;
@@ -164,11 +164,11 @@ public class Manager {
 
     private void configureNotifications(NotificationSettings notificationSettings) {
         if (notificationSettings != null) {
-            prefManager.storeData(PreferencesConstants.KEY_ICON_NOTIFICATION,
+            prefManager.storeData(Preferences.ICON_NOTIFICATION,
                     notificationSettings.getIcon());
-            prefManager.storeData(PreferencesConstants.KEY_WHITE_ICON_NOTIFICATION,
+            prefManager.storeData(Preferences.WHITE_ICON_NOTIFICATION,
                     notificationSettings.getWhiteIcon());
-            prefManager.storeData(PreferencesConstants.KEY_BACKGROUND_NOTIFICATION,
+            prefManager.storeData(Preferences.BACKGROUND_NOTIFICATION,
                     notificationSettings.getColorBackground());
         }
     }
@@ -189,18 +189,17 @@ public class Manager {
                 JSONObject data = new JSONObject();
 
                 try {
-                    data.put(HttpConstants.PARAM_KEY_DEVICE_TOKEN, AllInPush.getDeviceId(allInApplication));
-                    data.put(HttpConstants.PARAM_KEY_PLATFORM, HttpConstants.PARAM_VALUE_PLATFORM);
+                    data.put(HttpBody.DEVICE_TOKEN, AllInPush.getDeviceId(allInApplication));
+                    data.put(HttpBody.PLATFORM, Parameters.ANDROID);
 
                     if (deviceInfos != null &&
                             !TextUtils.isEmpty(deviceInfos.getDeviceId()) &&
                             deviceInfos.isRenewId()) {
                         return HttpManager.post(Manager.this.getApplication(),
-                                HttpConstants.ACTION_DEVICE, data,
-                                new String[]{"update", deviceInfos.getDeviceId()});
+                                Route.DEVICE, data, new String[]{"update", deviceInfos.getDeviceId()});
                     } else {
                         return HttpManager.post(Manager.this.getApplication(),
-                                HttpConstants.ACTION_DEVICE, data, null);
+                                Route.DEVICE, data, null);
                     }
 
                 } catch (Exception e) {
@@ -225,7 +224,7 @@ public class Manager {
                         Map<String, String> map = new HashMap<>();
                         map.put("id_push", Util.md5(pushId));
                         map.put("push_id", pushId);
-                        map.put("plataforma", HttpConstants.PARAM_VALUE_PLATFORM);
+                        map.put("plataforma", Parameters.ANDROID);
 
                         AllInPush.sendList("Lista Padrao Push", map, listener);
                     }
@@ -241,7 +240,7 @@ public class Manager {
     /**
      * <b>Asynchronous</b> - Updates the e-mail in the database
      *
-     * @param userEmail E-mail that is registered in the database of AllIn
+     * @param userEmail             E-mail that is registered in the database of AllIn
      * @param configurationListener Interface that returns success or error in the request
      */
     public void updateUserEmail(String userEmail, ConfigurationListener configurationListener) {
@@ -260,12 +259,12 @@ public class Manager {
                 JSONObject data = new JSONObject();
 
                 try {
-                    data.put(HttpConstants.PARAM_KEY_DEVICE_TOKEN, AllInPush.getDeviceId(allInApplication));
-                    data.put(HttpConstants.PARAM_KEY_PLATFORM, HttpConstants.PARAM_VALUE_PLATFORM);
-                    data.put(HttpConstants.PARAM_KEY_USER_EMAIL, userEmail);
+                    data.put(HttpBody.DEVICE_TOKEN, AllInPush.getDeviceId(allInApplication));
+                    data.put(HttpBody.PLATFORM, Parameters.ANDROID);
+                    data.put(HttpBody.USER_EMAIL, userEmail);
 
                     return HttpManager.post(
-                            Manager.this.getApplication(), HttpConstants.ACTION_EMAIL, data, null);
+                            Manager.this.getApplication(), Route.EMAIL, data, null);
                 } catch (Exception e) {
                     return e.getMessage();
                 }
@@ -332,12 +331,11 @@ public class Manager {
                 JSONObject data = new JSONObject();
 
                 try {
-                    data.put(HttpConstants.PARAM_KEY_DEVICE_TOKEN, AllInPush.getDeviceId(allInApplication));
-                    data.put(HttpConstants.PARAM_KEY_PLATFORM, HttpConstants.PARAM_VALUE_PLATFORM);
+                    data.put(HttpBody.DEVICE_TOKEN, AllInPush.getDeviceId(allInApplication));
+                    data.put(HttpBody.PLATFORM, Parameters.ANDROID);
 
                     return HttpManager.post(Manager.this.getApplication(),
-                            (enable ? HttpConstants.ACTION_DEVICE_ENABLE :
-                                    HttpConstants.ACTION_DEVICE_DISABLE), data, null);
+                            (enable ? Route.DEVICE_ENABLE : Route.DEVICE_DISABLE), data, null);
                 } catch (Exception e) {
                     return e.getMessage();
                 }
@@ -385,11 +383,11 @@ public class Manager {
                 JSONObject data = new JSONObject();
 
                 try {
-                    data.put(HttpConstants.PARAM_KEY_DEVICE_TOKEN, AllInPush.getDeviceId(allInApplication));
-                    data.put(HttpConstants.PARAM_KEY_USER_EMAIL, AllInPush.getUserEmail(allInApplication));
+                    data.put(HttpBody.DEVICE_TOKEN, AllInPush.getDeviceId(allInApplication));
+                    data.put(HttpBody.USER_EMAIL, AllInPush.getUserEmail(allInApplication));
 
                     return HttpManager.post(Manager.this.getApplication(),
-                            HttpConstants.ACTION_DEVICE_LOGOUT, data, null);
+                            Route.DEVICE_LOGOUT, data, null);
                 } catch (Exception e) {
                     return e.getMessage();
                 }
@@ -442,9 +440,8 @@ public class Manager {
 
                 try {
                     return HttpManager.get(Manager.this.getApplication(),
-                            HttpConstants.ACTION_DEVICE_STATUS,
-                            new String[]{ HttpConstants.PARAM_VALUE_PLATFORM,
-                                    AllInPush.getDeviceId(allInApplication) });
+                            Route.DEVICE_STATUS,
+                            new String[]{Parameters.ANDROID, AllInPush.getDeviceId(allInApplication)});
                 } catch (Exception e) {
                     return e.getMessage();
                 }
@@ -481,7 +478,7 @@ public class Manager {
     /**
      * <b>Asynchronous</b> - Returns the HTML campaign created
      *
-     * @param id Template ID that the push notification returns
+     * @param id                    Template ID that the push notification returns
      * @param configurationListener Interface that returns success or error in the request
      */
     public void getHtmlTemplate(int id, ConfigurationListener configurationListener) {
@@ -493,14 +490,14 @@ public class Manager {
     }
 
     private void getHtmlTemplateAsync(final int id,
-                                     final ConfigurationListener configurationListener) {
+                                      final ConfigurationListener configurationListener) {
         new AsyncTask<Void, Void, Object>() {
             @Override
             protected Object doInBackground(Void... params) {
 
                 try {
                     return HttpManager.get(Manager.this.getApplication(),
-                            HttpConstants.ACTION_CAMPAIGN, new String[]{String.valueOf(id)});
+                            Route.CAMPAIGN, new String[]{String.valueOf(id)});
                 } catch (Exception e) {
                     return e.getMessage();
                 }
@@ -536,9 +533,9 @@ public class Manager {
     /**
      * <b>Asynchronous</b> - Shipping to list
      *
-     * @param name Mailing list that will be sent
-     * @param columns Columns of list to be recorded
-     * @param values Values of list to be recorded
+     * @param name                  Mailing list that will be sent
+     * @param columns               Columns of list to be recorded
+     * @param values                Values of list to be recorded
      * @param configurationListener Interface that returns success or error in the request
      */
     public void sendList(final String name, final String columns,
@@ -567,21 +564,21 @@ public class Manager {
 
                 try {
                     if (columns.endsWith(";")) {
-                        data.put(HttpConstants.PARAM_CAMPOS, columns.substring(0, columns.length() - 1));
+                        data.put(HttpBody.CAMPOS, columns.substring(0, columns.length() - 1));
                     } else {
-                        data.put(HttpConstants.PARAM_CAMPOS, columns);
+                        data.put(HttpBody.CAMPOS, columns);
                     }
 
                     if (values.endsWith(";")) {
-                        data.put(HttpConstants.PARAM_VALOR, values.substring(0, values.length() - 1));
+                        data.put(HttpBody.VALOR, values.substring(0, values.length() - 1));
                     } else {
-                        data.put(HttpConstants.PARAM_VALOR, values);
+                        data.put(HttpBody.VALOR, values);
                     }
 
-                    data.put(HttpConstants.PARAM_NM_LISTA, name);
+                    data.put(HttpBody.NAME_LIST, name);
 
                     return HttpManager.post(
-                            Manager.this.getApplication(), HttpConstants.ACTION_ADD_LIST, data, null);
+                            Manager.this.getApplication(), Route.ADD_LIST, data, null);
                 } catch (Exception e) {
                     return e.getMessage();
                 }
@@ -615,40 +612,36 @@ public class Manager {
     /**
      * <b>Asynchronous</b> - Register push the event (According to the enum Action)
      *
-     * @param action Action push notification (according to options in the Action Enum)
      * @param configurationListener Interface that returns success or error in the request
      */
-    public void registerNotificationAction(final Action action,
+    public void notificationCampaign(final int idCampaign,
                                            final ConfigurationListener configurationListener) {
-        boolean withLocation = action == Action.CLICK;
+        AllInLocation.initialize(allInApplication, new OnAllInLocationChange() {
+            @Override
+            public void locationFound(double latitude, double longitude) {
+                registerNotification(createData(idCampaign, latitude, longitude));
+            }
 
-        if (withLocation) {
-            AllInLocation.initialize(allInApplication, new OnAllInLocationChange() {
-                @Override
-                public void locationFound(double latitude, double longitude) {
-                    registerNotificationActionAsync(
-                            createData(action, latitude, longitude), configurationListener);
-                }
+            @Override
+            public void locationNotFound() {
+                registerNotification(createData(idCampaign));
+            }
 
-                @Override
-                public void locationNotFound() {
-                    registerNotificationActionAsync(createData(action), configurationListener);
-                }
-            });
-        } else {
-            registerNotificationActionAsync(createData(action), configurationListener);
-        }
+            private void registerNotification(JSONObject jsonObject) {
+                notificationCampaignAsync(jsonObject, configurationListener);
+            }
+        });
     }
 
-    private void registerNotificationActionAsync(final JSONObject data,
-                                                 final ConfigurationListener configurationListener) {
+    private void notificationCampaignAsync(final JSONObject data,
+                                             final ConfigurationListener configurationListener) {
         new AsyncTask<Void, Void, Object>() {
             @Override
             protected Object doInBackground(Void... params) {
 
                 try {
                     return HttpManager.post(Manager.this.getApplication(),
-                            HttpConstants.ACTION_NOTIFICATION, data, null, true);
+                            Route.NOTIFICATION_CAMPAIGN, data, null, true);
                 } catch (Exception e) {
                     return e.getMessage();
                 }
@@ -681,27 +674,83 @@ public class Manager {
         }.execute();
     }
 
-    private JSONObject createData(Action action) {
-        return createData(action, 0.0, 0.0);
+    private JSONObject createData(int idCampaign) {
+        return createData(idCampaign, 0.0, 0.0);
     }
 
-    private JSONObject createData(Action action, double latitude, double longitude) {
+    private JSONObject createData(int idCampaign, double latitude, double longitude) {
         JSONObject data = new JSONObject();
 
         try {
-            data.put(HttpConstants.PARAM_KEY_PLATFORM, HttpConstants.PARAM_VALUE_PLATFORM);
-            data.put(HttpConstants.PARAM_KEY_DEVICE_TOKEN, AllInPush.getDeviceId(allInApplication));
-            data.put(HttpConstants.PARAM_ACTION, action.toString());
+            data.put(HttpBody.PLATFORM, Parameters.ANDROID);
+            data.put(HttpBody.DEVICE_TOKEN, AllInPush.getDeviceId(allInApplication));
+            data.put(HttpBody.ID, String.valueOf(idCampaign));
+            data.put(HttpBody.DATE, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
 
             if (latitude != 0.0 && longitude != 0.0) {
-                data.put(HttpConstants.PARAM_LATITUDE, String.valueOf(latitude));
-                data.put(HttpConstants.PARAM_LONGITUDE, String.valueOf(longitude));
+                data.put(HttpBody.LATITUDE, String.valueOf(latitude));
+                data.put(HttpBody.LONGITUDE, String.valueOf(longitude));
             }
         } catch (Exception e) {
             data = null;
         }
 
         return data;
+    }
+
+    public void notificationTransactional(final int idSend,
+                                            final ConfigurationListener configurationListener) {
+        if (!isNetworkAvailable(configurationListener)) {
+            return;
+        }
+
+        notificationTransactionalAsync(idSend, configurationListener);
+    }
+
+    private void notificationTransactionalAsync(final int idSend,
+                                             final ConfigurationListener configurationListener) {
+        new AsyncTask<Void, Void, Object>() {
+            @Override
+            protected Object doInBackground(Void... params) {
+
+                JSONObject data = new JSONObject();
+
+                try {
+                    data.put(HttpBody.ID, idSend);
+                    data.put(HttpBody.DATE, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
+
+                    return HttpManager.post(Manager.this.getApplication(),
+                            Route.NOTIFICATION_TRANSACTIONAL, data, null, true);
+                } catch (Exception e) {
+                    return e.getMessage();
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Object object) {
+                super.onPostExecute(object);
+
+                if (object instanceof ResponseData) {
+                    ResponseData responseData = (ResponseData) object;
+
+                    if (!responseData.isSuccess()) {
+                        if (configurationListener != null) {
+                            configurationListener.onError(
+                                    new WebServiceException(responseData.getMessage()));
+                        }
+                    } else {
+                        if (configurationListener != null) {
+                            configurationListener.onFinish(responseData.getMessage());
+                        }
+                    }
+                } else {
+                    if (configurationListener != null) {
+                        configurationListener.onError(
+                                new WebServiceException(String.valueOf(object)));
+                    }
+                }
+            }
+        }.execute();
     }
 
     public Application getApplication() {
@@ -717,10 +766,11 @@ public class Manager {
 
     /**
      * Writes the user email in SharedPreferences
+     *
      * @param userEmail User e-mail
      */
     public void configureUserEmail(String userEmail) {
-        prefManager.storeData(PreferencesConstants.KEY_USER_EMAIL, userEmail);
+        prefManager.storeData(Preferences.USER_EMAIL, userEmail);
     }
 
     private void validateParams(AllInApplication allinApplication, ConfigurationOptions configOptions)

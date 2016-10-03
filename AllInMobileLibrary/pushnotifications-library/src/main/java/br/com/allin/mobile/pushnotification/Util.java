@@ -10,6 +10,12 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import br.com.allin.mobile.pushnotification.exception.NetworkException;
+import br.com.allin.mobile.pushnotification.interfaces.ConfigurationListener;
 
 /**
  * Class that contains common methods that will be used throughout the library.
@@ -137,5 +143,9 @@ public class Util {
         }
 
         return "";
+    }
+
+    public static String currentDate(String format) {
+        return new SimpleDateFormat(format, Locale.getDefault()).format(new Date());
     }
 }

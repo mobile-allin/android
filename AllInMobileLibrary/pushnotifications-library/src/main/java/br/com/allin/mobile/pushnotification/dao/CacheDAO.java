@@ -10,8 +10,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.allin.mobile.pushnotification.constants.CacheConstants;
-import br.com.allin.mobile.pushnotification.entity.Cache;
+import br.com.allin.mobile.pushnotification.constants.Cache;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.http.HttpManager;
 import br.com.allin.mobile.pushnotification.entity.ResponseData;
@@ -50,7 +49,7 @@ public class CacheDAO {
     }
 
     private void openDatabase() {
-        sqliteDatabase = context.openOrCreateDatabase(CacheConstants.DB_NAME, Context.MODE_PRIVATE, null);
+        sqliteDatabase = context.openOrCreateDatabase(Cache.DB_NAME, Context.MODE_PRIVATE, null);
 
         createTable();
     }
@@ -63,7 +62,7 @@ public class CacheDAO {
 
     private void createTable() {
         if (sqliteDatabase != null) {
-            sqliteDatabase.execSQL(CacheConstants.CREATE_TABLE_CACHE);
+            sqliteDatabase.execSQL(Cache.CREATE_TABLE_CACHE);
         }
     }
 
@@ -76,7 +75,7 @@ public class CacheDAO {
     */
     public void insert(String url, String json) {
         if (sqliteDatabase != null) {
-            sqliteDatabase.execSQL(CacheConstants.INSERT_CACHE
+            sqliteDatabase.execSQL(Cache.INSERT_CACHE
                     .replace("#VALUE1", url).replace("#VALUE2", json));
         }
 
@@ -85,7 +84,7 @@ public class CacheDAO {
 
     private void delete(int id) {
         if (sqliteDatabase != null) {
-            sqliteDatabase.execSQL(CacheConstants.DELETE_CACHE.replace("#VALUE1", String.valueOf(id)));
+            sqliteDatabase.execSQL(Cache.DELETE_CACHE.replace("#VALUE1", String.valueOf(id)));
         }
 
         closeDatabase();
@@ -95,26 +94,26 @@ public class CacheDAO {
      * Search all requests not made yet and performs according to the recorded information
     */
     public  void sync() {
-        List<Cache> cacheList = getAll();
+        List<br.com.allin.mobile.pushnotification.entity.Cache> cacheList = getAll();
 
-        for (Cache cache : cacheList) {
+        for (br.com.allin.mobile.pushnotification.entity.Cache cache : cacheList) {
             sync(cache);
         }
     }
 
-    private List<Cache> getAll() {
-        List<Cache> cacheList = new ArrayList<>();
+    private List<br.com.allin.mobile.pushnotification.entity.Cache> getAll() {
+        List<br.com.allin.mobile.pushnotification.entity.Cache> cacheList = new ArrayList<>();
 
         if (sqliteDatabase != null) {
-            Cursor cursor = sqliteDatabase.rawQuery(CacheConstants.QUERY_CACHE, null);
+            Cursor cursor = sqliteDatabase.rawQuery(Cache.QUERY_CACHE, null);
 
             if (cursor != null) {
                 while (!cursor.isAfterLast()) {
-                    int id = cursor.getInt(cursor.getColumnIndex(CacheConstants.DB_FIELD_ID));
-                    String url = cursor.getString(cursor.getColumnIndex(CacheConstants.DB_FIELD_URL));
-                    String json = cursor.getString(cursor.getColumnIndex(CacheConstants.DB_FIELD_JSON));
+                    int id = cursor.getInt(cursor.getColumnIndex(Cache.DB_FIELD_ID));
+                    String url = cursor.getString(cursor.getColumnIndex(Cache.DB_FIELD_URL));
+                    String json = cursor.getString(cursor.getColumnIndex(Cache.DB_FIELD_JSON));
 
-                    cacheList.add(new Cache(id, url, json));
+                    cacheList.add(new br.com.allin.mobile.pushnotification.entity.Cache(id, url, json));
 
                     cursor.moveToNext();
                 }
@@ -128,7 +127,7 @@ public class CacheDAO {
         return cacheList;
     }
 
-    private void sync(final Cache cache) {
+    private void sync(final br.com.allin.mobile.pushnotification.entity.Cache cache) {
         new AsyncTask<Void, Void, Object>() {
             @Override
             protected Object doInBackground(Void... params) {

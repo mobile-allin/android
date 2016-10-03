@@ -3,7 +3,7 @@ package br.com.allin.mobile.pushnotification;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
+import br.com.allin.mobile.pushnotification.constants.Preferences;
 
 /**
  * Manager preferences in the library.
@@ -19,7 +19,7 @@ public class SharedPreferencesManager {
      * @param context Application context
      */
     public SharedPreferencesManager(Context context) {
-        preferences = context.getSharedPreferences(PreferencesConstants.PREFERENCES_ID, Context.MODE_PRIVATE);
+        preferences = context.getSharedPreferences(Preferences.PREFERENCES_ID, Context.MODE_PRIVATE);
     }
 
     /**

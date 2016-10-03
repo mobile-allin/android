@@ -1,12 +1,10 @@
 package br.com.allin.mobile.pushnotification;
 
-import android.app.Application;
 import android.content.Context;
 
 import java.util.Map;
 
-import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
-import br.com.allin.mobile.pushnotification.enumarator.Action;
+import br.com.allin.mobile.pushnotification.constants.Preferences;
 import br.com.allin.mobile.pushnotification.exception.GenerateDeviceIdException;
 import br.com.allin.mobile.pushnotification.exception.NotNullAttributeOrPropertyException;
 import br.com.allin.mobile.pushnotification.interfaces.ConfigurationListener;
@@ -239,12 +237,17 @@ public class AllInPush {
     /**
      * <b>Asynchronous</b> - Register push the event (According to the enum Action)
      *
-     * @param action Action push notification (according to options in the Action Enum)
+     * @param idCampaign Action push notification (according to options in the Action Enum)
      * @param configurationListener Interface that returns success or error in the request
      */
-    public static void registerNotificationAction(Action action,
-                                                  ConfigurationListener configurationListener) {
-        Manager.getInstance().registerNotificationAction(action, configurationListener);
+    public static void notificationCampaign(int idCampaign,
+                                            ConfigurationListener configurationListener) {
+        Manager.getInstance().notificationCampaign(idCampaign, configurationListener);
+    }
+
+    public static void notificationTransactional(int idSend,
+                                            ConfigurationListener configurationListener) {
+        Manager.getInstance().notificationTransactional(idSend, configurationListener);
     }
 
     /**
@@ -254,7 +257,7 @@ public class AllInPush {
     public static String getUserEmail(Context context) {
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
         String userEmail = sharedPreferencesManager
-                .getData(PreferencesConstants.KEY_USER_EMAIL, null);
+                .getData(Preferences.USER_EMAIL, null);
 
         return userEmail != null && userEmail.trim().length() > 0 ? userEmail : null;
     }
@@ -266,7 +269,7 @@ public class AllInPush {
     public static String getDeviceId(Context context) {
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
         String deviceId = sharedPreferencesManager
-                .getData(PreferencesConstants.KEY_DEVICE_ID, null);
+                .getData(Preferences.DEVICE_ID, null);
 
         return deviceId != null && deviceId.trim().length() > 0 ? deviceId : null;
     }

@@ -6,8 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
-import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
-import br.com.allin.mobile.pushnotification.enumarator.Action;
+import br.com.allin.mobile.pushnotification.constants.Notification;
 import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
 
 /**
@@ -24,8 +23,8 @@ public class BroadcastNotification extends BroadcastReceiver {
 
         Intent intent = new Intent(context, AllInWebViewActivity.class);
         intent.putExtras(extras);
-        intent.putExtra(NotificationConstants.SUBJECT,
-                extras.getString(NotificationConstants.SUBJECT));
+        intent.putExtra(Notification.SUBJECT,
+                extras.getString(Notification.SUBJECT));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
