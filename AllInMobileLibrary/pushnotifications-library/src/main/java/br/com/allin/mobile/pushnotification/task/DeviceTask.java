@@ -18,7 +18,7 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
  * Created by lucasrodrigues on 10/3/16.
  */
 
-public class DeviceTask extends BaseService<String> {
+public class DeviceTask extends BaseTask<String> {
     private DeviceEntity deviceEntity;
 
     public DeviceTask(DeviceEntity deviceEntity,
