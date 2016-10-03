@@ -13,10 +13,6 @@ import br.com.allin.mobile.pushnotification.task.NotificationTransactionalTask;
  */
 
 public class NotificationService {
-    public void sendCampaign(final int idCampaign, final Context context) {
-        this.sendCampaign(idCampaign, context, null);
-    }
-
     public void sendCampaign(final int idCampaign,
                              final Context context, final OnRequest onRequest) {
         AllInLocation.initialize(context, new OnAllInLocationChange() {
@@ -31,10 +27,6 @@ public class NotificationService {
                 new NotificationCampaignTask(idCampaign, context, onRequest).execute();
             }
         });
-    }
-
-    public void sendTransactional(final int idSend, final Context context) {
-        this.sendTransactional(idSend, context, null);
     }
 
     public void sendTransactional(final int idSend,

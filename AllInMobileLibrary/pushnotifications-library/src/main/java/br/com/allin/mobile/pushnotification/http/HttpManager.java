@@ -16,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import br.com.allin.mobile.pushnotification.Util;
+import br.com.allin.mobile.pushnotification.constants.HttpBody;
 import br.com.allin.mobile.pushnotification.constants.HttpConstants;
 import br.com.allin.mobile.pushnotification.dao.CacheDAO;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
@@ -146,7 +147,7 @@ public class HttpManager {
 
             connection.setDoInput(true);
             connection.setConnectTimeout(HttpConstants.DEFAULT_REQUEST_TIMEOUT);
-            connection.setRequestProperty("Authorization", token);
+            connection.setRequestProperty(HttpBody.AUTHORIZATION, token);
 
             String responseString = "";
 
@@ -157,7 +158,7 @@ public class HttpManager {
                 if (data != null) {
                     OutputStream outputStream = connection.getOutputStream();
                     BufferedWriter bufferedWriter =
-                            new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                            new BufferedWriter(new OutputStreamWriter(outputStream, HttpBody.UTF_8));
                     bufferedWriter.write(data.toString());
                     bufferedWriter.flush();
                     bufferedWriter.close();
