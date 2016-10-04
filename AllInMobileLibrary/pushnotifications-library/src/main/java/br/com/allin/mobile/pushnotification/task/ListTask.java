@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.constants.HttpBody;
+import br.com.allin.mobile.pushnotification.constants.Route;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -46,7 +47,7 @@ public class ListTask extends BaseTask<String> {
 
     @Override
     public String getUrl() {
-        return null;
+        return Route.ADD_LIST;
     }
 
     @Override

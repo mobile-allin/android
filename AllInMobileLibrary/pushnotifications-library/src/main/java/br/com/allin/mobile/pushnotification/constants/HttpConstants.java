@@ -1,7 +1,5 @@
 package br.com.allin.mobile.pushnotification.constants;
 
-import br.com.allin.mobile.pushnotification.http.HttpManager;
-
 /**
  * Created by lucasrodrigues on 9/20/16.
  */

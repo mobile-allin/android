@@ -3,6 +3,7 @@ package br.com.allin.mobile.pushnotification.gcm;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
@@ -21,17 +22,31 @@ public class BroadcastNotification extends BroadcastReceiver {
         Bundle extras = intentReceiver.getExtras();
 
         if (intentReceiver.hasExtra(Notification.ID_CAMPAIGN)) {
-            AllInPush.getInstance()
-                    .notificationCampaign(extras.getInt(Notification.ID_CAMPAIGN));
+            int idCampaign = Integer.parseInt(extras.getString(Notification.ID_CAMPAIGN));
+
+            AllInPush.getInstance().notificationCampaign(idCampaign);
         } else if (intentReceiver.hasExtra(Notification.ID_SEND)) {
-            AllInPush.getInstance()
-                    .notificationTransactional(extras.getInt(Notification.ID_CAMPAIGN));
+            int idSend = Integer.parseInt(extras.getString(Notification.ID_SEND));
+
+            AllInPush.getInstance().notificationTransactional(idSend);
         }
 
-        Intent intent = new Intent(context, AllInWebViewActivity.class);
-        intent.putExtras(extras);
-        intent.putExtra(Notification.SUBJECT, extras.getString(Notification.SUBJECT));
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(intent);
+        start(context, extras, intentReceiver.hasExtra(Notification.URL_SCHEME));
+    }
+
+    private void start(Context context, Bundle extras, boolean isScheme) {
+        if (isScheme) {
+            String urlScheme = extras.getString(Notification.URL_SCHEME);
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlScheme));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
+        } else {
+            Intent intent = new Intent(context, AllInWebViewActivity.class);
+            intent.putExtras(extras);
+            intent.putExtra(Notification.SUBJECT, extras.getString(Notification.SUBJECT));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
+        }
     }
 }
