@@ -44,7 +44,7 @@ public class DeviceService {
                 Map<String, String> map = new HashMap<>();
                 map.put(DefaultList.ID_PUSH, Util.md5(pushId));
                 map.put(DefaultList.PUSH_ID, pushId);
-                map.put(DefaultList.PLATFORM, Parameters.ANDROID);
+                map.put(DefaultList.PLATAFORMA, Parameters.ANDROID);
 
                 sendList(DefaultList.NAME, map);
             }
