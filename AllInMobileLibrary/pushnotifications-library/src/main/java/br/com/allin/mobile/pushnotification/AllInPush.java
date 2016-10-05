@@ -239,7 +239,7 @@ public class AllInPush {
     }
 
     public void sendDeviceInfo(final DeviceEntity deviceEntity, final OnRequest onRequest) {
-        new DeviceService(getContext(), onRequest).sendDeviceInfo(deviceEntity);
+        new DeviceService(getContext(), onRequest).sendDevice(deviceEntity);
     }
 
     /**

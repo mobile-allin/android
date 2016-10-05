@@ -61,8 +61,8 @@ public class GCMService extends AsyncTask<Void, Void, String> {
         }
 
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(this.context);
-        sharedPreferencesManager.storeData(Preferences.DEVICE_ID, token);
-        sharedPreferencesManager.storeData(Preferences.PROJECT_ID, this.configurationEntity.getSenderId());
+        sharedPreferencesManager.storeData(Preferences.KEY_DEVICE_ID, token);
+        sharedPreferencesManager.storeData(Preferences.KEY_PROJECT_ID, this.configurationEntity.getSenderId());
 
         return token;
     }

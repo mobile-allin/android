@@ -29,8 +29,10 @@ public class CacheService {
     public void sync() {
         List<CacheEntity> cacheList = cacheDAO.getAll();
 
-        for (CacheEntity cacheEntity : cacheList) {
-            sync(cacheEntity);
+        if (cacheList != null) {
+            for (CacheEntity cacheEntity : cacheList) {
+                sync(cacheEntity);
+            }
         }
     }
 

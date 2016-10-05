@@ -67,13 +67,13 @@ public class AllInGcmNotification {
 
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
         String backgroundColor = sharedPreferencesManager
-                .getData(Preferences.BACKGROUND_NOTIFICATION, null);
+                .getData(Preferences.KEY_BACKGROUND_NOTIFICATION, null);
 
         int whiteIcon = sharedPreferencesManager
-                .getData(Preferences.WHITE_ICON_NOTIFICATION, 0);
+                .getData(Preferences.KEY_WHITE_ICON_NOTIFICATION, 0);
 
         int icon = sharedPreferencesManager
-                .getData(Preferences.ICON_NOTIFICATION, 0);
+                .getData(Preferences.KEY_ICON_NOTIFICATION, 0);
 
         if (icon == 0) {
             notificationCompatBuilder

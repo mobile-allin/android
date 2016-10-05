@@ -15,4 +15,5 @@ public class Route {
     public static final String CAMPAIGN = "/campanha";
     public static final String NOTIFICATION_CAMPAIGN = "/notification/campaign";
     public static final String NOTIFICATION_TRANSACTIONAL = "/notification/transactional";
+    public static final String UPDATE = "update";
 }

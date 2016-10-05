@@ -36,7 +36,7 @@ public class DeviceService {
         this.onRequest = onRequest;
     }
 
-    public void sendDeviceInfo(final DeviceEntity deviceEntity) {
+    public void sendDevice(final DeviceEntity deviceEntity) {
         new DeviceTask(deviceEntity, context, new OnRequest() {
             @Override
             public void onFinish(Object value) {
@@ -46,7 +46,7 @@ public class DeviceService {
                 map.put(DefaultList.PUSH_ID, pushId);
                 map.put(DefaultList.PLATAFORMA, Parameters.ANDROID);
 
-                sendList(DefaultList.NAME, map);
+                sendList(DefaultList.LISTA_PADRAO, map);
             }
 
             @Override
@@ -62,8 +62,8 @@ public class DeviceService {
         new LogoutTask(context, onRequest).execute();
     }
 
-    public void sendList(String nameList, Map<String, String> values) {
-        new ListTask(nameList, values, context, onRequest).execute();
+    public void sendList(String nameList, Map<String, String> columnsAndValues) {
+        new ListTask(nameList, columnsAndValues, context, onRequest).execute();
     }
 
     public void updateEmail(String email) {
@@ -72,24 +72,22 @@ public class DeviceService {
 
     public String getDeviceToken() {
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
-        String deviceToken = sharedPreferencesManager.getData(Preferences.DEVICE_ID, null);
 
-        return deviceToken != null && deviceToken.trim().length() > 0 ? deviceToken : null;
+        return sharedPreferencesManager.getData(Preferences.KEY_DEVICE_ID, null);
     }
 
     public String getUserEmail() {
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
-        String userEmail = sharedPreferencesManager.getData(Preferences.USER_EMAIL, null);
 
-        return userEmail != null && userEmail.trim().length() > 0 ? userEmail : null;
+        return sharedPreferencesManager.getData(Preferences.KEY_USER_EMAIL, null);
     }
 
     public DeviceEntity getDeviceInfos(String senderId) {
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
 
-        String deviceId = sharedPreferencesManager.getData(Preferences.DEVICE_ID, null);
-        Integer registeredVersion = sharedPreferencesManager.getData(Preferences.APPVERSION, 1);
-        String sharedProjectId = sharedPreferencesManager.getData(Preferences.PROJECT_ID, null);
+        String deviceId = sharedPreferencesManager.getData(Preferences.KEY_DEVICE_ID, null);
+        Integer registeredVersion = sharedPreferencesManager.getData(Preferences.KEY_APPVERSION, 1);
+        String sharedProjectId = sharedPreferencesManager.getData(Preferences.KEY_PROJECT_ID, null);
 
         if (Util.isNullOrClear(deviceId)) {
             return null;

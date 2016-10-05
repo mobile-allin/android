@@ -52,7 +52,7 @@ public class EmailTask extends BaseTask<String> {
     @Override
     public String onSuccess(ResponseEntity responseEntity) {
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(this.context);
-        sharedPreferencesManager.storeData(Preferences.USER_EMAIL, this.email);
+        sharedPreferencesManager.storeData(Preferences.KEY_USER_EMAIL, this.email);
 
         return responseEntity.getMessage();
     }

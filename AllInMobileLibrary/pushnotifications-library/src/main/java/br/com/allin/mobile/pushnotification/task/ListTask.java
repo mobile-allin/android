@@ -21,17 +21,17 @@ public class ListTask extends BaseTask<String> {
     private String campos;
     private String valor;
 
-    public ListTask(String nameList, Map<String, String> values,
+    public ListTask(String nameList, Map<String, String> columnsAndValues,
                     Context context, OnRequest onRequest) {
         super(context, RequestType.POST, true, onRequest);
 
         StringBuilder campos = new StringBuilder();
         StringBuilder valor = new StringBuilder();
 
-        for (String key : values.keySet()) {
+        for (String key : columnsAndValues.keySet()) {
             campos.append(key).append(";");
 
-            String value = values.get(key);
+            String value = columnsAndValues.get(key);
 
             if (value != null && value.trim().length() > 0) {
                 valor.append(value);
