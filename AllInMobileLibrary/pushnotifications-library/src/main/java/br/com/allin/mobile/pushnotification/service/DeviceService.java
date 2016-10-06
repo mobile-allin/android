@@ -46,7 +46,7 @@ public class DeviceService {
                 map.put(DefaultList.PUSH_ID, pushId);
                 map.put(DefaultList.PLATAFORMA, Parameters.ANDROID);
 
-                sendList(DefaultList.LISTA_PADRAO, map);
+                AllInPush.getInstance().sendList(DefaultList.LISTA_PADRAO, map);
             }
 
             @Override

@@ -13,24 +13,21 @@ import br.com.allin.mobile.pushnotification.task.NotificationTransactionalTask;
  */
 
 public class NotificationService {
-    public void sendCampaign(final int idCampaign,
-                             final Context context, final OnRequest onRequest) {
+    public void sendCampaign(final int idCampaign, final String date, final Context context) {
         AllInLocation.initialize(context, new OnAllInLocationChange() {
             @Override
             public void locationFound(double latitude, double longitude) {
-                new NotificationCampaignTask(idCampaign,
-                        latitude, longitude, context, onRequest).execute();
+                new NotificationCampaignTask(idCampaign, date, latitude, longitude, context).execute();
             }
 
             @Override
             public void locationNotFound() {
-                new NotificationCampaignTask(idCampaign, context, onRequest).execute();
+                new NotificationCampaignTask(idCampaign, date, context).execute();
             }
         });
     }
 
-    public void sendTransactional(final int idSend,
-                                  final Context context, final OnRequest onRequest) {
-        new NotificationTransactionalTask(idSend, context, onRequest).execute();
+    public void sendTransactional(final int idSend, final String date, final Context context) {
+        new NotificationTransactionalTask(idSend, date, context).execute();
     }
 }

@@ -23,12 +23,14 @@ public class BroadcastNotification extends BroadcastReceiver {
 
         if (intentReceiver.hasExtra(Notification.ID_CAMPAIGN)) {
             int idCampaign = Integer.parseInt(extras.getString(Notification.ID_CAMPAIGN));
+            String date = extras.getString(Notification.DATE);
 
-            AllInPush.getInstance().notificationCampaign(idCampaign);
+            AllInPush.getInstance().notificationCampaign(idCampaign, date);
         } else if (intentReceiver.hasExtra(Notification.ID_SEND)) {
             int idSend = Integer.parseInt(extras.getString(Notification.ID_SEND));
+            String date = extras.getString(Notification.DATE);
 
-            AllInPush.getInstance().notificationTransactional(idSend);
+            AllInPush.getInstance().notificationTransactional(idSend, date);
         }
 
         start(context, extras, intentReceiver.hasExtra(Notification.URL_SCHEME));

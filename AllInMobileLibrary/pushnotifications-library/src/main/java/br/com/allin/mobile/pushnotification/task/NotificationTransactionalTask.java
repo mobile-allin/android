@@ -4,12 +4,10 @@ import android.content.Context;
 
 import org.json.JSONObject;
 
-import br.com.allin.mobile.pushnotification.Util;
 import br.com.allin.mobile.pushnotification.constants.HttpBody;
 import br.com.allin.mobile.pushnotification.constants.Route;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
-import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 /**
  * Created by lucasrodrigues on 10/3/16.
@@ -17,12 +15,13 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 public class NotificationTransactionalTask extends BaseTask<String> {
     private int id;
+    private String date;
 
-    public NotificationTransactionalTask(int id, Context context,
-                                         OnRequest onRequest) {
-        super(context, RequestType.POST, true, onRequest);
+    public NotificationTransactionalTask(int id, String date, Context context) {
+        super(context, RequestType.POST, true, null);
 
         this.id = id;
+        this.date = date;
     }
 
     @Override
@@ -35,8 +34,8 @@ public class NotificationTransactionalTask extends BaseTask<String> {
         try {
             JSONObject data = new JSONObject();
 
-            data.put(HttpBody.ID, id);
-            data.put(HttpBody.DATE, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
+            data.put(HttpBody.ID, this.id);
+            data.put(HttpBody.DATE, this.date);
 
             return data;
         } catch (Exception e) {

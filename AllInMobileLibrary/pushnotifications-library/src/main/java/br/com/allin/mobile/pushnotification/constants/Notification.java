@@ -11,4 +11,5 @@ public class Notification {
     public static final String ID_TEMPLATE = "id_template";
     public static final String URL_SCHEME = "url_scheme";
     public static final String ACTION = "action";
+    public static final String DATE = "date";
 }

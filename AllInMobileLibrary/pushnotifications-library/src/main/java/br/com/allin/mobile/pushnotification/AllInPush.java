@@ -277,26 +277,12 @@ public class AllInPush {
      *
      * @param idCampaign Action push notification (according to options in the Action Enum)
      */
-    public void notificationCampaign(final int idCampaign) {
-        this.notificationCampaign(idCampaign, null);
+    public void notificationCampaign(final int idCampaign, final String date) {
+        new NotificationService().sendCampaign(idCampaign, date, getContext());
     }
 
-    /**
-     * <b>Asynchronous</b> - Register push the event (According to the enum Action)
-     *
-     * @param idCampaign Action push notification (according to options in the Action Enum)
-     * @param onRequest Interface that returns success or error in the request
-     */
-    public void notificationCampaign(final int idCampaign, final OnRequest onRequest) {
-        new NotificationService().sendCampaign(idCampaign, getContext(), onRequest);
-    }
-
-    public void notificationTransactional(final int idSend) {
-        this.notificationTransactional(idSend, null);
-    }
-
-    public void notificationTransactional(final int idSend, final OnRequest onRequest) {
-        new NotificationService().sendTransactional(idSend, getContext(), onRequest);
+    public void notificationTransactional(final int idSend, final String date) {
+        new NotificationService().sendTransactional(idSend, date, getContext());
     }
 
     /**
