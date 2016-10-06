@@ -17,6 +17,7 @@ public class HttpBody {
     public static final String VALOR = "valor";
     public static final String ID = "id";
     public static final String DATE = "date";
+    public static final String DATE_OPENING = "date_opening";
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
 }

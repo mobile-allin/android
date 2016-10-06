@@ -8,7 +8,6 @@ import android.os.Bundle;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.constants.Notification;
-import br.com.allin.mobile.pushnotification.service.NotificationService;
 import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
 
 /**
@@ -23,12 +22,12 @@ public class BroadcastNotification extends BroadcastReceiver {
 
         if (intentReceiver.hasExtra(Notification.ID_CAMPAIGN)) {
             int idCampaign = Integer.parseInt(extras.getString(Notification.ID_CAMPAIGN));
-            String date = extras.getString(Notification.DATE);
+            String date = extras.getString(Notification.DATE_NOTIFICATION);
 
             AllInPush.getInstance().notificationCampaign(idCampaign, date);
         } else if (intentReceiver.hasExtra(Notification.ID_SEND)) {
             int idSend = Integer.parseInt(extras.getString(Notification.ID_SEND));
-            String date = extras.getString(Notification.DATE);
+            String date = extras.getString(Notification.DATE_NOTIFICATION);
 
             AllInPush.getInstance().notificationTransactional(idSend, date);
         }

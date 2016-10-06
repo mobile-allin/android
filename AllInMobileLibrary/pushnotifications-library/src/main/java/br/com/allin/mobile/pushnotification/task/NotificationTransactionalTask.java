@@ -4,6 +4,7 @@ import android.content.Context;
 
 import org.json.JSONObject;
 
+import br.com.allin.mobile.pushnotification.Util;
 import br.com.allin.mobile.pushnotification.constants.HttpBody;
 import br.com.allin.mobile.pushnotification.constants.Route;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
@@ -36,6 +37,7 @@ public class NotificationTransactionalTask extends BaseTask<String> {
 
             data.put(HttpBody.ID, this.id);
             data.put(HttpBody.DATE, this.date);
+            data.put(HttpBody.DATE_OPENING, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
 
             return data;
         } catch (Exception e) {

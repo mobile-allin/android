@@ -53,6 +53,7 @@ public class NotificationCampaignTask extends BaseTask<String> {
 
             data.put(HttpBody.ID, this.id);
             data.put(HttpBody.DATE, this.date);
+            data.put(HttpBody.DATE_OPENING, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
             data.put(HttpBody.DEVICE_TOKEN, AllInPush.getInstance().getDeviceId());
 
             if (this.latitude != 0 && this.longitude != 0) {
