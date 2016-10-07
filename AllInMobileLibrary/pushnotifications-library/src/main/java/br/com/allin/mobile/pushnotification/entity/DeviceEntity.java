@@ -1,7 +1,7 @@
 package br.com.allin.mobile.pushnotification.entity;
 
 /**
- * Object that returns server information
+ * Object with the device information
  */
 public class DeviceEntity {
     private String deviceId;

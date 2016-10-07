@@ -131,7 +131,7 @@ public class AllInPush {
      * <b>Asynchronous</b> - Configure the application by sending to the default list,
      * starting GCM (Google Cloud Message) and checking the ID of AllIn
      *
-     * @param allInApplication Application (Context)
+     * @param allInApplication Application extends AllInApplication
      * @param configurationEntity Settings such as SenderID and TokenAllIn
      *
      * @throws NotNullAttributeOrPropertyException Parameter
@@ -155,8 +155,7 @@ public class AllInPush {
      * application or configurationEntity is null
      */
     public void configure(final AllInApplication allInApplication,
-                          final ConfigurationEntity configurationEntity,
-                          final OnRequest onRequest)
+                          final ConfigurationEntity configurationEntity, final OnRequest onRequest)
             throws NotNullAttributeOrPropertyException {
 
         this.setAlliNApplication(allInApplication);
@@ -234,10 +233,21 @@ public class AllInPush {
         new DeviceService(getContext(), onRequest).updateEmail(userEmail);
     }
 
+    /**
+     * <b>Asynchronous</b> - Sends the device information to the server
+     *
+     * @param deviceEntity Object with the device information
+     */
     public void sendDeviceInfo(final DeviceEntity deviceEntity) {
         this.sendDeviceInfo(deviceEntity, null);
     }
 
+    /**
+     * <b>Asynchronous</b> - Sends the device information to the server
+     *
+     * @param deviceEntity Object with the device information
+     * @param onRequest Interface that returns success or error in the request
+     */
     public void sendDeviceInfo(final DeviceEntity deviceEntity, final OnRequest onRequest) {
         new DeviceService(getContext(), onRequest).sendDevice(deviceEntity);
     }
@@ -264,36 +274,53 @@ public class AllInPush {
         new DeviceService(getContext(), onRequest).sendList(nmList, values);
     }
 
+    /**
+     * <b>Asynchronous</b> - This method removes the link between the email and the device
+     */
     public void logout() {
         this.logout(null);
     }
 
+    /**
+     * <b>Asynchronous</b> - This method removes the link between the email and the device
+     *
+     * @param onRequest Interface that returns success or error in the request
+     */
     public void logout(final OnRequest onRequest) {
         new DeviceService(getContext(), onRequest).logout();
     }
 
     /**
-     * <b>Asynchronous</b> - Register push the event (According to the enum Action)
+     * <b>Asynchronous</b> - Saves click the campaign push
+     * (the method does not possess callback because it is used only to register the click)
      *
-     * @param idCampaign Action push notification (according to options in the Action Enum)
+     * @param idCampaign Campaign identification received from server
+     * @param date Date of the campaign received from server
      */
     public void notificationCampaign(final int idCampaign, final String date) {
         new NotificationService().sendCampaign(idCampaign, date, getContext());
     }
 
+    /**
+     * <b>Asynchronous</b> - Saves click the transactional send push
+     * (the method does not possess callback because it is used only to register the click)
+     *
+     * @param idSend Sending identification received from server
+     * @param date Date of the campaign received from server
+     */
     public void notificationTransactional(final int idSend, final String date) {
         new NotificationService().sendTransactional(idSend, date, getContext());
     }
 
     /**
-     * @return E-mail the saved user in SharedPreferences
+     * @return E-mail saved in SharedPreferences
      */
     public String getUserEmail() {
         return new DeviceService(getContext()).getUserEmail();
     }
 
     /**
-     * @return Device identification on Google
+     * @return Device identification on Google saved in SharedPreferences
      */
     public String getDeviceId() {
         return new DeviceService(getContext()).getDeviceToken();
