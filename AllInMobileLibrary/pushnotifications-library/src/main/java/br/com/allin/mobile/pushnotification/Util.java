@@ -145,6 +145,11 @@ public class Util {
         return "";
     }
 
+    /**
+     * @param format Data forma (ex: "yyyy-MM-dd HH:mm:ss")
+     *
+     * @return the date according to the format
+     */
     public static String currentDate(String format) {
         return new SimpleDateFormat(format, Locale.getDefault()).format(new Date());
     }

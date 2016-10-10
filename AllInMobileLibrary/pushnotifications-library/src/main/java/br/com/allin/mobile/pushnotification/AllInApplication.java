@@ -7,7 +7,11 @@ import br.com.allin.mobile.pushnotification.gcm.BroadcastNotification;
 import br.com.allin.mobile.pushnotification.interfaces.OnActionNotification;
 
 /**
- * Created by lucasrodrigues on 7/12/16.
+ * @author lucasbrsilva
+ *
+ * Application class that owned startup broadcast notification
+ * and interface action notification (push silent)
+ *
  */
 public abstract class AllInApplication extends Application implements OnActionNotification {
     private BroadcastNotification broadcastNotification;
@@ -21,6 +25,7 @@ public abstract class AllInApplication extends Application implements OnActionNo
         getApplicationContext().registerReceiver(broadcastNotification,
                 new IntentFilter(BroadcastNotification.BROADCAST_NOTIFICATION));
     }
+
 
     @Override
     public void onAction(String action) {
