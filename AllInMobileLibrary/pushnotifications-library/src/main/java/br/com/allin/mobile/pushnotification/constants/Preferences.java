@@ -1,9 +1,5 @@
 package br.com.allin.mobile.pushnotification.constants;
 
-/**
- * Created by lucasrodrigues on 9/20/16.
- */
-
 public class Preferences {
     public final static String KEY_APPVERSION = "allin_key_appversion";
     public final static String KEY_DEVICE_ID = "allin_key_device_id";

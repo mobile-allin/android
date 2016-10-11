@@ -6,9 +6,8 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 import br.com.allin.mobile.pushnotification.task.TemplateTask;
 
 /**
- * Created by lucasrodrigues on 10/3/16.
+ * Service class for campaign
  */
-
 public class CampaignService {
     private Context context;
     private OnRequest onRequest;

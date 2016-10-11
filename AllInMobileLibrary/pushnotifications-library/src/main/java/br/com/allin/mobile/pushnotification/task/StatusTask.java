@@ -10,9 +10,8 @@ import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 /**
- * Created by lucasrodrigues on 10/3/16.
+ * Thread for device status request
  */
-
 public class StatusTask extends BaseTask<Boolean> {
     public StatusTask(Context context, OnRequest onRequest) {
         super(context, RequestType.GET, false, onRequest);

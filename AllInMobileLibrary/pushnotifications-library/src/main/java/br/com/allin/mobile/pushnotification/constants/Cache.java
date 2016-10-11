@@ -1,8 +1,5 @@
 package br.com.allin.mobile.pushnotification.constants;
 
-/**
- * Created by lucasrodrigues on 9/5/16.
- */
 public class Cache {
     public static String TABLE_NAME = "cache";
     public static String DB_FIELD_ID = "id";

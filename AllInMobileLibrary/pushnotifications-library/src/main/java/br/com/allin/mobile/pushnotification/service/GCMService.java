@@ -18,9 +18,9 @@ import br.com.allin.mobile.pushnotification.exception.GenerateDeviceIdException;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 /**
- * Created by lucasrodrigues on 10/3/16.
+ * The service class for GCM (Google Cloud Message) has the responsibility 
+ * of the sender's ID number generator for Google properly send notification according to the record
  */
-
 public class GCMService extends AsyncTask<Void, Void, String> {
     private Context context;
     private ConfigurationEntity configurationEntity;

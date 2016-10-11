@@ -11,7 +11,7 @@ import br.com.allin.mobile.pushnotification.constants.Notification;
 import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
 
 /**
- * Created by lucasrodrigues on 9/20/16.
+ * Broadcast invoked after the user clicks the notification
  */
 public class BroadcastNotification extends BroadcastReceiver {
     public static final String BROADCAST_NOTIFICATION = "BroadcastNotification";

@@ -4,19 +4,19 @@ package br.com.allin.mobile.pushnotification.interfaces;
  * <p>
  *     Listener de configuração.
  * <p>
- *     É usado para notificar sucesso e falha nas principais ações assíncronas da biblioteca.
+ *     It is used to notify success and failure in the main asynchronous actions of the library.
  */
 public interface OnRequest<T> {
 
     /**
-     * Método chamado no fim de uma determinada ação.
+     * Method called at the end of a given action.
      */
     void onFinish(T value);
 
     /**
-     * Método chamado quando há algum erro na execução de uma determinada ação.
-     * @param exception
-     *          Exceção que gerou o erro na ação.
+     * Method called when there is an error in the execution of a particular action.
+     *
+     * @param exception Except that generated the error in action.
      */
     void onError(Exception exception);
 }

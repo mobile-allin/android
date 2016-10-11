@@ -19,9 +19,8 @@ import br.com.allin.mobile.pushnotification.task.ListTask;
 import br.com.allin.mobile.pushnotification.task.LogoutTask;
 
 /**
- * Created by lucasrodrigues on 10/3/16.
+ * Service class for device information and configuration
  */
-
 public class DeviceService {
     private Context context;
     private OnRequest onRequest;

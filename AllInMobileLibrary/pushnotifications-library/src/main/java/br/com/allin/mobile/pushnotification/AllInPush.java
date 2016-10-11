@@ -224,7 +224,7 @@ public class AllInPush {
     }
 
     /**
-     * <b>Asynchronous</b> - Updates the e-mail in the database
+     * <b>Asynchronous</b> - Updates the e-mail in the database and save in SharedPreferences
      *
      * @param userEmail E-mail that is registered in the database of AllIn
      * @param onRequest Interface that returns success or error in the request

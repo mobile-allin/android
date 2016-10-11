@@ -8,9 +8,8 @@ import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 /**
- * Created by lucasrodrigues on 10/3/16.
+ * Thread for template campaign request
  */
-
 public class TemplateTask extends BaseTask<String> {
     private int id;
 

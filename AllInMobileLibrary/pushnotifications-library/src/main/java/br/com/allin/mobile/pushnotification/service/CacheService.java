@@ -14,9 +14,8 @@ import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.http.HttpManager;
 
 /**
- * Created by lucasrodrigues on 10/3/16.
+ * Service class for cache
  */
-
 public class CacheService {
     private CacheDAO cacheDAO;
     private Context context;

@@ -9,9 +9,8 @@ import br.com.allin.mobile.pushnotification.task.NotificationCampaignTask;
 import br.com.allin.mobile.pushnotification.task.NotificationTransactionalTask;
 
 /**
- * Created by lucasrodrigues on 10/3/16.
+ * Service class for notification click
  */
-
 public class NotificationService {
     public void sendCampaign(final int idCampaign, final String date, final Context context) {
         AllInLocation.initialize(context, new OnAllInLocationChange() {

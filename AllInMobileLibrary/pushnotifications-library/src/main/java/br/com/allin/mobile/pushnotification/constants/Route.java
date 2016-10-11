@@ -1,9 +1,5 @@
 package br.com.allin.mobile.pushnotification.constants;
 
-/**
- * Created by lucasrodrigues on 10/3/16.
- */
-
 public class Route {
     public static final String EMAIL = "/email";
     public static final String ADD_LIST = "/addlist";

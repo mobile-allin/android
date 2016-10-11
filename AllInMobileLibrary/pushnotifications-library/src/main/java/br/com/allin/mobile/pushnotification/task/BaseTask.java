@@ -13,7 +13,7 @@ import br.com.allin.mobile.pushnotification.interfaces.OnInvoke;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 /**
- * Created by lucasrodrigues on 10/3/16.
+ * Base class that implements interface to return the request
  */
 
 abstract class BaseTask<T> extends AsyncTask<Void, Void, Object> implements OnInvoke<T> {

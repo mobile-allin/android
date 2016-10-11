@@ -15,14 +15,10 @@ import javax.net.ssl.X509TrustManager;
 import br.com.allin.mobile.pushnotification.constants.HttpConstants;
 
 /**
- * Created by lucasrodrigues on 9/20/16.
+ * Class responsible for generating the certificate Https
  */
-
-public class HttpCertificate {
-    private HttpCertificate() {
-    }
-
-    public static void start() {
+public abstract class HttpCertificate {
+    protected void generateCertificate() {
         try {
             TrustManager[] trustManagerArray = new TrustManager[] {
                     new X509TrustManager() {

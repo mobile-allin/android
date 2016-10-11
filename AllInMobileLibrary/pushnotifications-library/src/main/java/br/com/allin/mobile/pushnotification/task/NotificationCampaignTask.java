@@ -13,9 +13,8 @@ import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 /**
- * Created by lucasrodrigues on 10/3/16.
+ * Thread for notification campaign request
  */
-
 public class NotificationCampaignTask extends BaseTask<String> {
     private int id;
     private String date;

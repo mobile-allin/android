@@ -3,7 +3,7 @@ package br.com.allin.mobile.pushnotification.entity;
 import br.com.allin.mobile.pushnotification.exception.NotNullAttributeOrPropertyException;
 
 /**
- * Model configuration options.
+ * Entity configuration options.
  */
 public class ConfigurationEntity {
     private String senderId = null;

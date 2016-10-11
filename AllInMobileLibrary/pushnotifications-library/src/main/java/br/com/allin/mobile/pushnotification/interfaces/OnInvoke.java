@@ -5,9 +5,8 @@ import org.json.JSONObject;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 
 /**
- * Created by lucasrodrigues on 10/3/16.
+ * Format request (standard All iN)
  */
-
 public interface OnInvoke<T> {
     String getUrl();
 

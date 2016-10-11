@@ -23,11 +23,12 @@ import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.service.CacheService;
+package br.com.allin.mobile.pushnotification.http.HttpCertificate;
 
 /**
  * Class that manages connections to the server
  */
-public class HttpManager {
+public class HttpManager extends HttpCertificate {
     /**
      * Sends data to the server AllIn
      *
@@ -140,7 +141,7 @@ public class HttpManager {
         ResponseEntity response = null;
         HttpURLConnection connection = null;
 
-        HttpCertificate.start();
+        this.generateCertificate();
 
         try {
             connection = (HttpURLConnection) url.openConnection();

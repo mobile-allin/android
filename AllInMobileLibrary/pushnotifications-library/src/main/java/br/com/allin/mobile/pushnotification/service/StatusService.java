@@ -7,9 +7,8 @@ import br.com.allin.mobile.pushnotification.task.StatusTask;
 import br.com.allin.mobile.pushnotification.task.ToggleTask;
 
 /**
- * Created by lucasrodrigues on 10/3/16.
+ * Service class for device status in server
  */
-
 public class StatusService {
     private Context context;
     private OnRequest onRequest;

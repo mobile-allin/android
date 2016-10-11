@@ -11,9 +11,8 @@ import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 
 /**
- * Created by lucasrodrigues on 10/3/16.
+ * Thread for notification transactional request
  */
-
 public class NotificationTransactionalTask extends BaseTask<String> {
     private int id;
     private String date;
