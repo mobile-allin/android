@@ -19,7 +19,7 @@ public class SampleApplication extends AllInApplication {
                     new NotificationEntity("#000000",
                             R.mipmap.ic_launcher, android.R.drawable.sym_def_app_icon));
 
-            AllInPush.getInstance().configure(this, configurationEntity);
+            AllInPush.configure(this, configurationEntity);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -137,10 +137,10 @@ public class AllInPush {
      * @throws NotNullAttributeOrPropertyException Parameter
      * application or configurationEntity is null
      */
-    public void configure(AllInApplication allInApplication,
+    public static void configure(AllInApplication allInApplication,
                           ConfigurationEntity configurationEntity)
             throws NotNullAttributeOrPropertyException {
-        this.configure(allInApplication, configurationEntity, null);
+        AllInPush.configure(allInApplication, configurationEntity, null);
     }
 
     /**
@@ -154,11 +154,11 @@ public class AllInPush {
      * @throws NotNullAttributeOrPropertyException Parameter
      * application or configurationEntity is null
      */
-    public void configure(final AllInApplication allInApplication,
+    public static void configure(final AllInApplication allInApplication,
                           final ConfigurationEntity configurationEntity, final OnRequest onRequest)
             throws NotNullAttributeOrPropertyException {
 
-        this.setAlliNApplication(allInApplication);
+        AllInPush.getInstance().setAlliNApplication(allInApplication);
 
         new ConfigurationService(allInApplication, configurationEntity, onRequest).init();
     }
