@@ -26,4 +26,8 @@ public class SampleApplication extends AllInApplication {
 
         Fabric.with(this, new Crashlytics());
     }
+
+    @Override
+    public void onAction(String action) {
+    }
 }

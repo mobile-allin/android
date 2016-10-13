@@ -26,11 +26,6 @@ public abstract class AllInApplication extends Application implements AllInDeleg
                 new IntentFilter(BroadcastNotification.BROADCAST_NOTIFICATION));
     }
 
-
-    @Override
-    public void onAction(String action) {
-    }
-
     @Override
     public void onTerminate() {
         super.onTerminate();
