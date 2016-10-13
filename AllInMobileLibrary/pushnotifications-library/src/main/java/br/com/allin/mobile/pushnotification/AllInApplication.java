@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.IntentFilter;
 
 import br.com.allin.mobile.pushnotification.gcm.BroadcastNotification;
-import br.com.allin.mobile.pushnotification.interfaces.OnActionNotification;
+import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 
 /**
  * @author lucasbrsilva
@@ -13,7 +13,7 @@ import br.com.allin.mobile.pushnotification.interfaces.OnActionNotification;
  * and interface action notification (push silent)
  *
  */
-public abstract class AllInApplication extends Application implements OnActionNotification {
+public abstract class AllInApplication extends Application implements AllInDelegate {
     private BroadcastNotification broadcastNotification;
 
     @Override

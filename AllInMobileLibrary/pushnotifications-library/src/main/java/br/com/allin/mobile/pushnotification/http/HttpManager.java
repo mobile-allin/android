@@ -18,12 +18,10 @@ import java.net.URL;
 import br.com.allin.mobile.pushnotification.Util;
 import br.com.allin.mobile.pushnotification.constants.HttpBody;
 import br.com.allin.mobile.pushnotification.constants.HttpConstants;
-import br.com.allin.mobile.pushnotification.dao.CacheDAO;
+import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
-import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.service.CacheService;
-package br.com.allin.mobile.pushnotification.http.HttpCertificate;
 
 /**
  * Class that manages connections to the server
@@ -141,7 +139,7 @@ public class HttpManager extends HttpCertificate {
         ResponseEntity response = null;
         HttpURLConnection connection = null;
 
-        this.generateCertificate();
+        generateCertificate();
 
         try {
             connection = (HttpURLConnection) url.openConnection();

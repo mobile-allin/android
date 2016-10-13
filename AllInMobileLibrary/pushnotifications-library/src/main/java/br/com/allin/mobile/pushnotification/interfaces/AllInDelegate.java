@@ -6,9 +6,9 @@ package br.com.allin.mobile.pushnotification.interfaces;
  * Interface that returns the push action text
  *
  */
-public interface OnActionNotification {
+public interface AllInDelegate {
     /**
-     * Método chamado que chhama ação do push
+     * Method call that calls the push action
      *
      * @param action Ação do push
      */

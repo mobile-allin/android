@@ -18,7 +18,7 @@ import br.com.allin.mobile.pushnotification.constants.HttpConstants;
  * Class responsible for generating the certificate Https
  */
 public abstract class HttpCertificate {
-    protected void generateCertificate() {
+    protected static void generateCertificate() {
         try {
             TrustManager[] trustManagerArray = new TrustManager[] {
                     new X509TrustManager() {
