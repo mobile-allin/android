@@ -174,6 +174,37 @@ public class HttpManager extends HttpCertificate {
                 while ((line = bufferedReader.readLine()) != null) {
                     responseString += line;
                 }
+
+                try {
+                    JSONObject responseJson = new JSONObject(responseString);
+
+                    response = new ResponseEntity();
+                    response.setSuccess(!responseJson.getBoolean("error"));
+                    response.setMessage(responseJson.getString("message"));
+                } catch (JSONException e) {
+                    throw new WebServiceException("Ocorreu um erro " +
+                            "ao tentar realizar o parse da resposta da requisição:\n\n" + responseString);
+                }
+            } else if (connection.getResponseCode() == HttpURLConnection.HTTP_BAD_REQUEST) {
+                BufferedReader bufferedReader =
+                        new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+
+                String line;
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    responseString += line;
+                }
+
+                try {
+                    JSONObject responseJson = new JSONObject(responseString);
+
+                    response = new ResponseEntity();
+                    response.setSuccess(!responseJson.getBoolean("error"));
+                    response.setMessage(responseJson.getString("message"));
+                } catch (JSONException e) {
+                    throw new WebServiceException("Ocorreu um erro " +
+                            "ao tentar realizar o parse da resposta da requisição:\n\n" + responseString);
+                }
             } else {
                 if (withCache) {
                     new CacheService(context)
@@ -185,28 +216,6 @@ public class HttpManager extends HttpCertificate {
                                 "Message: " + connection.getResponseMessage()
                 );
             }
-
-            try {
-                JSONObject responseJson = new JSONObject(responseString);
-
-                response = new ResponseEntity();
-
-                boolean isError = responseJson.getBoolean("error");
-                String message = responseJson.getString("message");
-
-                if (isError) {
-                    response.setSuccess(false);
-                } else {
-                    response.setSuccess(true);
-                }
-
-                response.setMessage(message);
-
-            } catch (JSONException e) {
-                throw new WebServiceException("Ocorreu um erro " +
-                        "ao tentar realizar o parse da resposta da requisição:\n\n" + responseString);
-            }
-
         } catch (IOException e) {
             if (withCache) {
                 new CacheService(context).insert(urlString, data != null ? data.toString() : "");

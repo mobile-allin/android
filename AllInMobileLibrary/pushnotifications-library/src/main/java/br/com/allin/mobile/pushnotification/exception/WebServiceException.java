@@ -12,7 +12,7 @@ public class WebServiceException extends AbstractException {
      * @param serverMessage Message sent by server
      */
     public WebServiceException(String serverMessage) {
-        super(serverMessage, "Ocorreu um erro na execução do web service: %s");
+        super("Ocorreu um erro na execução do web service: %s", serverMessage);
     }
 
     @Override

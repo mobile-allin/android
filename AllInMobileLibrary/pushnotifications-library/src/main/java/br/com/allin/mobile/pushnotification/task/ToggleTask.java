@@ -30,7 +30,6 @@ public class ToggleTask extends BaseTask<String> {
         try {
             JSONObject data = new JSONObject();
             data.put(HttpBody.DEVICE_TOKEN, AllInPush.getInstance().getDeviceId());
-            data.put(HttpBody.PLATFORM, Parameters.ANDROID);
 
             return data;
         } catch (Exception e) {

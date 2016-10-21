@@ -65,6 +65,8 @@ public class CacheDAO {
             Cursor cursor = sqliteDatabase.rawQuery(Cache.QUERY_CACHE, null);
 
             if (cursor != null) {
+                cursor.moveToFirst();
+
                 while (!cursor.isAfterLast()) {
                     int id = cursor.getInt(cursor.getColumnIndex(Cache.DB_FIELD_ID));
                     String url = cursor.getString(cursor.getColumnIndex(Cache.DB_FIELD_URL));

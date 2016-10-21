@@ -16,9 +16,9 @@ public class GenerateDeviceIdException extends AbstractException {
      * </p>
      *
      * @param message Error message AllIn
-     * @param params Error parameters.
+     * @param error Error parameters.
      */
-    public GenerateDeviceIdException(String message, Object... params) {
-        super("Device Id inválido.", message, params);
+    public GenerateDeviceIdException(String message, String error) {
+        super("Device Id inválido: %s %s", message, error);
     }
 }
