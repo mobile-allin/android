@@ -14,24 +14,35 @@ import br.com.allin.mobile.pushnotification.entity.CacheEntity;
  * Class that manages the CacheEntity database requests
  */
 public class CacheDAO {
+    private Context context;
     private SQLiteDatabase sqliteDatabase;
 
     public CacheDAO(Context context) {
-        this.sqliteDatabase = context.openOrCreateDatabase(Cache.DB_NAME, Context.MODE_PRIVATE, null);
+        this.context = context;
 
         createTable();
+    }
+
+    private void openDatabase() {
+        this.sqliteDatabase = context.openOrCreateDatabase(Cache.DB_NAME, Context.MODE_PRIVATE, null);
     }
 
     private void closeDatabase() {
         if (sqliteDatabase != null) {
             sqliteDatabase.close();
         }
+
+        sqliteDatabase = null;
     }
 
     private void createTable() {
+        openDatabase();
+
         if (sqliteDatabase != null) {
             sqliteDatabase.execSQL(Cache.CREATE_TABLE_CACHE);
         }
+
+        closeDatabase();
     }
 
     /**
@@ -42,6 +53,8 @@ public class CacheDAO {
      * @param json JSON attempt request
     */
     public void insert(String url, String json) {
+        openDatabase();
+
         if (sqliteDatabase != null) {
             sqliteDatabase.execSQL(Cache.INSERT_CACHE
                     .replace("#VALUE1", url).replace("#VALUE2", json));
@@ -51,6 +64,8 @@ public class CacheDAO {
     }
 
     public void delete(int id) {
+        openDatabase();
+
         if (sqliteDatabase != null) {
             sqliteDatabase.execSQL(Cache.DELETE_CACHE.replace("#VALUE1", String.valueOf(id)));
         }
@@ -59,6 +74,8 @@ public class CacheDAO {
     }
 
     public List<CacheEntity> getAll() {
+        openDatabase();
+
         List<CacheEntity> cacheEntityList = new ArrayList<>();
 
         if (sqliteDatabase != null) {
