@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
 
+// To Publish the library execute the command in console:
+// ./gradlew bintrayUpload
+
 ext {
     bintrayRepo = 'maven'
     bintrayName = 'AllInMobileLibrary'
@@ -13,7 +16,7 @@ ext {
     siteUrl = 'http://allin.com.br/'
     gitUrl = 'https://github.com/giep-br/mobile-android.git'
 
-    libraryVersion = '0.0.8'
+    libraryVersion = '0.0.9'
 
     developerId = 'lbrsilva-allin'
     developerName = 'Lucas Barbosa Rodrigues Silva'
