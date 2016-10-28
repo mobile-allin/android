@@ -118,8 +118,14 @@ public class AllInWebViewActivity extends AppCompatActivity {
     private void init() {
         if (getIntent().hasExtra(Notification.URL_SCHEME)) {
             wvAllIn.loadUrl(getIntent().getStringExtra(Notification.URL_SCHEME));
-        } else if (getIntent().hasExtra(Notification.ID_TEMPLATE)) {
-            // TODO Abrir URL com o id do template
+        } else if (getIntent().hasExtra(Notification.ID_LOGIN)) {
+            String urlTransactional = getIntent().getStringExtra(Notification.URL_TRANSACTIONAL);
+            String idLogin = getIntent().getStringExtra(Notification.ID_LOGIN);
+            String idSend = getIntent().getStringExtra(Notification.ID_SEND);
+            String date = getIntent().getStringExtra(Notification.DATE_NOTIFICATION);
+            String url = urlTransactional + "/" + date + "/" + idLogin + "/" + idSend;
+
+            wvAllIn.loadUrl(url);
         } else {
             loadHTML(getIntent().getExtras());
         }
