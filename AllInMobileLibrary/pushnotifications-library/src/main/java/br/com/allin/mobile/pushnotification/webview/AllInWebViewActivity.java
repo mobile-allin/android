@@ -123,7 +123,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
             String idLogin = getIntent().getStringExtra(Notification.ID_LOGIN);
             String idSend = getIntent().getStringExtra(Notification.ID_SEND);
             String date = getIntent().getStringExtra(Notification.DATE_NOTIFICATION);
-            String url = urlTransactional + "/" + date + "/" + idLogin + "/" + idSend;
+            String url = String.format("%s/%s/%s/%s", urlTransactional, date, idLogin, idSend);
 
             wvAllIn.loadUrl(url);
         } else {
