@@ -16,7 +16,7 @@ ext {
     siteUrl = 'http://allin.com.br/'
     gitUrl = 'https://github.com/giep-br/mobile-android.git'
 
-    libraryVersion = '0.0.9'
+    libraryVersion = '0.0.11'
 
     developerId = 'lbrsilva-allin'
     developerName = 'Lucas Barbosa Rodrigues Silva'
