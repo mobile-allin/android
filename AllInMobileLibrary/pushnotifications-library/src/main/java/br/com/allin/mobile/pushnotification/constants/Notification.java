@@ -10,4 +10,5 @@ public class Notification {
     public static final String ACTION = "action";
     public static final String DATE_NOTIFICATION = "date";
     public static final String URL_TRANSACTIONAL = "url_transactional";
+    public static final String IMAGE = "image";
 }

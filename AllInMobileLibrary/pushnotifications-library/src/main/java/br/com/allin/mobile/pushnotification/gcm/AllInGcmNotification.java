@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.net.URLDecoder;
@@ -19,6 +21,7 @@ import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
 import br.com.allin.mobile.pushnotification.Util;
 import br.com.allin.mobile.pushnotification.constants.Notification;
 import br.com.allin.mobile.pushnotification.constants.Preferences;
+import br.com.allin.mobile.pushnotification.http.DownloadImage;
 
 /**
  * Class that provides the notification of receipt of a push GCM.
@@ -34,13 +37,12 @@ public class AllInGcmNotification {
      * @param content Content (text) notification
      * @param extras Parameters to be included in the notification.
      */
-    public static void showNotification(Context context, String title, String content, Bundle extras) {
+    public static void showNotification(final Context context, final String title,
+                                        final String content, final Bundle extras) {
         if (content == null || extras == null) {
             return;
         }
-
-        NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(context);
-
+        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
         String scheme = extras.getString(Notification.URL_SCHEME);
 
         if (scheme != null && scheme.trim().length() > 0) {
@@ -62,18 +64,43 @@ public class AllInGcmNotification {
         intent.putExtra(Notification.SUBJECT, title);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        PendingIntent pendingIntent =
+        final PendingIntent pendingIntent =
                 PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
-        String backgroundColor = sharedPreferencesManager
+        final String backgroundColor = sharedPreferencesManager
                 .getData(Preferences.KEY_BACKGROUND_NOTIFICATION, null);
 
-        int whiteIcon = sharedPreferencesManager
+        final int whiteIcon = sharedPreferencesManager
                 .getData(Preferences.KEY_WHITE_ICON_NOTIFICATION, 0);
 
-        int icon = sharedPreferencesManager
+        final int icon = sharedPreferencesManager
                 .getData(Preferences.KEY_ICON_NOTIFICATION, 0);
+
+        final String image = extras.getString(Notification.IMAGE);
+
+        if (image != null && !TextUtils.isEmpty(image)) {
+            new DownloadImage(image, new DownloadImage.OnDownloadCompleted() {
+                @Override
+                public void onCompleted(Bitmap bitmap) {
+                    showNotification(context, icon, whiteIcon,
+                            backgroundColor, content, title, bitmap, pendingIntent);
+                }
+
+                @Override
+                public void onError() {
+                    showNotification(context, icon, whiteIcon,
+                            backgroundColor, content, title, null, pendingIntent);
+                }
+            }).execute();
+        } else {
+            showNotification(context, icon, whiteIcon,
+                    backgroundColor, content, title, null, pendingIntent);
+        }
+    }
+
+    private static void showNotification(Context context, int icon, int whiteIcon, String backgroundColor,
+                                         String content, String title, Bitmap bitmap, PendingIntent pendingIntent) {
+        NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(context);
 
         if (icon == 0) {
             notificationCompatBuilder
@@ -87,7 +114,6 @@ public class AllInGcmNotification {
         notificationCompatBuilder
                 .setColor(backgroundColor != null ?
                         Color.parseColor(backgroundColor) : Color.TRANSPARENT)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(content))
                 .setDefaults(NotificationCompat.DEFAULT_LIGHTS
                         | NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
@@ -97,6 +123,12 @@ public class AllInGcmNotification {
                 .setContentText(content)
                 .setContentTitle(title)
                 .setAutoCancel(true);
+
+        if (bitmap != null) {
+            notificationCompatBuilder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap));
+        } else {
+            notificationCompatBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(content));
+        }
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
