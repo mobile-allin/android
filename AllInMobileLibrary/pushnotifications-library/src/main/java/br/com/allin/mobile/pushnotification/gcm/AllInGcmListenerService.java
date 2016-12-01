@@ -24,21 +24,19 @@ public class AllInGcmListenerService extends GcmListenerService {
     }
 
     private void readContentFromNotification(Bundle data) {
-        final String subject = data.getString(Notification.SUBJECT);
-        final String description = data.getString(Notification.DESCRIPTION);
         final String action = data.getString(Notification.ACTION);
 
-        if (!Util.isNullOrClear(action)) {
+        if (!Util.isNullOrClear(data.getString(Notification.ACTION))) {
             if (AllInPush.getInstance().getContext() instanceof AllInApplication) {
                 new Handler(Looper.getMainLooper()) {
                     @Override
                     public void handleMessage(Message message) {
-                        AllInPush.getInstance().getAlliNApplication().onAction(action);
+                        AllInPush.getInstance().getAlliNApplication().onAction(action, true);
                     }
                 }.sendEmptyMessage(0);
             }
-        } else if (!Util.isNullOrClear(subject) && !Util.isNullOrClear(description)) {
-            AllInGcmNotification.showNotification(this, subject, description, data);
+        } else {
+            new AllInGcmNotification(this).showNotification(data);
         }
     }
 }

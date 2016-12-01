@@ -1,5 +1,9 @@
 package br.com.allin.mobile.allinmobilelibrary;
 
+import android.support.design.widget.Snackbar;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.crashlytics.android.Crashlytics;
 
 import br.com.allin.mobile.pushnotification.AllInApplication;
@@ -28,6 +32,7 @@ public class SampleApplication extends AllInApplication {
     }
 
     @Override
-    public void onAction(String action) {
+    public void onAction(String action, boolean sentFromServer) {
+        Toast.makeText(this, action, Toast.LENGTH_SHORT).show();
     }
 }

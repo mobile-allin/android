@@ -5,8 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.text.TextUtils;
 
+import br.com.allin.mobile.pushnotification.AllInApplication;
 import br.com.allin.mobile.pushnotification.AllInPush;
+import br.com.allin.mobile.pushnotification.constants.Action;
 import br.com.allin.mobile.pushnotification.constants.Notification;
 import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
 
@@ -17,22 +23,35 @@ public class BroadcastNotification extends BroadcastReceiver {
     public static final String BROADCAST_NOTIFICATION = "BroadcastNotification";
 
     @Override
-    public void onReceive(Context context, Intent intentReceiver) {
+    public void onReceive(final Context context, final Intent intentReceiver) {
         Bundle extras = intentReceiver.getExtras();
 
-        if (intentReceiver.hasExtra(Notification.ID_CAMPAIGN)) {
-            int idCampaign = Integer.parseInt(extras.getString(Notification.ID_CAMPAIGN));
-            String date = extras.getString(Notification.DATE_NOTIFICATION);
+        if (intentReceiver.getStringExtra(Action.class.toString()) != null
+                && !TextUtils.isEmpty(intentReceiver.getStringExtra(Action.class.toString()))) {
+            if (AllInPush.getInstance().getContext() instanceof AllInApplication) {
+                new Handler(Looper.getMainLooper()) {
+                    @Override
+                    public void handleMessage(Message message) {
+                        AllInPush.getInstance().getAlliNApplication()
+                                .onAction(intentReceiver.getStringExtra(Action.class.toString()), false);
+                    }
+                }.sendEmptyMessage(0);
+            }
+        } else {
+            if (intentReceiver.hasExtra(Notification.ID_CAMPAIGN)) {
+                int idCampaign = Integer.parseInt(extras.getString(Notification.ID_CAMPAIGN));
+                String date = extras.getString(Notification.DATE_NOTIFICATION);
 
-            AllInPush.getInstance().notificationCampaign(idCampaign, date);
-        } else if (intentReceiver.hasExtra(Notification.ID_SEND)) {
-            int idSend = Integer.parseInt(extras.getString(Notification.ID_SEND));
-            String date = extras.getString(Notification.DATE_NOTIFICATION);
+                AllInPush.getInstance().notificationCampaign(idCampaign, date);
+            } else if (intentReceiver.hasExtra(Notification.ID_SEND)) {
+                int idSend = Integer.parseInt(extras.getString(Notification.ID_SEND));
+                String date = extras.getString(Notification.DATE_NOTIFICATION);
 
-            AllInPush.getInstance().notificationTransactional(idSend, date);
+                AllInPush.getInstance().notificationTransactional(idSend, date);
+            }
+
+            start(context, extras, intentReceiver.hasExtra(Notification.URL_SCHEME));
         }
-
-        start(context, extras, intentReceiver.hasExtra(Notification.URL_SCHEME));
     }
 
     private void start(Context context, Bundle extras, boolean isScheme) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.text.TextUtils;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -37,7 +38,7 @@ public class Util {
      * Otherwise, returns {@code false}.
      */
     public static boolean isNullOrClear(String value) {
-        return value == null || "".equals(value.trim());
+        return value == null || TextUtils.isEmpty(value.trim());
     }
 
     /**

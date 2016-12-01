@@ -14,11 +14,16 @@ import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.net.URLDecoder;
+import java.util.Random;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
 import br.com.allin.mobile.pushnotification.Util;
+import br.com.allin.mobile.pushnotification.constants.Action;
 import br.com.allin.mobile.pushnotification.constants.Notification;
 import br.com.allin.mobile.pushnotification.constants.Preferences;
 import br.com.allin.mobile.pushnotification.http.DownloadImage;
@@ -27,22 +32,46 @@ import br.com.allin.mobile.pushnotification.http.DownloadImage;
  * Class that provides the notification of receipt of a push GCM.
  */
 public class AllInGcmNotification {
-    private AllInGcmNotification() {
+    private Context context;
+    private SharedPreferencesManager sharedPreferencesManager;
+
+    public AllInGcmNotification(Context context) {
+        this.context = context;
+        this.sharedPreferencesManager = new SharedPreferencesManager(context);
     }
 
     /**
      * Create a standard notification with title and text, sending additional parameters from a @code {Bundle}.
      *
-     * @param title Notification title
-     * @param content Content (text) notification
      * @param extras Parameters to be included in the notification.
      */
-    public static void showNotification(final Context context, final String title,
-                                        final String content, final Bundle extras) {
-        if (content == null || extras == null) {
+    public void showNotification(final Bundle extras) {
+        if (extras == null) {
             return;
         }
-        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
+
+        dealScheme(extras);
+
+        String image = extras.getString(Notification.IMAGE);
+
+        if (Util.isNullOrClear(image)) {
+            showNotification(null, extras);
+        } else {
+            new DownloadImage(image, new DownloadImage.OnDownloadCompleted() {
+                @Override
+                public void onCompleted(Bitmap bitmap) {
+                    showNotification(bitmap, extras);
+                }
+
+                @Override
+                public void onError() {
+                    showNotification(null, extras);
+                }
+            }).execute();
+        }
+    }
+
+    private void dealScheme(Bundle extras) {
         String scheme = extras.getString(Notification.URL_SCHEME);
 
         if (scheme != null && scheme.trim().length() > 0) {
@@ -52,87 +81,105 @@ public class AllInGcmNotification {
                 Log.e(AllInGcmNotification.class.toString(), "ERRO IN DECODE URL");
             } finally {
                 if (scheme.contains("##id_push##")) {
-                    scheme = scheme.replace("##id_push##", Util.md5(AllInPush.getInstance().getDeviceId()));
+                    scheme = scheme.replace("##id_push##",
+                            Util.md5(AllInPush.getInstance().getDeviceId()));
                 }
 
                 extras.putString(Notification.URL_SCHEME, scheme);
             }
         }
+    }
+
+    private void showNotification(Bitmap bitmap, Bundle extras) {
+        String backgroundColor = sharedPreferencesManager.getData(Preferences.KEY_BACKGROUND_NOTIFICATION, null);
+        int whiteIcon = sharedPreferencesManager.getData(Preferences.KEY_WHITE_ICON_NOTIFICATION, 0);
+        int icon = sharedPreferencesManager.getData(Preferences.KEY_ICON_NOTIFICATION, 0);
+        final String title = extras.getString(Notification.SUBJECT);
+        final String content = extras.getString(Notification.DESCRIPTION);
 
         Intent intent = new Intent(BroadcastNotification.BROADCAST_NOTIFICATION);
         intent.putExtras(extras);
         intent.putExtra(Notification.SUBJECT, title);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        final PendingIntent pendingIntent =
+        PendingIntent pendingIntent =
                 PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        final String backgroundColor = sharedPreferencesManager
-                .getData(Preferences.KEY_BACKGROUND_NOTIFICATION, null);
-
-        final int whiteIcon = sharedPreferencesManager
-                .getData(Preferences.KEY_WHITE_ICON_NOTIFICATION, 0);
-
-        final int icon = sharedPreferencesManager
-                .getData(Preferences.KEY_ICON_NOTIFICATION, 0);
-
-        final String image = extras.getString(Notification.IMAGE);
-
-        if (image != null && !TextUtils.isEmpty(image)) {
-            new DownloadImage(image, new DownloadImage.OnDownloadCompleted() {
-                @Override
-                public void onCompleted(Bitmap bitmap) {
-                    showNotification(context, icon, whiteIcon,
-                            backgroundColor, content, title, bitmap, pendingIntent);
-                }
-
-                @Override
-                public void onError() {
-                    showNotification(context, icon, whiteIcon,
-                            backgroundColor, content, title, null, pendingIntent);
-                }
-            }).execute();
-        } else {
-            showNotification(context, icon, whiteIcon,
-                    backgroundColor, content, title, null, pendingIntent);
-        }
-    }
-
-    private static void showNotification(Context context, int icon, int whiteIcon, String backgroundColor,
-                                         String content, String title, Bitmap bitmap, PendingIntent pendingIntent) {
-        NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(context);
+        NotificationCompat.Builder
+                notificationCompatBuilder = new NotificationCompat.Builder(context);
 
         if (icon == 0) {
             notificationCompatBuilder
-                    .setSmallIcon(whiteIcon != 0 ? whiteIcon : getNotificationIcon(context));
+                .setSmallIcon(whiteIcon != 0 ? whiteIcon : getNotificationIcon(context));
         } else {
             notificationCompatBuilder
-                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), icon))
-                    .setSmallIcon(whiteIcon);
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), icon))
+                .setSmallIcon(whiteIcon);
         }
 
         notificationCompatBuilder
-                .setColor(backgroundColor != null ?
-                        Color.parseColor(backgroundColor) : Color.TRANSPARENT)
-                .setDefaults(NotificationCompat.DEFAULT_LIGHTS
-                        | NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setGroupSummary(true)
-                .setGroup("messages")
-                .setContentIntent(pendingIntent)
-                .setContentText(content)
-                .setContentTitle(title)
-                .setAutoCancel(true);
+            .setColor(backgroundColor != null ? Color.parseColor(backgroundColor) : Color.TRANSPARENT)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setPriority(NotificationCompat.PRIORITY_MAX)
+            .setGroupSummary(true)
+            .setGroup("messages")
+            .setContentIntent(pendingIntent)
+            .setContentText(content)
+            .setContentTitle(title)
+            .setAutoCancel(true);
 
         if (bitmap != null) {
-            notificationCompatBuilder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap));
+            notificationCompatBuilder.setStyle(
+                new NotificationCompat.BigPictureStyle().bigPicture(bitmap)
+            );
         } else {
-            notificationCompatBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(content));
+            notificationCompatBuilder.setStyle(
+                new NotificationCompat.BigTextStyle().bigText(content)
+            );
         }
+
+        addActions(context, notificationCompatBuilder, extras);
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(Integer.MAX_VALUE, notificationCompatBuilder.build());
+        notificationManager.notify(generateId(extras), notificationCompatBuilder.build());
+    }
+
+    private int generateId(Bundle extras) {
+        if (!Util.isNullOrClear(extras.getString(Notification.ID_CAMPAIGN))) {
+            return Integer.parseInt(extras.getString(Notification.ID_CAMPAIGN));
+        } else if (!Util.isNullOrClear(extras.getString(Notification.ID_SEND))) {
+            return Integer.parseInt(extras.getString(Notification.ID_SEND));
+        } else {
+            return new Random().nextInt(50);
+        }
+    }
+
+    private void addActions(Context context,
+                                   NotificationCompat.Builder notificationBuilder, Bundle extras) {
+        String actions = extras.getString(Notification.ACTIONS);
+
+        if (actions != null && !TextUtils.isEmpty(actions)) {
+            try {
+                JSONArray jsonArray = new JSONArray(extras.getString(Notification.ACTIONS));
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    String action = jsonObject.getString(Action.ACTION);
+                    String color = jsonObject.getString(Action.COLOR);
+                    String text = jsonObject.getString(Action.TEXT);
+
+                    Intent intentAction = new Intent(BroadcastNotification.BROADCAST_NOTIFICATION);
+                    intentAction.putExtra(Action.class.toString(), action);
+                    PendingIntent pendingIntent = PendingIntent
+                            .getBroadcast(context, i, intentAction, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    notificationBuilder.addAction(0, text, pendingIntent);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -142,7 +189,7 @@ public class AllInGcmNotification {
      *
      * @return Application icon id.
      */
-    private static int getNotificationIcon(Context context) {
+    private int getNotificationIcon(Context context) {
         String packageName = context.getApplicationContext().getPackageName();
         PackageManager packageManager = context.getPackageManager();
 
