@@ -166,7 +166,6 @@ public class AllInGcmNotification {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     String action = jsonObject.getString(Action.ACTION);
-                    String color = jsonObject.getString(Action.COLOR);
                     String text = jsonObject.getString(Action.TEXT);
 
                     Intent intentAction = new Intent(BroadcastNotification.BROADCAST_NOTIFICATION);

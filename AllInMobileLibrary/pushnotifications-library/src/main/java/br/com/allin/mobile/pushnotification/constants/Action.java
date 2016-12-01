@@ -7,5 +7,4 @@ package br.com.allin.mobile.pushnotification.constants;
 public class Action {
     public static final String TEXT = "text";
     public static final String ACTION = "action";
-    public static final String COLOR = "color";
 }
