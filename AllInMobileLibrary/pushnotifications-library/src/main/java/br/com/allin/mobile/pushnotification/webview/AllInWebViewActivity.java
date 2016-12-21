@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.Util;
-import br.com.allin.mobile.pushnotification.constants.Notification;
+import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 /**
@@ -65,7 +65,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
 
     private void configureActionBar() {
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getIntent().getStringExtra(Notification.SUBJECT));
+            getSupportActionBar().setTitle(getIntent().getStringExtra(NotificationConstants.SUBJECT));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
@@ -116,13 +116,13 @@ public class AllInWebViewActivity extends AppCompatActivity {
     }
 
     private void init() {
-        if (getIntent().hasExtra(Notification.URL_SCHEME)) {
-            wvAllIn.loadUrl(getIntent().getStringExtra(Notification.URL_SCHEME));
-        } else if (getIntent().hasExtra(Notification.ID_LOGIN)) {
-            String urlTransactional = getIntent().getStringExtra(Notification.URL_TRANSACTIONAL);
-            String idLogin = getIntent().getStringExtra(Notification.ID_LOGIN);
-            String idSend = getIntent().getStringExtra(Notification.ID_SEND);
-            String date = getIntent().getStringExtra(Notification.DATE_NOTIFICATION);
+        if (getIntent().hasExtra(NotificationConstants.URL_SCHEME)) {
+            wvAllIn.loadUrl(getIntent().getStringExtra(NotificationConstants.URL_SCHEME));
+        } else if (getIntent().hasExtra(NotificationConstants.ID_LOGIN)) {
+            String urlTransactional = getIntent().getStringExtra(NotificationConstants.URL_TRANSACTIONAL);
+            String idLogin = getIntent().getStringExtra(NotificationConstants.ID_LOGIN);
+            String idSend = getIntent().getStringExtra(NotificationConstants.ID_SEND);
+            String date = getIntent().getStringExtra(NotificationConstants.DATE_NOTIFICATION);
             String url = String.format("%s/%s/%s/%s", urlTransactional, date, idLogin, idSend);
 
             wvAllIn.loadUrl(url);
@@ -132,7 +132,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
     }
 
     private void loadHTML(Bundle bundle) {
-        String idCampaignString = bundle.getString(Notification.ID_CAMPAIGN);
+        String idCampaignString = bundle.getString(NotificationConstants.ID_CAMPAIGN);
 
         if (idCampaignString == null) {
             return;

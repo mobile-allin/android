@@ -5,8 +5,8 @@ import android.content.Context;
 import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
-import br.com.allin.mobile.pushnotification.constants.HttpBody;
-import br.com.allin.mobile.pushnotification.constants.Route;
+import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
+import br.com.allin.mobile.pushnotification.constants.RouteConstants;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -21,7 +21,7 @@ public class LogoutTask extends BaseTask<String> {
 
     @Override
     public String getUrl() {
-        return Route.DEVICE_LOGOUT;
+        return RouteConstants.DEVICE_LOGOUT;
     }
 
     @Override
@@ -29,8 +29,8 @@ public class LogoutTask extends BaseTask<String> {
         try {
             JSONObject data = new JSONObject();
 
-            data.put(HttpBody.DEVICE_TOKEN, AllInPush.getInstance().getDeviceId());
-            data.put(HttpBody.USER_EMAIL, AllInPush.getInstance().getUserEmail());
+            data.put(HttpBodyConstants.DEVICE_TOKEN, AllInPush.getInstance().getDeviceId());
+            data.put(HttpBodyConstants.USER_EMAIL, AllInPush.getInstance().getUserEmail());
 
             return data;
         } catch (Exception e) {

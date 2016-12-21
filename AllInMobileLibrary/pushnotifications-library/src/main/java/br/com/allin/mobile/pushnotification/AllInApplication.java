@@ -23,7 +23,7 @@ public abstract class AllInApplication extends Application implements AllInDeleg
         broadcastNotification = new BroadcastNotification();
 
         getApplicationContext().registerReceiver(broadcastNotification,
-                new IntentFilter(BroadcastNotification.BROADCAST_NOTIFICATION));
+                new IntentFilter(BroadcastNotification.class.toString()));
     }
 
     @Override

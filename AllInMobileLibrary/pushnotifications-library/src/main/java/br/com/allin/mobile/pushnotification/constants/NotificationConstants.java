@@ -1,6 +1,6 @@
 package br.com.allin.mobile.pushnotification.constants;
 
-public class Notification {
+public class NotificationConstants {
     public static final String ID_SEND = "id_send";
     public static final String SUBJECT = "subject";
     public static final String DESCRIPTION = "description";

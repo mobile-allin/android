@@ -15,9 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import br.com.allin.mobile.pushnotification.constants.Preferences;
-import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
-
 /**
  * Class that contains common methods that will be used throughout the library.
  */

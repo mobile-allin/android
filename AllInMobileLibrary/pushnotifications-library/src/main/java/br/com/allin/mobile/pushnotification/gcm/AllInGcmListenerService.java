@@ -10,7 +10,7 @@ import com.google.android.gms.gcm.GcmListenerService;
 import br.com.allin.mobile.pushnotification.AllInApplication;
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.Util;
-import br.com.allin.mobile.pushnotification.constants.Notification;
+import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
 
 /**
  * IntentService that it will be executed when a notification was received.
@@ -24,9 +24,9 @@ public class AllInGcmListenerService extends GcmListenerService {
     }
 
     private void readContentFromNotification(Bundle data) {
-        final String action = data.getString(Notification.ACTION);
+        final String action = data.getString(NotificationConstants.ACTION);
 
-        if (!Util.isNullOrClear(data.getString(Notification.ACTION))) {
+        if (!Util.isNullOrClear(data.getString(NotificationConstants.ACTION))) {
             if (AllInPush.getInstance().getContext() instanceof AllInApplication) {
                 new Handler(Looper.getMainLooper()) {
                     @Override

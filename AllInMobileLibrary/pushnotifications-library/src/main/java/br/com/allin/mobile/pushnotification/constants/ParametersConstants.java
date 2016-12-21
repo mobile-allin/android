@@ -1,5 +1,5 @@
 package br.com.allin.mobile.pushnotification.constants;
 
-public class Parameters {
+public class ParametersConstants {
     public static final String ANDROID = "ANDROID";
 }

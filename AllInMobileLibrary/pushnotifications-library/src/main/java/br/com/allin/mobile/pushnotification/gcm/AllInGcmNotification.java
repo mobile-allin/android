@@ -23,9 +23,9 @@ import java.util.Random;
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
 import br.com.allin.mobile.pushnotification.Util;
-import br.com.allin.mobile.pushnotification.constants.Action;
-import br.com.allin.mobile.pushnotification.constants.Notification;
-import br.com.allin.mobile.pushnotification.constants.Preferences;
+import br.com.allin.mobile.pushnotification.constants.ActionConstants;
+import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
+import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
 import br.com.allin.mobile.pushnotification.http.DownloadImage;
 
 /**
@@ -43,7 +43,7 @@ public class AllInGcmNotification {
     /**
      * Create a standard notification with title and text, sending additional parameters from a @code {Bundle}.
      *
-     * @param extras Parameters to be included in the notification.
+     * @param extras ParametersConstants to be included in the notification.
      */
     public void showNotification(final Bundle extras) {
         if (extras == null) {
@@ -52,7 +52,7 @@ public class AllInGcmNotification {
 
         dealScheme(extras);
 
-        String image = extras.getString(Notification.IMAGE);
+        String image = extras.getString(NotificationConstants.IMAGE);
 
         if (Util.isNullOrClear(image)) {
             showNotification(null, extras);
@@ -72,7 +72,7 @@ public class AllInGcmNotification {
     }
 
     private void dealScheme(Bundle extras) {
-        String scheme = extras.getString(Notification.URL_SCHEME);
+        String scheme = extras.getString(NotificationConstants.URL_SCHEME);
 
         if (scheme != null && scheme.trim().length() > 0) {
             try {
@@ -85,21 +85,21 @@ public class AllInGcmNotification {
                             Util.md5(AllInPush.getInstance().getDeviceId()));
                 }
 
-                extras.putString(Notification.URL_SCHEME, scheme);
+                extras.putString(NotificationConstants.URL_SCHEME, scheme);
             }
         }
     }
 
     private void showNotification(Bitmap bitmap, Bundle extras) {
-        String backgroundColor = sharedPreferencesManager.getData(Preferences.KEY_BACKGROUND_NOTIFICATION, null);
-        int whiteIcon = sharedPreferencesManager.getData(Preferences.KEY_WHITE_ICON_NOTIFICATION, 0);
-        int icon = sharedPreferencesManager.getData(Preferences.KEY_ICON_NOTIFICATION, 0);
-        final String title = extras.getString(Notification.SUBJECT);
-        final String content = extras.getString(Notification.DESCRIPTION);
+        String backgroundColor = sharedPreferencesManager.getData(PreferencesConstants.KEY_BACKGROUND_NOTIFICATION, null);
+        int whiteIcon = sharedPreferencesManager.getData(PreferencesConstants.KEY_WHITE_ICON_NOTIFICATION, 0);
+        int icon = sharedPreferencesManager.getData(PreferencesConstants.KEY_ICON_NOTIFICATION, 0);
+        final String title = extras.getString(NotificationConstants.SUBJECT);
+        final String content = extras.getString(NotificationConstants.DESCRIPTION);
 
-        Intent intent = new Intent(BroadcastNotification.BROADCAST_NOTIFICATION);
+        Intent intent = new Intent(BroadcastNotification.class.toString());
         intent.putExtras(extras);
-        intent.putExtra(Notification.SUBJECT, title);
+        intent.putExtra(NotificationConstants.SUBJECT, title);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent =
@@ -146,10 +146,10 @@ public class AllInGcmNotification {
     }
 
     private int generateId(Bundle extras) {
-        if (!Util.isNullOrClear(extras.getString(Notification.ID_CAMPAIGN))) {
-            return Integer.parseInt(extras.getString(Notification.ID_CAMPAIGN));
-        } else if (!Util.isNullOrClear(extras.getString(Notification.ID_SEND))) {
-            return Integer.parseInt(extras.getString(Notification.ID_SEND));
+        if (!Util.isNullOrClear(extras.getString(NotificationConstants.ID_CAMPAIGN))) {
+            return Integer.parseInt(extras.getString(NotificationConstants.ID_CAMPAIGN));
+        } else if (!Util.isNullOrClear(extras.getString(NotificationConstants.ID_SEND))) {
+            return Integer.parseInt(extras.getString(NotificationConstants.ID_SEND));
         } else {
             return new Random().nextInt(50);
         }
@@ -157,19 +157,19 @@ public class AllInGcmNotification {
 
     private void addActions(Context context,
                                    NotificationCompat.Builder notificationBuilder, Bundle extras) {
-        String actions = extras.getString(Notification.ACTIONS);
+        String actions = extras.getString(NotificationConstants.ACTIONS);
 
         if (actions != null && !TextUtils.isEmpty(actions)) {
             try {
-                JSONArray jsonArray = new JSONArray(extras.getString(Notification.ACTIONS));
+                JSONArray jsonArray = new JSONArray(extras.getString(NotificationConstants.ACTIONS));
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    String action = jsonObject.getString(Action.ACTION);
-                    String text = jsonObject.getString(Action.TEXT);
+                    String action = jsonObject.getString(ActionConstants.ACTION);
+                    String text = jsonObject.getString(ActionConstants.TEXT);
 
-                    Intent intentAction = new Intent(BroadcastNotification.BROADCAST_NOTIFICATION);
-                    intentAction.putExtra(Action.class.toString(), action);
+                    Intent intentAction = new Intent(BroadcastNotification.class.toString());
+                    intentAction.putExtra(ActionConstants.class.toString(), action);
                     PendingIntent pendingIntent = PendingIntent
                             .getBroadcast(context, i, intentAction, PendingIntent.FLAG_UPDATE_CURRENT);
 

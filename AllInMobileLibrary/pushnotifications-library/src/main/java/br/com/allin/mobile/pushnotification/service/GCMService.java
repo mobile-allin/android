@@ -11,7 +11,7 @@ import java.io.IOException;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
-import br.com.allin.mobile.pushnotification.constants.Preferences;
+import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
 import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
 import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
 import br.com.allin.mobile.pushnotification.exception.GenerateDeviceIdException;
@@ -61,8 +61,8 @@ public class GCMService extends AsyncTask<Void, Void, String> {
         }
 
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(this.context);
-        sharedPreferencesManager.storeData(Preferences.KEY_DEVICE_ID, token);
-        sharedPreferencesManager.storeData(Preferences.KEY_PROJECT_ID, this.configurationEntity.getSenderId());
+        sharedPreferencesManager.storeData(PreferencesConstants.KEY_DEVICE_ID, token);
+        sharedPreferencesManager.storeData(PreferencesConstants.KEY_PROJECT_ID, this.configurationEntity.getSenderId());
 
         return token;
     }

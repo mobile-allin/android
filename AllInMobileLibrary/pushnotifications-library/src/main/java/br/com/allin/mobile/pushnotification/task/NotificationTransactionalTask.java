@@ -5,8 +5,8 @@ import android.content.Context;
 import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.Util;
-import br.com.allin.mobile.pushnotification.constants.HttpBody;
-import br.com.allin.mobile.pushnotification.constants.Route;
+import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
+import br.com.allin.mobile.pushnotification.constants.RouteConstants;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 
@@ -26,7 +26,7 @@ public class NotificationTransactionalTask extends BaseTask<String> {
 
     @Override
     public String getUrl() {
-        return Route.NOTIFICATION_TRANSACTIONAL;
+        return RouteConstants.NOTIFICATION_TRANSACTIONAL;
     }
 
     @Override
@@ -34,9 +34,9 @@ public class NotificationTransactionalTask extends BaseTask<String> {
         try {
             JSONObject data = new JSONObject();
 
-            data.put(HttpBody.ID, this.id);
-            data.put(HttpBody.DATE, this.date);
-            data.put(HttpBody.DATE_OPENING, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
+            data.put(HttpBodyConstants.ID, this.id);
+            data.put(HttpBodyConstants.DATE, this.date);
+            data.put(HttpBodyConstants.DATE_OPENING, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
 
             return data;
         } catch (Exception e) {

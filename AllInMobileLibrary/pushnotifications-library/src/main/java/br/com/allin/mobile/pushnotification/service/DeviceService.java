@@ -8,9 +8,9 @@ import java.util.Map;
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
 import br.com.allin.mobile.pushnotification.Util;
-import br.com.allin.mobile.pushnotification.constants.DefaultList;
-import br.com.allin.mobile.pushnotification.constants.Parameters;
-import br.com.allin.mobile.pushnotification.constants.Preferences;
+import br.com.allin.mobile.pushnotification.constants.DefaultListConstants;
+import br.com.allin.mobile.pushnotification.constants.ParametersConstants;
+import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
 import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 import br.com.allin.mobile.pushnotification.task.DeviceTask;
@@ -41,11 +41,11 @@ public class DeviceService {
             public void onFinish(Object value) {
                 String pushId = AllInPush.getInstance().getDeviceId();
                 Map<String, String> map = new HashMap<>();
-                map.put(DefaultList.ID_PUSH, Util.md5(pushId));
-                map.put(DefaultList.PUSH_ID, pushId);
-                map.put(DefaultList.PLATAFORMA, Parameters.ANDROID);
+                map.put(DefaultListConstants.ID_PUSH, Util.md5(pushId));
+                map.put(DefaultListConstants.PUSH_ID, pushId);
+                map.put(DefaultListConstants.PLATAFORMA, ParametersConstants.ANDROID);
 
-                AllInPush.getInstance().sendList(DefaultList.LISTA_PADRAO, map);
+                AllInPush.getInstance().sendList(DefaultListConstants.LISTA_PADRAO, map);
             }
 
             @Override
@@ -72,21 +72,21 @@ public class DeviceService {
     public String getDeviceToken() {
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
 
-        return sharedPreferencesManager.getData(Preferences.KEY_DEVICE_ID, null);
+        return sharedPreferencesManager.getData(PreferencesConstants.KEY_DEVICE_ID, null);
     }
 
     public String getUserEmail() {
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
 
-        return sharedPreferencesManager.getData(Preferences.KEY_USER_EMAIL, null);
+        return sharedPreferencesManager.getData(PreferencesConstants.KEY_USER_EMAIL, null);
     }
 
     public DeviceEntity getDeviceInfos(String senderId) {
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
 
-        String deviceId = sharedPreferencesManager.getData(Preferences.KEY_DEVICE_ID, null);
-        Integer registeredVersion = sharedPreferencesManager.getData(Preferences.KEY_APPVERSION, 1);
-        String sharedProjectId = sharedPreferencesManager.getData(Preferences.KEY_PROJECT_ID, null);
+        String deviceId = sharedPreferencesManager.getData(PreferencesConstants.KEY_DEVICE_ID, null);
+        Integer registeredVersion = sharedPreferencesManager.getData(PreferencesConstants.KEY_APPVERSION, 1);
+        String sharedProjectId = sharedPreferencesManager.getData(PreferencesConstants.KEY_PROJECT_ID, null);
 
         if (Util.isNullOrClear(deviceId)) {
             return null;
