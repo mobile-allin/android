@@ -12,8 +12,6 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import br.com.allin.mobile.pushnotification.constants.HttpConstants;
-
 /**
  * Class responsible for generating the certificate Https
  */
