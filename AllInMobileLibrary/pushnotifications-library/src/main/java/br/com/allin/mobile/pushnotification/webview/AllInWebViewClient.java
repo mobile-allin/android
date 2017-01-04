@@ -2,7 +2,6 @@ package br.com.allin.mobile.pushnotification.webview;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -56,7 +55,5 @@ public class AllInWebViewClient extends WebViewClient {
         }
 
         return super.shouldOverrideUrlLoading(view, url);
-
     }
-
 }
