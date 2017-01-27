@@ -150,14 +150,18 @@ public class HttpManager extends HttpCertificate {
 
             String responseString = "";
 
-            if (requestType == RequestType.POST && data != null) {
-                OutputStream outputStream = connection.getOutputStream();
-                BufferedWriter bufferedWriter =
-                        new BufferedWriter(new OutputStreamWriter(outputStream, HttpBodyConstants.UTF_8));
-                bufferedWriter.write(data.toString());
-                bufferedWriter.flush();
-                bufferedWriter.close();
-                outputStream.close();
+            if (requestType == RequestType.POST) {
+                connection.setDoOutput(true);
+
+                if (data != null) {
+                    OutputStream outputStream = connection.getOutputStream();
+                    BufferedWriter bufferedWriter =
+                            new BufferedWriter(new OutputStreamWriter(outputStream, HttpBodyConstants.UTF_8));
+                    bufferedWriter.write(data.toString());
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                    outputStream.close();
+                }
             }
 
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {

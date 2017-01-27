@@ -1,6 +1,7 @@
 package br.com.allin.mobile.pushnotification.webview;
 
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
@@ -10,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -40,6 +42,11 @@ public class AllInWebViewActivity extends AppCompatActivity {
         }
 
         this.wvAllIn.setWebViewClient(mWebViewClient);
+        this.wvAllIn.getSettings().setLoadsImagesAutomatically(true);
+
+        if (Build.VERSION.SDK_INT > 21) {
+            this.wvAllIn.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
 
         init();
     }
@@ -117,7 +124,9 @@ public class AllInWebViewActivity extends AppCompatActivity {
 
     private void init() {
         if (getIntent().hasExtra(NotificationConstants.URL_SCHEME)) {
-            wvAllIn.loadUrl(getIntent().getStringExtra(NotificationConstants.URL_SCHEME));
+            String url = getIntent().getStringExtra(NotificationConstants.URL_SCHEME);
+
+            wvAllIn.loadUrl(url);
         } else if (getIntent().hasExtra(NotificationConstants.ID_LOGIN)) {
             String urlTransactional = getIntent().getStringExtra(NotificationConstants.URL_TRANSACTIONAL);
             String idLogin = getIntent().getStringExtra(NotificationConstants.ID_LOGIN);
@@ -127,7 +136,16 @@ public class AllInWebViewActivity extends AppCompatActivity {
 
             wvAllIn.loadUrl(url);
         } else {
-            loadHTML(getIntent().getExtras());
+            if (getIntent().hasExtra(NotificationConstants.URL_CAMPAIGN)) {
+                String urlCampaign = getIntent().getStringExtra(NotificationConstants.URL_CAMPAIGN);
+                String idCampaign = getIntent().getStringExtra(NotificationConstants.ID_CAMPAIGN);
+                String idPush = Util.md5(AllInPush.getInstance().getDeviceId());
+                String url = String.format("%s/%s/%s", urlCampaign, idPush, idCampaign);
+
+                wvAllIn.loadUrl(url);
+            } else {
+                loadHTML(getIntent().getExtras());
+            }
         }
     }
 
@@ -159,7 +177,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
         }
     }
 
-    @Override
+            @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
