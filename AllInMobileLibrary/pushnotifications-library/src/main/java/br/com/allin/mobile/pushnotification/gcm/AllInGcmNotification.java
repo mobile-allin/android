@@ -19,6 +19,7 @@ import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
 import br.com.allin.mobile.pushnotification.Util;
 import br.com.allin.mobile.pushnotification.constants.Notification;
 import br.com.allin.mobile.pushnotification.constants.Preferences;
+import br.com.allin.mobile.pushnotification.entity.MessageEntity;
 
 /**
  * Class that provides the notification of receipt of a push GCM.
@@ -38,6 +39,8 @@ public class AllInGcmNotification {
         if (content == null || extras == null) {
             return;
         }
+
+        AllInPush.getInstance().addMessage(new MessageEntity(extras));
 
         NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(context);
 
