@@ -12,11 +12,9 @@ import br.com.allin.mobile.pushnotification.entity.MessageEntity;
  */
 
 public class MessageService {
-    private Context context;
     private MessageDAO messageDAO;
 
     public MessageService(Context context) {
-        this.context = context;
         this.messageDAO = new MessageDAO(context);
     }
 
