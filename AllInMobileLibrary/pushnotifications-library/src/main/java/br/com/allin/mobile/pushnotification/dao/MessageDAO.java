@@ -1,5 +1,6 @@
 package br.com.allin.mobile.pushnotification.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
@@ -18,36 +19,64 @@ public class MessageDAO extends BaseDAO {
         super(context, Message.DB_NAME, Message.CREATE_TABLE);
     }
 
-    public void insert(MessageEntity messageEntity) {
+    public long insert(MessageEntity messageEntity) {
+        long idInsert = 0;
+
         openDatabase();
 
         if (sqliteDatabase != null) {
-            sqliteDatabase.execSQL(
-                    Message.INSERT
-                            .replace("#VALUE" + 0, messageEntity.getIdSend())
-                            .replace("#VALUE" + 1, messageEntity.getSubject())
-                            .replace("#VALUE" + 2, messageEntity.getDescription())
-                            .replace("#VALUE" + 3, messageEntity.getIdCampaign())
-                            .replace("#VALUE" + 4, messageEntity.getIdLogin())
-                            .replace("#VALUE" + 5, messageEntity.getUrlScheme())
-                            .replace("#VALUE" + 6, messageEntity.getAction())
-                            .replace("#VALUE" + 7, messageEntity.getDate())
-                            .replace("#VALUE" + 8, messageEntity.getUrlTransactional())
-                            .replace("#VALUE" + 9, messageEntity.isRead() ? "1" : "0")
-            );
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(Message.DB_FIELD_ID_SEND, messageEntity.getIdSend());
+            contentValues.put(Message.DB_FIELD_DESCRIPTION, messageEntity.getDescription());
+            contentValues.put(Message.DB_FIELD_SUBJECT, messageEntity.getSubject());
+            contentValues.put(Message.DB_FIELD_DESCRIPTION, messageEntity.getIdCampaign());
+            contentValues.put(Message.DB_FIELD_ID_LOGIN, messageEntity.getIdLogin());
+            contentValues.put(Message.DB_FIELD_URL_SCHEME, messageEntity.getUrlScheme());
+            contentValues.put(Message.DB_FIELD_ACTION, messageEntity.getAction());
+            contentValues.put(Message.DB_FIELD_DATE_NOTIFICATION, messageEntity.getDate());
+            contentValues.put(Message.DB_FIELD_URL_TRANSACTIONAL, messageEntity.getUrlTransactional());
+            contentValues.put(Message.DB_FIELD_READ, messageEntity.isRead() ? 1 : 0);
+
+            idInsert = sqliteDatabase.insert(Message.TABLE_NAME, null, contentValues);
         }
 
         closeDatabase();
+
+        return idInsert;
     }
 
-    public void delete(int id) {
+    public boolean delete(int id) {
+        boolean success = false;
+
         openDatabase();
 
         if (sqliteDatabase != null) {
-            sqliteDatabase.execSQL(Message.DELETE.replace("#VALUE1", String.valueOf(id)));
+            success = sqliteDatabase
+                    .delete(Message.TABLE_NAME, Message.DB_FIELD_ID + " = " + id, null) > 0;
         }
 
         closeDatabase();
+
+        return success;
+    }
+
+    public boolean messageHasBeenRead(int id) {
+        boolean success = false;
+
+        openDatabase();
+
+        if (sqliteDatabase != null) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(Message.DB_FIELD_READ, 1);
+
+            success = sqliteDatabase
+                    .update(Message.TABLE_NAME, contentValues,
+                            Message.DB_FIELD_ID + " = " + id, null) > 0;
+        }
+
+        closeDatabase();
+
+        return success;
     }
 
     public List<MessageEntity> getAll() {

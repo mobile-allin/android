@@ -51,6 +51,8 @@ public class MessageEntity {
         this.date = date;
         this.urlTransactional = urlTransactional;
         this.read = read;
+
+        updateNullValues();
     }
 
     public MessageEntity(Cursor cursor) {
@@ -76,6 +78,8 @@ public class MessageEntity {
                 cursor.getColumnIndex(Message.DB_FIELD_URL_TRANSACTIONAL));
         this.read = cursor.getInt(
                 cursor.getColumnIndex(Message.DB_FIELD_READ)) == 1;
+
+        updateNullValues();
     }
 
     public MessageEntity(Bundle bundle) {
@@ -90,6 +94,46 @@ public class MessageEntity {
         this.date = bundle.getString(Message.DB_FIELD_DATE_NOTIFICATION);
         this.urlTransactional = bundle.getString(Message.DB_FIELD_URL_TRANSACTIONAL);
         this.read = bundle.getInt(Message.DB_FIELD_READ) == 1;
+
+        updateNullValues();
+    }
+
+    private void updateNullValues() {
+        if (idSend == null) {
+            idSend = "";
+        }
+
+        if (subject == null) {
+            subject = "";
+        }
+
+        if (description == null) {
+            description = "";
+        }
+
+        if (idCampaign == null) {
+            idCampaign = "";
+        }
+
+        if (idLogin == null) {
+            idLogin = "";
+        }
+
+        if (urlScheme == null) {
+            urlScheme = "";
+        }
+
+        if (action == null) {
+            action = "";
+        }
+
+        if (date == null) {
+            date = "";
+        }
+
+        if (urlTransactional == null) {
+            urlTransactional = "";
+        }
     }
 
     public int getId() {

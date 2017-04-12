@@ -31,16 +31,16 @@ public class AllInGcmNotification {
     /**
      * Create a standard notification with title and text, sending additional parameters from a @code {Bundle}.
      *
-     * @param title Notification title
+     * @param title   Notification title
      * @param content Content (text) notification
-     * @param extras Parameters to be included in the notification.
+     * @param extras  Parameters to be included in the notification.
      */
     public static void showNotification(Context context, String title, String content, Bundle extras) {
         if (content == null || extras == null) {
             return;
         }
 
-        AllInPush.getInstance().addMessage(new MessageEntity(extras));
+        long idMessage = AllInPush.getInstance().addMessage(new MessageEntity(extras));
 
         NotificationCompat.Builder notificationCompatBuilder = new NotificationCompat.Builder(context);
 
@@ -62,6 +62,7 @@ public class AllInGcmNotification {
 
         Intent intent = new Intent(BroadcastNotification.BROADCAST_NOTIFICATION);
         intent.putExtras(extras);
+        intent.putExtra(Notification.ID, idMessage);
         intent.putExtra(Notification.SUBJECT, title);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -103,14 +104,13 @@ public class AllInGcmNotification {
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(Integer.MAX_VALUE, notificationCompatBuilder.build());
+        notificationManager.notify((int) idMessage, notificationCompatBuilder.build());
     }
 
     /**
      * Returns the id of the application of the default icon.
      *
      * @param context Application context.
-     *
      * @return Application icon id.
      */
     private static int getNotificationIcon(Context context) {

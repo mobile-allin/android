@@ -18,6 +18,12 @@ public class BroadcastNotification extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intentReceiver) {
+        int idMessage = intentReceiver.getIntExtra(Notification.ID, 0);
+
+        if (idMessage > 0) {
+            AllInPush.getInstance().messageHasBeenRead(idMessage);
+        }
+
         Bundle extras = intentReceiver.getExtras();
 
         if (intentReceiver.hasExtra(Notification.ID_CAMPAIGN)) {

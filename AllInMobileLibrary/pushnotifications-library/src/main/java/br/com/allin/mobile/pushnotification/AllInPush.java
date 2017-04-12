@@ -333,11 +333,15 @@ public class AllInPush {
         return new MessageService(getContext()).getMessages();
     }
 
-    public void addMessage(MessageEntity messageEntity) {
-        new MessageService(getContext()).addMessage(messageEntity);
+    public long addMessage(MessageEntity messageEntity) {
+        return new MessageService(getContext()).addMessage(messageEntity);
     }
 
-    public void deleteMessage(int id) {
-        new MessageService(getContext()).deleteMessage(id);
+    public boolean deleteMessage(int id) {
+        return new MessageService(getContext()).deleteMessage(id);
+    }
+
+    public boolean messageHasBeenRead(int id) {
+        return new MessageService(getContext()).messageHasBeenRead(id);
     }
 }

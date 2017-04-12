@@ -1,5 +1,6 @@
 package br.com.allin.mobile.pushnotification.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
@@ -24,25 +25,37 @@ public class CacheDAO extends BaseDAO {
      * @param url URL attempt request
      * @param json JSON attempt request
      */
-    public void insert(String url, String json) {
+    public long insert(String url, String json) {
+        long idInsert = 0;
+
         openDatabase();
 
         if (sqliteDatabase != null) {
-            sqliteDatabase.execSQL(Cache.INSERT
-                    .replace("#VALUE1", url).replace("#VALUE2", json));
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(Cache.DB_FIELD_URL, url);
+            contentValues.put(Cache.DB_FIELD_JSON,json);
+
+            idInsert = sqliteDatabase.insert(Cache.TABLE_NAME, null, contentValues);
         }
 
         closeDatabase();
+
+        return idInsert;
     }
 
-    public void delete(int id) {
+    public boolean delete(int id) {
+        boolean success = false;
+
         openDatabase();
 
         if (sqliteDatabase != null) {
-            sqliteDatabase.execSQL(Cache.DELETE.replace("#VALUE1", String.valueOf(id)));
+            success = sqliteDatabase
+                    .delete(Cache.TABLE_NAME, Cache.DB_FIELD_ID + " = " + id, null) > 0;
         }
 
         closeDatabase();
+
+        return success;
     }
 
     public List<CacheEntity> getAll() {

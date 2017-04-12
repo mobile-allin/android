@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
 
         deviceIsEnable();
+
+        System.out.print(AllInPush.getInstance().getMessages());
     }
 
     private OnRequest toggleSwitch(final boolean enable) {

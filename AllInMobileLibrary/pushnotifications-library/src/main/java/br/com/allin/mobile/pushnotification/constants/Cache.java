@@ -9,14 +9,10 @@ public class Cache {
 
     public static String CREATE_TABLE = String.format("CREATE TABLE IF NOT EXISTS %s " +
                     "(%s INTEGER PRIMARY KEY AUTOINCREMENT, %s VARCHAR, %s VARCHAR);",
-            Cache.TABLE_NAME, Cache.DB_FIELD_ID,
-            Cache.DB_FIELD_URL, Cache.DB_FIELD_JSON);
-    public static String INSERT = String.format("INSERT INTO %s (%s, %s) " +
-                    "VALUES ('#VALUE1', '#VALUE2');", Cache.TABLE_NAME,
-            Cache.DB_FIELD_URL, Cache.DB_FIELD_JSON);
+                    Cache.TABLE_NAME, Cache.DB_FIELD_ID,
+                    Cache.DB_FIELD_URL, Cache.DB_FIELD_JSON);
+
     public static String SELECT = String.format("SELECT %s, %s, %s " +
                     "FROM %s", Cache.DB_FIELD_ID, Cache.DB_FIELD_URL,
-            Cache.DB_FIELD_JSON, Cache.TABLE_NAME);
-    public static String DELETE = String.format("DELETE " +
-            "FROM %s WHERE %s = #VALUE1", Cache.TABLE_NAME, Cache.DB_FIELD_ID);
+                    Cache.DB_FIELD_JSON, Cache.TABLE_NAME);
 }
