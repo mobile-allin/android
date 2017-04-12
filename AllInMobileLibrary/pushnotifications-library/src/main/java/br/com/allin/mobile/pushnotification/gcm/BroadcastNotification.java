@@ -30,20 +30,22 @@ public class BroadcastNotification extends BroadcastReceiver {
 
         Bundle extras = intentReceiver.getExtras();
 
-        if (intentReceiver.getStringExtra(ActionConstants.class.toString()) != null
-                && !TextUtils.isEmpty(intentReceiver.getStringExtra(ActionConstants.class.toString()))) {
+        if (intentReceiver.getStringExtra(ActionConstants.class.toString()) != null && !TextUtils
+                .isEmpty(intentReceiver.getStringExtra(ActionConstants.class.toString()))) {
             if (AllInPush.getInstance().getContext() instanceof AllInApplication) {
                 new Handler(Looper.getMainLooper()) {
                     @Override
                     public void handleMessage(Message message) {
                         AllInPush.getInstance().getAlliNApplication()
-                                .onAction(intentReceiver.getStringExtra(ActionConstants.class.toString()), false);
+                                .onAction(intentReceiver.getStringExtra
+                                        (ActionConstants.class.toString()), false);
                     }
                 }.sendEmptyMessage(0);
             }
         } else {
             if (intentReceiver.hasExtra(NotificationConstants.ID_CAMPAIGN)) {
-                int idCampaign = Integer.parseInt(extras.getString(NotificationConstants.ID_CAMPAIGN));
+                int idCampaign = Integer
+                        .parseInt(extras.getString(NotificationConstants.ID_CAMPAIGN));
                 String date = extras.getString(NotificationConstants.DATE_NOTIFICATION);
 
                 AllInPush.getInstance().notificationCampaign(idCampaign, date);
@@ -68,7 +70,8 @@ public class BroadcastNotification extends BroadcastReceiver {
         } else {
             Intent intent = new Intent(context, AllInWebViewActivity.class);
             intent.putExtras(extras);
-            intent.putExtra(NotificationConstants.SUBJECT, extras.getString(NotificationConstants.SUBJECT));
+            intent.putExtra(NotificationConstants
+                    .SUBJECT, extras.getString(NotificationConstants.SUBJECT));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
         }

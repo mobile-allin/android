@@ -59,7 +59,8 @@ public class ConfigurationService {
 
         if (deviceEntity == null ||
                 TextUtils.isEmpty(deviceEntity.getDeviceId()) || deviceEntity.isRenewId()) {
-            new GCMService(deviceEntity, this.context, this.configurationEntity, onRequest).execute();
+            new GCMService(deviceEntity, this.context,
+                    this.configurationEntity, onRequest).execute();
         } else {
             new DeviceService(this.context, onRequest).sendDevice(deviceEntity);
         }

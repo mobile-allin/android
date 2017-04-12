@@ -127,7 +127,8 @@ public class AllInGcmNotification {
         }
 
         notificationCompatBuilder
-            .setColor(backgroundColor != null ? Color.parseColor(backgroundColor) : Color.TRANSPARENT)
+            .setColor(backgroundColor != null
+                    ? Color.parseColor(backgroundColor) : Color.TRANSPARENT)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setGroupSummary(true)

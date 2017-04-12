@@ -7,7 +7,7 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.allin.mobile.pushnotification.constants.Cache;
+import br.com.allin.mobile.pushnotification.constants.CacheConstants;
 import br.com.allin.mobile.pushnotification.entity.CacheEntity;
 
 /**
@@ -15,7 +15,7 @@ import br.com.allin.mobile.pushnotification.entity.CacheEntity;
  */
 public class CacheDAO extends BaseDAO {
     public CacheDAO(Context context) {
-        super(context, Cache.DB_NAME, Cache.CREATE_TABLE);
+        super(context, CacheConstants.DB_NAME, CacheConstants.CREATE_TABLE);
     }
 
     /**
@@ -32,10 +32,10 @@ public class CacheDAO extends BaseDAO {
 
         if (sqliteDatabase != null) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(Cache.DB_FIELD_URL, url);
-            contentValues.put(Cache.DB_FIELD_JSON,json);
+            contentValues.put(CacheConstants.DB_FIELD_URL, url);
+            contentValues.put(CacheConstants.DB_FIELD_JSON,json);
 
-            idInsert = sqliteDatabase.insert(Cache.TABLE_NAME, null, contentValues);
+            idInsert = sqliteDatabase.insert(CacheConstants.TABLE_NAME, null, contentValues);
         }
 
         closeDatabase();
@@ -49,8 +49,8 @@ public class CacheDAO extends BaseDAO {
         openDatabase();
 
         if (sqliteDatabase != null) {
-            success = sqliteDatabase
-                    .delete(Cache.TABLE_NAME, Cache.DB_FIELD_ID + " = " + id, null) > 0;
+            success = sqliteDatabase.delete(
+                    CacheConstants.TABLE_NAME, CacheConstants.DB_FIELD_ID + " = " + id, null) > 0;
         }
 
         closeDatabase();
@@ -64,15 +64,15 @@ public class CacheDAO extends BaseDAO {
         List<CacheEntity> cacheEntityList = new ArrayList<>();
 
         if (sqliteDatabase != null) {
-            Cursor cursor = sqliteDatabase.rawQuery(Cache.SELECT, null);
+            Cursor cursor = sqliteDatabase.rawQuery(CacheConstants.SELECT, null);
 
             if (cursor != null) {
                 cursor.moveToFirst();
 
                 while (!cursor.isAfterLast()) {
-                    int id = cursor.getInt(cursor.getColumnIndex(Cache.DB_FIELD_ID));
-                    String url = cursor.getString(cursor.getColumnIndex(Cache.DB_FIELD_URL));
-                    String json = cursor.getString(cursor.getColumnIndex(Cache.DB_FIELD_JSON));
+                    int id = cursor.getInt(cursor.getColumnIndex(CacheConstants.DB_FIELD_ID));
+                    String url = cursor.getString(cursor.getColumnIndex(CacheConstants.DB_FIELD_URL));
+                    String json = cursor.getString(cursor.getColumnIndex(CacheConstants.DB_FIELD_JSON));
 
                     cacheEntityList.add(new CacheEntity(id, url, json));
 

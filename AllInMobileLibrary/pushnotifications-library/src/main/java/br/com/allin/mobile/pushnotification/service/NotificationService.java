@@ -16,7 +16,8 @@ public class NotificationService {
         AllInLocation.initialize(context, new OnAllInLocationChange() {
             @Override
             public void locationFound(double latitude, double longitude) {
-                new NotificationCampaignTask(idCampaign, date, latitude, longitude, context).execute();
+                new NotificationCampaignTask(idCampaign,
+                        date, latitude, longitude, context).execute();
             }
 
             @Override
