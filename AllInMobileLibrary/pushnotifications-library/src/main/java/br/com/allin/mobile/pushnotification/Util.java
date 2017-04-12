@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.text.TextUtils;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -13,9 +14,6 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import br.com.allin.mobile.pushnotification.constants.Preferences;
-import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
 
 /**
  * Class that contains common methods that will be used throughout the library.
@@ -37,7 +35,7 @@ public class Util {
      * Otherwise, returns {@code false}.
      */
     public static boolean isNullOrClear(String value) {
-        return value == null || "".equals(value.trim());
+        return value == null || TextUtils.isEmpty(value.trim());
     }
 
     /**

@@ -3,8 +3,8 @@ package br.com.allin.mobile.pushnotification.task;
 import android.content.Context;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
-import br.com.allin.mobile.pushnotification.constants.HttpBody;
-import br.com.allin.mobile.pushnotification.constants.Route;
+import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
+import br.com.allin.mobile.pushnotification.constants.RouteConstants;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -19,7 +19,7 @@ public class StatusTask extends BaseTask<Boolean> {
 
     @Override
     public String getUrl() {
-        return Route.DEVICE_STATUS;
+        return RouteConstants.DEVICE_STATUS;
     }
 
     @Override
@@ -29,6 +29,6 @@ public class StatusTask extends BaseTask<Boolean> {
 
     @Override
     public Boolean onSuccess(ResponseEntity responseEntity) {
-        return responseEntity.getMessage().equalsIgnoreCase(HttpBody.ENABLED);
+        return responseEntity.getMessage().equalsIgnoreCase(HttpBodyConstants.ENABLED);
     }
 }

@@ -2,7 +2,7 @@ package br.com.allin.mobile.pushnotification.task;
 
 import android.content.Context;
 
-import br.com.allin.mobile.pushnotification.constants.Route;
+import br.com.allin.mobile.pushnotification.constants.RouteConstants;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -27,7 +27,7 @@ public class TemplateTask extends BaseTask<String> {
 
     @Override
     public String getUrl() {
-        return Route.CAMPAIGN;
+        return RouteConstants.CAMPAIGN;
     }
 
     @Override

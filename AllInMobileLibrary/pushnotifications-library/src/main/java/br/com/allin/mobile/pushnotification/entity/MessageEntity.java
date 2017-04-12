@@ -3,7 +3,7 @@ package br.com.allin.mobile.pushnotification.entity;
 import android.database.Cursor;
 import android.os.Bundle;
 
-import br.com.allin.mobile.pushnotification.constants.Message;
+import br.com.allin.mobile.pushnotification.constants.MessageConstants;
 
 /**
  * Created by lucasrodrigues on 05/04/17.
@@ -57,43 +57,43 @@ public class MessageEntity {
 
     public MessageEntity(Cursor cursor) {
         this.id = cursor.getInt(
-                cursor.getColumnIndex(Message.DB_FIELD_ID));
+                cursor.getColumnIndex(MessageConstants.DB_FIELD_ID));
         this.idSend = cursor.getString(
-                cursor.getColumnIndex(Message.DB_FIELD_ID_SEND));
+                cursor.getColumnIndex(MessageConstants.DB_FIELD_ID_SEND));
         this.subject = cursor.getString(
-                cursor.getColumnIndex(Message.DB_FIELD_SUBJECT));
+                cursor.getColumnIndex(MessageConstants.DB_FIELD_SUBJECT));
         this.description = cursor.getString(
-                cursor.getColumnIndex(Message.DB_FIELD_DESCRIPTION));
+                cursor.getColumnIndex(MessageConstants.DB_FIELD_DESCRIPTION));
         this.idCampaign = cursor.getString(
-                cursor.getColumnIndex(Message.DB_FIELD_ID_CAMPAIGN));
+                cursor.getColumnIndex(MessageConstants.DB_FIELD_ID_CAMPAIGN));
         this.idLogin = cursor.getString(
-                cursor.getColumnIndex(Message.DB_FIELD_ID_LOGIN));
+                cursor.getColumnIndex(MessageConstants.DB_FIELD_ID_LOGIN));
         this.urlScheme = cursor.getString(
-                cursor.getColumnIndex(Message.DB_FIELD_URL_SCHEME));
+                cursor.getColumnIndex(MessageConstants.DB_FIELD_URL_SCHEME));
         this.action = cursor.getString(
-                cursor.getColumnIndex(Message.DB_FIELD_ACTION));
+                cursor.getColumnIndex(MessageConstants.DB_FIELD_ACTION));
         this.date = cursor.getString(
-                cursor.getColumnIndex(Message.DB_FIELD_DATE_NOTIFICATION));
+                cursor.getColumnIndex(MessageConstants.DB_FIELD_DATE_NOTIFICATION));
         this.urlTransactional = cursor.getString(
-                cursor.getColumnIndex(Message.DB_FIELD_URL_TRANSACTIONAL));
+                cursor.getColumnIndex(MessageConstants.DB_FIELD_URL_TRANSACTIONAL));
         this.read = cursor.getInt(
-                cursor.getColumnIndex(Message.DB_FIELD_READ)) == 1;
+                cursor.getColumnIndex(MessageConstants.DB_FIELD_READ)) == 1;
 
         updateNullValues();
     }
 
     public MessageEntity(Bundle bundle) {
-        this.id = bundle.getInt(Message.DB_FIELD_ID);
-        this.idSend = bundle.getString(Message.DB_FIELD_ID_SEND);
-        this.subject = bundle.getString(Message.DB_FIELD_SUBJECT);
-        this.description = bundle.getString(Message.DB_FIELD_DESCRIPTION);
-        this.idCampaign = bundle.getString(Message.DB_FIELD_ID_CAMPAIGN);
-        this.idLogin = bundle.getString(Message.DB_FIELD_ID_LOGIN);
-        this.urlScheme = bundle.getString(Message.DB_FIELD_URL_SCHEME);
-        this.action = bundle.getString(Message.DB_FIELD_ACTION);
-        this.date = bundle.getString(Message.DB_FIELD_DATE_NOTIFICATION);
-        this.urlTransactional = bundle.getString(Message.DB_FIELD_URL_TRANSACTIONAL);
-        this.read = bundle.getInt(Message.DB_FIELD_READ) == 1;
+        this.id = bundle.getInt(MessageConstants.DB_FIELD_ID);
+        this.idSend = bundle.getString(MessageConstants.DB_FIELD_ID_SEND);
+        this.subject = bundle.getString(MessageConstants.DB_FIELD_SUBJECT);
+        this.description = bundle.getString(MessageConstants.DB_FIELD_DESCRIPTION);
+        this.idCampaign = bundle.getString(MessageConstants.DB_FIELD_ID_CAMPAIGN);
+        this.idLogin = bundle.getString(MessageConstants.DB_FIELD_ID_LOGIN);
+        this.urlScheme = bundle.getString(MessageConstants.DB_FIELD_URL_SCHEME);
+        this.action = bundle.getString(MessageConstants.DB_FIELD_ACTION);
+        this.date = bundle.getString(MessageConstants.DB_FIELD_DATE_NOTIFICATION);
+        this.urlTransactional = bundle.getString(MessageConstants.DB_FIELD_URL_TRANSACTIONAL);
+        this.read = bundle.getInt(MessageConstants.DB_FIELD_READ) == 1;
 
         updateNullValues();
     }

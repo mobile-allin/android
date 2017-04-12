@@ -4,7 +4,7 @@ package br.com.allin.mobile.pushnotification.constants;
  * Created by lucasrodrigues on 05/04/17.
  */
 
-public class Message {
+public class MessageConstants {
     public static final String TABLE_NAME = "messages";
     public static final String DB_FIELD_ID = "id";
     public static final String DB_FIELD_ID_SEND = "id_send";
@@ -23,11 +23,11 @@ public class Message {
                     "(%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "%s VARCHAR, %s VARCHAR, %s VARCHAR, %s VARCHAR, %s VARCHAR, " +
                     "%s VARCHAR, %s VARCHAR, %s VARCHAR, %s VARCHAR, %s INTEGER);",
-                Message.TABLE_NAME, Message.DB_FIELD_ID,
-                Message.DB_FIELD_ID_SEND, Message.DB_FIELD_SUBJECT, Message.DB_FIELD_DESCRIPTION,
-                Message.DB_FIELD_ID_CAMPAIGN, Message.DB_FIELD_ID_LOGIN, Message.DB_FIELD_URL_SCHEME,
-                Message.DB_FIELD_ACTION, Message.DB_FIELD_DATE_NOTIFICATION,
-                Message.DB_FIELD_URL_TRANSACTIONAL, Message.DB_FIELD_READ);
+                MessageConstants.TABLE_NAME, MessageConstants.DB_FIELD_ID,
+                MessageConstants.DB_FIELD_ID_SEND, MessageConstants.DB_FIELD_SUBJECT, MessageConstants.DB_FIELD_DESCRIPTION,
+                MessageConstants.DB_FIELD_ID_CAMPAIGN, MessageConstants.DB_FIELD_ID_LOGIN, MessageConstants.DB_FIELD_URL_SCHEME,
+                MessageConstants.DB_FIELD_ACTION, MessageConstants.DB_FIELD_DATE_NOTIFICATION,
+                MessageConstants.DB_FIELD_URL_TRANSACTIONAL, MessageConstants.DB_FIELD_READ);
 
-    public static String SELECT = String.format("SELECT * FROM %s", Message.TABLE_NAME);
+    public static String SELECT = String.format("SELECT * FROM %s", MessageConstants.TABLE_NAME);
 }

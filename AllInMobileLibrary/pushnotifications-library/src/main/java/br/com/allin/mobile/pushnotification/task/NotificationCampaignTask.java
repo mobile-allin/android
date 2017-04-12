@@ -6,11 +6,10 @@ import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.Util;
-import br.com.allin.mobile.pushnotification.constants.HttpBody;
-import br.com.allin.mobile.pushnotification.constants.Route;
+import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
+import br.com.allin.mobile.pushnotification.constants.RouteConstants;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
-import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 /**
  * Thread for notification campaign request
@@ -42,7 +41,7 @@ public class NotificationCampaignTask extends BaseTask<String> {
 
     @Override
     public String getUrl() {
-        return Route.NOTIFICATION_CAMPAIGN;
+        return RouteConstants.NOTIFICATION_CAMPAIGN;
     }
 
     @Override
@@ -50,14 +49,14 @@ public class NotificationCampaignTask extends BaseTask<String> {
         try {
             JSONObject data = new JSONObject();
 
-            data.put(HttpBody.ID, this.id);
-            data.put(HttpBody.DATE, this.date);
-            data.put(HttpBody.DATE_OPENING, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
-            data.put(HttpBody.DEVICE_TOKEN, AllInPush.getInstance().getDeviceId());
+            data.put(HttpBodyConstants.ID, this.id);
+            data.put(HttpBodyConstants.DATE, this.date);
+            data.put(HttpBodyConstants.DATE_OPENING, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
+            data.put(HttpBodyConstants.DEVICE_TOKEN, AllInPush.getInstance().getDeviceId());
 
             if (this.latitude != 0 && this.longitude != 0) {
-                data.put(HttpBody.LATITUDE, String.valueOf(this.latitude));
-                data.put(HttpBody.LONGITUDE, String.valueOf(this.longitude));
+                data.put(HttpBodyConstants.LATITUDE, String.valueOf(this.latitude));
+                data.put(HttpBodyConstants.LONGITUDE, String.valueOf(this.longitude));
             }
 
             return data;

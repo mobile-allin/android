@@ -132,7 +132,7 @@ public class AllInPush {
 
     /**
      * <b>Asynchronous</b> - Configure the application by sending to the default list,
-     * starting GCM (Google Cloud Message) and checking the ID of AllIn
+     * starting GCM (Google Cloud MessageConstants) and checking the ID of AllIn
      *
      * @param allInApplication Application extends AllInApplication
      * @param configurationEntity Settings such as SenderID and TokenAllIn
@@ -148,7 +148,7 @@ public class AllInPush {
 
     /**
      * <b>Asynchronous</b> - Configure the application by sending to the default list,
-     * starting GCM (Google Cloud Message) and checking the ID of AllIn
+     * starting GCM (Google Cloud MessageConstants) and checking the ID of AllIn
      *
      * @param allInApplication Application (Context)
      * @param configurationEntity Settings such as SenderID and TokenAllIn

@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import br.com.allin.mobile.pushnotification.AllInApplication;
 import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
-import br.com.allin.mobile.pushnotification.constants.Preferences;
+import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
 import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
 import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
 import br.com.allin.mobile.pushnotification.entity.NotificationEntity;
@@ -46,11 +46,11 @@ public class ConfigurationService {
         new CacheService(this.context).sync();
 
         if (notificationEntity != null) {
-            sharedPreferencesManager.storeData(Preferences.KEY_ICON_NOTIFICATION,
+            sharedPreferencesManager.storeData(PreferencesConstants.KEY_ICON_NOTIFICATION,
                     notificationEntity.getIcon());
-            sharedPreferencesManager.storeData(Preferences.KEY_WHITE_ICON_NOTIFICATION,
+            sharedPreferencesManager.storeData(PreferencesConstants.KEY_WHITE_ICON_NOTIFICATION,
                     notificationEntity.getWhiteIcon());
-            sharedPreferencesManager.storeData(Preferences.KEY_BACKGROUND_NOTIFICATION,
+            sharedPreferencesManager.storeData(PreferencesConstants.KEY_BACKGROUND_NOTIFICATION,
                     notificationEntity.getColorBackground());
         }
 
