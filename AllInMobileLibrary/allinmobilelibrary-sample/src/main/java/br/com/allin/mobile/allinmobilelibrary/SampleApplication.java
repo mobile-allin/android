@@ -1,7 +1,5 @@
 package br.com.allin.mobile.allinmobilelibrary;
 
-import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -18,7 +16,8 @@ public class SampleApplication extends AllInApplication {
         super.onCreate();
 
         try {
-            ConfigurationEntity configurationEntity = new ConfigurationEntity(getString(R.string.project_id));
+            ConfigurationEntity configurationEntity =
+                    new ConfigurationEntity(getString(R.string.project_id));
             configurationEntity.setNotificationEntity(
                     new NotificationEntity("#000000",
                             R.mipmap.ic_launcher, android.R.drawable.sym_def_app_icon));
