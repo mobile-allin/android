@@ -35,6 +35,8 @@ public class MessageEntity {
         this.action = action;
         this.date = date;
         this.urlTransactional = urlTransactional;
+
+        updateNullValues();
     }
 
     public MessageEntity(int id, String idSend, String subject, String description,
