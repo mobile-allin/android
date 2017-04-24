@@ -29,7 +29,7 @@ public class MessageDAO extends BaseDAO {
             contentValues.put(MessageConstants.DB_FIELD_ID_SEND, messageEntity.getIdSend());
             contentValues.put(MessageConstants.DB_FIELD_DESCRIPTION, messageEntity.getDescription());
             contentValues.put(MessageConstants.DB_FIELD_SUBJECT, messageEntity.getSubject());
-            contentValues.put(MessageConstants.DB_FIELD_DESCRIPTION, messageEntity.getIdCampaign());
+            contentValues.put(MessageConstants.DB_FIELD_ID_CAMPAIGN, messageEntity.getIdCampaign());
             contentValues.put(MessageConstants.DB_FIELD_ID_LOGIN, messageEntity.getIdLogin());
             contentValues.put(MessageConstants.DB_FIELD_URL_SCHEME, messageEntity.getUrlScheme());
             contentValues.put(MessageConstants.DB_FIELD_ACTION, messageEntity.getAction());

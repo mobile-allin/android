@@ -6,5 +6,6 @@
     <string-array name="allin_list">
         <item>Cadastrar e-mail</item>
         <item>Enviar informações para lista</item>
+        <item>Message Center</item>
     </string-array>
 </resources>

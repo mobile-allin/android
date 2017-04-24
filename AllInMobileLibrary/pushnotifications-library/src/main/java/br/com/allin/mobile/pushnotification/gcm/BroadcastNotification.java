@@ -22,13 +22,13 @@ import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
 public class BroadcastNotification extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, final Intent intentReceiver) {
-        int idMessage = intentReceiver.getIntExtra(NotificationConstants.ID, 0);
+        Bundle extras = intentReceiver.getExtras();
+
+        long idMessage = extras.getLong(NotificationConstants.ID, 0);
 
         if (idMessage > 0) {
-            AllInPush.getInstance().messageHasBeenRead(idMessage);
+            AllInPush.getInstance().messageHasBeenRead((int) idMessage);
         }
-
-        Bundle extras = intentReceiver.getExtras();
 
         if (intentReceiver.getStringExtra(ActionConstants.class.toString()) != null && !TextUtils
                 .isEmpty(intentReceiver.getStringExtra(ActionConstants.class.toString()))) {

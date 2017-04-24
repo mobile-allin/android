@@ -94,6 +94,8 @@ public class AllInGcmNotification {
     private void showNotification(Bitmap bitmap, Bundle extras) {
         long idMessage = AllInPush.getInstance().addMessage(new MessageEntity(extras));
 
+        extras.putLong(NotificationConstants.ID, idMessage);
+
         String backgroundColor = sharedPreferencesManager
                 .getData(PreferencesConstants.KEY_BACKGROUND_NOTIFICATION, null);
         int whiteIcon = sharedPreferencesManager
@@ -107,8 +109,6 @@ public class AllInGcmNotification {
 
         Intent intent = new Intent(BroadcastNotification.class.toString());
         intent.putExtras(extras);
-        intent.putExtra(NotificationConstants.ID, idMessage);
-        intent.putExtra(NotificationConstants.SUBJECT, title);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent =

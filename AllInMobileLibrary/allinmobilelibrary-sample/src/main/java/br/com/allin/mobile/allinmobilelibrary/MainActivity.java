@@ -164,6 +164,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 break;
 
+            case 2:
+
+                startActivity(new Intent(this, MessagesActivity.class));
+
+                break;
+
             default:
                 break;
         }
