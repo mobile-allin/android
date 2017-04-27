@@ -329,18 +329,40 @@ public class AllInPush {
         return new DeviceService(getContext()).getDeviceToken();
     }
 
+    /**
+     * @return History push's received in application
+     */
     public List<MessageEntity> getMessages() {
         return new MessageService(getContext()).getMessages();
     }
 
+    /**
+     * This method is used to remove a history message
+     *
+     * @param messageEntity The MessageEntity object is created automatically by the framework
+     *
+     * @return Identification of push received in application
+     */
     public long addMessage(MessageEntity messageEntity) {
         return new MessageService(getContext()).addMessage(messageEntity);
     }
 
+    /**
+     * This method is used to remove a history message
+     *
+     * @param id Identification of push received in application
+     *
+     * @return If successfully deleted
+     */
     public boolean deleteMessage(int id) {
         return new MessageService(getContext()).deleteMessage(id);
     }
 
+    /**
+     * @param id Identification of push received in application
+     *
+     * @return If successfully updated
+     */
     public boolean messageHasBeenRead(int id) {
         return new MessageService(getContext()).messageHasBeenRead(id);
     }
