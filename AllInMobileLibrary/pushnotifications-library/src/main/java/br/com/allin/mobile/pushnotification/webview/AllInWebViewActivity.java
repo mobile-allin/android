@@ -83,8 +83,8 @@ public class AllInWebViewActivity extends AppCompatActivity {
         // WEB VIEW ================================================================================
         wvAllIn = new WebView(AllInWebViewActivity.this);
         RelativeLayout.LayoutParams layoutParamsWebView = new RelativeLayout.LayoutParams(
-                        RelativeLayout.LayoutParams.MATCH_PARENT,
-                        RelativeLayout.LayoutParams.MATCH_PARENT);
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT);
 
         relativeLayout.addView(wvAllIn, layoutParamsWebView);
 
@@ -102,7 +102,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
 
     private Toolbar createToolbar() {
         TypedArray styledAttributes = getTheme().obtainStyledAttributes(
-                new int[] { android.R.attr.actionBarSize });
+                new int[]{android.R.attr.actionBarSize});
 
         Toolbar toolbar = new Toolbar(this);
         RelativeLayout.LayoutParams toolBarParams = new RelativeLayout.LayoutParams(
@@ -135,17 +135,15 @@ public class AllInWebViewActivity extends AppCompatActivity {
             String url = String.format("%s/%s/%s/%s", urlTransactional, date, idLogin, idSend);
 
             wvAllIn.loadUrl(url);
-        } else {
-            if (getIntent().hasExtra(NotificationConstants.URL_CAMPAIGN)) {
-                String urlCampaign = getIntent().getStringExtra(NotificationConstants.URL_CAMPAIGN);
-                String idCampaign = getIntent().getStringExtra(NotificationConstants.ID_CAMPAIGN);
-                String idPush = Util.md5(AllInPush.getInstance().getDeviceId());
-                String url = String.format("%s/%s/%s", urlCampaign, idPush, idCampaign);
+        } else if (getIntent().hasExtra(NotificationConstants.URL_CAMPAIGN)) {
+            String urlCampaign = getIntent().getStringExtra(NotificationConstants.URL_CAMPAIGN);
+            String idCampaign = getIntent().getStringExtra(NotificationConstants.ID_CAMPAIGN);
+            String idPush = Util.md5(AllInPush.getInstance().getDeviceId());
+            String url = String.format("%s/%s/%s", urlCampaign, idPush, idCampaign);
 
-                wvAllIn.loadUrl(url);
-            } else {
-                loadHTML(getIntent().getExtras());
-            }
+            wvAllIn.loadUrl(url);
+        } else {
+            loadHTML(getIntent().getExtras());
         }
     }
 
@@ -177,7 +175,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
         }
     }
 
-            @Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
