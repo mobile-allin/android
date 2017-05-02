@@ -35,6 +35,7 @@ public class MessageDAO extends BaseDAO {
             contentValues.put(MessageConstants.DB_FIELD_ACTION, messageEntity.getAction());
             contentValues.put(MessageConstants.DB_FIELD_DATE_NOTIFICATION, messageEntity.getDate());
             contentValues.put(MessageConstants.DB_FIELD_URL_TRANSACTIONAL, messageEntity.getUrlTransactional());
+            contentValues.put(MessageConstants.DB_FIELD_URL_CAMPAIGN, messageEntity.getUrlCampaign());
             contentValues.put(MessageConstants.DB_FIELD_READ, messageEntity.isRead() ? 1 : 0);
 
             idInsert = sqliteDatabase.insert(MessageConstants.TABLE_NAME, null, contentValues);

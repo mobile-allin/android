@@ -20,11 +20,12 @@ public class MessageEntity {
     private String action;
     private String date;
     private String urlTransactional;
+    private String urlCampaign;
     private boolean read;
 
     public MessageEntity(int id, String idSend, String subject, String description,
                          String idCampaign, String idLogin, String urlScheme,
-                         String action, String date, String urlTransactional) {
+                         String action, String date, String urlCampaign, String urlTransactional) {
         this.id = id;
         this.idSend = idSend;
         this.subject = subject;
@@ -35,13 +36,15 @@ public class MessageEntity {
         this.action = action;
         this.date = date;
         this.urlTransactional = urlTransactional;
+        this.urlCampaign = urlCampaign;
 
         updateNullValues();
     }
 
     public MessageEntity(int id, String idSend, String subject, String description,
                          String idCampaign, String idLogin, String urlScheme,
-                         String action, String date, String urlTransactional, boolean read) {
+                         String action, String date, String urlCampaign,
+                         String urlTransactional, boolean read) {
         this.id = id;
         this.idSend = idSend;
         this.subject = subject;
@@ -52,6 +55,7 @@ public class MessageEntity {
         this.action = action;
         this.date = date;
         this.urlTransactional = urlTransactional;
+        this.urlCampaign = urlCampaign;
         this.read = read;
 
         updateNullValues();
@@ -78,6 +82,8 @@ public class MessageEntity {
                 cursor.getColumnIndex(MessageConstants.DB_FIELD_DATE_NOTIFICATION));
         this.urlTransactional = cursor.getString(
                 cursor.getColumnIndex(MessageConstants.DB_FIELD_URL_TRANSACTIONAL));
+        this.urlCampaign = cursor.getString(
+                cursor.getColumnIndex(MessageConstants.DB_FIELD_URL_CAMPAIGN));
         this.read = cursor.getInt(
                 cursor.getColumnIndex(MessageConstants.DB_FIELD_READ)) == 1;
 
@@ -95,6 +101,7 @@ public class MessageEntity {
         this.action = bundle.getString(MessageConstants.DB_FIELD_ACTION);
         this.date = bundle.getString(MessageConstants.DB_FIELD_DATE_NOTIFICATION);
         this.urlTransactional = bundle.getString(MessageConstants.DB_FIELD_URL_TRANSACTIONAL);
+        this.urlCampaign = bundle.getString(MessageConstants.DB_FIELD_URL_CAMPAIGN);
         this.read = bundle.getInt(MessageConstants.DB_FIELD_READ) == 1;
 
         updateNullValues();
@@ -135,6 +142,10 @@ public class MessageEntity {
 
         if (urlTransactional == null) {
             urlTransactional = "";
+        }
+
+        if (urlCampaign == null) {
+            urlCampaign = "";
         }
     }
 
@@ -216,6 +227,14 @@ public class MessageEntity {
 
     public void setUrlTransactional(String urlTransactional) {
         this.urlTransactional = urlTransactional;
+    }
+
+    public String getUrlCampaign() {
+        return urlCampaign;
+    }
+
+    public void setUrlCampaign(String urlCampaign) {
+        this.urlCampaign = urlCampaign;
     }
 
     public boolean isRead() {
