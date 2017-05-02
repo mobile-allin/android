@@ -108,6 +108,7 @@ public class AllInPush {
 
     private AllInApplication alliNApplication;
 
+
     public void setAlliNApplication(AllInApplication alliNApplication) {
         this.alliNApplication = alliNApplication;
     }
@@ -122,6 +123,9 @@ public class AllInPush {
 
     private static AllInPush allInPush;
 
+    /**
+     * Instance of class
+     */
     public static AllInPush getInstance() {
         if (allInPush == null) {
             allInPush = new AllInPush();
