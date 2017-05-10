@@ -62,32 +62,35 @@ public class MessageEntity {
     }
 
     public MessageEntity(Cursor cursor) {
-        this.id = cursor.getInt(
-                cursor.getColumnIndex(MessageConstants.DB_FIELD_ID));
-        this.idSend = cursor.getString(
-                cursor.getColumnIndex(MessageConstants.DB_FIELD_ID_SEND));
-        this.subject = cursor.getString(
-                cursor.getColumnIndex(MessageConstants.DB_FIELD_SUBJECT));
-        this.description = cursor.getString(
-                cursor.getColumnIndex(MessageConstants.DB_FIELD_DESCRIPTION));
-        this.idCampaign = cursor.getString(
-                cursor.getColumnIndex(MessageConstants.DB_FIELD_ID_CAMPAIGN));
-        this.idLogin = cursor.getString(
-                cursor.getColumnIndex(MessageConstants.DB_FIELD_ID_LOGIN));
-        this.urlScheme = cursor.getString(
-                cursor.getColumnIndex(MessageConstants.DB_FIELD_URL_SCHEME));
-        this.action = cursor.getString(
-                cursor.getColumnIndex(MessageConstants.DB_FIELD_ACTION));
-        this.date = cursor.getString(
-                cursor.getColumnIndex(MessageConstants.DB_FIELD_DATE_NOTIFICATION));
-        this.urlTransactional = cursor.getString(
-                cursor.getColumnIndex(MessageConstants.DB_FIELD_URL_TRANSACTIONAL));
-        this.urlCampaign = cursor.getString(
-                cursor.getColumnIndex(MessageConstants.DB_FIELD_URL_CAMPAIGN));
-        this.read = cursor.getInt(
-                cursor.getColumnIndex(MessageConstants.DB_FIELD_READ)) == 1;
+        this.id = getCursorValue(cursor, MessageConstants.DB_FIELD_ID, 0);
+        this.idSend = getCursorValue(cursor, MessageConstants.DB_FIELD_ID_SEND, "");
+        this.subject = getCursorValue(cursor, MessageConstants.DB_FIELD_SUBJECT, "");
+        this.description = getCursorValue(cursor, MessageConstants.DB_FIELD_DESCRIPTION, "");
+        this.idCampaign = getCursorValue(cursor, MessageConstants.DB_FIELD_ID_CAMPAIGN, "");
+        this.idLogin = getCursorValue(cursor, MessageConstants.DB_FIELD_ID_LOGIN, "");
+        this.urlScheme = getCursorValue(cursor, MessageConstants.DB_FIELD_URL_SCHEME, "");
+        this.action = getCursorValue(cursor, MessageConstants.DB_FIELD_ACTION, "");
+        this.date = getCursorValue(cursor, MessageConstants.DB_FIELD_DATE_NOTIFICATION, "");
+        this.urlTransactional = getCursorValue(cursor, MessageConstants.DB_FIELD_URL_TRANSACTIONAL, "");
+        this.urlCampaign = getCursorValue(cursor, MessageConstants.DB_FIELD_URL_CAMPAIGN, "");
+        this.read = getCursorValue(cursor, MessageConstants.DB_FIELD_READ, false);
 
         updateNullValues();
+    }
+
+    public <T> T getCursorValue(Cursor cursor, String key, Object valueDefault) {
+        int index = cursor.getColumnIndex(key);
+        Object object = null;
+
+        if (index >= 0) {
+            if (valueDefault instanceof String) {
+                object = cursor.getString(index);
+            } else if (valueDefault instanceof Integer) {
+                object = cursor.getInt(index);
+            }
+        }
+
+        return (T) (object == null ? valueDefault : object);
     }
 
     public MessageEntity(Bundle bundle) {
