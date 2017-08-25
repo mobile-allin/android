@@ -3,6 +3,7 @@ package br.com.allin.mobile.pushnotification.gcm;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,8 +11,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 
-import br.com.allin.mobile.pushnotification.AllInApplication;
 import br.com.allin.mobile.pushnotification.AllInPush;
+import br.com.allin.mobile.pushnotification.configurations.AllInConfiguration;
 import br.com.allin.mobile.pushnotification.constants.ActionConstants;
 import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
 import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
@@ -22,6 +23,9 @@ import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
 public class BroadcastNotification extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, final Intent intentReceiver) {
+        context.registerReceiver(new BroadcastNotification(),
+                new IntentFilter(BroadcastNotification.class.toString()));
+
         Bundle extras = intentReceiver.getExtras();
 
         long idMessage = extras.getLong(NotificationConstants.ID, 0);
@@ -32,11 +36,11 @@ public class BroadcastNotification extends BroadcastReceiver {
 
         if (intentReceiver.getStringExtra(ActionConstants.class.toString()) != null && !TextUtils
                 .isEmpty(intentReceiver.getStringExtra(ActionConstants.class.toString()))) {
-            if (AllInPush.getInstance().getContext() instanceof AllInApplication) {
+            if (AllInConfiguration.getInstance().getAllInDelegate() != null) {
                 new Handler(Looper.getMainLooper()) {
                     @Override
                     public void handleMessage(Message message) {
-                        AllInPush.getInstance().getAlliNApplication()
+                        AllInConfiguration.getInstance().getAllInDelegate()
                                 .onAction(intentReceiver.getStringExtra
                                         (ActionConstants.class.toString()), false);
                     }

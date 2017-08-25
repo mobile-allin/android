@@ -21,6 +21,9 @@ import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.Util;
+import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
+import br.com.allin.mobile.pushnotification.entity.NotificationEntity;
+import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 
@@ -62,7 +65,36 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         deviceIsEnable();
 
-        System.out.print(AllInPush.getInstance().getMessages());
+        initPushAlliN();
+    }
+
+    private void initPushAlliN() {
+        try {
+            String projectId = getString(R.string.project_id);
+
+            NotificationEntity notification = new NotificationEntity(
+                    "#000000", R.mipmap.ic_launcher, android.R.drawable.sym_def_app_icon);
+
+            ConfigurationEntity configurationEntity = new ConfigurationEntity(projectId);
+            configurationEntity.setNotificationEntity(notification);
+
+            AllInPush.configure(this, new AllInDelegate() {
+                @Override
+                public void onAction(String action, boolean sentFromServer) {
+
+                }
+            }, configurationEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Finalizar os serviços de push
+        AllInPush.finish();
     }
 
     private OnRequest toggleSwitch(final boolean enable) {

@@ -5,10 +5,12 @@ import android.content.Context;
 import java.util.List;
 import java.util.Map;
 
+import br.com.allin.mobile.pushnotification.configurations.AllInConfiguration;
 import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
 import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
 import br.com.allin.mobile.pushnotification.entity.MessageEntity;
 import br.com.allin.mobile.pushnotification.exception.NotNullAttributeOrPropertyException;
+import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 import br.com.allin.mobile.pushnotification.service.CampaignService;
 import br.com.allin.mobile.pushnotification.service.ConfigurationService;
@@ -106,21 +108,6 @@ public class AllInPush {
     private AllInPush() {
     }
 
-    private AllInApplication alliNApplication;
-
-
-    public void setAlliNApplication(AllInApplication alliNApplication) {
-        this.alliNApplication = alliNApplication;
-    }
-
-    public AllInApplication getAlliNApplication() {
-        return alliNApplication;
-    }
-
-    public Context getContext() {
-        return alliNApplication;
-    }
-
     private static AllInPush allInPush;
 
     /**
@@ -134,41 +121,60 @@ public class AllInPush {
         return allInPush;
     }
 
-    /**
-     * <b>Asynchronous</b> - Configure the application by sending to the default list,
-     * starting GCM (Google Cloud MessageConstants) and checking the ID of AllIn
-     *
-     * @param allInApplication Application extends AllInApplication
-     * @param configurationEntity Settings such as SenderID and TokenAllIn
-     *
-     * @throws NotNullAttributeOrPropertyException Parameter
-     * application or configurationEntity is null
-     */
-    public static void configure(AllInApplication allInApplication,
-                          ConfigurationEntity configurationEntity)
-            throws NotNullAttributeOrPropertyException {
-        AllInPush.configure(allInApplication, configurationEntity, null);
+    public Context getContext() {
+        return AllInConfiguration.getInstance().getContext();
     }
 
     /**
      * <b>Asynchronous</b> - Configure the application by sending to the default list,
      * starting GCM (Google Cloud MessageConstants) and checking the ID of AllIn
      *
-     * @param allInApplication Application (Context)
+     * @param configurationEntity Settings such as SenderID and TokenAllIn
+     *
+     * @throws NotNullAttributeOrPropertyException Parameter
+     * application or configurationEntity is null
+     */
+    public static void configure(Context context,
+                                 AllInDelegate allInDelegate,
+                                 ConfigurationEntity configurationEntity)
+            throws NotNullAttributeOrPropertyException {
+        AllInPush.configure(context, allInDelegate, configurationEntity, null);
+    }
+
+    /**
+     * <b>Asynchronous</b> - Configure the application by sending to the default list,
+     * starting GCM (Google Cloud MessageConstants) and checking the ID of AllIn
+     *
      * @param configurationEntity Settings such as SenderID and TokenAllIn
      * @param onRequest Interface that returns success or error in the request
      *
      * @throws NotNullAttributeOrPropertyException Parameter
      * application or configurationEntity is null
      */
-    public static void configure(final AllInApplication allInApplication,
-                          final ConfigurationEntity configurationEntity, final OnRequest onRequest)
+    public static void configure(Context context,
+                                 AllInDelegate allInDelegate,
+                                 ConfigurationEntity configurationEntity,
+                                 OnRequest onRequest)
             throws NotNullAttributeOrPropertyException {
 
-        AllInPush.getInstance().setAlliNApplication(allInApplication);
+        if (context == null) {
+            throw new NotNullAttributeOrPropertyException("context", "configure");
+        } else if (allInDelegate == null) {
+            throw new NotNullAttributeOrPropertyException("allInDelegate", "configure");
+        }
 
-        new ConfigurationService(allInApplication, configurationEntity, onRequest).init();
+        AllInConfiguration allInConfiguration = AllInConfiguration.getInstance();
+        allInConfiguration.setContext(context);
+        allInConfiguration.setAllInDelegate(allInDelegate);
+        allInConfiguration.init();
+
+        new ConfigurationService(configurationEntity, onRequest).init();
     }
+
+    /*
+    public static void finish() {
+        AllInConfiguration.getInstance().finish();
+    } */
 
     /**
      * <b>Asynchronous</b> - Disable notifications on the server
