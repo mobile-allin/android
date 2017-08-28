@@ -29,7 +29,18 @@
         </activity>
 
         <activity android:name=".MainActivity" />
-        <activity android:name=".MailRegisterActivity" />
+        <activity android:name=".MailRegisterActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="testando"
+                    android:scheme="allin" />
+            </intent-filter>
+        </activity>
         <activity android:name=".MessagesActivity" />
 
         <!-- Activity da Library -->

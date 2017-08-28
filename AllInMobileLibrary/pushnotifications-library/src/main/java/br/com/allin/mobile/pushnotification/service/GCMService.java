@@ -45,7 +45,7 @@ public class GCMService extends AsyncTask<Void, Void, String> {
         for (int attempts = 0; attempts < 3 &&
                 (token == null || TextUtils.isEmpty(token)); attempts++) {
             try {
-                token = instanceID.getToken(this.configurationEntity.getSenderId(),
+                token = instanceID.getToken(configurationEntity.getSenderId(),
                         GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
             } catch (IOException e) {
                 if (this.onRequest != null) {

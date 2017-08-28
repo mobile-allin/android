@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onDestroy();
 
         // Finalizar os serviços de push
-        AllInPush.finish();
+//        AllInPush.finish();
     }
 
     private OnRequest toggleSwitch(final boolean enable) {
