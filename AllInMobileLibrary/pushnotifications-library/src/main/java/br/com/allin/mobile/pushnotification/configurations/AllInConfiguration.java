@@ -47,8 +47,7 @@ public class AllInConfiguration {
     public void init() {
         broadcastNotification = new BroadcastNotification();
 
-        context.registerReceiver(broadcastNotification,
-                new IntentFilter(BroadcastNotification.class.toString()));
+        context.registerReceiver(broadcastNotification, new IntentFilter(BroadcastNotification.ACTION));
     }
 
     public void finish() {

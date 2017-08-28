@@ -125,6 +125,10 @@ public class AllInPush {
         return AllInConfiguration.getInstance().getContext();
     }
 
+    public static void setContext(Context context) {
+        AllInConfiguration.getInstance().setContext(context);
+    }
+
     /**
      * <b>Asynchronous</b> - Configure the application by sending to the default list,
      * starting GCM (Google Cloud MessageConstants) and checking the ID of AllIn

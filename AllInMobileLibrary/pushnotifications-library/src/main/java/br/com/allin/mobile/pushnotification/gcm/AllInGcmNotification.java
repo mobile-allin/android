@@ -107,7 +107,8 @@ public class AllInGcmNotification {
         final String content = extras
                 .getString(NotificationConstants.DESCRIPTION);
 
-        Intent intent = new Intent(BroadcastNotification.class.toString());
+        Intent intent = new Intent();
+        intent.setAction(BroadcastNotification.ACTION);
         intent.putExtras(extras);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -168,8 +169,10 @@ public class AllInGcmNotification {
                     String action = jsonObject.getString(ActionConstants.ACTION);
                     String text = jsonObject.getString(ActionConstants.TEXT);
 
-                    Intent intentAction = new Intent(BroadcastNotification.class.toString());
+                    Intent intentAction = new Intent();
+                    intentAction.setAction(BroadcastNotification.ACTION);
                     intentAction.putExtra(ActionConstants.class.toString(), action);
+
                     PendingIntent pendingIntent = PendingIntent
                             .getBroadcast(context, i, intentAction, PendingIntent.FLAG_UPDATE_CURRENT);
 

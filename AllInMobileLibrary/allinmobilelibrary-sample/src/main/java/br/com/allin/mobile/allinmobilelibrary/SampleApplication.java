@@ -16,20 +16,6 @@ public class SampleApplication extends Application implements AllInDelegate {
     public void onCreate() {
         super.onCreate();
 
-        try {
-            String projectId = getString(R.string.project_id);
-
-            NotificationEntity notification = new NotificationEntity(
-                    "#000000", R.mipmap.ic_launcher, android.R.drawable.sym_def_app_icon);
-
-            ConfigurationEntity configurationEntity = new ConfigurationEntity(projectId);
-            configurationEntity.setNotificationEntity(notification);
-
-            AllInPush.configure(this/* Context */, this /* Delegate */, configurationEntity);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         Fabric.with(this, new Crashlytics());
     }
 

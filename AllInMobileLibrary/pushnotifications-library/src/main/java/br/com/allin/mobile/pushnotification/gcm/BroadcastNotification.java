@@ -1,14 +1,13 @@
 package br.com.allin.mobile.pushnotification.gcm;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.v4.content.WakefulBroadcastReceiver;
 import android.text.TextUtils;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
@@ -20,12 +19,12 @@ import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
 /**
  * Broadcast invoked after the user clicks the notification
  */
-public class BroadcastNotification extends BroadcastReceiver {
+public class BroadcastNotification extends WakefulBroadcastReceiver {
+    public static String ACTION = "br.com.allin.mobile.pushnotification.gcm.BroadcastNotification";
+
     @Override
     public void onReceive(final Context context, final Intent intentReceiver) {
-        context.registerReceiver(new BroadcastNotification(),
-                new IntentFilter(BroadcastNotification.class.toString()));
-
+        AllInPush.setContext(context);
         Bundle extras = intentReceiver.getExtras();
 
         long idMessage = extras.getLong(NotificationConstants.ID, 0);

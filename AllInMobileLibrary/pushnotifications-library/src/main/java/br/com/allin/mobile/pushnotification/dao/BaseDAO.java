@@ -22,7 +22,9 @@ public abstract class BaseDAO {
     }
 
     protected void openDatabase() {
-        this.sqliteDatabase = context.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        if (context != null) {
+            this.sqliteDatabase = context.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        }
     }
 
     protected void closeDatabase() {
