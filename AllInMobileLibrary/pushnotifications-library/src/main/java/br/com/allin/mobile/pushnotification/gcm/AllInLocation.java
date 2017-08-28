@@ -13,8 +13,8 @@ import br.com.allin.mobile.pushnotification.interfaces.OnAllInLocationChange;
 /**
  * Class that initializes the geolocation
  */
-public class AllInLocation implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class AllInLocation implements GoogleApiClient.ConnectionCallbacks,
+                                        GoogleApiClient.OnConnectionFailedListener {
     private static AllInLocation allInLocation;
 
     /**
