@@ -27,7 +27,7 @@ import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AllInDelegate {
 
     private ListView lvAllIn;
     private Switch swAllInNotification;
@@ -78,12 +78,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             ConfigurationEntity configurationEntity = new ConfigurationEntity(projectId);
             configurationEntity.setNotificationEntity(notification);
 
-            AllInPush.configure(this, new AllInDelegate() {
-                @Override
-                public void onAction(String action, boolean sentFromServer) {
-
-                }
-            }, configurationEntity);
+            AllInPush.configure(this, this, configurationEntity);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,6 +90,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Finalizar os serviços de push
 //        AllInPush.finish();
+    }
+
+    @Override
+    public void onAction(String action, boolean sentFromServer) {
+
     }
 
     private OnRequest toggleSwitch(final boolean enable) {

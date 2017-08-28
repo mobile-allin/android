@@ -23,9 +23,9 @@ public class BroadcastNotification extends WakefulBroadcastReceiver {
     public static String ACTION = "br.com.allin.mobile.pushnotification.gcm.BroadcastNotification";
 
     @Override
-    public void onReceive(final Context context, final Intent intentReceiver) {
+    public void onReceive(final Context context, final Intent intentReceive) {
         AllInPush.setContext(context);
-        Bundle extras = intentReceiver.getExtras();
+        Bundle extras = intentReceive.getExtras();
 
         long idMessage = extras.getLong(NotificationConstants.ID, 0);
 
@@ -33,48 +33,47 @@ public class BroadcastNotification extends WakefulBroadcastReceiver {
             AllInPush.getInstance().messageHasBeenRead((int) idMessage);
         }
 
-        if (intentReceiver.getStringExtra(ActionConstants.class.toString()) != null && !TextUtils
-                .isEmpty(intentReceiver.getStringExtra(ActionConstants.class.toString()))) {
+        if (intentReceive.getStringExtra(ActionConstants.class.toString()) != null &&
+                !TextUtils.isEmpty(intentReceive.getStringExtra(ActionConstants.class.toString()))) {
             if (AllInConfiguration.getInstance().getAllInDelegate() != null) {
                 new Handler(Looper.getMainLooper()) {
                     @Override
                     public void handleMessage(Message message) {
-                        AllInConfiguration.getInstance().getAllInDelegate()
-                                .onAction(intentReceiver.getStringExtra
-                                        (ActionConstants.class.toString()), false);
+                        String action = intentReceive.getStringExtra(ActionConstants.class.toString());
+
+                        AllInConfiguration.getInstance().getAllInDelegate().onAction(action, false);
                     }
                 }.sendEmptyMessage(0);
             }
         } else {
-            if (intentReceiver.hasExtra(NotificationConstants.ID_CAMPAIGN)) {
-                int idCampaign = Integer
-                        .parseInt(extras.getString(NotificationConstants.ID_CAMPAIGN));
+            if (intentReceive.hasExtra(NotificationConstants.ID_CAMPAIGN)) {
+                int idCampaign = Integer.parseInt(extras.getString(NotificationConstants.ID_CAMPAIGN));
                 String date = extras.getString(NotificationConstants.DATE_NOTIFICATION);
 
                 AllInPush.getInstance().notificationCampaign(idCampaign, date);
-            } else if (intentReceiver.hasExtra(NotificationConstants.ID_SEND)) {
+            } else if (intentReceive.hasExtra(NotificationConstants.ID_SEND)) {
                 int idSend = Integer.parseInt(extras.getString(NotificationConstants.ID_SEND));
                 String date = extras.getString(NotificationConstants.DATE_NOTIFICATION);
 
                 AllInPush.getInstance().notificationTransactional(idSend, date);
             }
 
-            start(context, extras, intentReceiver.hasExtra(NotificationConstants.URL_SCHEME));
+            start(context, extras, intentReceive.hasExtra(NotificationConstants.URL_SCHEME));
         }
     }
 
     private void start(Context context, Bundle extras, boolean isScheme) {
         if (isScheme) {
             String urlScheme = extras.getString(NotificationConstants.URL_SCHEME);
-
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlScheme));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
         } else {
+            String subject = extras.getString(NotificationConstants.SUBJECT);
+
             Intent intent = new Intent(context, AllInWebViewActivity.class);
             intent.putExtras(extras);
-            intent.putExtra(NotificationConstants
-                    .SUBJECT, extras.getString(NotificationConstants.SUBJECT));
+            intent.putExtra(NotificationConstants.SUBJECT, subject);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
         }

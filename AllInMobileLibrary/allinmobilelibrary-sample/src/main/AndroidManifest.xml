@@ -73,7 +73,6 @@
         </service>
 
         <receiver android:name="br.com.allin.mobile.pushnotification.gcm.BroadcastNotification">
-
             <intent-filter>
                 <action android:name="br.com.allin.mobile.pushnotification.gcm.BroadcastNotification" />
             </intent-filter>
