@@ -92,15 +92,19 @@ public class AllInGcmNotification {
     }
 
     private void showNotification(Bitmap bitmap, Bundle extras) {
-        long idMessage = AllInPush.getInstance().addMessage(new MessageEntity(extras));
+        final String title = extras.getString(NotificationConstants.SUBJECT);
+        final String content = extras.getString(NotificationConstants.DESCRIPTION);
 
-        extras.putLong(NotificationConstants.ID, idMessage);
+        if (title == null || title.trim().length() == 0 || content == null || content.trim().length() == 0) {
+            return;
+        }
 
         String backgroundColor = sharedPreferencesManager.getData(PreferencesConstants.KEY_BACKGROUND_NOTIFICATION, null);
         int whiteIcon = sharedPreferencesManager.getData(PreferencesConstants.KEY_WHITE_ICON_NOTIFICATION, 0);
         int icon = sharedPreferencesManager.getData(PreferencesConstants.KEY_ICON_NOTIFICATION, 0);
-        final String title = extras.getString(NotificationConstants.SUBJECT);
-        final String content = extras.getString(NotificationConstants.DESCRIPTION);
+        long idMessage = AllInPush.getInstance().addMessage(new MessageEntity(extras));
+
+        extras.putLong(NotificationConstants.ID, idMessage);
 
         Intent intent = new Intent();
         intent.setAction(BroadcastNotification.ACTION);
