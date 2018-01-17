@@ -70,15 +70,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void initPushAlliN() {
         try {
-            String projectId = getString(R.string.project_id);
-
-            NotificationEntity notification = new NotificationEntity(
-                    "#000000", R.mipmap.ic_launcher, android.R.drawable.sym_def_app_icon);
-
-            ConfigurationEntity configurationEntity = new ConfigurationEntity(projectId);
-            configurationEntity.setNotification(notification);
-
-            AlliNPush.configure(this, this, configurationEntity);
+            AlliNPush.getInstance().registerForPushNotifications(this, this);
         } catch (Exception e) {
             e.printStackTrace();
         }

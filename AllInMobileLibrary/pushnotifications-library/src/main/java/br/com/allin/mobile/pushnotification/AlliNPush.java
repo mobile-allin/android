@@ -117,7 +117,7 @@ import br.com.allin.mobile.pushnotification.service.StatusService;
  */
 public class AlliNPush {
     private static String SENDER_ID = "allin.senderid";
-    private static String APP_ID = "allin.appid";
+    private static String APP_ID = "allin.token";
     private static String WHITE_ICON = "allin_notification_white_icon";
     private static String ICON = "allin_notification_icon";
     private static String BACKGROUND = "allin_notification_background";
@@ -186,49 +186,6 @@ public class AlliNPush {
 
     public Context getContext() {
         return context.getApplicationContext();
-    }
-
-    /**
-     * <b>Asynchronous</b> - Configure the application by sending to the default list,
-     * starting GCM (Google Cloud MessageConstants) and checking the ID of AllIn
-     *
-     * @param configurationEntity Settings such as SenderID and TokenAllIn
-     *
-     * @throws NotNullAttributeOrPropertyException Parameter
-     * application or configurationEntity is null
-     */
-    public static void configure(Context context,
-                                 AllInDelegate allInDelegate,
-                                 ConfigurationEntity configurationEntity)
-            throws NotNullAttributeOrPropertyException {
-        AlliNPush.configure(context, allInDelegate, configurationEntity, null);
-    }
-
-    /**
-     * <b>Asynchronous</b> - Configure the application by sending to the default list,
-     * starting GCM (Google Cloud MessageConstants) and checking the ID of AllIn
-     *
-     * @param configurationEntity Settings such as SenderID and TokenAllIn
-     * @param onRequest Interface that returns success or error in the request
-     *
-     * @throws NotNullAttributeOrPropertyException Parameter
-     * application or configurationEntity is null
-     */
-    public static void configure(Context context,
-                                 AllInDelegate allInDelegate,
-                                 ConfigurationEntity configurationEntity,
-                                 OnRequest onRequest)
-            throws NotNullAttributeOrPropertyException {
-
-        if (context == null) {
-            throw new NotNullAttributeOrPropertyException("context", "configure");
-        } else if (allInDelegate == null) {
-            throw new NotNullAttributeOrPropertyException("allInDelegate", "configure");
-        }
-
-
-
-
     }
 
     /*

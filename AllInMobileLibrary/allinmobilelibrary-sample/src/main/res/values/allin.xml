@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="all_in_token">cc1766654a46cf0978b329c1817a7c56</string>
-    <string name="project_id">1892753848</string>
+    <string name="token">cc1766654a46cf0978b329c1817a7c56</string>
+    <string name="sender_id">1892753848</string>
 </resources>

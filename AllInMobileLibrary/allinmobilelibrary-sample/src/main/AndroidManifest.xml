@@ -82,6 +82,14 @@
             android:name="io.fabric.ApiKey"
             android:value="c8628b9a1003d64ac34987e03f44aa6cdb07c5b6" />
 
+        <meta-data
+            android:name="allin.senderid"
+            android:value="@string/sender_id" />
+
+        <meta-data
+            android:name="allin.token"
+            android:value="@string/token" />
+
     </application>
 
 </manifest>
