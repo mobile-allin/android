@@ -5,7 +5,7 @@ import android.content.Context;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.allin.mobile.pushnotification.AllInPush;
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
 import br.com.allin.mobile.pushnotification.Util;
 import br.com.allin.mobile.pushnotification.constants.DefaultListConstants;
@@ -39,13 +39,13 @@ public class DeviceService {
         new DeviceTask(deviceEntity, context, new OnRequest() {
             @Override
             public void onFinish(Object value) {
-                String pushId = AllInPush.getInstance().getDeviceId();
+                String pushId = AlliNPush.getInstance().getDeviceId();
                 Map<String, String> map = new HashMap<>();
                 map.put(DefaultListConstants.ID_PUSH, Util.md5(pushId));
                 map.put(DefaultListConstants.PUSH_ID, pushId);
                 map.put(DefaultListConstants.PLATAFORMA, ParametersConstants.ANDROID);
 
-                AllInPush.getInstance().sendList(DefaultListConstants.LISTA_PADRAO, map);
+                AlliNPush.getInstance().sendList(DefaultListConstants.LISTA_PADRAO, map);
             }
 
             @Override

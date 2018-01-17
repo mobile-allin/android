@@ -18,9 +18,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URLDecoder;
-import java.util.Random;
 
-import br.com.allin.mobile.pushnotification.AllInPush;
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
 import br.com.allin.mobile.pushnotification.Util;
 import br.com.allin.mobile.pushnotification.constants.ActionConstants;
@@ -83,7 +82,7 @@ public class AllInGcmNotification {
             } finally {
                 if (scheme.contains("##id_push##")) {
                     scheme = scheme.replace("##id_push##",
-                            Util.md5(AllInPush.getInstance().getDeviceId()));
+                            Util.md5(AlliNPush.getInstance().getDeviceId()));
                 }
 
                 extras.putString(NotificationConstants.URL_SCHEME, scheme);
@@ -102,7 +101,7 @@ public class AllInGcmNotification {
         String backgroundColor = sharedPreferencesManager.getData(PreferencesConstants.KEY_BACKGROUND_NOTIFICATION, null);
         int whiteIcon = sharedPreferencesManager.getData(PreferencesConstants.KEY_WHITE_ICON_NOTIFICATION, 0);
         int icon = sharedPreferencesManager.getData(PreferencesConstants.KEY_ICON_NOTIFICATION, 0);
-        long idMessage = AllInPush.getInstance().addMessage(new MessageEntity(extras));
+        long idMessage = AlliNPush.getInstance().addMessage(new MessageEntity(extras));
 
         extras.putLong(NotificationConstants.ID, idMessage);
 

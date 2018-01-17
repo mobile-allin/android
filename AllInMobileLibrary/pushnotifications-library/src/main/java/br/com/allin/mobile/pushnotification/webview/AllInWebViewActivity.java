@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import br.com.allin.mobile.pushnotification.AllInPush;
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.Util;
 import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -138,7 +138,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
         } else if (getIntent().hasExtra(NotificationConstants.URL_CAMPAIGN)) {
             String urlCampaign = getIntent().getStringExtra(NotificationConstants.URL_CAMPAIGN);
             String idCampaign = getIntent().getStringExtra(NotificationConstants.ID_CAMPAIGN);
-            String idPush = Util.md5(AllInPush.getInstance().getDeviceId());
+            String idPush = Util.md5(AlliNPush.getInstance().getDeviceId());
             String url = String.format("%s/%s/%s", urlCampaign, idPush, idCampaign);
 
             wvAllIn.loadUrl(url);
@@ -157,11 +157,11 @@ public class AllInWebViewActivity extends AppCompatActivity {
         int idCampaign = Integer.valueOf(idCampaignString);
 
         try {
-            AllInPush.getInstance().getHtmlTemplate(idCampaign, new OnRequest<String>() {
+            AlliNPush.getInstance().getHtmlTemplate(idCampaign, new OnRequest<String>() {
                 @Override
                 public void onFinish(String value) {
                     wvAllIn.loadData(value.replace("##id_push##",
-                            Util.md5(AllInPush.getInstance().getDeviceId())),
+                            Util.md5(AlliNPush.getInstance().getDeviceId())),
                             "text/html; charset=utf-8", null);
                 }
 

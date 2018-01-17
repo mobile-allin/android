@@ -4,7 +4,7 @@ import android.content.Context;
 
 import org.json.JSONObject;
 
-import br.com.allin.mobile.pushnotification.AllInPush;
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
 import br.com.allin.mobile.pushnotification.constants.RouteConstants;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
@@ -28,7 +28,7 @@ public class ToggleTask extends BaseTask<String> {
     public JSONObject getData() {
         try {
             JSONObject data = new JSONObject();
-            data.put(HttpBodyConstants.DEVICE_TOKEN, AllInPush.getInstance().getDeviceId());
+            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceId());
 
             return data;
         } catch (Exception e) {

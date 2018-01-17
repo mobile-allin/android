@@ -8,7 +8,7 @@ import android.os.Message;
 import com.google.android.gms.gcm.GcmListenerService;
 
 import br.com.allin.mobile.pushnotification.Util;
-import br.com.allin.mobile.pushnotification.configurations.AllInConfiguration;
+import br.com.allin.mobile.pushnotification.configurations.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
 
 /**
@@ -26,11 +26,11 @@ public class AllInGcmListenerService extends GcmListenerService {
         final String action = data.getString(NotificationConstants.ACTION);
 
         if (!Util.isNullOrClear(data.getString(NotificationConstants.ACTION))) {
-            if (AllInConfiguration.getInstance().getAllInDelegate() != null) {
+            if (AlliNConfiguration.getInstance().getAllInDelegate() != null) {
                 new Handler(Looper.getMainLooper()) {
                     @Override
                     public void handleMessage(Message message) {
-                        AllInConfiguration.getInstance().getAllInDelegate().onAction(action, true);
+                        AlliNConfiguration.getInstance().getAllInDelegate().onAction(action, true);
                     }
                 }.sendEmptyMessage(0);
             }

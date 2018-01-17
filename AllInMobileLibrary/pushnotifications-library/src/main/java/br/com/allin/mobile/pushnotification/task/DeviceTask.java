@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import org.json.JSONObject;
 
-import br.com.allin.mobile.pushnotification.AllInPush;
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
 import br.com.allin.mobile.pushnotification.constants.ParametersConstants;
 import br.com.allin.mobile.pushnotification.constants.RouteConstants;
@@ -45,7 +45,7 @@ public class DeviceTask extends BaseTask<String> {
         try {
             JSONObject data = new JSONObject();
 
-            data.put(HttpBodyConstants.DEVICE_TOKEN, AllInPush.getInstance().getDeviceId());
+            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceId());
             data.put(HttpBodyConstants.PLATFORM, ParametersConstants.ANDROID);
 
             return data;

@@ -1,15 +1,26 @@
 package br.com.allin.mobile.pushnotification;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import java.util.List;
 import java.util.Map;
 
-import br.com.allin.mobile.pushnotification.configurations.AllInConfiguration;
+import br.com.allin.mobile.pushnotification.configurations.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
+import br.com.allin.mobile.pushnotification.entity.ContextEntity;
 import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
 import br.com.allin.mobile.pushnotification.entity.MessageEntity;
+import br.com.allin.mobile.pushnotification.entity.NotificationEntity;
 import br.com.allin.mobile.pushnotification.exception.NotNullAttributeOrPropertyException;
+import br.com.allin.mobile.pushnotification.helper.FieldHelper;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 import br.com.allin.mobile.pushnotification.service.CampaignService;
@@ -104,29 +115,77 @@ import br.com.allin.mobile.pushnotification.service.StatusService;
  * <br>
  * <b>OBS: These settings are required for the proper functioning of lib.</b>
  */
-public class AllInPush {
-    private AllInPush() {
+public class AlliNPush {
+    private static String SENDER_ID = "allin.senderid";
+    private static String APP_ID = "allin.appid";
+    private static String WHITE_ICON = "allin_notification_white_icon";
+    private static String ICON = "allin_notification_icon";
+    private static String BACKGROUND = "allin_notification_background";
+
+    private ContextEntity context;
+
+    private AlliNPush() {
     }
 
-    private static AllInPush allInPush;
+    private static AlliNPush alliNPush;
 
     /**
      * Instance of class
      */
-    public static AllInPush getInstance() {
-        if (allInPush == null) {
-            allInPush = new AllInPush();
+    public static AlliNPush getInstance() {
+        if (alliNPush == null) {
+            alliNPush = new AlliNPush();
         }
 
-        return allInPush;
+        return alliNPush;
+    }
+
+    private AllInDelegate allInDelegate;
+
+    public void registerForPushNotifications(@NonNull Context context,
+                                             @NonNull AllInDelegate allInDelegate) throws Exception {
+        this.allInDelegate = allInDelegate;
+        this.context = new ContextEntity(context);
+
+        try {
+            ApplicationInfo applicationInfo = context.getPackageManager()
+                    .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+
+            if (applicationInfo != null) {
+                @DrawableRes
+                int whiteIcon = FieldHelper.getResId(AlliNPush.WHITE_ICON, Drawable.class);
+                @DrawableRes
+                int icon = FieldHelper.getResId(AlliNPush.ICON, Drawable.class);
+                @ColorRes
+                int background = FieldHelper.getResId(AlliNPush.BACKGROUND, Color.class);
+
+                String senderId = applicationInfo.metaData.getString(AlliNPush.SENDER_ID);
+                String appId = applicationInfo.metaData.getString(AlliNPush.APP_ID);
+
+                if (senderId == null || TextUtils.isEmpty(senderId.trim())) {
+                    throw new Exception("Required meta-data 'allin.senderid' in MANIFEST");
+                } else if (appId == null || TextUtils.isEmpty(appId.trim())) {
+                    throw new Exception("Required meta-data 'allin.appid' in MANIFEST");
+                }
+
+                AlliNConfiguration.getInstance().init(context, allInDelegate);
+
+                NotificationEntity notification = new NotificationEntity(background, icon, whiteIcon);
+                ConfigurationEntity configuration = new ConfigurationEntity(senderId, notification);
+
+                new ConfigurationService(configuration).init();
+            }
+        } catch (PackageManager.NameNotFoundException nameNotFoundException) {
+            nameNotFoundException.printStackTrace();
+        }
+    }
+
+    public AllInDelegate getAllInDelegate() {
+        return allInDelegate;
     }
 
     public Context getContext() {
-        return AllInConfiguration.getInstance().getContext();
-    }
-
-    public static void setContext(Context context) {
-        AllInConfiguration.getInstance().setContext(context);
+        return context.getApplicationContext();
     }
 
     /**
@@ -142,7 +201,7 @@ public class AllInPush {
                                  AllInDelegate allInDelegate,
                                  ConfigurationEntity configurationEntity)
             throws NotNullAttributeOrPropertyException {
-        AllInPush.configure(context, allInDelegate, configurationEntity, null);
+        AlliNPush.configure(context, allInDelegate, configurationEntity, null);
     }
 
     /**
@@ -167,17 +226,14 @@ public class AllInPush {
             throw new NotNullAttributeOrPropertyException("allInDelegate", "configure");
         }
 
-        AllInConfiguration allInConfiguration = AllInConfiguration.getInstance();
-        allInConfiguration.setContext(context);
-        allInConfiguration.setAllInDelegate(allInDelegate);
-        allInConfiguration.init();
 
-        new ConfigurationService(configurationEntity, onRequest).init();
+
+
     }
 
     /*
     public static void finish() {
-        AllInConfiguration.getInstance().finish();
+        AlliNConfiguration.getInstance().finish();
     } */
 
     /**

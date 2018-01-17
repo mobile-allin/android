@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- IMAGES OF THE NOTIFICATIONS -->
+    <drawable name="allin_notification_white_icon">@mipmap/ic_launcher</drawable>
+    <drawable name="allin_notification_icon">@android:drawable/sym_def_app_icon</drawable>
+
+    <!-- BACKGROUND OF THE NOTIFICATION -->
+    <color name="allin_notification_background">#000000</color>
+</resources>

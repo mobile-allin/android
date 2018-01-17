@@ -5,9 +5,6 @@ import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 
-import br.com.allin.mobile.pushnotification.AllInPush;
-import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
-import br.com.allin.mobile.pushnotification.entity.NotificationEntity;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import io.fabric.sdk.android.Fabric;
 

@@ -1,35 +1,26 @@
 package br.com.allin.mobile.pushnotification.entity;
 
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
+
 /**
  * Class color setting and notification of images
  */
 public class NotificationEntity {
-    private String colorBackground;
-    private int whiteIcon;
-    private int icon;
-
-    /**
-     * Initialize the object with the background color and the only icon.
-     * This will form the simplest and unique symbol (standard WhatsApp)
-     *
-     * @param colorBackground Color notification of image background
-     * @param whiteIcon Client white icon
-     */
-    public NotificationEntity(String colorBackground, int whiteIcon) {
-        this.colorBackground = colorBackground;
-        this.whiteIcon = whiteIcon;
-    }
+    private @ColorRes int background;
+    private @DrawableRes int whiteIcon;
+    private @DrawableRes int icon;
 
     /**
      * Initialize the object with the background color of the notification icon (the lowest),
      * the largest image of the notification and the smaller image (white)
      *
-     * @param colorBackground Color notification of image background
+     * @param background Color notification of image background
      * @param icon Client normal icon
      * @param whiteIcon Client white icon
      */
-    public NotificationEntity(String colorBackground, int icon, int whiteIcon) {
-        this.colorBackground = colorBackground;
+    public NotificationEntity(@ColorRes int background, @DrawableRes int icon, @DrawableRes int whiteIcon) {
+        this.background = background;
         this.icon = icon;
         this.whiteIcon = whiteIcon;
     }
@@ -37,23 +28,23 @@ public class NotificationEntity {
     /**
      * @return Background color of the notification icon
      */
-    public String getColorBackground() {
-        return colorBackground;
+    public @ColorRes int getBackground() {
+        return background;
     }
 
     /**
      * Set color notification of image background
      *
-     * @param colorBackground Color notification of image background
+     * @param background Color notification of image background
      */
-    public void setColorBackground(String colorBackground) {
-        this.colorBackground = colorBackground;
+    public void setBackground(@ColorRes int background) {
+        this.background = background;
     }
 
     /**
      * @return Client white icon
      */
-    public int getWhiteIcon() {
+    public @DrawableRes int getWhiteIcon() {
         return whiteIcon;
     }
 
@@ -62,14 +53,14 @@ public class NotificationEntity {
      *
      * @param whiteIcon Client white icon
      */
-    public void setWhiteIcon(int whiteIcon) {
+    public void setWhiteIcon(@DrawableRes int whiteIcon) {
         this.whiteIcon = whiteIcon;
     }
 
     /**
      * @return Client normal icon
      */
-    public int getIcon() {
+    public @DrawableRes int getIcon() {
         return icon;
     }
 
@@ -78,7 +69,7 @@ public class NotificationEntity {
      *
      * @param icon Client normal icon
      */
-    public void setIcon(int icon) {
+    public void setIcon(@DrawableRes int icon) {
         this.icon = icon;
     }
 }

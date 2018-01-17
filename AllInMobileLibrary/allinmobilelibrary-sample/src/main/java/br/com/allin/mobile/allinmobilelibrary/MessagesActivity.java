@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.Collections;
 import java.util.List;
 
-import br.com.allin.mobile.pushnotification.AllInPush;
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.entity.MessageEntity;
 
 /**
@@ -31,7 +31,7 @@ public class MessagesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_messages);
 
         lvMessages = (ListView) findViewById(R.id.lvMessages);
-        lvMessages.setAdapter(new Adapter(AllInPush.getInstance().getMessages()));
+        lvMessages.setAdapter(new Adapter(AlliNPush.getInstance().getMessages()));
     }
 
     private class Adapter extends BaseAdapter {

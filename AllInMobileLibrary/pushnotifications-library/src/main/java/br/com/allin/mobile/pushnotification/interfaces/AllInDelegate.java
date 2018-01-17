@@ -1,5 +1,7 @@
 package br.com.allin.mobile.pushnotification.interfaces;
 
+import android.content.Context;
+
 /**
  * @author lucasbrsilva
  *

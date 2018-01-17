@@ -9,7 +9,7 @@ import com.google.android.gms.iid.InstanceID;
 
 import java.io.IOException;
 
-import br.com.allin.mobile.pushnotification.AllInPush;
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
 import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
 import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
@@ -75,7 +75,7 @@ public class GCMService extends AsyncTask<Void, Void, String> {
         super.onPostExecute(s);
 
         if (s != null && !TextUtils.isEmpty(s)) {
-            AllInPush.getInstance().sendDeviceInfo(this.deviceEntity, this.onRequest);
+            AlliNPush.getInstance().sendDeviceInfo(this.deviceEntity, this.onRequest);
         }
     }
 }

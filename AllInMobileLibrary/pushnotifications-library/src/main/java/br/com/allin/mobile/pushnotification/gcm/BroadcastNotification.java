@@ -10,8 +10,8 @@ import android.os.Message;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.text.TextUtils;
 
-import br.com.allin.mobile.pushnotification.AllInPush;
-import br.com.allin.mobile.pushnotification.configurations.AllInConfiguration;
+import br.com.allin.mobile.pushnotification.AlliNPush;
+import br.com.allin.mobile.pushnotification.configurations.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.constants.ActionConstants;
 import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
 import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
@@ -24,24 +24,27 @@ public class BroadcastNotification extends WakefulBroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, final Intent intentReceive) {
-        AllInPush.setContext(context);
         Bundle extras = intentReceive.getExtras();
+
+        if (extras == null) {
+            return;
+        }
 
         long idMessage = extras.getLong(NotificationConstants.ID, 0);
 
         if (idMessage > 0) {
-            AllInPush.getInstance().messageHasBeenRead((int) idMessage);
+            AlliNPush.getInstance().messageHasBeenRead((int) idMessage);
         }
 
         if (intentReceive.getStringExtra(ActionConstants.class.toString()) != null &&
                 !TextUtils.isEmpty(intentReceive.getStringExtra(ActionConstants.class.toString()))) {
-            if (AllInConfiguration.getInstance().getAllInDelegate() != null) {
+            if (AlliNConfiguration.getInstance().getAllInDelegate() != null) {
                 new Handler(Looper.getMainLooper()) {
                     @Override
                     public void handleMessage(Message message) {
                         String action = intentReceive.getStringExtra(ActionConstants.class.toString());
 
-                        AllInConfiguration.getInstance().getAllInDelegate().onAction(action, false);
+                        AlliNConfiguration.getInstance().getAllInDelegate().onAction(action, false);
                     }
                 }.sendEmptyMessage(0);
             }
@@ -50,12 +53,12 @@ public class BroadcastNotification extends WakefulBroadcastReceiver {
                 int idCampaign = Integer.parseInt(extras.getString(NotificationConstants.ID_CAMPAIGN));
                 String date = extras.getString(NotificationConstants.DATE_NOTIFICATION);
 
-                AllInPush.getInstance().notificationCampaign(idCampaign, date);
+                AlliNPush.getInstance().notificationCampaign(idCampaign, date);
             } else if (intentReceive.hasExtra(NotificationConstants.ID_SEND)) {
                 int idSend = Integer.parseInt(extras.getString(NotificationConstants.ID_SEND));
                 String date = extras.getString(NotificationConstants.DATE_NOTIFICATION);
 
-                AllInPush.getInstance().notificationTransactional(idSend, date);
+                AlliNPush.getInstance().notificationTransactional(idSend, date);
             }
 
             start(context, extras, intentReceive.hasExtra(NotificationConstants.URL_SCHEME));

@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.allin.mobile.pushnotification.AllInPush;
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.Util;
 import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
 import br.com.allin.mobile.pushnotification.entity.NotificationEntity;
@@ -56,9 +56,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 OnRequest onRequest = toggleSwitch(isChecked);
 
                 if (isChecked) {
-                    AllInPush.getInstance().enable(onRequest);
+                    AlliNPush.getInstance().enable(onRequest);
                 } else {
-                    AllInPush.getInstance().disable(onRequest);
+                    AlliNPush.getInstance().disable(onRequest);
                 }
             }
         });
@@ -76,9 +76,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     "#000000", R.mipmap.ic_launcher, android.R.drawable.sym_def_app_icon);
 
             ConfigurationEntity configurationEntity = new ConfigurationEntity(projectId);
-            configurationEntity.setNotificationEntity(notification);
+            configurationEntity.setNotification(notification);
 
-            AllInPush.configure(this, this, configurationEntity);
+            AlliNPush.configure(this, this, configurationEntity);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onDestroy();
 
         // Finalizar os serviços de push
-//        AllInPush.finish();
+//        AlliNPush.finish();
     }
 
     @Override
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void deviceIsEnable() {
         MainActivity.this.showNotificationLoad();
 
-        AllInPush.getInstance().deviceIsEnable(new OnRequest<Boolean>() {
+        AlliNPush.getInstance().deviceIsEnable(new OnRequest<Boolean>() {
             @Override
             public void onFinish(final Boolean value) {
                 MainActivity.this.hideNotificationLoad();
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 progressDialog = ProgressDialog.show(MainActivity.this, null, "Enviando informações");
 
-                String pushId = AllInPush.getInstance().getDeviceId();
+                String pushId = AlliNPush.getInstance().getDeviceId();
 
                 Map<String, String> map = new HashMap<>();
                 map.put("id_push", Util.md5(pushId));
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 map.put("dt_ultima_abertura", null);
                 map.put("dt_ultimo_clique", null);
 
-                AllInPush.getInstance().sendList("Lista Padrao Push", map, new OnRequest<String>() {
+                AlliNPush.getInstance().sendList("Lista Padrao Push", map, new OnRequest<String>() {
                     @Override
                     public void onFinish(String value) {
                         progressDialog.dismiss();

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import org.json.JSONObject;
 
-import br.com.allin.mobile.pushnotification.AllInPush;
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.Util;
 import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
 import br.com.allin.mobile.pushnotification.constants.RouteConstants;
@@ -52,7 +52,7 @@ public class NotificationCampaignTask extends BaseTask<String> {
             data.put(HttpBodyConstants.ID, this.id);
             data.put(HttpBodyConstants.DATE, this.date);
             data.put(HttpBodyConstants.DATE_OPENING, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
-            data.put(HttpBodyConstants.DEVICE_TOKEN, AllInPush.getInstance().getDeviceId());
+            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceId());
 
             if (this.latitude != 0 && this.longitude != 0) {
                 data.put(HttpBodyConstants.LATITUDE, String.valueOf(this.latitude));

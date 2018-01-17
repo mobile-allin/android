@@ -1,13 +1,11 @@
 package br.com.allin.mobile.pushnotification.entity;
 
-import br.com.allin.mobile.pushnotification.exception.NotNullAttributeOrPropertyException;
-
 /**
  * Entity configuration options.
  */
 public class ConfigurationEntity {
     private String senderId = null;
-    private NotificationEntity notificationEntity = null;
+    private NotificationEntity notification = null;
 
     /**
      * <p>
@@ -20,8 +18,8 @@ public class ConfigurationEntity {
     public ConfigurationEntity() {
     }
 
-    public ConfigurationEntity(String senderId) throws NotNullAttributeOrPropertyException {
-        setSenderId(senderId);
+    public ConfigurationEntity(String senderId) {
+        this.senderId = senderId;
     }
 
     /**
@@ -31,13 +29,12 @@ public class ConfigurationEntity {
      * @param senderId It is the id of the notification delivery project (project number) in
      * <a href="https://console.developers.google.com">Google Developers Console</a>.
      *
-     * @param notificationEntity Are the
+     * @param notification Are the
      *                             notifications settings that are displayed as color and icon
      */
-    public ConfigurationEntity(String senderId, NotificationEntity notificationEntity)
-            throws NotNullAttributeOrPropertyException {
-        setSenderId(senderId);
-        setNotificationEntity(notificationEntity);
+    public ConfigurationEntity(String senderId, NotificationEntity notification) {
+        this.senderId = senderId;
+        this.notification = notification;
     }
 
     /**
@@ -65,8 +62,8 @@ public class ConfigurationEntity {
     /**
      * @return Notifications settings.
      */
-    public NotificationEntity getNotificationEntity() {
-        return notificationEntity;
+    public NotificationEntity getNotification() {
+        return notification;
     }
 
     /**
@@ -74,7 +71,7 @@ public class ConfigurationEntity {
      *
      * @param notificationEntity Settings that will be added to display the notification.
      */
-    public void setNotificationEntity(NotificationEntity notificationEntity) {
-        this.notificationEntity = notificationEntity;
+    public void setNotification(NotificationEntity notificationEntity) {
+        this.notification = notificationEntity;
     }
 }
