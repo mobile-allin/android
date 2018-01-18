@@ -2,7 +2,7 @@ package br.com.allin.mobile.pushnotification.task;
 
 import org.json.JSONObject;
 
-import br.com.allin.mobile.pushnotification.Util;
+import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
 import br.com.allin.mobile.pushnotification.constants.RouteConstants;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;

@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.Util;
+import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 

@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification;
+package br.com.allin.mobile.pushnotification.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;

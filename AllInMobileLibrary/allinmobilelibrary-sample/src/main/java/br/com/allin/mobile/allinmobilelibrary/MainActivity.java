@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.Util;
+import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 

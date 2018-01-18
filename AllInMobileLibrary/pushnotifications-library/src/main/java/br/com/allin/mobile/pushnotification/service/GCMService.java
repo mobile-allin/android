@@ -9,7 +9,7 @@ import com.google.android.gms.iid.InstanceID;
 import java.io.IOException;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
+import br.com.allin.mobile.pushnotification.helper.SharedPreferencesManager;
 import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
 import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
 import br.com.allin.mobile.pushnotification.entity.DeviceEntity;

@@ -5,7 +5,7 @@ import android.content.Context;
 import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
+import br.com.allin.mobile.pushnotification.helper.SharedPreferencesManager;
 import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
 import br.com.allin.mobile.pushnotification.constants.ParametersConstants;
 import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;

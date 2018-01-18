@@ -20,8 +20,8 @@ import org.json.JSONObject;
 import java.net.URLDecoder;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
-import br.com.allin.mobile.pushnotification.Util;
+import br.com.allin.mobile.pushnotification.helper.SharedPreferencesManager;
+import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.constants.ActionConstants;
 import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
 import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
