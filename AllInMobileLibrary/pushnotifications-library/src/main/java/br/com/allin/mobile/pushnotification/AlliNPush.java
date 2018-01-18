@@ -219,7 +219,7 @@ public class AlliNPush {
      * @param onRequest Interface that returns success or error in the request
      */
     public void getHtmlTemplate(int idCampaign, OnRequest onRequest) {
-        new CampaignService(getContext(), onRequest).getTemplate(idCampaign);
+        new CampaignService(onRequest).getTemplate(idCampaign);
     }
 
     /**
@@ -228,7 +228,7 @@ public class AlliNPush {
      * @param userEmail E-mail that is registered in the database of AllIn
      */
     public void updateUserEmail(final String userEmail) {
-        new DeviceService(getContext()).updateEmail(userEmail);
+        new DeviceService().updateEmail(userEmail);
     }
 
     /**
@@ -237,7 +237,7 @@ public class AlliNPush {
      * @param deviceEntity Object with the device information
      */
     public void sendDeviceInfo(final DeviceEntity deviceEntity) {
-        new DeviceService(getContext()).sendDevice(deviceEntity);
+        new DeviceService().sendDevice(deviceEntity);
     }
 
     /**
@@ -247,14 +247,14 @@ public class AlliNPush {
      * @param values Map with key and value for formation of the JSON API
      */
     public void sendList(String nmList, Map<String, String> values) {
-        new DeviceService(getContext()).sendList(nmList, values);
+        new DeviceService().sendList(nmList, values);
     }
 
     /**
      * <b>Asynchronous</b> - This method removes the link between the email and the device
      */
     public void logout() {
-        new DeviceService(getContext()).logout();
+        new DeviceService().logout();
     }
 
     /**
@@ -265,7 +265,7 @@ public class AlliNPush {
      * @param date Date of the campaign received from server
      */
     public void notificationCampaign(int idCampaign, String date) {
-        new NotificationService().sendCampaign(idCampaign, date, getContext());
+        new NotificationService().sendCampaign(idCampaign, date);
     }
 
     /**
@@ -276,28 +276,28 @@ public class AlliNPush {
      * @param date Date of the campaign received from server
      */
     public void notificationTransactional(int idSend, String date) {
-        new NotificationService().sendTransactional(idSend, date, getContext());
+        new NotificationService().sendTransactional(idSend, date);
     }
 
     /**
      * @return E-mail saved in SharedPreferences
      */
     public String getUserEmail() {
-        return new DeviceService(getContext()).getUserEmail();
+        return new DeviceService().getUserEmail();
     }
 
     /**
      * @return Device identification on Google saved in SharedPreferences
      */
     public String getDeviceToken() {
-        return new DeviceService(getContext()).getDeviceToken();
+        return new DeviceService().getDeviceToken();
     }
 
     /**
      * @return History push's received in application
      */
     public List<MessageEntity> getMessages() {
-        return new MessageService(getContext()).getMessages();
+        return new MessageService().getMessages();
     }
 
     /**
@@ -308,7 +308,7 @@ public class AlliNPush {
      * @return Identification of push received in application
      */
     public long addMessage(MessageEntity messageEntity) {
-        return new MessageService(getContext()).addMessage(messageEntity);
+        return new MessageService().addMessage(messageEntity);
     }
 
     /**
@@ -319,7 +319,7 @@ public class AlliNPush {
      * @return If successfully deleted
      */
     public boolean deleteMessage(int id) {
-        return new MessageService(getContext()).deleteMessage(id);
+        return new MessageService().deleteMessage(id);
     }
 
     /**
@@ -328,6 +328,6 @@ public class AlliNPush {
      * @return If successfully updated
      */
     public boolean messageHasBeenRead(int id) {
-        return new MessageService(getContext()).messageHasBeenRead(id);
+        return new MessageService().messageHasBeenRead(id);
     }
 }

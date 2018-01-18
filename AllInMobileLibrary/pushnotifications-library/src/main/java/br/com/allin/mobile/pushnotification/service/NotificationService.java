@@ -1,7 +1,5 @@
 package br.com.allin.mobile.pushnotification.service;
 
-import android.content.Context;
-
 import br.com.allin.mobile.pushnotification.gcm.AllInLocation;
 import br.com.allin.mobile.pushnotification.interfaces.OnAllInLocationChange;
 import br.com.allin.mobile.pushnotification.task.NotificationCampaignTask;
@@ -25,7 +23,7 @@ public class NotificationService {
         });
     }
 
-    public void sendTransactional(int idSend, String date, Context context) {
+    public void sendTransactional(int idSend, String date) {
         new NotificationTransactionalTask(idSend, date).execute();
     }
 }
