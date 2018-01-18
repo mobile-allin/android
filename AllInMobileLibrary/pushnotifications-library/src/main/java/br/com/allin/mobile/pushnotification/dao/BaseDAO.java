@@ -8,12 +8,13 @@ import android.database.sqlite.SQLiteDatabase;
  */
 
 public abstract class BaseDAO {
-    protected Context context;
-    protected String createTable;
-    protected String dbName;
-    protected SQLiteDatabase sqliteDatabase;
+    private Context context;
+    private String createTable;
+    private String dbName;
 
-    public BaseDAO(Context context, String dbName, String createTable) {
+    SQLiteDatabase sqliteDatabase;
+
+    BaseDAO(Context context, String dbName, String createTable) {
         this.context = context;
         this.createTable = createTable;
         this.dbName = dbName;
@@ -21,13 +22,13 @@ public abstract class BaseDAO {
         createTable();
     }
 
-    protected void openDatabase() {
+    void openDatabase() {
         if (context != null) {
-            this.sqliteDatabase = context.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+            sqliteDatabase = context.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         }
     }
 
-    protected void closeDatabase() {
+    void closeDatabase() {
         if (sqliteDatabase != null) {
             sqliteDatabase.close();
         }
@@ -35,7 +36,7 @@ public abstract class BaseDAO {
         sqliteDatabase = null;
     }
 
-    protected void createTable() {
+    void createTable() {
         openDatabase();
 
         if (sqliteDatabase != null) {

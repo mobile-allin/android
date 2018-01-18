@@ -8,8 +8,6 @@ public abstract class AbstractException extends Exception {
     /**
      * Error message that gave rise to the error (in the treatment of an exception or Java platform)
      */
-    private String originalMessage = null;
-
     protected static final long serialVersionUID = 1L;
 
     /**
