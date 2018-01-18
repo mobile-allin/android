@@ -138,7 +138,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
         } else if (getIntent().hasExtra(NotificationConstants.URL_CAMPAIGN)) {
             String urlCampaign = getIntent().getStringExtra(NotificationConstants.URL_CAMPAIGN);
             String idCampaign = getIntent().getStringExtra(NotificationConstants.ID_CAMPAIGN);
-            String idPush = Util.md5(AlliNPush.getInstance().getDeviceId());
+            String idPush = Util.md5(AlliNPush.getInstance().getDeviceToken());
             String url = String.format("%s/%s/%s", urlCampaign, idPush, idCampaign);
 
             wvAllIn.loadUrl(url);
@@ -161,7 +161,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
                 @Override
                 public void onFinish(String value) {
                     wvAllIn.loadData(value.replace("##id_push##",
-                            Util.md5(AlliNPush.getInstance().getDeviceId())),
+                            Util.md5(AlliNPush.getInstance().getDeviceToken())),
                             "text/html; charset=utf-8", null);
                 }
 

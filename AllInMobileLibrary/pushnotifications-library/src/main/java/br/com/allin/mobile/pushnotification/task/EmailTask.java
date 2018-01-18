@@ -20,9 +20,8 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 public class EmailTask extends BaseTask<String> {
     private String email;
 
-    public EmailTask(String email,
-                     Context context, OnRequest onRequest) {
-        super(context, RequestType.POST, true, onRequest);
+    public EmailTask(String email, OnRequest onRequest) {
+        super(RequestType.POST, true, onRequest);
 
         this.email = email;
     }
@@ -36,9 +35,9 @@ public class EmailTask extends BaseTask<String> {
     public JSONObject getData() {
         try {
             JSONObject data = new JSONObject();
-            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceId());
+            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
             data.put(HttpBodyConstants.PLATFORM, ParametersConstants.ANDROID);
-            data.put(HttpBodyConstants.USER_EMAIL, this.email);
+            data.put(HttpBodyConstants.USER_EMAIL, email);
 
             return data;
         } catch (Exception e) {
@@ -50,8 +49,9 @@ public class EmailTask extends BaseTask<String> {
 
     @Override
     public String onSuccess(ResponseEntity responseEntity) {
-        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(this.context);
-        sharedPreferencesManager.storeData(PreferencesConstants.KEY_USER_EMAIL, this.email);
+        Context context = AlliNPush.getInstance().getContext();
+        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
+        sharedPreferencesManager.storeData(PreferencesConstants.KEY_USER_EMAIL, email);
 
         return responseEntity.getMessage();
     }

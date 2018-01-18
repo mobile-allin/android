@@ -8,6 +8,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.interfaces.OnAllInLocationChange;
 
 /**
@@ -20,15 +21,13 @@ public class AllInLocation implements GoogleApiClient.ConnectionCallbacks,
     /**
      * Method that initializes the geolocation
      *
-     * @param context Application context
      * @param onAllInLocationChange Interface that returns the geolocation case is found or not
      */
-    public static void initialize(Context context, OnAllInLocationChange onAllInLocationChange) {
+    public static void initialize(OnAllInLocationChange onAllInLocationChange) {
         if (allInLocation == null) {
             allInLocation = new AllInLocation();
         }
 
-        allInLocation.context = context;
         allInLocation.onAllInLocationChange = onAllInLocationChange;
         allInLocation.init();
     }
@@ -36,12 +35,11 @@ public class AllInLocation implements GoogleApiClient.ConnectionCallbacks,
     private AllInLocation() {
     }
 
-    private Context context;
     private GoogleApiClient googleApiClient;
     private OnAllInLocationChange onAllInLocationChange;
 
     private void init() {
-        googleApiClient = new GoogleApiClient.Builder(context)
+        googleApiClient = new GoogleApiClient.Builder(AlliNPush.getInstance().getContext())
             .addConnectionCallbacks(this)
             .addOnConnectionFailedListener(this)
             .addApi(LocationServices.API).build();

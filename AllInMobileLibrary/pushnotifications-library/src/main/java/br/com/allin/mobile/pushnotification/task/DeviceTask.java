@@ -1,6 +1,5 @@
 package br.com.allin.mobile.pushnotification.task;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import org.json.JSONObject;
@@ -20,9 +19,8 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 public class DeviceTask extends BaseTask<String> {
     private DeviceEntity deviceEntity;
 
-    public DeviceTask(DeviceEntity deviceEntity,
-                      Context context, OnRequest onRequest) {
-        super(context, RequestType.POST, true, onRequest);
+    public DeviceTask(DeviceEntity deviceEntity, OnRequest onRequest) {
+        super(RequestType.POST, true, onRequest);
 
         this.deviceEntity = deviceEntity;
     }
@@ -45,7 +43,7 @@ public class DeviceTask extends BaseTask<String> {
         try {
             JSONObject data = new JSONObject();
 
-            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceId());
+            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
             data.put(HttpBodyConstants.PLATFORM, ParametersConstants.ANDROID);
 
             return data;

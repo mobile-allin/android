@@ -82,7 +82,7 @@ public class AllInGcmNotification {
             } finally {
                 if (scheme.contains("##id_push##")) {
                     scheme = scheme.replace("##id_push##",
-                            Util.md5(AlliNPush.getInstance().getDeviceId()));
+                            Util.md5(AlliNPush.getInstance().getDeviceToken()));
                 }
 
                 extras.putString(NotificationConstants.URL_SCHEME, scheme);

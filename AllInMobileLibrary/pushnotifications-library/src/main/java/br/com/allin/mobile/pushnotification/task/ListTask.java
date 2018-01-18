@@ -1,7 +1,5 @@
 package br.com.allin.mobile.pushnotification.task;
 
-import android.content.Context;
-
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -20,9 +18,8 @@ public class ListTask extends BaseTask<String> {
     private String campos;
     private String valor;
 
-    public ListTask(String nameList, Map<String, String> columnsAndValues,
-                    Context context, OnRequest onRequest) {
-        super(context, RequestType.POST, true, onRequest);
+    public ListTask(String nameList, Map<String, String> columnsAndValues, OnRequest onRequest) {
+        super(RequestType.POST, true, onRequest);
 
         StringBuilder campos = new StringBuilder();
         StringBuilder valor = new StringBuilder();

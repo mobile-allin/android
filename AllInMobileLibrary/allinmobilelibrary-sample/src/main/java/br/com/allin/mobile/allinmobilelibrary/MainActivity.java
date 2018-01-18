@@ -21,8 +21,6 @@ import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.Util;
-import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
-import br.com.allin.mobile.pushnotification.entity.NotificationEntity;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
@@ -163,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 progressDialog = ProgressDialog.show(MainActivity.this, null, "Enviando informações");
 
-                String pushId = AlliNPush.getInstance().getDeviceId();
+                String pushId = AlliNPush.getInstance().getDeviceToken();
 
                 Map<String, String> map = new HashMap<>();
                 map.put("id_push", Util.md5(pushId));

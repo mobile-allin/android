@@ -18,15 +18,19 @@ public class StatusService {
         this.onRequest = onRequest;
     }
 
+    public StatusService(Context context) {
+        this.context = context;
+    }
+
     public void enable() {
-        new ToggleTask(true, this.context, this.onRequest).execute();
+        new ToggleTask(true, onRequest).execute();
     }
 
     public void disable() {
-        new ToggleTask(false, this.context, this.onRequest).execute();
+        new ToggleTask(false, onRequest).execute();
     }
 
     public void deviceIsEnable() {
-        new StatusTask(this.context, this.onRequest).execute();
+        new StatusTask(onRequest).execute();
     }
 }

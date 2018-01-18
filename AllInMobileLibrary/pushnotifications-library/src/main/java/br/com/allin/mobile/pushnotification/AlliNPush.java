@@ -19,7 +19,6 @@ import br.com.allin.mobile.pushnotification.entity.ContextEntity;
 import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
 import br.com.allin.mobile.pushnotification.entity.MessageEntity;
 import br.com.allin.mobile.pushnotification.entity.NotificationEntity;
-import br.com.allin.mobile.pushnotification.exception.NotNullAttributeOrPropertyException;
 import br.com.allin.mobile.pushnotification.helper.FieldHelper;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -122,15 +121,13 @@ public class AlliNPush {
     private static String ICON = "allin_notification_icon";
     private static String BACKGROUND = "allin_notification_background";
 
-    private ContextEntity context;
-
     private AlliNPush() {
     }
 
     private static AlliNPush alliNPush;
 
     /**
-     * Instance of class
+     * Singleton instance of class
      */
     public static AlliNPush getInstance() {
         if (alliNPush == null) {
@@ -140,11 +137,10 @@ public class AlliNPush {
         return alliNPush;
     }
 
-    private AllInDelegate allInDelegate;
+    private ContextEntity context;
 
     public void registerForPushNotifications(@NonNull Context context,
                                              @NonNull AllInDelegate allInDelegate) throws Exception {
-        this.allInDelegate = allInDelegate;
         this.context = new ContextEntity(context);
 
         try {
@@ -181,7 +177,7 @@ public class AlliNPush {
     }
 
     public AllInDelegate getAllInDelegate() {
-        return allInDelegate;
+        return AlliNConfiguration.getInstance().getAllInDelegate();
     }
 
     public Context getContext() {
@@ -197,32 +193,14 @@ public class AlliNPush {
      * <b>Asynchronous</b> - Disable notifications on the server
      */
     public void disable() {
-        new StatusService(getContext(), null).disable();
-    }
-
-    /**
-     * <b>Asynchronous</b> - Disable notifications on the server
-     *
-     * @param onRequest Interface that returns success or error in the request
-     */
-    public void disable(final OnRequest onRequest) {
-        new StatusService(getContext(), onRequest).disable();
+        new StatusService(getContext()).disable();
     }
 
     /**
      * <b>Asynchronous</b> - Enable notifications on the server
      */
     public void enable() {
-        new StatusService(getContext(), null).enable();
-    }
-
-    /**
-     * <b>Asynchronous</b> - Enable notifications on the server
-     *
-     * @param onRequest Interface that returns success or error in the request
-     */
-    public void enable(final OnRequest onRequest) {
-        new StatusService(getContext(), onRequest).enable();
+        new StatusService(getContext()).enable();
     }
 
     /**
@@ -230,7 +208,7 @@ public class AlliNPush {
      *
      * @param onRequest Interface that returns success or error in the request
      */
-    public void deviceIsEnable(final OnRequest onRequest) {
+    public void deviceIsEnable(OnRequest onRequest) {
         new StatusService(getContext(), onRequest).deviceIsEnable();
     }
 
@@ -240,27 +218,17 @@ public class AlliNPush {
      * @param idCampaign Template ID that the push notification returns
      * @param onRequest Interface that returns success or error in the request
      */
-    public void getHtmlTemplate(final int idCampaign, final OnRequest onRequest) {
+    public void getHtmlTemplate(int idCampaign, OnRequest onRequest) {
         new CampaignService(getContext(), onRequest).getTemplate(idCampaign);
-    }
-
-    /**
-     * <b>Asynchronous</b> - Updates the e-mail in the database
-     *
-     * @param userEmail E-mail that is registered in the database of AllIn
-     */
-    public void updateUserEmail(final String userEmail) {
-        this.updateUserEmail(userEmail, null);
     }
 
     /**
      * <b>Asynchronous</b> - Updates the e-mail in the database and save in SharedPreferences
      *
      * @param userEmail E-mail that is registered in the database of AllIn
-     * @param onRequest Interface that returns success or error in the request
      */
-    public void updateUserEmail(final String userEmail, final OnRequest onRequest) {
-        new DeviceService(getContext(), onRequest).updateEmail(userEmail);
+    public void updateUserEmail(final String userEmail) {
+        new DeviceService(getContext()).updateEmail(userEmail);
     }
 
     /**
@@ -269,17 +237,7 @@ public class AlliNPush {
      * @param deviceEntity Object with the device information
      */
     public void sendDeviceInfo(final DeviceEntity deviceEntity) {
-        this.sendDeviceInfo(deviceEntity, null);
-    }
-
-    /**
-     * <b>Asynchronous</b> - Sends the device information to the server
-     *
-     * @param deviceEntity Object with the device information
-     * @param onRequest Interface that returns success or error in the request
-     */
-    public void sendDeviceInfo(final DeviceEntity deviceEntity, final OnRequest onRequest) {
-        new DeviceService(getContext(), onRequest).sendDevice(deviceEntity);
+        new DeviceService(getContext()).sendDevice(deviceEntity);
     }
 
     /**
@@ -288,36 +246,15 @@ public class AlliNPush {
      * @param nmList Mailing list that will be sent
      * @param values Map with key and value for formation of the JSON API
      */
-    public void sendList(final String nmList, final Map<String, String> values) {
-        this.sendList(nmList, values, null);
-    }
-
-    /**
-     * <b>Asynchronous</b> - Shipping to list
-     *
-     * @param nmList Mailing list that will be sent
-     * @param values Map with key and value for formation of the JSON API
-     * @param onRequest Interface that returns success or error in the request
-     */
-    public void sendList(final String nmList,
-                         final Map<String, String> values, final OnRequest onRequest) {
-        new DeviceService(getContext(), onRequest).sendList(nmList, values);
+    public void sendList(String nmList, Map<String, String> values) {
+        new DeviceService(getContext()).sendList(nmList, values);
     }
 
     /**
      * <b>Asynchronous</b> - This method removes the link between the email and the device
      */
     public void logout() {
-        this.logout(null);
-    }
-
-    /**
-     * <b>Asynchronous</b> - This method removes the link between the email and the device
-     *
-     * @param onRequest Interface that returns success or error in the request
-     */
-    public void logout(final OnRequest onRequest) {
-        new DeviceService(getContext(), onRequest).logout();
+        new DeviceService(getContext()).logout();
     }
 
     /**
@@ -327,7 +264,7 @@ public class AlliNPush {
      * @param idCampaign Campaign identification received from server
      * @param date Date of the campaign received from server
      */
-    public void notificationCampaign(final int idCampaign, final String date) {
+    public void notificationCampaign(int idCampaign, String date) {
         new NotificationService().sendCampaign(idCampaign, date, getContext());
     }
 
@@ -338,7 +275,7 @@ public class AlliNPush {
      * @param idSend Sending identification received from server
      * @param date Date of the campaign received from server
      */
-    public void notificationTransactional(final int idSend, final String date) {
+    public void notificationTransactional(int idSend, String date) {
         new NotificationService().sendTransactional(idSend, date, getContext());
     }
 
@@ -352,7 +289,7 @@ public class AlliNPush {
     /**
      * @return Device identification on Google saved in SharedPreferences
      */
-    public String getDeviceId() {
+    public String getDeviceToken() {
         return new DeviceService(getContext()).getDeviceToken();
     }
 

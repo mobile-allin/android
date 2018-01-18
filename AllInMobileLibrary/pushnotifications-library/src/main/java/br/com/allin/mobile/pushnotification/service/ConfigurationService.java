@@ -1,6 +1,5 @@
 package br.com.allin.mobile.pushnotification.service;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
@@ -14,38 +13,36 @@ import br.com.allin.mobile.pushnotification.entity.NotificationEntity;
  * Service class for push configuration
  */
 public class ConfigurationService {
-    private Context context;
     private ConfigurationEntity configurationEntity;
     private NotificationEntity notificationEntity;
     private SharedPreferencesManager sharedPreferencesManager;
 
     public ConfigurationService(ConfigurationEntity configurationEntity) {
-        this.context = AlliNPush.getInstance().getContext();
         this.configurationEntity = configurationEntity;
         this.notificationEntity = configurationEntity.getNotification();
-        this.sharedPreferencesManager = new SharedPreferencesManager(context);
+        this.sharedPreferencesManager = new SharedPreferencesManager(AlliNPush.getInstance().getContext());
     }
 
     public void init() {
-        new CacheService(context).sync();
+        new CacheService().sync();
 
         if (notificationEntity != null) {
-            sharedPreferencesManager.storeData(PreferencesConstants.KEY_ICON_NOTIFICATION,
-                    notificationEntity.getIcon());
-            sharedPreferencesManager.storeData(PreferencesConstants.KEY_WHITE_ICON_NOTIFICATION,
-                    notificationEntity.getWhiteIcon());
-            sharedPreferencesManager.storeData(PreferencesConstants.KEY_BACKGROUND_NOTIFICATION,
-                    notificationEntity.getBackground());
+            sharedPreferencesManager.storeData(
+                    PreferencesConstants.KEY_ICON_NOTIFICATION, notificationEntity.getIcon());
+            sharedPreferencesManager.storeData(
+                    PreferencesConstants.KEY_WHITE_ICON_NOTIFICATION, notificationEntity.getWhiteIcon());
+            sharedPreferencesManager.storeData(
+                    PreferencesConstants.KEY_BACKGROUND_NOTIFICATION, notificationEntity.getBackground());
         }
 
-        DeviceEntity deviceEntity =
-                new DeviceService(context).getDeviceInfos(this.configurationEntity.getSenderId());
+        DeviceService deviceService = new DeviceService(AlliNPush.getInstance().getContext());
+        DeviceEntity deviceEntity = deviceService.getDeviceInfos(this.configurationEntity.getSenderId());
 
         if (deviceEntity == null || TextUtils
                 .isEmpty(deviceEntity.getDeviceId()) || deviceEntity.isRenewId()) {
-            new GCMService(deviceEntity, this.context, configurationEntity, null).execute();
+            new GCMService(deviceEntity, AlliNPush.getInstance().getContext(), configurationEntity).execute();
         } else {
-            new DeviceService(this.context, null).sendDevice(deviceEntity);
+            new DeviceService(AlliNPush.getInstance().getContext()).sendDevice(deviceEntity);
         }
     }
 }

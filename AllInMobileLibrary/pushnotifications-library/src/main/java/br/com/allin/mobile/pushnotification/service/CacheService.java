@@ -1,31 +1,23 @@
 package br.com.allin.mobile.pushnotification.service;
 
-import android.content.Context;
-import android.os.AsyncTask;
-
-import org.json.JSONObject;
-
 import java.util.List;
 
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.dao.CacheDAO;
 import br.com.allin.mobile.pushnotification.entity.CacheEntity;
-import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
-import br.com.allin.mobile.pushnotification.enumarator.RequestType;
-import br.com.allin.mobile.pushnotification.http.HttpManager;
+import br.com.allin.mobile.pushnotification.task.CacheTask;
 
 /**
  * Service class for cache
  */
 public class CacheService {
     private CacheDAO cacheDAO;
-    private Context context;
 
-    public CacheService(Context context) {
-        this.cacheDAO = new CacheDAO(context);
-        this.context = context;
+    public CacheService() {
+        this.cacheDAO = new CacheDAO(AlliNPush.getInstance().getContext());
     }
 
-    public void sync() {
+    void sync() {
         List<CacheEntity> cacheList = cacheDAO.getAll();
 
         if (cacheList != null) {
@@ -35,30 +27,13 @@ public class CacheService {
         }
     }
 
-    private void sync(final CacheEntity cacheEntity) {
-        new AsyncTask<Void, Void, Object>() {
-            @Override
-            protected Object doInBackground(Void... params) {
-                try {
-                    return HttpManager.makeRequestURL(context, cacheEntity.getUrl(),
-                            RequestType.POST, new JSONObject(cacheEntity.getJson()), false);
-                } catch (Exception e) {
-                    return e.getMessage();
-                }
-            }
-
-            @Override
-            protected void onPostExecute(Object object) {
-                super.onPostExecute(object);
-
-                if (object instanceof ResponseEntity) {
-                    cacheDAO.delete(cacheEntity.getId());
-                }
-            }
-        }.execute();
+    private void sync(final CacheEntity cache) {
+        new CacheTask(cache, cacheDAO).execute();
     }
 
     public void insert(String url, String json) {
-        this.cacheDAO.insert(url, json);
+        cacheDAO.insert(url, json);
     }
+
+
 }

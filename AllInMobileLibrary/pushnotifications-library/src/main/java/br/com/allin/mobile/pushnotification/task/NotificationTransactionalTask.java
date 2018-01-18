@@ -1,7 +1,5 @@
 package br.com.allin.mobile.pushnotification.task;
 
-import android.content.Context;
-
 import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.Util;
@@ -17,8 +15,8 @@ public class NotificationTransactionalTask extends BaseTask<String> {
     private int id;
     private String date;
 
-    public NotificationTransactionalTask(int id, String date, Context context) {
-        super(context, RequestType.POST, true, null);
+    public NotificationTransactionalTask(int id, String date) {
+        super(RequestType.POST, true, null);
 
         this.id = id;
         this.date = date;

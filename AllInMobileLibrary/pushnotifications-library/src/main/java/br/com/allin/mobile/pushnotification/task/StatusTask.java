@@ -1,7 +1,5 @@
 package br.com.allin.mobile.pushnotification.task;
 
-import android.content.Context;
-
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
 import br.com.allin.mobile.pushnotification.constants.RouteConstants;
@@ -13,8 +11,8 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
  * Thread for device status request
  */
 public class StatusTask extends BaseTask<Boolean> {
-    public StatusTask(Context context, OnRequest onRequest) {
-        super(context, RequestType.GET, false, onRequest);
+    public StatusTask(OnRequest onRequest) {
+        super(RequestType.GET, false, onRequest);
     }
 
     @Override
@@ -24,7 +22,7 @@ public class StatusTask extends BaseTask<Boolean> {
 
     @Override
     public String[] getParams() {
-        return new String[] { AlliNPush.getInstance().getDeviceId() };
+        return new String[] { AlliNPush.getInstance().getDeviceToken() };
     }
 
     @Override

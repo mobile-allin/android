@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import org.json.JSONObject;
 
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
@@ -17,15 +18,12 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
  */
 
 abstract class BaseTask<T> extends AsyncTask<Void, Void, Object> implements OnInvoke<T> {
-    protected Context context;
     protected OnRequest onRequest;
-    protected RequestType requestType;
-    protected boolean withCache;
+    private RequestType requestType;
+    private boolean withCache;
 
-    public BaseTask(Context context, RequestType requestType,
-                    boolean withCache, OnRequest onRequest) {
+    public BaseTask(RequestType requestType, boolean withCache, OnRequest onRequest) {
         this.onRequest = onRequest;
-        this.context = context;
         this.requestType = requestType;
         this.withCache = withCache;
     }
@@ -43,11 +41,12 @@ abstract class BaseTask<T> extends AsyncTask<Void, Void, Object> implements OnIn
     @Override
     protected Object doInBackground(Void... params) {
         try {
+            Context context = AlliNPush.getInstance().getContext();
+
             if (requestType == RequestType.GET) {
-                return HttpManager.get(context, this.getUrl(), this.getParams());
+                return HttpManager.get(context, getUrl(), getParams());
             } else {
-                return HttpManager.post(context,
-                        this.getUrl(), this.getData(), this.getParams(), this.withCache);
+                return HttpManager.post(context, getUrl(), getData(), getParams(), withCache);
             }
         } catch (Exception e) {
             return e.getMessage();
@@ -63,18 +62,16 @@ abstract class BaseTask<T> extends AsyncTask<Void, Void, Object> implements OnIn
 
             if (!responseEntity.isSuccess()) {
                 if (onRequest != null) {
-                    onRequest.onError(
-                            new WebServiceException(responseEntity.getMessage()));
+                    onRequest.onError(new WebServiceException(responseEntity.getMessage()));
                 }
             } else {
                 if (onRequest != null) {
-                    onRequest.onFinish(this.onSuccess(responseEntity));
+                    onRequest.onFinish(onSuccess(responseEntity));
                 }
             }
         } else {
             if (onRequest != null) {
-                onRequest.onError(
-                        new WebServiceException(String.valueOf(object)));
+                onRequest.onError(new WebServiceException(String.valueOf(object)));
             }
         }
     }

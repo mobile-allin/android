@@ -1,7 +1,5 @@
 package br.com.allin.mobile.pushnotification.task;
 
-import android.content.Context;
-
 import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
@@ -20,8 +18,8 @@ public class NotificationCampaignTask extends BaseTask<String> {
     private double latitude;
     private double longitude;
 
-    public NotificationCampaignTask(int id, String date, Context context) {
-        super(context, RequestType.POST, true, null);
+    public NotificationCampaignTask(int id, String date) {
+        super(RequestType.POST, true, null);
 
         this.id = id;
         this.date = date;
@@ -29,9 +27,8 @@ public class NotificationCampaignTask extends BaseTask<String> {
         this.longitude = 0;
     }
 
-    public NotificationCampaignTask(int id, String date,
-                                    double latitude, double longitude, Context context) {
-        super(context, RequestType.POST, true, null);
+    public NotificationCampaignTask(int id, String date, double latitude, double longitude) {
+        super(RequestType.POST, true, null);
 
         this.id = id;
         this.date = date;
@@ -52,7 +49,7 @@ public class NotificationCampaignTask extends BaseTask<String> {
             data.put(HttpBodyConstants.ID, this.id);
             data.put(HttpBodyConstants.DATE, this.date);
             data.put(HttpBodyConstants.DATE_OPENING, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
-            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceId());
+            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
 
             if (this.latitude != 0 && this.longitude != 0) {
                 data.put(HttpBodyConstants.LATITUDE, String.valueOf(this.latitude));

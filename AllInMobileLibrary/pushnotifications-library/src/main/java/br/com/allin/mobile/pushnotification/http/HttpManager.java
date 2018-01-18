@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.Util;
 import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
 import br.com.allin.mobile.pushnotification.constants.HttpConstants;
@@ -30,22 +31,19 @@ public class HttpManager extends HttpCertificate {
     /**
      * Sends data to the server AllIn
      *
-     * @param context Application context
      * @param action  ActionConstants to complete the URL of the request
      * @param data    ParametersConstants passed in the request header
      * @param params  ParametersConstants that will be passed in the URL
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseEntity post(Context context, String action,
-                                      JSONObject data, String[] params) throws WebServiceException {
-        return post(context, action, data, params, false);
+    public static ResponseEntity post(String action, JSONObject data, String[] params) throws WebServiceException {
+        return post(action, data, params, false);
     }
 
     /**
      * Sends data to the server AllIn
      *
-     * @param context   Application context
      * @param action    ActionConstants to complete the URL of the request
      * @param data      ParametersConstants passed in the request header
      * @param params    ParametersConstants that will be passed in the URL
@@ -54,30 +52,26 @@ public class HttpManager extends HttpCertificate {
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseEntity post(Context context, String action,
-                                      JSONObject data, String[] params,
-                                      boolean withCache) throws WebServiceException {
-        return makeRequest(context, action, RequestType.POST, params, data, withCache);
+    public static ResponseEntity post(String action, JSONObject data,
+                                      String[] params, boolean withCache) throws WebServiceException {
+        return makeRequest(action, RequestType.POST, params, data, withCache);
     }
 
     /**
      * Receives from the server data AllIn
      *
-     * @param context Application context
      * @param action  ActionConstants to complete the URL of the request
      * @param params  ParametersConstants that will be passed in the URL
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseEntity get(Context context,
-                                     String action, String[] params) throws WebServiceException {
-        return get(context, action, params, false);
+    public static ResponseEntity get(String action, String[] params) throws WebServiceException {
+        return get(action, params, false);
     }
 
     /**
      * Receives from the server data AllIn
      *
-     * @param context   Application context
      * @param action    ActionConstants to complete the URL of the request
      * @param params    ParametersConstants that will be passed in the URL
      * @param withCache Determine whether there is any connection problem that should
@@ -85,29 +79,27 @@ public class HttpManager extends HttpCertificate {
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseEntity get(Context context, String action,
-                                     String[] params, boolean withCache) throws WebServiceException {
-        return makeRequest(context, action, RequestType.GET, params, null, withCache);
+    public static ResponseEntity get(String action, String[] params, boolean withCache) throws WebServiceException {
+        return makeRequest(action, RequestType.GET, params, null, withCache);
     }
 
-    private static ResponseEntity makeRequest(
-            Context context, String action, RequestType requestType,
+    private static ResponseEntity makeRequest(String action, RequestType requestType,
             String[] params, JSONObject data, boolean withCache) throws WebServiceException {
         String urlString = HttpConstants.SERVER_URL + action;
 
         if (params != null) {
             for (String param : params) {
-                urlString += "/" + param;
+                urlString = urlString.concat("/");
+                urlString = urlString.concat(param);
             }
         }
 
-        return makeRequestURL(context, urlString, requestType, data, withCache);
+        return makeRequestURL(urlString, requestType, data, withCache);
     }
 
     /**
      * Performs server request sending or receiving data
      *
-     * @param context     Application context
      * @param urlString   URL to make the request to the server
      * @param requestType Tells whether a GET or a POST type of request param
      *                    arameters data that will be sent to the server
@@ -117,11 +109,12 @@ public class HttpManager extends HttpCertificate {
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseEntity makeRequestURL(Context context, String urlString,
-                                                RequestType requestType, JSONObject data,
-                                                boolean withCache) throws WebServiceException {
+    public static ResponseEntity makeRequestURL(String urlString, RequestType requestType,
+                                                JSONObject data, boolean withCache) throws WebServiceException {
+        Context context = AlliNPush.getInstance().getContext();
+
         if (withCache && !Util.isNetworkAvailable(context)) {
-            new CacheService(context).insert(urlString, data != null ? data.toString() : "");
+            new CacheService().insert(urlString, data != null ? data.toString() : "");
 
             throw new WebServiceException("Internet não está disponível");
         }
@@ -136,7 +129,7 @@ public class HttpManager extends HttpCertificate {
 
         String token = Util.getToken(context);
 
-        ResponseEntity response = null;
+        ResponseEntity response;
         HttpURLConnection connection = null;
 
         generateCertificate();
@@ -171,7 +164,7 @@ public class HttpManager extends HttpCertificate {
                 String line;
 
                 while ((line = bufferedReader.readLine()) != null) {
-                    responseString += line;
+                    responseString = responseString.concat(line);
                 }
 
                 try {
@@ -191,7 +184,7 @@ public class HttpManager extends HttpCertificate {
                 String line;
 
                 while ((line = bufferedReader.readLine()) != null) {
-                    responseString += line;
+                    responseString = responseString.concat(line);
                 }
 
                 try {
@@ -206,8 +199,7 @@ public class HttpManager extends HttpCertificate {
                 }
             } else {
                 if (withCache) {
-                    new CacheService(context)
-                            .insert(urlString, data != null ? data.toString() : "");
+                    new CacheService().insert(urlString, data != null ? data.toString() : "");
                 }
 
                 throw new WebServiceException(
@@ -217,7 +209,7 @@ public class HttpManager extends HttpCertificate {
             }
         } catch (IOException e) {
             if (withCache) {
-                new CacheService(context).insert(urlString, data != null ? data.toString() : "");
+                new CacheService().insert(urlString, data != null ? data.toString() : "");
             }
 
             throw new WebServiceException("Ocorreu um erro " +

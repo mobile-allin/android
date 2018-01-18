@@ -1,9 +1,8 @@
 package br.com.allin.mobile.pushnotification.service;
 
-import android.content.Context;
-
 import java.util.List;
 
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.dao.MessageDAO;
 import br.com.allin.mobile.pushnotification.entity.MessageEntity;
 
@@ -14,8 +13,8 @@ import br.com.allin.mobile.pushnotification.entity.MessageEntity;
 public class MessageService {
     private MessageDAO messageDAO;
 
-    public MessageService(Context context) {
-        this.messageDAO = new MessageDAO(context);
+    public MessageService() {
+        this.messageDAO = new MessageDAO(AlliNPush.getInstance().getContext());
     }
 
     public long addMessage(MessageEntity messageEntity) {

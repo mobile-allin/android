@@ -1,7 +1,5 @@
 package br.com.allin.mobile.pushnotification.task;
 
-import android.content.Context;
-
 import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
@@ -17,9 +15,8 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 public class ToggleTask extends BaseTask<String> {
     private boolean enable;
 
-    public ToggleTask(boolean enable,
-                      Context context, OnRequest onRequest) {
-        super(context, RequestType.POST, true, onRequest);
+    public ToggleTask(boolean enable, OnRequest onRequest) {
+        super(RequestType.POST, true, onRequest);
 
         this.enable = enable;
     }
@@ -28,7 +25,7 @@ public class ToggleTask extends BaseTask<String> {
     public JSONObject getData() {
         try {
             JSONObject data = new JSONObject();
-            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceId());
+            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
 
             return data;
         } catch (Exception e) {

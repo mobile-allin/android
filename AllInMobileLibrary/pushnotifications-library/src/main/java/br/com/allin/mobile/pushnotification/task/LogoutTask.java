@@ -1,7 +1,5 @@
 package br.com.allin.mobile.pushnotification.task;
 
-import android.content.Context;
-
 import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
@@ -15,8 +13,8 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
  * Thread for logout request
  */
 public class LogoutTask extends BaseTask<String> {
-    public LogoutTask(Context context, OnRequest onRequest) {
-        super(context, RequestType.POST, true, onRequest);
+    public LogoutTask(OnRequest onRequest) {
+        super(RequestType.POST, true, onRequest);
     }
 
     @Override
@@ -29,7 +27,7 @@ public class LogoutTask extends BaseTask<String> {
         try {
             JSONObject data = new JSONObject();
 
-            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceId());
+            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
             data.put(HttpBodyConstants.USER_EMAIL, AlliNPush.getInstance().getUserEmail());
 
             return data;

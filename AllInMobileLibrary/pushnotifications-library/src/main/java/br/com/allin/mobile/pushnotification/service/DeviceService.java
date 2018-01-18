@@ -22,24 +22,20 @@ import br.com.allin.mobile.pushnotification.task.LogoutTask;
  * Service class for device information and configuration
  */
 public class DeviceService {
-    private Context context;
     private OnRequest onRequest;
 
-    public DeviceService(Context context) {
-        this.context = context;
-        this.onRequest = null;
+    public DeviceService() {
     }
 
-    public DeviceService(Context context, OnRequest onRequest) {
-        this.context = context;
+    public DeviceService(OnRequest onRequest) {
         this.onRequest = onRequest;
     }
 
     public void sendDevice(final DeviceEntity deviceEntity) {
-        new DeviceTask(deviceEntity, context, new OnRequest() {
+        new DeviceTask(deviceEntity, new OnRequest() {
             @Override
             public void onFinish(Object value) {
-                String pushId = AlliNPush.getInstance().getDeviceId();
+                String pushId = AlliNPush.getInstance().getDeviceToken();
                 Map<String, String> map = new HashMap<>();
                 map.put(DefaultListConstants.ID_PUSH, Util.md5(pushId));
                 map.put(DefaultListConstants.PUSH_ID, pushId);
@@ -58,30 +54,33 @@ public class DeviceService {
     }
 
     public void logout() {
-        new LogoutTask(context, onRequest).execute();
+        new LogoutTask(onRequest).execute();
     }
 
     public void sendList(String nameList, Map<String, String> columnsAndValues) {
-        new ListTask(nameList, columnsAndValues, context, onRequest).execute();
+        new ListTask(nameList, columnsAndValues, onRequest).execute();
     }
 
     public void updateEmail(String email) {
-        new EmailTask(email, context, onRequest).execute();
+        new EmailTask(email, onRequest).execute();
     }
 
     public String getDeviceToken() {
+        Context context = AlliNPush.getInstance().getContext();
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
 
         return sharedPreferencesManager.getData(PreferencesConstants.KEY_DEVICE_ID, null);
     }
 
     public String getUserEmail() {
+        Context context = AlliNPush.getInstance().getContext();
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
 
         return sharedPreferencesManager.getData(PreferencesConstants.KEY_USER_EMAIL, null);
     }
 
     public DeviceEntity getDeviceInfos(String senderId) {
+        Context context = AlliNPush.getInstance().getContext();
         SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
 
         String deviceId = sharedPreferencesManager.getData(PreferencesConstants.KEY_DEVICE_ID, null);
