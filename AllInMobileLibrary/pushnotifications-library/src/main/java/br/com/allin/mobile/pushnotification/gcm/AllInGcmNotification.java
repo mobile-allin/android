@@ -3,6 +3,7 @@ package br.com.allin.mobile.pushnotification.gcm;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -98,7 +100,7 @@ public class AllInGcmNotification {
             return;
         }
 
-        String backgroundColor = preferencesManager.getData(PreferencesConstants.KEY_BACKGROUND_NOTIFICATION, null);
+        int color = preferencesManager.getData(PreferencesConstants.KEY_BACKGROUND_NOTIFICATION, 0);
         int whiteIcon = preferencesManager.getData(PreferencesConstants.KEY_WHITE_ICON_NOTIFICATION, 0);
         int icon = preferencesManager.getData(PreferencesConstants.KEY_ICON_NOTIFICATION, 0);
         long idMessage = AlliNPush.getInstance().addMessage(new MessageEntity(extras));
@@ -126,7 +128,7 @@ public class AllInGcmNotification {
         }
 
         notificationCompatBuilder
-            .setColor(backgroundColor != null ? Color.parseColor(backgroundColor) : Color.TRANSPARENT)
+            .setColor(color == 0 ? Color.TRANSPARENT : ContextCompat.getColor(context, color))
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setGroupSummary(true)
