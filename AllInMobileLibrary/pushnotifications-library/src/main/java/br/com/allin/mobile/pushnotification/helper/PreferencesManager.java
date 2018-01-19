@@ -9,7 +9,7 @@ import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
  * Manager preferences in the library.
  * Responsible for saving/edit the saved values in the device preferences.
  */
-public class SharedPreferencesManager {
+public class PreferencesManager {
 
     private final SharedPreferences preferences;
 
@@ -18,7 +18,7 @@ public class SharedPreferencesManager {
      *
      * @param context Application context
      */
-    public SharedPreferencesManager(Context context) {
+    public PreferencesManager(Context context) {
         preferences = context.getSharedPreferences(PreferencesConstants.PREFERENCES_ID, Context.MODE_PRIVATE);
     }
 

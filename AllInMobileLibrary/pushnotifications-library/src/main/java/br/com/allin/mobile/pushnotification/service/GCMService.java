@@ -10,7 +10,7 @@ import com.google.android.gms.iid.InstanceID;
 import java.io.IOException;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.helper.SharedPreferencesManager;
+import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
 import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
 import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
 import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
@@ -49,9 +49,9 @@ public class GCMService extends AsyncTask<Void, Void, String> {
         Context context = AlliNPush.getInstance().getContext();
         String senderId = configurationEntity.getSenderId();
 
-        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
-        sharedPreferencesManager.storeData(PreferencesConstants.KEY_DEVICE_ID, token);
-        sharedPreferencesManager.storeData(PreferencesConstants.KEY_PROJECT_ID, senderId);
+        PreferencesManager preferencesManager = new PreferencesManager(context);
+        preferencesManager.storeData(PreferencesConstants.KEY_DEVICE_ID, token);
+        preferencesManager.storeData(PreferencesConstants.KEY_PROJECT_ID, senderId);
 
         return token;
     }

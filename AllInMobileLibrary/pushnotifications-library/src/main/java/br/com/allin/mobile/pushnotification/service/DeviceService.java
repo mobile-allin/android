@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.helper.SharedPreferencesManager;
+import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.constants.DefaultListConstants;
 import br.com.allin.mobile.pushnotification.constants.ParametersConstants;
@@ -67,31 +67,31 @@ public class DeviceService {
 
     public String getDeviceToken() {
         Context context = AlliNPush.getInstance().getContext();
-        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
+        PreferencesManager preferencesManager = new PreferencesManager(context);
 
-        return sharedPreferencesManager.getData(PreferencesConstants.KEY_DEVICE_ID, null);
+        return preferencesManager.getData(PreferencesConstants.KEY_DEVICE_ID, null);
     }
 
     public String getUserEmail() {
         Context context = AlliNPush.getInstance().getContext();
-        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
+        PreferencesManager preferencesManager = new PreferencesManager(context);
 
-        return sharedPreferencesManager.getData(PreferencesConstants.KEY_USER_EMAIL, null);
+        return preferencesManager.getData(PreferencesConstants.KEY_USER_EMAIL, null);
     }
 
     public DeviceEntity getDeviceInfos(String senderId) {
         Context context = AlliNPush.getInstance().getContext();
-        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
+        PreferencesManager preferencesManager = new PreferencesManager(context);
 
-        String deviceId = sharedPreferencesManager.getData(PreferencesConstants.KEY_DEVICE_ID, null);
-        Integer registeredVersion = sharedPreferencesManager.getData(PreferencesConstants.KEY_APPVERSION, 1);
-        String sharedProjectId = sharedPreferencesManager.getData(PreferencesConstants.KEY_PROJECT_ID, null);
+        String deviceId = preferencesManager.getData(PreferencesConstants.KEY_DEVICE_ID, null);
+        Integer appVersion = preferencesManager.getData(PreferencesConstants.KEY_APPVERSION, 1);
+        String projectId = preferencesManager.getData(PreferencesConstants.KEY_PROJECT_ID, null);
 
         if (Util.isNullOrClear(deviceId)) {
             return null;
         }
 
         return new DeviceEntity(deviceId,
-                registeredVersion != Util.getAppVersion(context) || !senderId.equals(sharedProjectId));
+                appVersion != Util.getAppVersion(context) || !senderId.equals(projectId));
     }
 }

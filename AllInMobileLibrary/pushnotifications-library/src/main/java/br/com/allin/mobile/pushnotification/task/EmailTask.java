@@ -5,7 +5,7 @@ import android.content.Context;
 import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.helper.SharedPreferencesManager;
+import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
 import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
 import br.com.allin.mobile.pushnotification.constants.ParametersConstants;
 import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
@@ -50,8 +50,8 @@ public class EmailTask extends BaseTask<String> {
     @Override
     public String onSuccess(ResponseEntity responseEntity) {
         Context context = AlliNPush.getInstance().getContext();
-        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
-        sharedPreferencesManager.storeData(PreferencesConstants.KEY_USER_EMAIL, email);
+        PreferencesManager preferencesManager = new PreferencesManager(context);
+        preferencesManager.storeData(PreferencesConstants.KEY_USER_EMAIL, email);
 
         return responseEntity.getMessage();
     }

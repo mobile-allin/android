@@ -20,7 +20,7 @@ import org.json.JSONObject;
 import java.net.URLDecoder;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.helper.SharedPreferencesManager;
+import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.constants.ActionConstants;
 import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
@@ -33,11 +33,11 @@ import br.com.allin.mobile.pushnotification.http.DownloadImage;
  */
 public class AllInGcmNotification {
     private Context context;
-    private SharedPreferencesManager sharedPreferencesManager;
+    private PreferencesManager preferencesManager;
 
     public AllInGcmNotification(Context context) {
         this.context = context;
-        this.sharedPreferencesManager = new SharedPreferencesManager(context);
+        this.preferencesManager = new PreferencesManager(context);
     }
 
     /**
@@ -98,9 +98,9 @@ public class AllInGcmNotification {
             return;
         }
 
-        String backgroundColor = sharedPreferencesManager.getData(PreferencesConstants.KEY_BACKGROUND_NOTIFICATION, null);
-        int whiteIcon = sharedPreferencesManager.getData(PreferencesConstants.KEY_WHITE_ICON_NOTIFICATION, 0);
-        int icon = sharedPreferencesManager.getData(PreferencesConstants.KEY_ICON_NOTIFICATION, 0);
+        String backgroundColor = preferencesManager.getData(PreferencesConstants.KEY_BACKGROUND_NOTIFICATION, null);
+        int whiteIcon = preferencesManager.getData(PreferencesConstants.KEY_WHITE_ICON_NOTIFICATION, 0);
+        int icon = preferencesManager.getData(PreferencesConstants.KEY_ICON_NOTIFICATION, 0);
         long idMessage = AlliNPush.getInstance().addMessage(new MessageEntity(extras));
 
         extras.putLong(NotificationConstants.ID, idMessage);
