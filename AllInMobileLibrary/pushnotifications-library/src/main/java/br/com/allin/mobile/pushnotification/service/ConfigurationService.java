@@ -35,14 +35,14 @@ public class ConfigurationService {
                     PreferencesConstants.KEY_BACKGROUND_NOTIFICATION, notificationEntity.getBackground());
         }
 
-        DeviceService deviceService = new DeviceService(AlliNPush.getInstance().getContext());
-        DeviceEntity deviceEntity = deviceService.getDeviceInfos(this.configurationEntity.getSenderId());
+        DeviceService deviceService = new DeviceService();
+        DeviceEntity deviceEntity = deviceService.getDeviceInfos(configurationEntity.getSenderId());
 
         if (deviceEntity == null || TextUtils
                 .isEmpty(deviceEntity.getDeviceId()) || deviceEntity.isRenewId()) {
-            new GCMService(deviceEntity, AlliNPush.getInstance().getContext(), configurationEntity).execute();
+            new GCMService(deviceEntity, configurationEntity).execute();
         } else {
-            new DeviceService(AlliNPush.getInstance().getContext()).sendDevice(deviceEntity);
+            new DeviceService().sendDevice(deviceEntity);
         }
     }
 }

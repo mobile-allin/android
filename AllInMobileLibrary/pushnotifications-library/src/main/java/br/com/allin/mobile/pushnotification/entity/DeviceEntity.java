@@ -18,11 +18,19 @@ public class DeviceEntity {
         this.renewId = renewId;
     }
 
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
     /**
      * @return Token device sitting on the object
      */
     public String getDeviceId() {
         return deviceId;
+    }
+
+    public void setRenewId(boolean renewId) {
+        this.renewId = renewId;
     }
 
     /**

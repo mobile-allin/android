@@ -27,9 +27,7 @@ public class CacheTask extends AsyncTask<Void, Void, Object> {
 
     protected Object doInBackground(Void... params) {
         try {
-            Context context = AlliNPush.getInstance().getContext();
-
-            return HttpManager.makeRequestURL(context, cache.getUrl(),
+            return HttpManager.makeRequestURL(cache.getUrl(),
                     RequestType.POST, new JSONObject(cache.getJson()), false);
         } catch (Exception e) {
             return e.getMessage();

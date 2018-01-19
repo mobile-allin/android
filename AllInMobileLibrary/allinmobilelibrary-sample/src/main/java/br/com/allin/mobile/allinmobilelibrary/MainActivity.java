@@ -1,6 +1,5 @@
 package br.com.allin.mobile.allinmobilelibrary;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,11 +28,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private ListView lvAllIn;
     private Switch swAllInNotification;
     private ProgressBar pbLoadNotification;
-    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AlliNPush.getInstance().registerForPushNotifications(this);
 
         setContentView(R.layout.activity_main);
 
@@ -49,29 +48,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         swAllInNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                MainActivity.this.showNotificationLoad();
+                showNotificationLoad();
 
-                OnRequest onRequest = toggleSwitch(isChecked);
+                swAllInNotification.setChecked(isChecked);
 
                 if (isChecked) {
-                    AlliNPush.getInstance().enable(onRequest);
+                    AlliNPush.getInstance().enable();
                 } else {
-                    AlliNPush.getInstance().disable(onRequest);
+                    AlliNPush.getInstance().disable();
                 }
+
+                deviceIsEnable();
             }
         });
 
         deviceIsEnable();
-
-        initPushAlliN();
-    }
-
-    private void initPushAlliN() {
-        try {
-            AlliNPush.getInstance().registerForPushNotifications(this, this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -87,43 +78,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    private OnRequest toggleSwitch(final boolean enable) {
-        return new OnRequest<String>() {
-            @Override
-            public void onFinish(final String value) {
-                MainActivity.this.hideNotificationLoad();
-
-                swAllInNotification.setChecked(enable);
-            }
-
-            @Override
-            public void onError(final Exception exception) {
-                MainActivity.this.hideNotificationLoad();
-
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-                alertDialog.setTitle("Erro");
-                alertDialog.setMessage(exception.getMessage());
-                alertDialog.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-
-                        swAllInNotification.setChecked(!enable);
-                    }
-                });
-
-                alertDialog.create().show();
-            }
-        };
-    }
-
     public void deviceIsEnable() {
-        MainActivity.this.showNotificationLoad();
+        showNotificationLoad();
 
         AlliNPush.getInstance().deviceIsEnable(new OnRequest<Boolean>() {
             @Override
             public void onFinish(final Boolean value) {
-                MainActivity.this.hideNotificationLoad();
+                hideNotificationLoad();
 
                 swAllInNotification.setChecked(value);
             }
@@ -159,8 +120,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     return;
                 }
 
-                progressDialog = ProgressDialog.show(MainActivity.this, null, "Enviando informações");
-
                 String pushId = AlliNPush.getInstance().getDeviceToken();
 
                 Map<String, String> map = new HashMap<>();
@@ -170,19 +129,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 map.put("dt_ultima_abertura", null);
                 map.put("dt_ultimo_clique", null);
 
-                AlliNPush.getInstance().sendList("Lista Padrao Push", map, new OnRequest<String>() {
-                    @Override
-                    public void onFinish(String value) {
-                        progressDialog.dismiss();
-
-                        Toast.makeText(MainActivity.this, value, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onError(Exception exception) {
-                        progressDialog.dismiss();
-                    }
-                });
+                AlliNPush.getInstance().sendList("Lista Padrao Push", map);
 
                 break;
 

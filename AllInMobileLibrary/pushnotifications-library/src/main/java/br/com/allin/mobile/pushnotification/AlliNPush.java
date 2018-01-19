@@ -9,6 +9,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.List;
 import java.util.Map;
@@ -139,8 +140,11 @@ public class AlliNPush {
 
     private ContextEntity context;
 
-    public void registerForPushNotifications(@NonNull Context context,
-                                             @NonNull AllInDelegate allInDelegate) throws Exception {
+    public void registerForPushNotifications(@NonNull Context context) {
+        this.registerForPushNotifications(context, null);
+    }
+
+    public void registerForPushNotifications(@NonNull Context context, AllInDelegate allInDelegate) {
         this.context = new ContextEntity(context);
 
         try {
@@ -149,19 +153,19 @@ public class AlliNPush {
 
             if (applicationInfo != null) {
                 @DrawableRes
-                int whiteIcon = FieldHelper.getResId(AlliNPush.WHITE_ICON, Drawable.class);
+                int whiteIcon = FieldHelper.getResId(AlliNPush.WHITE_ICON, "drawable");
                 @DrawableRes
-                int icon = FieldHelper.getResId(AlliNPush.ICON, Drawable.class);
+                int icon = FieldHelper.getResId(AlliNPush.ICON, "drawable");
                 @ColorRes
-                int background = FieldHelper.getResId(AlliNPush.BACKGROUND, Color.class);
+                int background = FieldHelper.getResId(AlliNPush.BACKGROUND, "color");
 
                 String senderId = applicationInfo.metaData.getString(AlliNPush.SENDER_ID);
                 String appId = applicationInfo.metaData.getString(AlliNPush.APP_ID);
 
                 if (senderId == null || TextUtils.isEmpty(senderId.trim())) {
-                    throw new Exception("Required meta-data 'allin.senderid' in MANIFEST");
+                    Log.d("AlliN Push", "Required meta-data 'allin.senderid' in MANIFEST");
                 } else if (appId == null || TextUtils.isEmpty(appId.trim())) {
-                    throw new Exception("Required meta-data 'allin.appid' in MANIFEST");
+                    Log.d("AlliN Push", "Required meta-data 'allin.appid' in MANIFEST");
                 }
 
                 AlliNConfiguration.getInstance().init(context, allInDelegate);

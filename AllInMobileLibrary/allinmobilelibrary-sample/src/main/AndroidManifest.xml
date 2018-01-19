@@ -88,7 +88,7 @@
 
         <meta-data
             android:name="allin.token"
-            android:value="@string/token" />
+            android:value="@string/allin_token" />
 
     </application>
 

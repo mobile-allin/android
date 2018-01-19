@@ -100,7 +100,7 @@ public class Util {
     public static String getToken(Context context) {
 
         int tokenId = context.getResources()
-                .getIdentifier("all_in_token", "string", context.getPackageName());
+                .getIdentifier("allin_token", "string", context.getPackageName());
 
         if (tokenId > 0) {
             return context.getString(tokenId);

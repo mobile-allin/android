@@ -1,18 +1,20 @@
 package br.com.allin.mobile.pushnotification.helper;
 
-import java.lang.reflect.Field;
+import android.content.Context;
+
+import br.com.allin.mobile.pushnotification.AlliNPush;
 
 /**
  * Created by lucasrodrigues on 17/01/18.
  */
 
 public class FieldHelper {
-    public static int getResId(String resName, Class<?> c) {
+    public static int getResId(String resName, String type) {
 
         try {
-            Field idField = c.getDeclaredField(resName);
+            Context context = AlliNPush.getInstance().getContext();
 
-            return idField.getInt(idField);
+            return context.getResources().getIdentifier(resName, type, context.getPackageName());
         } catch (Exception e) {
             return -1;
         }

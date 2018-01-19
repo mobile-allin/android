@@ -1,5 +1,6 @@
 package br.com.allin.mobile.pushnotification.service;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
@@ -45,21 +46,24 @@ public class GCMService extends AsyncTask<Void, Void, String> {
             }
         }
 
-        SharedPreferencesManager sharedPreferencesManager
-                = new SharedPreferencesManager(AlliNPush.getInstance().getContext());
+        Context context = AlliNPush.getInstance().getContext();
+        String senderId = configurationEntity.getSenderId();
+
+        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(context);
         sharedPreferencesManager.storeData(PreferencesConstants.KEY_DEVICE_ID, token);
-        sharedPreferencesManager.storeData(
-                PreferencesConstants.KEY_PROJECT_ID, this.configurationEntity.getSenderId());
+        sharedPreferencesManager.storeData(PreferencesConstants.KEY_PROJECT_ID, senderId);
 
         return token;
     }
 
     @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
+    protected void onPostExecute(String token) {
+        super.onPostExecute(token);
 
-        if (s != null && !TextUtils.isEmpty(s)) {
-            AlliNPush.getInstance().sendDeviceInfo(this.deviceEntity);
+        if (token != null && !TextUtils.isEmpty(token)) {
+            deviceEntity.setDeviceId(token);
+
+            AlliNPush.getInstance().sendDeviceInfo(deviceEntity);
         }
     }
 }

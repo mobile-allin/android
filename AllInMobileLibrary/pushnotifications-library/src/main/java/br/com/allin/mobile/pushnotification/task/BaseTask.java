@@ -41,12 +41,10 @@ abstract class BaseTask<T> extends AsyncTask<Void, Void, Object> implements OnIn
     @Override
     protected Object doInBackground(Void... params) {
         try {
-            Context context = AlliNPush.getInstance().getContext();
-
             if (requestType == RequestType.GET) {
-                return HttpManager.get(context, getUrl(), getParams());
+                return HttpManager.get(getUrl(), getParams());
             } else {
-                return HttpManager.post(context, getUrl(), getData(), getParams(), withCache);
+                return HttpManager.post(getUrl(), getData(), getParams(), withCache);
             }
         } catch (Exception e) {
             return e.getMessage();
