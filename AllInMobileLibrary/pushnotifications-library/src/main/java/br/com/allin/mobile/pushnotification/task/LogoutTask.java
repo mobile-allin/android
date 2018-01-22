@@ -28,7 +28,7 @@ public class LogoutTask extends BaseTask<String> {
             JSONObject data = new JSONObject();
 
             data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
-            data.put(HttpBodyConstants.USER_EMAIL, AlliNPush.getInstance().getUserEmail());
+            data.put(HttpBodyConstants.USER_EMAIL, AlliNPush.getInstance().getEmail());
 
             return data;
         } catch (Exception e) {

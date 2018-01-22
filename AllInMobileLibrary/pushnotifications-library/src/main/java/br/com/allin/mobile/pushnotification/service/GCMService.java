@@ -63,7 +63,7 @@ public class GCMService extends AsyncTask<Void, Void, String> {
         if (token != null && !TextUtils.isEmpty(token)) {
             deviceEntity.setDeviceId(token);
 
-            AlliNPush.getInstance().sendDeviceInfo(deviceEntity);
+            AlliNPush.getInstance().sendDevice(deviceEntity);
         }
     }
 }

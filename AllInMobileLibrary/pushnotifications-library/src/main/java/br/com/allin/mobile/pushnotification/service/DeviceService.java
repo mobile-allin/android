@@ -61,7 +61,7 @@ public class DeviceService {
         new ListTask(nameList, columnsAndValues, onRequest).execute();
     }
 
-    public void updateEmail(String email) {
+    public void registerEmail(String email) {
         new EmailTask(email, onRequest).execute();
     }
 
@@ -72,7 +72,7 @@ public class DeviceService {
         return preferencesManager.getData(PreferencesConstants.KEY_DEVICE_ID, null);
     }
 
-    public String getUserEmail() {
+    public String getEmail() {
         Context context = AlliNPush.getInstance().getContext();
         PreferencesManager preferencesManager = new PreferencesManager(context);
 

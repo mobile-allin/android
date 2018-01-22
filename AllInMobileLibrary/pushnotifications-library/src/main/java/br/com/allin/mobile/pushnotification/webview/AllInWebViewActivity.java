@@ -157,7 +157,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
         int idCampaign = Integer.valueOf(idCampaignString);
 
         try {
-            AlliNPush.getInstance().getHtmlTemplate(idCampaign, new OnRequest<String>() {
+            AlliNPush.getInstance().getTemplate(idCampaign, new OnRequest<String>() {
                 @Override
                 public void onFinish(String value) {
                     wvAllIn.loadData(value.replace("##id_push##",

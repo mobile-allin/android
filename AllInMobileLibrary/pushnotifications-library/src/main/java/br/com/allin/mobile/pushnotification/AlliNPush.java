@@ -3,8 +3,6 @@ package br.com.allin.mobile.pushnotification;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -222,7 +220,7 @@ public class AlliNPush {
      * @param idCampaign Template ID that the push notification returns
      * @param onRequest Interface that returns success or error in the request
      */
-    public void getHtmlTemplate(int idCampaign, OnRequest onRequest) {
+    public void getTemplate(int idCampaign, OnRequest onRequest) {
         new CampaignService(onRequest).getTemplate(idCampaign);
     }
 
@@ -231,8 +229,15 @@ public class AlliNPush {
      *
      * @param userEmail E-mail that is registered in the database of AllIn
      */
-    public void updateUserEmail(final String userEmail) {
-        new DeviceService().updateEmail(userEmail);
+    public void registerEmail(final String userEmail) {
+        new DeviceService().registerEmail(userEmail);
+    }
+
+    /**
+     * @return E-mail saved in SharedPreferences
+     */
+    public String getEmail() {
+        return new DeviceService().getEmail();
     }
 
     /**
@@ -240,7 +245,7 @@ public class AlliNPush {
      *
      * @param deviceEntity Object with the device information
      */
-    public void sendDeviceInfo(final DeviceEntity deviceEntity) {
+    public void sendDevice(final DeviceEntity deviceEntity) {
         new DeviceService().sendDevice(deviceEntity);
     }
 
@@ -281,13 +286,6 @@ public class AlliNPush {
      */
     public void notificationTransactional(int idSend, String date) {
         new NotificationService().sendTransactional(idSend, date);
-    }
-
-    /**
-     * @return E-mail saved in SharedPreferences
-     */
-    public String getUserEmail() {
-        return new DeviceService().getUserEmail();
     }
 
     /**
