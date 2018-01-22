@@ -14,6 +14,7 @@ import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.configurations.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.constants.ActionConstants;
 import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
+import br.com.allin.mobile.pushnotification.service.NotificationService;
 import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
 
 /**
@@ -53,12 +54,12 @@ public class BroadcastNotification extends WakefulBroadcastReceiver {
                 int idCampaign = Integer.parseInt(extras.getString(NotificationConstants.ID_CAMPAIGN));
                 String date = extras.getString(NotificationConstants.DATE_NOTIFICATION);
 
-                AlliNPush.getInstance().notificationCampaign(idCampaign, date);
+                new NotificationService().sendCampaign(idCampaign, date);
             } else if (intentReceive.hasExtra(NotificationConstants.ID_SEND)) {
                 int idSend = Integer.parseInt(extras.getString(NotificationConstants.ID_SEND));
                 String date = extras.getString(NotificationConstants.DATE_NOTIFICATION);
 
-                AlliNPush.getInstance().notificationTransactional(idSend, date);
+                new NotificationService().sendTransactional(idSend, date);
             }
 
             start(context, extras, intentReceive.hasExtra(NotificationConstants.URL_SCHEME));

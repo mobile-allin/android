@@ -21,6 +21,7 @@ import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
+import br.com.allin.mobile.pushnotification.service.CampaignService;
 
 /**
  * Activity to search the HTML and display it or redirects
@@ -157,7 +158,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
         int idCampaign = Integer.valueOf(idCampaignString);
 
         try {
-            AlliNPush.getInstance().getTemplate(idCampaign, new OnRequest<String>() {
+            new CampaignService(new OnRequest<String>() {
                 @Override
                 public void onFinish(String value) {
                     wvAllIn.loadData(value.replace("##id_push##",
@@ -169,7 +170,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
                 public void onError(Exception exception) {
                     Log.d(AllInWebViewActivity.class.toString(), exception.getMessage());
                 }
-            });
+            }).getTemplate(idCampaign);
         } catch (Exception e) {
             e.printStackTrace();
         }

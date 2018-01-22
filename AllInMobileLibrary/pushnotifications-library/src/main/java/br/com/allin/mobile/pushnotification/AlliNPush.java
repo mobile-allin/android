@@ -215,16 +215,6 @@ public class AlliNPush {
     }
 
     /**
-     * <b>Asynchronous</b> - Returns the HTML campaign created
-     *
-     * @param idCampaign Template ID that the push notification returns
-     * @param onRequest Interface that returns success or error in the request
-     */
-    public void getTemplate(int idCampaign, OnRequest onRequest) {
-        new CampaignService(onRequest).getTemplate(idCampaign);
-    }
-
-    /**
      * <b>Asynchronous</b> - Updates the e-mail in the database and save in SharedPreferences
      *
      * @param userEmail E-mail that is registered in the database of AllIn
@@ -238,15 +228,6 @@ public class AlliNPush {
      */
     public String getEmail() {
         return new DeviceService().getEmail();
-    }
-
-    /**
-     * <b>Asynchronous</b> - Sends the device information to the server
-     *
-     * @param deviceEntity Object with the device information
-     */
-    public void sendDevice(final DeviceEntity deviceEntity) {
-        new DeviceService().sendDevice(deviceEntity);
     }
 
     /**
@@ -264,28 +245,6 @@ public class AlliNPush {
      */
     public void logout() {
         new DeviceService().logout();
-    }
-
-    /**
-     * <b>Asynchronous</b> - Saves click the campaign push
-     * (the method does not possess callback because it is used only to register the click)
-     *
-     * @param idCampaign Campaign identification received from server
-     * @param date Date of the campaign received from server
-     */
-    public void notificationCampaign(int idCampaign, String date) {
-        new NotificationService().sendCampaign(idCampaign, date);
-    }
-
-    /**
-     * <b>Asynchronous</b> - Saves click the transactional send push
-     * (the method does not possess callback because it is used only to register the click)
-     *
-     * @param idSend Sending identification received from server
-     * @param date Date of the campaign received from server
-     */
-    public void notificationTransactional(int idSend, String date) {
-        new NotificationService().sendTransactional(idSend, date);
     }
 
     /**
