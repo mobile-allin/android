@@ -166,7 +166,7 @@ public class AlliNPush {
                     Log.d("AlliN Push", "Required meta-data 'allin.appid' in MANIFEST");
                 }
 
-                AlliNConfiguration.getInstance().init(context, allInDelegate);
+                AlliNConfiguration.getInstance().init(allInDelegate);
 
                 NotificationEntity notification = new NotificationEntity(background, icon, whiteIcon);
                 ConfigurationEntity configuration = new ConfigurationEntity(senderId, notification);
@@ -186,10 +186,9 @@ public class AlliNPush {
         return context.getApplicationContext();
     }
 
-    /*
-    public static void finish() {
+    public void finish() {
         AlliNConfiguration.getInstance().finish();
-    } */
+    }
 
     /**
      * <b>Asynchronous</b> - Disable notifications on the server
@@ -221,6 +220,10 @@ public class AlliNPush {
      */
     public void registerEmail(final String userEmail) {
         new DeviceService().registerEmail(userEmail);
+    }
+
+    public String getIdentifier() {
+        return new DeviceService().getIdentifier();
     }
 
     /**

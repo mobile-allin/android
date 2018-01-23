@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
 
         AlliNPush.getInstance().registerForPushNotifications(this);
+
+        Log.d("DEBUG", AlliNPush.getInstance().getIdentifier());
 
         setContentView(R.layout.activity_main);
 
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onDestroy();
 
         // Finalizar os serviços de push
-//        AlliNPush.finish();
+        AlliNPush.getInstance().finish();
     }
 
     @Override

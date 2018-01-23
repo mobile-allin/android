@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
@@ -77,6 +78,19 @@ public class DeviceService {
         PreferencesManager preferencesManager = new PreferencesManager(context);
 
         return preferencesManager.getData(PreferencesConstants.KEY_USER_EMAIL, null);
+    }
+
+    public String getIdentifier() {
+        Context context = AlliNPush.getInstance().getContext();
+        PreferencesManager preferencesManager = new PreferencesManager(context);
+        String identifier = preferencesManager.getData(PreferencesConstants.KEY_IDENTIFIER, null);
+
+        if (Util.isNullOrClear(identifier)) {
+            identifier = Util.md5(UUID.randomUUID().toString());
+            preferencesManager.storeData(PreferencesConstants.KEY_IDENTIFIER, identifier);
+        }
+
+        return identifier;
     }
 
     public DeviceEntity getDeviceInfos(String senderId) {

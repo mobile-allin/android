@@ -3,6 +3,7 @@ package br.com.allin.mobile.pushnotification.configurations;
 import android.content.Context;
 import android.content.IntentFilter;
 
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.gcm.BroadcastNotification;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 
@@ -31,15 +32,16 @@ public class AlliNConfiguration {
         return allInDelegate;
     }
 
-    public void init(Context context, AllInDelegate allInDelegate) {
+    public void init(AllInDelegate allInDelegate) {
         this.allInDelegate = allInDelegate;
         this.broadcastNotification = new BroadcastNotification();
 
-        context.registerReceiver(broadcastNotification, new IntentFilter(BroadcastNotification.ACTION));
+        AlliNPush.getInstance().getContext()
+                .registerReceiver(broadcastNotification, new IntentFilter(BroadcastNotification.ACTION));
     }
 
-    public void finish(Context context) {
-        context.unregisterReceiver(broadcastNotification);
+    public void finish() {
+        AlliNPush.getInstance().getContext().unregisterReceiver(broadcastNotification);
 
         broadcastNotification = null;
     }
