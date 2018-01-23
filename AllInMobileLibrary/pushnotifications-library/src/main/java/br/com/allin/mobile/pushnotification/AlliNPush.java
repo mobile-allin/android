@@ -260,8 +260,8 @@ public class AlliNPush {
     /**
      * @return History push's received in application
      */
-    public List<MessageEntity> getMessages() {
-        return new MessageService().getMessages();
+    public List<MessageEntity> getMessages(Context context) {
+        return new MessageService(context).getMessages();
     }
 
     /**
@@ -271,8 +271,8 @@ public class AlliNPush {
      *
      * @return Identification of push received in application
      */
-    public long addMessage(MessageEntity messageEntity) {
-        return new MessageService().addMessage(messageEntity);
+    public long addMessage(Context context, MessageEntity messageEntity) {
+        return new MessageService(context).addMessage(messageEntity);
     }
 
     /**
@@ -282,8 +282,8 @@ public class AlliNPush {
      *
      * @return If successfully deleted
      */
-    public boolean deleteMessage(int id) {
-        return new MessageService().deleteMessage(id);
+    public boolean deleteMessage(Context context, int id) {
+        return new MessageService(context).deleteMessage(id);
     }
 
     /**
@@ -291,7 +291,7 @@ public class AlliNPush {
      *
      * @return If successfully updated
      */
-    public boolean messageHasBeenRead(int id) {
-        return new MessageService().messageHasBeenRead(id);
+    public boolean messageHasBeenRead(Context context, int id) {
+        return new MessageService(context).messageHasBeenRead(id);
     }
 }

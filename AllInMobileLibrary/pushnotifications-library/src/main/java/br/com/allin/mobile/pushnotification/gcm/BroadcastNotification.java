@@ -34,7 +34,7 @@ public class BroadcastNotification extends WakefulBroadcastReceiver {
         long idMessage = extras.getLong(NotificationConstants.ID, 0);
 
         if (idMessage > 0) {
-            AlliNPush.getInstance().messageHasBeenRead((int) idMessage);
+            AlliNPush.getInstance().messageHasBeenRead(context, (int) idMessage);
         }
 
         if (intentReceive.getStringExtra(ActionConstants.class.toString()) != null &&

@@ -103,7 +103,7 @@ public class AllInGcmNotification {
         int color = preferencesManager.getData(PreferencesConstants.KEY_BACKGROUND_NOTIFICATION, 0);
         int whiteIcon = preferencesManager.getData(PreferencesConstants.KEY_WHITE_ICON_NOTIFICATION, 0);
         int icon = preferencesManager.getData(PreferencesConstants.KEY_ICON_NOTIFICATION, 0);
-        long idMessage = AlliNPush.getInstance().addMessage(new MessageEntity(extras));
+        long idMessage = AlliNPush.getInstance().addMessage(context, new MessageEntity(extras));
 
         extras.putLong(NotificationConstants.ID, idMessage);
 
