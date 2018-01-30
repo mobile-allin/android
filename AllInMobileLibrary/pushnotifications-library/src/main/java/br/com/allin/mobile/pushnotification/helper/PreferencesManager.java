@@ -55,8 +55,9 @@ public class PreferencesManager {
      *
      * @return Object with the return value (recovered from SharedPreferences)
      */
+    @SuppressWarnings("unchecked")
     public <T> T getData(String key, Object defaultValue) {
-        Object value = null;
+        Object value;
 
         if (defaultValue instanceof Integer) {
             value = preferences.getInt(key, (Integer) defaultValue);

@@ -82,9 +82,9 @@ public class Util {
      * @return If the device is connected returns {@code true}. Otherwise, returns {@code false}.
      */
     public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager cm =
+        ConnectivityManager connectivityManager =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
 
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
