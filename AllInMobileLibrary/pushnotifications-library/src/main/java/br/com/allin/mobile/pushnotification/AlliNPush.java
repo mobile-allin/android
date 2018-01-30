@@ -12,20 +12,17 @@ import android.util.Log;
 import java.util.List;
 import java.util.Map;
 
-import br.com.allin.mobile.pushnotification.configurations.AlliNConfiguration;
+import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
 import br.com.allin.mobile.pushnotification.entity.ContextEntity;
-import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
 import br.com.allin.mobile.pushnotification.entity.MessageEntity;
 import br.com.allin.mobile.pushnotification.entity.NotificationEntity;
 import br.com.allin.mobile.pushnotification.helper.FieldHelper;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
-import br.com.allin.mobile.pushnotification.service.CampaignService;
 import br.com.allin.mobile.pushnotification.service.ConfigurationService;
 import br.com.allin.mobile.pushnotification.service.DeviceService;
 import br.com.allin.mobile.pushnotification.service.MessageService;
-import br.com.allin.mobile.pushnotification.service.NotificationService;
 import br.com.allin.mobile.pushnotification.service.StatusService;
 
 /**

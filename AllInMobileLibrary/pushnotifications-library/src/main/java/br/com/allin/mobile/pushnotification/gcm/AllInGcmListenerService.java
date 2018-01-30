@@ -8,7 +8,7 @@ import android.os.Message;
 import com.google.android.gms.gcm.GcmListenerService;
 
 import br.com.allin.mobile.pushnotification.helper.Util;
-import br.com.allin.mobile.pushnotification.configurations.AlliNConfiguration;
+import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
 
 /**

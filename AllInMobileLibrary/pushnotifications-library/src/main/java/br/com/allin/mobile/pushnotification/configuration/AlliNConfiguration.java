@@ -1,6 +1,5 @@
-package br.com.allin.mobile.pushnotification.configurations;
+package br.com.allin.mobile.pushnotification.configuration;
 
-import android.content.Context;
 import android.content.IntentFilter;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
