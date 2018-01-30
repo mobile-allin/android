@@ -49,8 +49,6 @@ public class MailRegisterActivity extends AppCompatActivity {
     }
 
     public void register(View view) {
-        progressDialog = ProgressDialog.show(this, null, "Cadastrando e-mail");
-
         AlliNPush.getInstance().registerEmail(etEmail.getText().toString());
     }
 

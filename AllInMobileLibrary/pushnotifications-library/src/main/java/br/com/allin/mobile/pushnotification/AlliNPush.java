@@ -222,15 +222,15 @@ public class AlliNPush {
         new DeviceService().registerEmail(userEmail);
     }
 
-    public String getIdentifier() {
-        return new DeviceService().getIdentifier();
-    }
-
     /**
      * @return E-mail saved in SharedPreferences
      */
     public String getEmail() {
         return new DeviceService().getEmail();
+    }
+
+    public String getIdentifier() {
+        return new DeviceService().getIdentifier();
     }
 
     /**
