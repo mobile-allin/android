@@ -9,9 +9,9 @@ import java.util.UUID;
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
 import br.com.allin.mobile.pushnotification.helper.Util;
-import br.com.allin.mobile.pushnotification.constants.DefaultListConstants;
-import br.com.allin.mobile.pushnotification.constants.ParametersConstants;
-import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
+import br.com.allin.mobile.pushnotification.constants.ListConstant;
+import br.com.allin.mobile.pushnotification.constants.ParametersConstant;
+import br.com.allin.mobile.pushnotification.constants.PreferencesConstant;
 import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 import br.com.allin.mobile.pushnotification.task.DeviceTask;
@@ -38,11 +38,11 @@ public class DeviceService {
             public void onFinish(Object value) {
                 String pushId = AlliNPush.getInstance().getDeviceToken();
                 Map<String, String> map = new HashMap<>();
-                map.put(DefaultListConstants.ID_PUSH, Util.md5(pushId));
-                map.put(DefaultListConstants.PUSH_ID, pushId);
-                map.put(DefaultListConstants.PLATAFORMA, ParametersConstants.ANDROID);
+                map.put(ListConstant.ID_PUSH, Util.md5(pushId));
+                map.put(ListConstant.PUSH_ID, pushId);
+                map.put(ListConstant.PLATAFORMA, ParametersConstant.ANDROID);
 
-                AlliNPush.getInstance().sendList(DefaultListConstants.LISTA_PADRAO, map);
+                AlliNPush.getInstance().sendList(ListConstant.LISTA_PADRAO, map);
             }
 
             @Override
@@ -70,24 +70,24 @@ public class DeviceService {
         Context context = AlliNPush.getInstance().getContext();
         PreferencesManager preferencesManager = new PreferencesManager(context);
 
-        return preferencesManager.getData(PreferencesConstants.KEY_DEVICE_ID, null);
+        return preferencesManager.getData(PreferencesConstant.KEY_DEVICE_ID, null);
     }
 
     public String getEmail() {
         Context context = AlliNPush.getInstance().getContext();
         PreferencesManager preferencesManager = new PreferencesManager(context);
 
-        return preferencesManager.getData(PreferencesConstants.KEY_USER_EMAIL, null);
+        return preferencesManager.getData(PreferencesConstant.KEY_USER_EMAIL, null);
     }
 
     public String getIdentifier() {
         Context context = AlliNPush.getInstance().getContext();
         PreferencesManager preferencesManager = new PreferencesManager(context);
-        String identifier = preferencesManager.getData(PreferencesConstants.KEY_IDENTIFIER, null);
+        String identifier = preferencesManager.getData(PreferencesConstant.KEY_IDENTIFIER, null);
 
         if (Util.isNullOrClear(identifier)) {
             identifier = Util.md5(UUID.randomUUID().toString());
-            preferencesManager.storeData(PreferencesConstants.KEY_IDENTIFIER, identifier);
+            preferencesManager.storeData(PreferencesConstant.KEY_IDENTIFIER, identifier);
         }
 
         return identifier;
@@ -97,9 +97,9 @@ public class DeviceService {
         Context context = AlliNPush.getInstance().getContext();
         PreferencesManager preferencesManager = new PreferencesManager(context);
 
-        String deviceId = preferencesManager.getData(PreferencesConstants.KEY_DEVICE_ID, null);
-        Integer appVersion = preferencesManager.getData(PreferencesConstants.KEY_APPVERSION, 1);
-        String projectId = preferencesManager.getData(PreferencesConstants.KEY_PROJECT_ID, null);
+        String deviceId = preferencesManager.getData(PreferencesConstant.KEY_DEVICE_ID, null);
+        Integer appVersion = preferencesManager.getData(PreferencesConstant.KEY_APPVERSION, 1);
+        String projectId = preferencesManager.getData(PreferencesConstant.KEY_PROJECT_ID, null);
 
         if (Util.isNullOrClear(deviceId)) {
             return null;

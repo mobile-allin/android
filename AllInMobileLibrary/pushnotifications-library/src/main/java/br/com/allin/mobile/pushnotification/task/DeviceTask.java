@@ -5,9 +5,9 @@ import android.text.TextUtils;
 import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
-import br.com.allin.mobile.pushnotification.constants.ParametersConstants;
-import br.com.allin.mobile.pushnotification.constants.RouteConstants;
+import br.com.allin.mobile.pushnotification.constants.HttpBodyConstant;
+import br.com.allin.mobile.pushnotification.constants.ParametersConstant;
+import br.com.allin.mobile.pushnotification.constants.RouteConstant;
 import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
@@ -27,7 +27,7 @@ public class DeviceTask extends BaseTask<String> {
 
     @Override
     public String getUrl() {
-        return RouteConstants.DEVICE;
+        return RouteConstant.DEVICE;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class DeviceTask extends BaseTask<String> {
         boolean renew = this.deviceEntity != null &&
                 !TextUtils.isEmpty(this.deviceEntity.getDeviceId()) && this.deviceEntity.isRenewId();
 
-        return renew ? new String[] { RouteConstants.UPDATE, deviceEntity.getDeviceId() } : null;
+        return renew ? new String[] { RouteConstant.UPDATE, deviceEntity.getDeviceId() } : null;
     }
 
     @Override
@@ -43,8 +43,8 @@ public class DeviceTask extends BaseTask<String> {
         try {
             JSONObject data = new JSONObject();
 
-            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
-            data.put(HttpBodyConstants.PLATFORM, ParametersConstants.ANDROID);
+            data.put(HttpBodyConstant.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
+            data.put(HttpBodyConstant.PLATFORM, ParametersConstant.ANDROID);
 
             return data;
         } catch (Exception e) {

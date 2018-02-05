@@ -4,8 +4,8 @@ import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.helper.Util;
-import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
-import br.com.allin.mobile.pushnotification.constants.RouteConstants;
+import br.com.allin.mobile.pushnotification.constants.HttpBodyConstant;
+import br.com.allin.mobile.pushnotification.constants.RouteConstant;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 
@@ -38,7 +38,7 @@ public class NotificationCampaignTask extends BaseTask<String> {
 
     @Override
     public String getUrl() {
-        return RouteConstants.NOTIFICATION_CAMPAIGN;
+        return RouteConstant.NOTIFICATION_CAMPAIGN;
     }
 
     @Override
@@ -46,14 +46,14 @@ public class NotificationCampaignTask extends BaseTask<String> {
         try {
             JSONObject data = new JSONObject();
 
-            data.put(HttpBodyConstants.ID, this.id);
-            data.put(HttpBodyConstants.DATE, this.date);
-            data.put(HttpBodyConstants.DATE_OPENING, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
-            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
+            data.put(HttpBodyConstant.ID, this.id);
+            data.put(HttpBodyConstant.DATE, this.date);
+            data.put(HttpBodyConstant.DATE_OPENING, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
+            data.put(HttpBodyConstant.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
 
             if (this.latitude != 0 && this.longitude != 0) {
-                data.put(HttpBodyConstants.LATITUDE, String.valueOf(this.latitude));
-                data.put(HttpBodyConstants.LONGITUDE, String.valueOf(this.longitude));
+                data.put(HttpBodyConstant.LATITUDE, String.valueOf(this.latitude));
+                data.put(HttpBodyConstant.LONGITUDE, String.valueOf(this.longitude));
             }
 
             return data;

@@ -1,8 +1,8 @@
 package br.com.allin.mobile.pushnotification.task;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
-import br.com.allin.mobile.pushnotification.constants.RouteConstants;
+import br.com.allin.mobile.pushnotification.constants.HttpBodyConstant;
+import br.com.allin.mobile.pushnotification.constants.RouteConstant;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -17,7 +17,7 @@ public class StatusTask extends BaseTask<Boolean> {
 
     @Override
     public String getUrl() {
-        return RouteConstants.DEVICE_STATUS;
+        return RouteConstant.DEVICE_STATUS;
     }
 
     @Override
@@ -27,6 +27,6 @@ public class StatusTask extends BaseTask<Boolean> {
 
     @Override
     public Boolean onSuccess(ResponseEntity responseEntity) {
-        return responseEntity.getMessage().equalsIgnoreCase(HttpBodyConstants.ENABLED);
+        return responseEntity.getMessage().equalsIgnoreCase(HttpBodyConstant.ENABLED);
     }
 }

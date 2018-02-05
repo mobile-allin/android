@@ -3,8 +3,8 @@ package br.com.allin.mobile.pushnotification.task;
 import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.helper.Util;
-import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
-import br.com.allin.mobile.pushnotification.constants.RouteConstants;
+import br.com.allin.mobile.pushnotification.constants.HttpBodyConstant;
+import br.com.allin.mobile.pushnotification.constants.RouteConstant;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 
@@ -24,7 +24,7 @@ public class NotificationTransactionalTask extends BaseTask<String> {
 
     @Override
     public String getUrl() {
-        return RouteConstants.NOTIFICATION_TRANSACTIONAL;
+        return RouteConstant.NOTIFICATION_TRANSACTIONAL;
     }
 
     @Override
@@ -32,9 +32,9 @@ public class NotificationTransactionalTask extends BaseTask<String> {
         try {
             JSONObject data = new JSONObject();
 
-            data.put(HttpBodyConstants.ID, this.id);
-            data.put(HttpBodyConstants.DATE, this.date);
-            data.put(HttpBodyConstants.DATE_OPENING, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
+            data.put(HttpBodyConstant.ID, this.id);
+            data.put(HttpBodyConstant.DATE, this.date);
+            data.put(HttpBodyConstant.DATE_OPENING, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
 
             return data;
         } catch (Exception e) {

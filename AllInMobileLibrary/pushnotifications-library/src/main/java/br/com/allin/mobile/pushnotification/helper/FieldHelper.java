@@ -10,7 +10,6 @@ import br.com.allin.mobile.pushnotification.AlliNPush;
 
 public class FieldHelper {
     public static int getResId(String resName, String type) {
-
         try {
             Context context = AlliNPush.getInstance().getContext();
 

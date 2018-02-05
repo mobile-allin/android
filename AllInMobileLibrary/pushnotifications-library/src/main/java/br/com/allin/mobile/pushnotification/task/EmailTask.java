@@ -5,11 +5,11 @@ import android.content.Context;
 import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
+import br.com.allin.mobile.pushnotification.constants.ParametersConstant;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
-import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
-import br.com.allin.mobile.pushnotification.constants.ParametersConstants;
-import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
-import br.com.allin.mobile.pushnotification.constants.RouteConstants;
+import br.com.allin.mobile.pushnotification.constants.HttpBodyConstant;
+import br.com.allin.mobile.pushnotification.constants.PreferencesConstant;
+import br.com.allin.mobile.pushnotification.constants.RouteConstant;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -28,16 +28,16 @@ public class EmailTask extends BaseTask<String> {
 
     @Override
     public String getUrl() {
-        return RouteConstants.EMAIL;
+        return RouteConstant.EMAIL;
     }
 
     @Override
     public JSONObject getData() {
         try {
             JSONObject data = new JSONObject();
-            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
-            data.put(HttpBodyConstants.PLATFORM, ParametersConstants.ANDROID);
-            data.put(HttpBodyConstants.USER_EMAIL, email);
+            data.put(HttpBodyConstant.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
+            data.put(HttpBodyConstant.PLATFORM, ParametersConstant.ANDROID);
+            data.put(HttpBodyConstant.USER_EMAIL, email);
 
             return data;
         } catch (Exception e) {
@@ -51,7 +51,7 @@ public class EmailTask extends BaseTask<String> {
     public String onSuccess(ResponseEntity responseEntity) {
         Context context = AlliNPush.getInstance().getContext();
         PreferencesManager preferencesManager = new PreferencesManager(context);
-        preferencesManager.storeData(PreferencesConstants.KEY_USER_EMAIL, email);
+        preferencesManager.storeData(PreferencesConstant.KEY_USER_EMAIL, email);
 
         return responseEntity.getMessage();
     }

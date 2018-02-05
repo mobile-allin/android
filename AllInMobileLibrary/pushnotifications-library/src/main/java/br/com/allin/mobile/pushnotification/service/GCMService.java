@@ -11,12 +11,12 @@ import java.io.IOException;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
-import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
+import br.com.allin.mobile.pushnotification.constants.PreferencesConstant;
 import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
 import br.com.allin.mobile.pushnotification.entity.DeviceEntity;
 
 /**
- * The service class for GCM (Google Cloud MessageConstants) has the responsibility
+ * The service class for GCM (Google Cloud MessageConstant) has the responsibility
  * of the sender's ID number generator for Google properly send notification according to the record
  */
 public class GCMService extends AsyncTask<Void, Void, String> {
@@ -50,8 +50,8 @@ public class GCMService extends AsyncTask<Void, Void, String> {
         String senderId = configurationEntity.getSenderId();
 
         PreferencesManager preferencesManager = new PreferencesManager(context);
-        preferencesManager.storeData(PreferencesConstants.KEY_DEVICE_ID, token);
-        preferencesManager.storeData(PreferencesConstants.KEY_PROJECT_ID, senderId);
+        preferencesManager.storeData(PreferencesConstant.KEY_DEVICE_ID, token);
+        preferencesManager.storeData(PreferencesConstant.KEY_PROJECT_ID, senderId);
 
         return token;
     }

@@ -3,8 +3,8 @@ package br.com.allin.mobile.pushnotification.task;
 import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.constants.HttpBodyConstants;
-import br.com.allin.mobile.pushnotification.constants.RouteConstants;
+import br.com.allin.mobile.pushnotification.constants.HttpBodyConstant;
+import br.com.allin.mobile.pushnotification.constants.RouteConstant;
 import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -25,7 +25,7 @@ public class ToggleTask extends BaseTask<String> {
     public JSONObject getData() {
         try {
             JSONObject data = new JSONObject();
-            data.put(HttpBodyConstants.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
+            data.put(HttpBodyConstant.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
 
             return data;
         } catch (Exception e) {
@@ -37,7 +37,7 @@ public class ToggleTask extends BaseTask<String> {
 
     @Override
     public String getUrl() {
-        return enable ? RouteConstants.DEVICE_ENABLE : RouteConstants.DEVICE_DISABLE;
+        return enable ? RouteConstant.DEVICE_ENABLE : RouteConstant.DEVICE_DISABLE;
     }
 
     @Override

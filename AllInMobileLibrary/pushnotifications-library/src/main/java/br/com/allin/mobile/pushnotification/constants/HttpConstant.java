@@ -1,6 +1,6 @@
 package br.com.allin.mobile.pushnotification.constants;
 
-public class HttpConstants {
+public class HttpConstant {
     public static final int DEFAULT_REQUEST_TIMEOUT = 15000;
 
 //    public static final String SERVER_URL = "http://lucasrodrigues.allinmedia.com.br/webservice/mobile-api";

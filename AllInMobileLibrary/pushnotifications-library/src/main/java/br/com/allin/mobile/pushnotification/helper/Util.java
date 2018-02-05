@@ -98,7 +98,6 @@ public class Util {
      * @return String with the value of the project in AllIn token.
      */
     public static String getToken(Context context) {
-
         int tokenId = context.getResources()
                 .getIdentifier("allin_token", "string", context.getPackageName());
 

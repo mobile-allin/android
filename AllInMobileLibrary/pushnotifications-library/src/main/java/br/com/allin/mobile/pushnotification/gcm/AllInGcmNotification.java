@@ -3,7 +3,6 @@ package br.com.allin.mobile.pushnotification.gcm;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -24,9 +23,9 @@ import java.net.URLDecoder;
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
 import br.com.allin.mobile.pushnotification.helper.Util;
-import br.com.allin.mobile.pushnotification.constants.ActionConstants;
-import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
-import br.com.allin.mobile.pushnotification.constants.PreferencesConstants;
+import br.com.allin.mobile.pushnotification.constants.ActionConstant;
+import br.com.allin.mobile.pushnotification.constants.NotificationConstant;
+import br.com.allin.mobile.pushnotification.constants.PreferencesConstant;
 import br.com.allin.mobile.pushnotification.entity.MessageEntity;
 import br.com.allin.mobile.pushnotification.http.DownloadImage;
 
@@ -45,7 +44,7 @@ public class AllInGcmNotification {
     /**
      * Create a standard notification with title and text, sending additional parameters from a @code {Bundle}.
      *
-     * @param extras ParametersConstants to be included in the notification.
+     * @param extras ParametersConstant to be included in the notification.
      */
     public void showNotification(final Bundle extras) {
         if (extras == null) {
@@ -54,7 +53,7 @@ public class AllInGcmNotification {
 
         dealScheme(extras);
 
-        String image = extras.getString(NotificationConstants.IMAGE);
+        String image = extras.getString(NotificationConstant.IMAGE);
 
         if (Util.isNullOrClear(image)) {
             showNotification(null, extras);
@@ -74,7 +73,7 @@ public class AllInGcmNotification {
     }
 
     private void dealScheme(Bundle extras) {
-        String scheme = extras.getString(NotificationConstants.URL_SCHEME);
+        String scheme = extras.getString(NotificationConstant.URL_SCHEME);
 
         if (scheme != null && scheme.trim().length() > 0) {
             try {
@@ -87,25 +86,25 @@ public class AllInGcmNotification {
                             Util.md5(AlliNPush.getInstance().getDeviceToken()));
                 }
 
-                extras.putString(NotificationConstants.URL_SCHEME, scheme);
+                extras.putString(NotificationConstant.URL_SCHEME, scheme);
             }
         }
     }
 
     private void showNotification(Bitmap bitmap, Bundle extras) {
-        final String title = extras.getString(NotificationConstants.SUBJECT);
-        final String content = extras.getString(NotificationConstants.DESCRIPTION);
+        final String title = extras.getString(NotificationConstant.SUBJECT);
+        final String content = extras.getString(NotificationConstant.DESCRIPTION);
 
         if (title == null || title.trim().length() == 0 || content == null || content.trim().length() == 0) {
             return;
         }
 
-        int color = preferencesManager.getData(PreferencesConstants.KEY_BACKGROUND_NOTIFICATION, 0);
-        int whiteIcon = preferencesManager.getData(PreferencesConstants.KEY_WHITE_ICON_NOTIFICATION, 0);
-        int icon = preferencesManager.getData(PreferencesConstants.KEY_ICON_NOTIFICATION, 0);
+        int color = preferencesManager.getData(PreferencesConstant.KEY_BACKGROUND_NOTIFICATION, 0);
+        int whiteIcon = preferencesManager.getData(PreferencesConstant.KEY_WHITE_ICON_NOTIFICATION, 0);
+        int icon = preferencesManager.getData(PreferencesConstant.KEY_ICON_NOTIFICATION, 0);
         long idMessage = AlliNPush.getInstance().addMessage(context, new MessageEntity(extras));
 
-        extras.putLong(NotificationConstants.ID, idMessage);
+        extras.putLong(NotificationConstant.ID, idMessage);
 
         Intent intent = new Intent();
         intent.setAction(BroadcastNotification.ACTION);
@@ -157,20 +156,20 @@ public class AllInGcmNotification {
 
     private void addActions(Context context,
                                    NotificationCompat.Builder notificationBuilder, Bundle extras) {
-        String actions = extras.getString(NotificationConstants.ACTIONS);
+        String actions = extras.getString(NotificationConstant.ACTIONS);
 
         if (actions != null && !TextUtils.isEmpty(actions)) {
             try {
-                JSONArray jsonArray = new JSONArray(extras.getString(NotificationConstants.ACTIONS));
+                JSONArray jsonArray = new JSONArray(extras.getString(NotificationConstant.ACTIONS));
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    String action = jsonObject.getString(ActionConstants.ACTION);
-                    String text = jsonObject.getString(ActionConstants.TEXT);
+                    String action = jsonObject.getString(ActionConstant.ACTION);
+                    String text = jsonObject.getString(ActionConstant.TEXT);
 
                     Intent intentAction = new Intent();
                     intentAction.setAction(BroadcastNotification.ACTION);
-                    intentAction.putExtra(ActionConstants.class.toString(), action);
+                    intentAction.putExtra(ActionConstant.class.toString(), action);
 
                     PendingIntent pendingIntent = PendingIntent
                             .getBroadcast(context, i, intentAction, PendingIntent.FLAG_UPDATE_CURRENT);

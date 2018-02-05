@@ -12,8 +12,8 @@ import android.text.TextUtils;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
-import br.com.allin.mobile.pushnotification.constants.ActionConstants;
-import br.com.allin.mobile.pushnotification.constants.NotificationConstants;
+import br.com.allin.mobile.pushnotification.constants.ActionConstant;
+import br.com.allin.mobile.pushnotification.constants.NotificationConstant;
 import br.com.allin.mobile.pushnotification.service.NotificationService;
 import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
 
@@ -31,53 +31,53 @@ public class BroadcastNotification extends WakefulBroadcastReceiver {
             return;
         }
 
-        long idMessage = extras.getLong(NotificationConstants.ID, 0);
+        long idMessage = extras.getLong(NotificationConstant.ID, 0);
 
         if (idMessage > 0) {
             AlliNPush.getInstance().messageHasBeenRead(context, (int) idMessage);
         }
 
-        if (intentReceive.getStringExtra(ActionConstants.class.toString()) != null &&
-                !TextUtils.isEmpty(intentReceive.getStringExtra(ActionConstants.class.toString()))) {
+        if (intentReceive.getStringExtra(ActionConstant.class.toString()) != null &&
+                !TextUtils.isEmpty(intentReceive.getStringExtra(ActionConstant.class.toString()))) {
             if (AlliNConfiguration.getInstance().getAllInDelegate() != null) {
                 new Handler(Looper.getMainLooper()) {
                     @Override
                     public void handleMessage(Message message) {
-                        String action = intentReceive.getStringExtra(ActionConstants.class.toString());
+                        String action = intentReceive.getStringExtra(ActionConstant.class.toString());
 
                         AlliNConfiguration.getInstance().getAllInDelegate().onAction(action, false);
                     }
                 }.sendEmptyMessage(0);
             }
         } else {
-            if (intentReceive.hasExtra(NotificationConstants.ID_CAMPAIGN)) {
-                int idCampaign = Integer.parseInt(extras.getString(NotificationConstants.ID_CAMPAIGN));
-                String date = extras.getString(NotificationConstants.DATE_NOTIFICATION);
+            if (intentReceive.hasExtra(NotificationConstant.ID_CAMPAIGN)) {
+                int idCampaign = Integer.parseInt(extras.getString(NotificationConstant.ID_CAMPAIGN));
+                String date = extras.getString(NotificationConstant.DATE_NOTIFICATION);
 
                 new NotificationService().sendCampaign(idCampaign, date);
-            } else if (intentReceive.hasExtra(NotificationConstants.ID_SEND)) {
-                int idSend = Integer.parseInt(extras.getString(NotificationConstants.ID_SEND));
-                String date = extras.getString(NotificationConstants.DATE_NOTIFICATION);
+            } else if (intentReceive.hasExtra(NotificationConstant.ID_SEND)) {
+                int idSend = Integer.parseInt(extras.getString(NotificationConstant.ID_SEND));
+                String date = extras.getString(NotificationConstant.DATE_NOTIFICATION);
 
                 new NotificationService().sendTransactional(idSend, date);
             }
 
-            start(context, extras, intentReceive.hasExtra(NotificationConstants.URL_SCHEME));
+            start(context, extras, intentReceive.hasExtra(NotificationConstant.URL_SCHEME));
         }
     }
 
     private void start(Context context, Bundle extras, boolean isScheme) {
         if (isScheme) {
-            String urlScheme = extras.getString(NotificationConstants.URL_SCHEME);
+            String urlScheme = extras.getString(NotificationConstant.URL_SCHEME);
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlScheme));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
         } else {
-            String subject = extras.getString(NotificationConstants.SUBJECT);
+            String subject = extras.getString(NotificationConstant.SUBJECT);
 
             Intent intent = new Intent(context, AllInWebViewActivity.class);
             intent.putExtras(extras);
-            intent.putExtra(NotificationConstants.SUBJECT, subject);
+            intent.putExtra(NotificationConstant.SUBJECT, subject);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
         }
