@@ -1,12 +1,10 @@
 package br.com.allin.mobile.pushnotification.task;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import org.json.JSONObject;
 
-import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
 import br.com.allin.mobile.pushnotification.http.HttpManager;
@@ -17,7 +15,7 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
  * Base class that implements interface to return the request
  */
 
-abstract class BaseTask<T> extends AsyncTask<Void, Void, Object> implements OnInvoke<T> {
+public abstract class BaseTask<T> extends AsyncTask<Void, Void, Object> implements OnInvoke<T> {
     protected OnRequest onRequest;
     private RequestType requestType;
     private boolean withCache;

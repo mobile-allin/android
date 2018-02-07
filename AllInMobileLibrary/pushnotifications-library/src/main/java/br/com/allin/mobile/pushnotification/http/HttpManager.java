@@ -19,10 +19,10 @@ import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.constants.HttpBodyConstant;
 import br.com.allin.mobile.pushnotification.constants.HttpConstant;
-import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
-import br.com.allin.mobile.pushnotification.service.CacheService;
+import br.com.allin.mobile.pushnotification.service.allin.CacheService;
 
 /**
  * Class that manages connections to the server
@@ -31,20 +31,21 @@ public class HttpManager extends HttpCertificate {
     /**
      * Sends data to the server AllIn
      *
-     * @param action  ActionConstant to complete the URL of the request
+     * @param url  ActionConstant to complete the URL of the request
      * @param data    ParametersConstant passed in the request header
      * @param params  ParametersConstant that will be passed in the URL
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseEntity post(String action, JSONObject data, String[] params) throws WebServiceException {
-        return post(action, data, params, false);
+    public static ResponseEntity post(String url,
+                                      JSONObject data, String[] params) throws WebServiceException {
+        return post(url, data, params, false);
     }
 
     /**
      * Sends data to the server AllIn
      *
-     * @param action    ActionConstant to complete the URL of the request
+     * @param url    ActionConstant to complete the URL of the request
      * @param data      ParametersConstant passed in the request header
      * @param params    ParametersConstant that will be passed in the URL
      * @param withCache Determine whether there is any connection problem that
@@ -52,49 +53,48 @@ public class HttpManager extends HttpCertificate {
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseEntity post(String action, JSONObject data,
+    public static ResponseEntity post(String url, JSONObject data,
                                       String[] params, boolean withCache) throws WebServiceException {
-        return makeRequest(action, RequestType.POST, params, data, withCache);
+        return makeRequest(url, RequestType.POST, params, data, withCache);
     }
 
     /**
      * Receives from the server data AllIn
      *
-     * @param action  ActionConstant to complete the URL of the request
+     * @param url  ActionConstant to complete the URL of the request
      * @param params  ParametersConstant that will be passed in the URL
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseEntity get(String action, String[] params) throws WebServiceException {
-        return get(action, params, false);
+    public static ResponseEntity get(String url, String[] params) throws WebServiceException {
+        return get(url, params, false);
     }
 
     /**
      * Receives from the server data AllIn
      *
-     * @param action    ActionConstant to complete the URL of the request
+     * @param url    ActionConstant to complete the URL of the request
      * @param params    ParametersConstant that will be passed in the URL
      * @param withCache Determine whether there is any connection problem that should
      *                  be written to the cache for future synchronization
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseEntity get(String action, String[] params, boolean withCache) throws WebServiceException {
-        return makeRequest(action, RequestType.GET, params, null, withCache);
+    public static ResponseEntity get(String url,
+                                     String[] params, boolean withCache) throws WebServiceException {
+        return makeRequest(url, RequestType.GET, params, null, withCache);
     }
 
-    private static ResponseEntity makeRequest(String action, RequestType requestType,
+    private static ResponseEntity makeRequest(String url, RequestType requestType,
             String[] params, JSONObject data, boolean withCache) throws WebServiceException {
-        String urlString = HttpConstant.SERVER_URL + action;
-
         if (params != null) {
             for (String param : params) {
-                urlString = urlString.concat("/");
-                urlString = urlString.concat(param);
+                url = url.concat("/");
+                url = url.concat(param);
             }
         }
 
-        return makeRequestURL(urlString, requestType, data, withCache);
+        return makeRequestURL(url, requestType, data, withCache);
     }
 
     /**

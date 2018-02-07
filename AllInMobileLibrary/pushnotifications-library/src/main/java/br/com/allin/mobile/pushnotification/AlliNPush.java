@@ -10,20 +10,20 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.List;
-import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
-import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
-import br.com.allin.mobile.pushnotification.entity.ContextEntity;
-import br.com.allin.mobile.pushnotification.entity.MessageEntity;
-import br.com.allin.mobile.pushnotification.entity.NotificationEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.BaseEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.ConfigurationEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.ContextEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.MessageEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.NotificationEntity;
 import br.com.allin.mobile.pushnotification.helper.FieldHelper;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
-import br.com.allin.mobile.pushnotification.service.ConfigurationService;
-import br.com.allin.mobile.pushnotification.service.DeviceService;
-import br.com.allin.mobile.pushnotification.service.MessageService;
-import br.com.allin.mobile.pushnotification.service.StatusService;
+import br.com.allin.mobile.pushnotification.service.allin.ConfigurationService;
+import br.com.allin.mobile.pushnotification.service.allin.DeviceService;
+import br.com.allin.mobile.pushnotification.service.allin.MessageService;
+import br.com.allin.mobile.pushnotification.service.allin.StatusService;
 
 /**
  * @author lucasrodrigues
@@ -234,10 +234,10 @@ public class AlliNPush {
      * <b>Asynchronous</b> - Shipping to list
      *
      * @param nmList Mailing list that will be sent
-     * @param values Map with key and value for formation of the JSON API
+     * @param columnsAndValues Map with key and value for formation of the JSON API
      */
-    public void sendList(String nmList, Map<String, String> values) {
-        new DeviceService().sendList(nmList, values);
+    public void sendList(String nmList, List<BaseEntity> columnsAndValues) {
+        new DeviceService().sendList(nmList, columnsAndValues);
     }
 
     /**

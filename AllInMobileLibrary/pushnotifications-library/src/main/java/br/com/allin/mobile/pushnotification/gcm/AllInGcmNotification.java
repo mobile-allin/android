@@ -26,7 +26,7 @@ import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.constants.ActionConstant;
 import br.com.allin.mobile.pushnotification.constants.NotificationConstant;
 import br.com.allin.mobile.pushnotification.constants.PreferencesConstant;
-import br.com.allin.mobile.pushnotification.entity.MessageEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.MessageEntity;
 import br.com.allin.mobile.pushnotification.http.DownloadImage;
 
 /**

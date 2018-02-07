@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.allin.mobile.pushnotification.constants.CacheConstant;
-import br.com.allin.mobile.pushnotification.entity.CacheEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.CacheEntity;
 
 /**
  * Class that manages the CacheEntity database requests

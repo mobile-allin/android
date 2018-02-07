@@ -21,7 +21,7 @@ import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.constants.NotificationConstant;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
-import br.com.allin.mobile.pushnotification.service.CampaignService;
+import br.com.allin.mobile.pushnotification.service.allin.CampaignService;
 
 /**
  * Activity to search the HTML and display it or redirects

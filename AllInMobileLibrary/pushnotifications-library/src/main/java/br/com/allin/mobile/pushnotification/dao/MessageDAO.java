@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.allin.mobile.pushnotification.constants.MessageConstant;
-import br.com.allin.mobile.pushnotification.entity.MessageEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.MessageEntity;
 
 /**
  * Created by lucasrodrigues on 05/04/17.

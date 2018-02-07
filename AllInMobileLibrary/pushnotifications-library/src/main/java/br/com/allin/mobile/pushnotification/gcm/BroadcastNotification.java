@@ -14,7 +14,7 @@ import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.constants.ActionConstant;
 import br.com.allin.mobile.pushnotification.constants.NotificationConstant;
-import br.com.allin.mobile.pushnotification.service.NotificationService;
+import br.com.allin.mobile.pushnotification.service.allin.NotificationService;
 import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
 
 /**

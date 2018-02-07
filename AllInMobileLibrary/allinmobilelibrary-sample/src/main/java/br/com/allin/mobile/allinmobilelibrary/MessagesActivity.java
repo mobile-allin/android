@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.entity.MessageEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.MessageEntity;
 
 /**
  * Created by lucasrodrigues on 24/04/17.

@@ -14,11 +14,15 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
+import br.com.allin.mobile.pushnotification.BTG360;
+import br.com.allin.mobile.pushnotification.entity.btg.SearchEntity;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -35,6 +39,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
 
         AlliNPush.getInstance().registerForPushNotifications(this);
+        List<SearchEntity> list = new ArrayList<>();
+        list.add(new SearchEntity("iPhone BAGAÇA"));
+
+        BTG360.addSearchs("60:01", list);
 
         Log.d("DEBUG", AlliNPush.getInstance().getIdentifier());
 
@@ -132,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 map.put("dt_ultima_abertura", null);
                 map.put("dt_ultimo_clique", null);
 
-                AlliNPush.getInstance().sendList("Lista Padrao Push", map);
+//                AlliNPush.getInstance().sendList("Lista Padrao Push", map);
 
                 break;
 

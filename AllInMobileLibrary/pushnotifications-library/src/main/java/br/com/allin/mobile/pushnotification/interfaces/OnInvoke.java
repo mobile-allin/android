@@ -2,7 +2,7 @@ package br.com.allin.mobile.pushnotification.interfaces;
 
 import org.json.JSONObject;
 
-import br.com.allin.mobile.pushnotification.entity.ResponseEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.ResponseEntity;
 
 /**
  * Format request (standard All iN)
