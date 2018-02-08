@@ -116,7 +116,7 @@ public class HttpManager extends HttpCertificate {
         if (withCache && !Util.isNetworkAvailable(context)) {
             new CacheService().insert(urlString, data != null ? data.toString() : "");
 
-            throw new WebServiceException("Internet não está disponível");
+            throw new WebServiceException("Internet is not available");
         }
 
         URL url;
@@ -124,7 +124,7 @@ public class HttpManager extends HttpCertificate {
         try {
             url = new URL(urlString);
         } catch (MalformedURLException e) {
-            throw new WebServiceException("URL inválida: " + e.getMessage());
+            throw new WebServiceException("Invalid URL: " + e.getMessage());
         }
 
         String token = Util.getToken(context);
@@ -175,8 +175,7 @@ public class HttpManager extends HttpCertificate {
                     response.setSuccess(!responseJson.getBoolean("error"));
                     response.setMessage(responseJson.getString("message"));
                 } catch (JSONException e) {
-                    throw new WebServiceException("Ocorreu um erro " +
-                            "ao tentar realizar o parse da resposta da requisição:\n\n" + responseString);
+                    throw new WebServiceException("There was an error while trying to parse the request response:\n\n" + responseString);
                 }
             } else if (connection.getResponseCode() == HttpURLConnection.HTTP_BAD_REQUEST) {
                 BufferedReader bufferedReader =
@@ -195,8 +194,7 @@ public class HttpManager extends HttpCertificate {
                     response.setSuccess(!responseJson.getBoolean("error"));
                     response.setMessage(responseJson.getString("message"));
                 } catch (JSONException e) {
-                    throw new WebServiceException("Ocorreu um erro " +
-                            "ao tentar realizar o parse da resposta da requisição:\n\n" + responseString);
+                    throw new WebServiceException("There was an error while trying to parse the request response:\n\n" + responseString);
                 }
             } else {
                 if (withCache) {
@@ -213,8 +211,7 @@ public class HttpManager extends HttpCertificate {
                 new CacheService().insert(urlString, data != null ? data.toString() : "");
             }
 
-            throw new WebServiceException("Ocorreu um erro " +
-                    "durante a execução da requisição: " + e.getMessage());
+            throw new WebServiceException("There was an error while trying to parse the request response:\n\n" + e.getMessage());
         } finally {
             if (connection != null) {
                 connection.disconnect();

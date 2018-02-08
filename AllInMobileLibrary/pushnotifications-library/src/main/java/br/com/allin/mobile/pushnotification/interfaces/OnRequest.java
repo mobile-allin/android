@@ -2,7 +2,7 @@ package br.com.allin.mobile.pushnotification.interfaces;
 
 /**
  * <p>
- *     Listener de configuração.
+ *     Listener of configuration.
  * <p>
  *     It is used to notify success and failure in the main asynchronous actions of the library.
  */

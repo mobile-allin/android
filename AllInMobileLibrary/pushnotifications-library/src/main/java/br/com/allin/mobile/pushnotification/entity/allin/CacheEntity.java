@@ -1,7 +1,7 @@
 package br.com.allin.mobile.pushnotification.entity.allin;
 
 /**
- * CacheEntity object from local database
+    CacheEntity object from local database
  */
 public class CacheEntity {
     private int id;
@@ -9,11 +9,11 @@ public class CacheEntity {
     private String json;
 
     /**
-     * Initializes the object by setting the URL and JSON (the ID is generated automatically in the local database)
-     * 
-     * @param id request attempt ID
-     * @param url URL attempt request
-     * @param json JSON attempt request
+      Initializes the object by setting the URL and JSON (the ID is generated automatically in the local database)
+
+      @param id request attempt ID
+      @param url URL attempt request
+      @param json JSON attempt request
     */
     public CacheEntity(int id, String url, String json) {
         this.id = id;
@@ -22,21 +22,21 @@ public class CacheEntity {
     }
 
     /**
-     * @return Recorded cache Id
+      @return Recorded cache Id
     */
     public int getId() {
         return id;
     }
 
     /**
-     * @return URL cache recorded
+       @return URL cache recorded
      */
     public String getUrl() {
         return url;
     }
 
     /**
-     * @return JSON recorded cache
+       @return JSON recorded cache
      */
     public String getJson() {
         return json;
