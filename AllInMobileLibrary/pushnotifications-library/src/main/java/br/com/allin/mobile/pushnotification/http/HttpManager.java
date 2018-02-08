@@ -140,6 +140,7 @@ public class HttpManager extends HttpCertificate {
             connection.setDoInput(true);
             connection.setConnectTimeout(HttpConstant.DEFAULT_REQUEST_TIMEOUT);
             connection.setRequestProperty(HttpBodyConstant.AUTHORIZATION, token);
+            connection.setRequestProperty("Content-Type", "application/json");
 
             String responseString = "";
 
