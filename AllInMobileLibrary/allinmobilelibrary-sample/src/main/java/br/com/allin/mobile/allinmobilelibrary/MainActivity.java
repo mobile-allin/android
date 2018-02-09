@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        list.add(new SearchEntity("iPhone BAGAÇA"));
 //        BTG360.addSearchs("60:1", list);
 
+//        BTG360.addSearch("60:1", new SearchEntity("TESTE SINGLE"));
+
 //        ADD CART ==================================================
 //        List<CartEntity> carts = new ArrayList<>();
 //        carts.add(new CartEntity("131231231"));
