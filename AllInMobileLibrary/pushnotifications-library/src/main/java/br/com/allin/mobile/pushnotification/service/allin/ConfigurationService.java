@@ -38,8 +38,7 @@ public class ConfigurationService {
         DeviceService deviceService = new DeviceService();
         DeviceEntity deviceEntity = deviceService.getDeviceInfos(configurationEntity.getSenderId());
 
-        if (deviceEntity == null || TextUtils
-                .isEmpty(deviceEntity.getDeviceId()) || deviceEntity.isRenewId()) {
+        if (deviceEntity == null || TextUtils.isEmpty(deviceEntity.getDeviceId()) || deviceEntity.isRenewId()) {
             new GCMService(deviceEntity, configurationEntity).execute();
         } else {
             new DeviceService().sendDevice(deviceEntity);

@@ -2,6 +2,7 @@ package br.com.allin.mobile.pushnotification.service.allin;
 
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +40,13 @@ public class DeviceService {
             @Override
             public void onFinish(Object value) {
                 String pushId = AlliNPush.getInstance().getDeviceToken();
-                Map<String, String> map = new HashMap<>();
-                map.put(ListConstant.ID_PUSH, Util.md5(pushId));
-                map.put(ListConstant.PUSH_ID, pushId);
-                map.put(ListConstant.PLATAFORMA, ParametersConstant.ANDROID);
 
-//                AlliNPush.getInstance().sendList(ListConstant.LISTA_PADRAO, map);
+                List<BaseEntity> list = new ArrayList<>();
+                list.add(new BaseEntity(ListConstant.ID_PUSH, Util.md5(pushId)));
+                list.add(new BaseEntity(ListConstant.PUSH_ID, pushId));
+                list.add(new BaseEntity(ListConstant.PLATAFORMA, ParametersConstant.ANDROID));
+
+                AlliNPush.getInstance().sendList(ListConstant.LISTA_PADRAO, list);
             }
 
             @Override
@@ -102,10 +104,6 @@ public class DeviceService {
         String deviceId = preferencesManager.getData(PreferencesConstant.KEY_DEVICE_ID, null);
         Integer appVersion = preferencesManager.getData(PreferencesConstant.KEY_APPVERSION, 1);
         String projectId = preferencesManager.getData(PreferencesConstant.KEY_PROJECT_ID, null);
-
-        if (Util.isNullOrClear(deviceId)) {
-            return null;
-        }
 
         return new DeviceEntity(deviceId,
                 appVersion != Util.getAppVersion(context) || !senderId.equals(projectId));

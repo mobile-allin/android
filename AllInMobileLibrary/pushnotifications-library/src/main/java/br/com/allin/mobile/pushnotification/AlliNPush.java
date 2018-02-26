@@ -191,14 +191,14 @@ public class AlliNPush {
      * <b>Asynchronous</b> - Disable notifications on the server
      */
     public void disable() {
-        new StatusService(getContext()).disable();
+        new StatusService().disable();
     }
 
     /**
      * <b>Asynchronous</b> - Enable notifications on the server
      */
     public void enable() {
-        new StatusService(getContext()).enable();
+        new StatusService().enable();
     }
 
     /**
@@ -207,7 +207,7 @@ public class AlliNPush {
      * @param onRequest Interface that returns success or error in the request
      */
     public void deviceIsEnable(OnRequest onRequest) {
-        new StatusService(getContext(), onRequest).deviceIsEnable();
+        new StatusService(onRequest).deviceIsEnable();
     }
 
     /**
