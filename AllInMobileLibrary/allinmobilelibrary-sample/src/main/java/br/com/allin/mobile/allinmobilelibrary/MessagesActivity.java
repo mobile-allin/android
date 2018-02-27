@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.entity.allin.MessageEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.AlMessage;
 
 /**
  * Created by lucasrodrigues on 24/04/17.
@@ -35,9 +35,9 @@ public class MessagesActivity extends AppCompatActivity {
     }
 
     private class Adapter extends BaseAdapter {
-        private List<MessageEntity> messages;
+        private List<AlMessage> messages;
 
-        Adapter(List<MessageEntity> messages) {
+        Adapter(List<AlMessage> messages) {
             Collections.reverse(messages);
 
             this.messages = messages;
@@ -49,7 +49,7 @@ public class MessagesActivity extends AppCompatActivity {
         }
 
         @Override
-        public MessageEntity getItem(int position) {
+        public AlMessage getItem(int position) {
             return messages.get(position);
         }
 

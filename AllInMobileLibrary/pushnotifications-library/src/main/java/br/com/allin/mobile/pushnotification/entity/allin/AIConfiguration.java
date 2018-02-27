@@ -3,28 +3,28 @@ package br.com.allin.mobile.pushnotification.entity.allin;
 /**
  * Entity configuration options.
  */
-public class ConfigurationEntity {
+public class AIConfiguration {
     private String senderId = null;
-    private NotificationEntity notification = null;
+    private AINotification notification = null;
 
     /**
      * <p>
-     * default constructor of {@link ConfigurationEntity} class.
+     * default constructor of {@link AIConfiguration} class.
      *
      * <p>
      * To use the library, you must complete the basic information for use
      * in the project from the methods {@link #setSenderId (String)}.
      */
-    public ConfigurationEntity() {
+    public AIConfiguration() {
     }
 
-    public ConfigurationEntity(String senderId) {
+    public AIConfiguration(String senderId) {
         this.senderId = senderId;
     }
 
     /**
      * <p>
-     * Builder standard class {@link ConfigurationEntity}
+     * Builder standard class {@link AIConfiguration}
      * with all the necessary settings for the function library.
      * @param senderId It is the id of the notification delivery project (project number) in
      * <a href="https://console.developers.google.com">Google Developers Console</a>.
@@ -32,7 +32,7 @@ public class ConfigurationEntity {
      * @param notification Are the
      *                             notifications settings that are displayed as color and icon
      */
-    public ConfigurationEntity(String senderId, NotificationEntity notification) {
+    public AIConfiguration(String senderId, AINotification notification) {
         this.senderId = senderId;
         this.notification = notification;
     }
@@ -62,16 +62,16 @@ public class ConfigurationEntity {
     /**
      * @return Notifications settings.
      */
-    public NotificationEntity getNotification() {
+    public AINotification getNotification() {
         return notification;
     }
 
     /**
      * Configure notifications to be displayed (color and symbol)
      *
-     * @param notificationEntity Settings that will be added to display the notification.
+     * @param AINotification Settings that will be added to display the notification.
      */
-    public void setNotification(NotificationEntity notificationEntity) {
-        this.notification = notificationEntity;
+    public void setNotification(AINotification AINotification) {
+        this.notification = AINotification;
     }
 }

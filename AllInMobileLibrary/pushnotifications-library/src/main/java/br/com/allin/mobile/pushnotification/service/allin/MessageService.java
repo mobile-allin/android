@@ -1,27 +1,24 @@
 package br.com.allin.mobile.pushnotification.service.allin;
 
-import android.content.Context;
-
 import java.util.List;
 
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.dao.MessageDAO;
-import br.com.allin.mobile.pushnotification.entity.allin.MessageEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.AlMessage;
 
 /**
  * Created by lucasrodrigues on 06/04/17.
  */
 
 public class MessageService {
-    private Context context;
     private MessageDAO messageDAO;
 
-    public MessageService(Context context) {
-        this.context = context;
-        this.messageDAO = new MessageDAO(context);
+    public MessageService() {
+        this.messageDAO = new MessageDAO(AlliNPush.getInstance().getContext());
     }
 
-    public long addMessage(MessageEntity messageEntity) {
-        return messageDAO.insert(messageEntity);
+    public long addMessage(AlMessage alMessage) {
+        return messageDAO.insert(alMessage);
     }
 
     public boolean deleteMessage(int id) {
@@ -32,7 +29,7 @@ public class MessageService {
         return messageDAO.messageHasBeenRead(id);
     }
 
-    public List<MessageEntity> getMessages() {
+    public List<AlMessage> getMessages() {
         return messageDAO.getAll();
     }
 }

@@ -3,6 +3,9 @@ package br.com.allin.mobile.pushnotification.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.lang.ref.WeakReference;
+
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.constants.PreferencesConstant;
 
 /**
@@ -10,16 +13,15 @@ import br.com.allin.mobile.pushnotification.constants.PreferencesConstant;
  * Responsible for saving/edit the saved values in the device preferences.
  */
 public class PreferencesManager {
-
+    private WeakReference<Context> contextWeakReference;
     private final SharedPreferences preferences;
 
     /**
      * Default constructor.
-     *
-     * @param context Application context
      */
     public PreferencesManager(Context context) {
-        preferences = context.getSharedPreferences(PreferencesConstant.PREFERENCES_ID, Context.MODE_PRIVATE);
+        this.contextWeakReference = new WeakReference<>(context);
+        this.preferences = context.getSharedPreferences(PreferencesConstant.PREFERENCES_ID, Context.MODE_PRIVATE);
     }
 
     /**
@@ -75,6 +77,7 @@ public class PreferencesManager {
      * Clears all the settings saved in
      * <a href="http://developer.android.com/guide/topics/data/data-storage.html#pref">SharedPreferences</a>.
      */
+    @SuppressWarnings("unused")
     public void clear() {
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();

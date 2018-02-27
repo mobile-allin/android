@@ -9,14 +9,15 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
-import br.com.allin.mobile.pushnotification.entity.allin.BaseEntity;
-import br.com.allin.mobile.pushnotification.entity.allin.ConfigurationEntity;
-import br.com.allin.mobile.pushnotification.entity.allin.ContextEntity;
-import br.com.allin.mobile.pushnotification.entity.allin.MessageEntity;
-import br.com.allin.mobile.pushnotification.entity.allin.NotificationEntity;
+import br.com.allin.mobile.pushnotification.constants.AlliNConstant;
+import br.com.allin.mobile.pushnotification.entity.allin.AIConfiguration;
+import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
+import br.com.allin.mobile.pushnotification.entity.allin.AlMessage;
+import br.com.allin.mobile.pushnotification.entity.allin.AINotification;
 import br.com.allin.mobile.pushnotification.helper.FieldHelper;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -111,12 +112,6 @@ import br.com.allin.mobile.pushnotification.service.allin.StatusService;
  * <b>OBS: These settings are required for the proper functioning of lib.</b>
  */
 public class AlliNPush {
-    private static String SENDER_ID = "allin.senderid";
-    private static String APP_ID = "allin.token";
-    private static String WHITE_ICON = "allin_notification_white_icon";
-    private static String ICON = "allin_notification_icon";
-    private static String BACKGROUND = "allin_notification_background";
-
     private AlliNPush() {
     }
 
@@ -133,14 +128,14 @@ public class AlliNPush {
         return alliNPush;
     }
 
-    private ContextEntity context;
+    private WeakReference<Context> contextWeakReference;
 
     public void registerForPushNotifications(@NonNull Context context) {
         this.registerForPushNotifications(context, null);
     }
 
     public void registerForPushNotifications(@NonNull Context context, AllInDelegate allInDelegate) {
-        this.context = new ContextEntity(context);
+        this.contextWeakReference = new WeakReference<>(context);
 
         try {
             ApplicationInfo applicationInfo = context.getPackageManager()
@@ -148,39 +143,35 @@ public class AlliNPush {
 
             if (applicationInfo != null) {
                 @DrawableRes
-                int whiteIcon = FieldHelper.getResId(AlliNPush.WHITE_ICON, "drawable");
+                int whiteIcon = FieldHelper.getResId(AlliNConstant.WHITE_ICON, "drawable");
                 @DrawableRes
-                int icon = FieldHelper.getResId(AlliNPush.ICON, "drawable");
+                int icon = FieldHelper.getResId(AlliNConstant.ICON, "drawable");
                 @ColorRes
-                int background = FieldHelper.getResId(AlliNPush.BACKGROUND, "color");
+                int background = FieldHelper.getResId(AlliNConstant.BACKGROUND, "color");
 
-                String senderId = applicationInfo.metaData.getString(AlliNPush.SENDER_ID);
-                String appId = applicationInfo.metaData.getString(AlliNPush.APP_ID);
+                String senderId = applicationInfo.metaData.getString(AlliNConstant.SENDER_ID);
+                String appId = applicationInfo.metaData.getString(AlliNConstant.APP_ID);
 
                 if (senderId == null || TextUtils.isEmpty(senderId.trim())) {
-                    Log.d("AlliN Push", "Required meta-data 'allin.senderid' in MANIFEST");
+                    Log.e("AlliN Push", "Required meta-data 'allin.senderid' in MANIFEST");
                 } else if (appId == null || TextUtils.isEmpty(appId.trim())) {
-                    Log.d("AlliN Push", "Required meta-data 'allin.appid' in MANIFEST");
+                    Log.e("AlliN Push", "Required meta-data 'allin.appid' in MANIFEST");
+                } else {
+                    AlliNConfiguration.getInstance().init(allInDelegate);
+
+                    AINotification notification = new AINotification(background, icon, whiteIcon);
+                    AIConfiguration configuration = new AIConfiguration(senderId, notification);
+
+                    new ConfigurationService(configuration).init();
                 }
-
-                AlliNConfiguration.getInstance().init(allInDelegate);
-
-                NotificationEntity notification = new NotificationEntity(background, icon, whiteIcon);
-                ConfigurationEntity configuration = new ConfigurationEntity(senderId, notification);
-
-                new ConfigurationService(configuration).init();
             }
         } catch (PackageManager.NameNotFoundException nameNotFoundException) {
             nameNotFoundException.printStackTrace();
         }
     }
 
-    public AllInDelegate getAllInDelegate() {
-        return AlliNConfiguration.getInstance().getAllInDelegate();
-    }
-
     public Context getContext() {
-        return context.getApplicationContext();
+        return contextWeakReference.get();
     }
 
     public void finish() {
@@ -215,7 +206,7 @@ public class AlliNPush {
      *
      * @param userEmail E-mail that is registered in the database of AllIn
      */
-    public void registerEmail(final String userEmail) {
+    public void registerEmail(String userEmail) {
         new DeviceService().registerEmail(userEmail);
     }
 
@@ -236,7 +227,7 @@ public class AlliNPush {
      * @param nmList Mailing list that will be sent
      * @param columnsAndValues Map with key and value for formation of the JSON API
      */
-    public void sendList(String nmList, List<BaseEntity> columnsAndValues) {
+    public void sendList(String nmList, List<AIValues> columnsAndValues) {
         new DeviceService().sendList(nmList, columnsAndValues);
     }
 
@@ -257,19 +248,19 @@ public class AlliNPush {
     /**
      * @return History push's received in application
      */
-    public List<MessageEntity> getMessages(Context context) {
-        return new MessageService(context).getMessages();
+    public List<AlMessage> getMessages() {
+        return new MessageService().getMessages();
     }
 
     /**
      * This method is used to remove a history message
      *
-     * @param messageEntity The MessageEntity object is created automatically by the framework
+     * @param alMessage The AlMessage object is created automatically by the framework
      *
      * @return Identification of push received in application
      */
-    public long addMessage(Context context, MessageEntity messageEntity) {
-        return new MessageService(context).addMessage(messageEntity);
+    public long addMessage(AlMessage alMessage) {
+        return new MessageService().addMessage(alMessage);
     }
 
     /**
@@ -279,8 +270,8 @@ public class AlliNPush {
      *
      * @return If successfully deleted
      */
-    public boolean deleteMessage(Context context, int id) {
-        return new MessageService(context).deleteMessage(id);
+    public boolean deleteMessage(int id) {
+        return new MessageService().deleteMessage(id);
     }
 
     /**
@@ -288,7 +279,7 @@ public class AlliNPush {
      *
      * @return If successfully updated
      */
-    public boolean messageHasBeenRead(Context context, int id) {
-        return new MessageService(context).messageHasBeenRead(id);
+    public boolean messageHasBeenRead(int id) {
+        return new MessageService().messageHasBeenRead(id);
     }
 }

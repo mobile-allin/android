@@ -3,7 +3,7 @@ package br.com.allin.mobile.pushnotification.entity.allin;
 /**
  * Class with the return information from a request from the server.
  */
-public class ResponseEntity {
+public class AIResponse {
     private boolean success;
     private String message;
 

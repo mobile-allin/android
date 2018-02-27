@@ -1,6 +1,5 @@
 package br.com.allin.mobile.pushnotification.gcm;
 
-import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 

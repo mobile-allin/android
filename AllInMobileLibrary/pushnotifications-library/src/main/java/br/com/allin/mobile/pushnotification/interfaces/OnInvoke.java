@@ -2,7 +2,7 @@ package br.com.allin.mobile.pushnotification.interfaces;
 
 import org.json.JSONObject;
 
-import br.com.allin.mobile.pushnotification.entity.allin.ResponseEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
 
 /**
  * Format request (standard All iN)
@@ -14,5 +14,5 @@ public interface OnInvoke<T> {
 
     JSONObject getData();
 
-    T onSuccess(ResponseEntity responseEntity);
+    T onSuccess(AIResponse AIResponse);
 }

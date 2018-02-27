@@ -6,7 +6,7 @@ import android.support.annotation.DrawableRes;
 /**
  * Class color setting and notification of images
  */
-public class NotificationEntity {
+public class AINotification {
     private @ColorRes int background;
     private @DrawableRes int whiteIcon;
     private @DrawableRes int icon;
@@ -19,7 +19,7 @@ public class NotificationEntity {
      * @param icon Client normal icon
      * @param whiteIcon Client white icon
      */
-    public NotificationEntity(@ColorRes int background, @DrawableRes int icon, @DrawableRes int whiteIcon) {
+    public AINotification(@ColorRes int background, @DrawableRes int icon, @DrawableRes int whiteIcon) {
         this.background = background;
         this.icon = icon;
         this.whiteIcon = whiteIcon;

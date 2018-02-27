@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.allin.mobile.pushnotification.constants.CacheConstant;
-import br.com.allin.mobile.pushnotification.entity.allin.CacheEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.AICache;
 
 /**
- * Class that manages the CacheEntity database requests
+ * Class that manages the AICache database requests
  */
 public class CacheDAO extends BaseDAO {
     public CacheDAO(Context context) {
@@ -58,10 +58,10 @@ public class CacheDAO extends BaseDAO {
         return success;
     }
 
-    public List<CacheEntity> getAll() {
+    public List<AICache> getAll() {
         openDatabase();
 
-        List<CacheEntity> cacheEntityList = new ArrayList<>();
+        List<AICache> AICacheList = new ArrayList<>();
 
         if (sqliteDatabase != null) {
             Cursor cursor = sqliteDatabase.rawQuery(CacheConstant.SELECT, null);
@@ -74,7 +74,7 @@ public class CacheDAO extends BaseDAO {
                     String url = cursor.getString(cursor.getColumnIndex(CacheConstant.DB_FIELD_URL));
                     String json = cursor.getString(cursor.getColumnIndex(CacheConstant.DB_FIELD_JSON));
 
-                    cacheEntityList.add(new CacheEntity(id, url, json));
+                    AICacheList.add(new AICache(id, url, json));
 
                     cursor.moveToNext();
                 }
@@ -85,6 +85,6 @@ public class CacheDAO extends BaseDAO {
 
         closeDatabase();
 
-        return cacheEntityList;
+        return AICacheList;
     }
 }

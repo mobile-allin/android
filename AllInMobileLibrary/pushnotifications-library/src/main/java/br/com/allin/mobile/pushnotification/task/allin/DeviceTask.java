@@ -9,8 +9,8 @@ import br.com.allin.mobile.pushnotification.constants.HttpBodyConstant;
 import br.com.allin.mobile.pushnotification.constants.HttpConstant;
 import br.com.allin.mobile.pushnotification.constants.ParametersConstant;
 import br.com.allin.mobile.pushnotification.constants.RouteConstant;
-import br.com.allin.mobile.pushnotification.entity.allin.DeviceEntity;
-import br.com.allin.mobile.pushnotification.entity.allin.ResponseEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.AIDevice;
+import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 import br.com.allin.mobile.pushnotification.task.BaseTask;
@@ -19,12 +19,12 @@ import br.com.allin.mobile.pushnotification.task.BaseTask;
  * Thread for device information request
  */
 public class DeviceTask extends BaseTask<String> {
-    private DeviceEntity deviceEntity;
+    private AIDevice AIDevice;
 
-    public DeviceTask(DeviceEntity deviceEntity, OnRequest onRequest) {
+    public DeviceTask(AIDevice AIDevice, OnRequest onRequest) {
         super(RequestType.POST, true, onRequest);
 
-        this.deviceEntity = deviceEntity;
+        this.AIDevice = AIDevice;
     }
 
     @Override
@@ -34,10 +34,10 @@ public class DeviceTask extends BaseTask<String> {
 
     @Override
     public String[] getParams() {
-        boolean renew = this.deviceEntity != null &&
-                !TextUtils.isEmpty(this.deviceEntity.getDeviceId()) && this.deviceEntity.isRenewId();
+        boolean renew = this.AIDevice != null &&
+                !TextUtils.isEmpty(this.AIDevice.getDeviceId()) && this.AIDevice.isRenewId();
 
-        return renew ? new String[] { RouteConstant.UPDATE, deviceEntity.getDeviceId() } : null;
+        return renew ? new String[] { RouteConstant.UPDATE, AIDevice.getDeviceId() } : null;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class DeviceTask extends BaseTask<String> {
     }
 
     @Override
-    public String onSuccess(ResponseEntity responseEntity) {
-        return responseEntity.getMessage();
+    public String onSuccess(AIResponse AIResponse) {
+        return AIResponse.getMessage();
     }
 }

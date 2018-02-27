@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.dao.CacheDAO;
-import br.com.allin.mobile.pushnotification.entity.allin.CacheEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.AICache;
 import br.com.allin.mobile.pushnotification.task.allin.CacheTask;
 
 /**
@@ -18,16 +18,16 @@ public class CacheService {
     }
 
     void sync() {
-        List<CacheEntity> cacheList = cacheDAO.getAll();
+        List<AICache> cacheList = cacheDAO.getAll();
 
         if (cacheList != null) {
-            for (CacheEntity cacheEntity : cacheList) {
-                sync(cacheEntity);
+            for (AICache AICache : cacheList) {
+                sync(AICache);
             }
         }
     }
 
-    private void sync(final CacheEntity cache) {
+    private void sync(final AICache cache) {
         new CacheTask(cache, cacheDAO).execute();
     }
 

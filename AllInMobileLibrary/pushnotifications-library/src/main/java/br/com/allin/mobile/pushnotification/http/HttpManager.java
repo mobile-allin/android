@@ -16,10 +16,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
+import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.constants.HttpBodyConstant;
 import br.com.allin.mobile.pushnotification.constants.HttpConstant;
-import br.com.allin.mobile.pushnotification.entity.allin.ResponseEntity;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
 import br.com.allin.mobile.pushnotification.service.allin.CacheService;
@@ -37,8 +37,8 @@ public class HttpManager extends HttpCertificate {
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseEntity post(String url,
-                                      JSONObject data, String[] params) throws WebServiceException {
+    public static AIResponse post(String url,
+                                  JSONObject data, String[] params) throws WebServiceException {
         return post(url, data, params, false);
     }
 
@@ -53,8 +53,8 @@ public class HttpManager extends HttpCertificate {
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseEntity post(String url, JSONObject data,
-                                      String[] params, boolean withCache) throws WebServiceException {
+    public static AIResponse post(String url, JSONObject data,
+                                  String[] params, boolean withCache) throws WebServiceException {
         return makeRequest(url, RequestType.POST, params, data, withCache);
     }
 
@@ -66,7 +66,7 @@ public class HttpManager extends HttpCertificate {
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseEntity get(String url, String[] params) throws WebServiceException {
+    public static AIResponse get(String url, String[] params) throws WebServiceException {
         return get(url, params, false);
     }
 
@@ -80,13 +80,13 @@ public class HttpManager extends HttpCertificate {
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseEntity get(String url,
-                                     String[] params, boolean withCache) throws WebServiceException {
+    public static AIResponse get(String url,
+                                 String[] params, boolean withCache) throws WebServiceException {
         return makeRequest(url, RequestType.GET, params, null, withCache);
     }
 
-    private static ResponseEntity makeRequest(String url, RequestType requestType,
-            String[] params, JSONObject data, boolean withCache) throws WebServiceException {
+    private static AIResponse makeRequest(String url, RequestType requestType,
+                                          String[] params, JSONObject data, boolean withCache) throws WebServiceException {
         if (params != null) {
             for (String param : params) {
                 url = url.concat("/");
@@ -109,8 +109,8 @@ public class HttpManager extends HttpCertificate {
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
-    public static ResponseEntity makeRequestURL(String urlString, RequestType requestType,
-                                                JSONObject data, boolean withCache) throws WebServiceException {
+    public static AIResponse makeRequestURL(String urlString, RequestType requestType,
+                                            JSONObject data, boolean withCache) throws WebServiceException {
         Context context = AlliNPush.getInstance().getContext();
 
         if (withCache && !Util.isNetworkAvailable(context)) {
@@ -129,7 +129,7 @@ public class HttpManager extends HttpCertificate {
 
         String token = Util.getToken(context);
 
-        ResponseEntity response;
+        AIResponse response;
         HttpURLConnection connection = null;
 
         generateCertificate();
@@ -171,7 +171,7 @@ public class HttpManager extends HttpCertificate {
                 try {
                     JSONObject responseJson = new JSONObject(responseString);
 
-                    response = new ResponseEntity();
+                    response = new AIResponse();
                     response.setSuccess(!responseJson.getBoolean("error"));
                     response.setMessage(responseJson.getString("message"));
                 } catch (JSONException e) {
@@ -190,7 +190,7 @@ public class HttpManager extends HttpCertificate {
                 try {
                     JSONObject responseJson = new JSONObject(responseString);
 
-                    response = new ResponseEntity();
+                    response = new AIResponse();
                     response.setSuccess(!responseJson.getBoolean("error"));
                     response.setMessage(responseJson.getString("message"));
                 } catch (JSONException e) {

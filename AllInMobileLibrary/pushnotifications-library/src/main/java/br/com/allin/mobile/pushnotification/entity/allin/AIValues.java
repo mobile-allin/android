@@ -4,11 +4,11 @@ package br.com.allin.mobile.pushnotification.entity.allin;
  * Created by lucasrodrigues on 07/02/18.
  */
 
-public class BaseEntity {
+public class AIValues {
     private String key;
     private String value;
 
-    public BaseEntity(String key, String value) {
+    public AIValues(String key, String value) {
         this.key = key;
         this.value = value;
     }

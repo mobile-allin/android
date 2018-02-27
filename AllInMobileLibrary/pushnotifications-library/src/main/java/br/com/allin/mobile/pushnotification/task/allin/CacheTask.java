@@ -5,8 +5,8 @@ import android.os.AsyncTask;
 import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.dao.CacheDAO;
-import br.com.allin.mobile.pushnotification.entity.allin.CacheEntity;
-import br.com.allin.mobile.pushnotification.entity.allin.ResponseEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.AICache;
+import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.http.HttpManager;
 
@@ -15,10 +15,10 @@ import br.com.allin.mobile.pushnotification.http.HttpManager;
  */
 
 public class CacheTask extends AsyncTask<Void, Void, Object> {
-    private CacheEntity cache;
+    private AICache cache;
     private CacheDAO cacheDAO;
 
-    public CacheTask(CacheEntity cache, CacheDAO cacheDAO) {
+    public CacheTask(AICache cache, CacheDAO cacheDAO) {
         this.cache = cache;
         this.cacheDAO = cacheDAO;
     }
@@ -36,7 +36,7 @@ public class CacheTask extends AsyncTask<Void, Void, Object> {
     protected void onPostExecute(Object object) {
         super.onPostExecute(object);
 
-        if (object instanceof ResponseEntity) {
+        if (object instanceof AIResponse) {
             cacheDAO.delete(cache.getId());
         }
     }

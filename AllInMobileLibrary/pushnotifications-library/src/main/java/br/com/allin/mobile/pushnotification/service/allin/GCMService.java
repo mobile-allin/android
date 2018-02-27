@@ -10,22 +10,22 @@ import com.google.android.gms.iid.InstanceID;
 import java.io.IOException;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
+import br.com.allin.mobile.pushnotification.entity.allin.AIConfiguration;
+import br.com.allin.mobile.pushnotification.entity.allin.AIDevice;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
 import br.com.allin.mobile.pushnotification.constants.PreferencesConstant;
-import br.com.allin.mobile.pushnotification.entity.allin.ConfigurationEntity;
-import br.com.allin.mobile.pushnotification.entity.allin.DeviceEntity;
 
 /**
  * The service class for GCM (Google Cloud MessageConstant) has the responsibility
  * of the sender's ID number generator for Google properly send notification according to the record
  */
 public class GCMService extends AsyncTask<Void, Void, String> {
-    private ConfigurationEntity configurationEntity;
-    private DeviceEntity deviceEntity;
+    private AIConfiguration AIConfiguration;
+    private AIDevice AIDevice;
 
-    GCMService(DeviceEntity deviceEntity, ConfigurationEntity configurationEntity) {
-        this.configurationEntity = configurationEntity;
-        this.deviceEntity = deviceEntity;
+    GCMService(AIDevice AIDevice, AIConfiguration AIConfiguration) {
+        this.AIConfiguration = AIConfiguration;
+        this.AIDevice = AIDevice;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class GCMService extends AsyncTask<Void, Void, String> {
         for (int attempts = 0; attempts < 3 &&
                 (token == null || TextUtils.isEmpty(token)); attempts++) {
             try {
-                token = instanceID.getToken(configurationEntity.getSenderId(),
+                token = instanceID.getToken(AIConfiguration.getSenderId(),
                         GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -47,11 +47,11 @@ public class GCMService extends AsyncTask<Void, Void, String> {
         }
 
         Context context = AlliNPush.getInstance().getContext();
-        String senderId = configurationEntity.getSenderId();
+        String senderId = AIConfiguration.getSenderId();
 
         PreferencesManager preferencesManager = new PreferencesManager(context);
-        preferencesManager.storeData(PreferencesConstant.KEY_DEVICE_ID, token);
-        preferencesManager.storeData(PreferencesConstant.KEY_PROJECT_ID, senderId);
+        preferencesManager.storeData(PreferencesConstant.DEVICE_ID, token);
+        preferencesManager.storeData(PreferencesConstant.PROJECT_ID, senderId);
 
         return token;
     }
@@ -61,9 +61,9 @@ public class GCMService extends AsyncTask<Void, Void, String> {
         super.onPostExecute(token);
 
         if (token != null && !TextUtils.isEmpty(token)) {
-            deviceEntity.setDeviceId(token);
+            AIDevice.setDeviceId(token);
 
-            new DeviceService().sendDevice(deviceEntity);
+            new DeviceService().sendDevice(AIDevice);
         }
     }
 }

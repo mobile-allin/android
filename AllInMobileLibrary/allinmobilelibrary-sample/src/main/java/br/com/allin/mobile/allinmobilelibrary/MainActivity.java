@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,21 +13,11 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.BTG360;
-import br.com.allin.mobile.pushnotification.entity.btg.CartEntity;
-import br.com.allin.mobile.pushnotification.entity.btg.ClientEntity;
-import br.com.allin.mobile.pushnotification.entity.btg.ProductEntity;
-import br.com.allin.mobile.pushnotification.entity.btg.SearchEntity;
-import br.com.allin.mobile.pushnotification.entity.btg.TransactionEntity;
-import br.com.allin.mobile.pushnotification.entity.btg.WarnMeEntity;
-import br.com.allin.mobile.pushnotification.entity.btg.WishListEntity;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -47,40 +36,40 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         AlliNPush.getInstance().registerForPushNotifications(this);
 
 //        ADD SEARCH ================================================
-//        List<SearchEntity> list = new ArrayList<>();
-//        list.add(new SearchEntity("iPhone BAGAÇA"));
+//        List<AISearch> list = new ArrayList<>();
+//        list.add(new AISearch("iPhone BAGAÇA"));
 //        BTG360.addSearchs("60:1", list);
 
-//        BTG360.addSearch("60:1", new SearchEntity("TESTE SINGLE"));
+//        BTG360.addSearch("60:1", new AISearch("TESTE SINGLE"));
 
 //        ADD CART ==================================================
-//        List<CartEntity> carts = new ArrayList<>();
-//        carts.add(new CartEntity("131231231"));
+//        List<AICart> carts = new ArrayList<>();
+//        carts.add(new AICart("131231231"));
 //        BTG360.addCarts("60:1", carts);
 
 //        ADD PRODUCTS ==============================================
-//        List<ProductEntity> products = new ArrayList<>();
-//        products.add(new ProductEntity("01010101"));
+//        List<AIProduct> products = new ArrayList<>();
+//        products.add(new AIProduct("01010101"));
 //        BTG360.addProducts("60:1", products);
 
 //        ADD CLIENTS ===============================================
-//        List<ClientEntity> clients = new ArrayList<>();
-//        clients.add(new ClientEntity("lucasbrsilva@gmail.com"));
+//        List<AIClient> clients = new ArrayList<>();
+//        clients.add(new AIClient("lucasbrsilva@gmail.com"));
 //        BTG360.addClients("60:1", clients);
 
 //        ADD TRANSACTIONS ==========================================
-//        List<TransactionEntity> transactions = new ArrayList<>();
-//        transactions.add(new TransactionEntity("01010101Trans", "AC1231231"));
+//        List<AITransaction> transactions = new ArrayList<>();
+//        transactions.add(new AITransaction("01010101Trans", "AC1231231"));
 //        BTG360.addTransactions("60:1", transactions);
 
 //        ADD WARNS =================================================
-//        List<WarnMeEntity> warns = new ArrayList<>();
-//        warns.add(new WarnMeEntity("01010101Warn", true));
+//        List<AIWarn> warns = new ArrayList<>();
+//        warns.add(new AIWarn("01010101Warn", true));
 //        BTG360.addWarnMe("60:1", warns);
 
 //        ADD WARNS =================================================
-//        List<WishListEntity> wishs = new ArrayList<>();
-//        wishs.add(new WishListEntity("01010101Warn", true));
+//        List<AIWish> wishs = new ArrayList<>();
+//        wishs.add(new AIWish("01010101Warn", true));
 //        BTG360.addWishList("60:1", wishs);
 
         setContentView(R.layout.activity_main);

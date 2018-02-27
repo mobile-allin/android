@@ -6,7 +6,7 @@ import br.com.allin.mobile.pushnotification.constants.HttpConstant;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.constants.HttpBodyConstant;
 import br.com.allin.mobile.pushnotification.constants.RouteConstant;
-import br.com.allin.mobile.pushnotification.entity.allin.ResponseEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.task.BaseTask;
 
@@ -47,7 +47,7 @@ public class NotificationTransactionalTask extends BaseTask<String> {
     }
 
     @Override
-    public String onSuccess(ResponseEntity responseEntity) {
-        return responseEntity.getMessage();
+    public String onSuccess(AIResponse AIResponse) {
+        return AIResponse.getMessage();
     }
 }

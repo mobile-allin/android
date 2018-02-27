@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 
 import org.json.JSONObject;
 
-import br.com.allin.mobile.pushnotification.entity.allin.ResponseEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
 import br.com.allin.mobile.pushnotification.http.HttpManager;
@@ -53,16 +53,16 @@ public abstract class BaseTask<T> extends AsyncTask<Void, Void, Object> implemen
     protected void onPostExecute(Object object) {
         super.onPostExecute(object);
 
-        if (object instanceof ResponseEntity) {
-            ResponseEntity responseEntity = (ResponseEntity) object;
+        if (object instanceof AIResponse) {
+            AIResponse AIResponse = (AIResponse) object;
 
-            if (!responseEntity.isSuccess()) {
+            if (!AIResponse.isSuccess()) {
                 if (onRequest != null) {
-                    onRequest.onError(new WebServiceException(responseEntity.getMessage()));
+                    onRequest.onError(new WebServiceException(AIResponse.getMessage()));
                 }
             } else {
                 if (onRequest != null) {
-                    onRequest.onFinish(onSuccess(responseEntity));
+                    onRequest.onFinish(onSuccess(AIResponse));
                 }
             }
         } else {

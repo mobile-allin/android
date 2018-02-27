@@ -9,7 +9,7 @@ import br.com.allin.mobile.pushnotification.constants.MessageConstant;
  * Created by lucasrodrigues on 05/04/17.
  */
 
-public class MessageEntity {
+public class AlMessage {
     private int id;
     private String idSend;
     private String subject;
@@ -23,9 +23,9 @@ public class MessageEntity {
     private String urlCampaign;
     private boolean read;
 
-    public MessageEntity(int id, String idSend, String subject, String description,
-                         String idCampaign, String idLogin, String urlScheme,
-                         String action, String date, String urlCampaign, String urlTransactional) {
+    public AlMessage(int id, String idSend, String subject, String description,
+                     String idCampaign, String idLogin, String urlScheme,
+                     String action, String date, String urlCampaign, String urlTransactional) {
         this.id = id;
         this.idSend = idSend;
         this.subject = subject;
@@ -41,10 +41,10 @@ public class MessageEntity {
         updateNullValues();
     }
 
-    public MessageEntity(int id, String idSend, String subject, String description,
-                         String idCampaign, String idLogin, String urlScheme,
-                         String action, String date, String urlCampaign,
-                         String urlTransactional, boolean read) {
+    public AlMessage(int id, String idSend, String subject, String description,
+                     String idCampaign, String idLogin, String urlScheme,
+                     String action, String date, String urlCampaign,
+                     String urlTransactional, boolean read) {
         this.id = id;
         this.idSend = idSend;
         this.subject = subject;
@@ -61,7 +61,7 @@ public class MessageEntity {
         updateNullValues();
     }
 
-    public MessageEntity(Cursor cursor) {
+    public AlMessage(Cursor cursor) {
         this.id = getCursorValue(cursor, MessageConstant.DB_FIELD_ID, 0);
         this.idSend = getCursorValue(cursor, MessageConstant.DB_FIELD_ID_SEND, "");
         this.subject = getCursorValue(cursor, MessageConstant.DB_FIELD_SUBJECT, "");
@@ -93,7 +93,7 @@ public class MessageEntity {
         return (T) (object == null ? valueDefault : object);
     }
 
-    public MessageEntity(Bundle bundle) {
+    public AlMessage(Bundle bundle) {
         this.id = bundle.getInt(MessageConstant.DB_FIELD_ID);
         this.idSend = bundle.getString(MessageConstant.DB_FIELD_ID_SEND);
         this.subject = bundle.getString(MessageConstant.DB_FIELD_SUBJECT);

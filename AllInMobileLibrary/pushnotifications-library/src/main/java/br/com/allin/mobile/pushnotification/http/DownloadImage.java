@@ -24,7 +24,7 @@ public class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected Bitmap doInBackground(Void... params) {
         try {
-            URL url = new URL(this.imageUrl);
+            URL url = new URL(imageUrl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setDoInput(true);
             httpURLConnection.connect();

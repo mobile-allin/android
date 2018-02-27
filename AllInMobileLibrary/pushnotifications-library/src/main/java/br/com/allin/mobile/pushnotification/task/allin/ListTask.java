@@ -7,8 +7,8 @@ import java.util.List;
 import br.com.allin.mobile.pushnotification.constants.HttpBodyConstant;
 import br.com.allin.mobile.pushnotification.constants.HttpConstant;
 import br.com.allin.mobile.pushnotification.constants.RouteConstant;
-import br.com.allin.mobile.pushnotification.entity.allin.ResponseEntity;
-import br.com.allin.mobile.pushnotification.entity.allin.BaseEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
+import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 import br.com.allin.mobile.pushnotification.task.BaseTask;
@@ -21,13 +21,13 @@ public class ListTask extends BaseTask<String> {
     private String campos;
     private String valor;
 
-    public ListTask(String nameList, List<BaseEntity> columnsAndValues, OnRequest onRequest) {
+    public ListTask(String nameList, List<AIValues> columnsAndValues, OnRequest onRequest) {
         super(RequestType.POST, true, onRequest);
 
         StringBuilder campos = new StringBuilder();
         StringBuilder valor = new StringBuilder();
 
-        for (BaseEntity values : columnsAndValues) {
+        for (AIValues values : columnsAndValues) {
             campos.append(values.getKey()).append(";");
 
             if (values.getValue() != null && values.getValue().trim().length() > 0) {
@@ -75,7 +75,7 @@ public class ListTask extends BaseTask<String> {
     }
 
     @Override
-    public String onSuccess(ResponseEntity responseEntity) {
-        return responseEntity.getMessage();
+    public String onSuccess(AIResponse AIResponse) {
+        return AIResponse.getMessage();
     }
 }

@@ -5,23 +5,23 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import br.com.allin.mobile.pushnotification.entity.btg.WishListEntity;
+import br.com.allin.mobile.pushnotification.entity.btg.AIWish;
 
 /**
  * Created by lucasrodrigues on 07/02/18.
  */
 
-public class WishListService extends TrackingBaseService<WishListEntity> {
-    public WishListService(String account, List<WishListEntity> wishList) {
+public class WishListService extends TrackingBaseService<AIWish> {
+    public WishListService(String account, List<AIWish> wishList) {
         super(account, "wishlist", wishList);
     }
 
     @Override
-    JSONArray transform(List<WishListEntity> list) {
+    JSONArray transform(List<AIWish> list) {
         try {
             JSONArray jsonArray = new JSONArray();
 
-            for (WishListEntity search : list) {
+            for (AIWish search : list) {
                 JSONObject productJSONObject = new JSONObject();
                 productJSONObject.put("productId", search.getProductId());
                 productJSONObject.put("active", search.isActive());

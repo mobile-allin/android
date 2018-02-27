@@ -21,8 +21,6 @@ import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
  * Broadcast invoked after the user clicks the notification
  */
 public class BroadcastNotification extends WakefulBroadcastReceiver {
-    public static String ACTION = "br.com.allin.mobile.pushnotification.gcm.BroadcastNotification";
-
     @Override
     public void onReceive(final Context context, final Intent intentReceive) {
         Bundle extras = intentReceive.getExtras();
@@ -34,7 +32,7 @@ public class BroadcastNotification extends WakefulBroadcastReceiver {
         long idMessage = extras.getLong(NotificationConstant.ID, 0);
 
         if (idMessage > 0) {
-            AlliNPush.getInstance().messageHasBeenRead(context, (int) idMessage);
+            AlliNPush.getInstance().messageHasBeenRead((int) idMessage);
         }
 
         if (intentReceive.getStringExtra(ActionConstant.class.toString()) != null &&

@@ -4,10 +4,10 @@ package br.com.allin.mobile.pushnotification.entity.btg;
  * Created by lucasrodrigues on 07/02/18.
  */
 
-public class ClientEntity {
+public class AIClient {
     private String email;
 
-    public ClientEntity(String email) {
+    public AIClient(String email) {
         this.email = email;
     }
 

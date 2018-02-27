@@ -12,33 +12,36 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
+import android.support.v7.app.NotificationCompat.Builder;
 import android.text.TextUtils;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.net.URLDecoder;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
+import br.com.allin.mobile.pushnotification.constants.BroadcastNotificationConstant;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.constants.ActionConstant;
 import br.com.allin.mobile.pushnotification.constants.NotificationConstant;
 import br.com.allin.mobile.pushnotification.constants.PreferencesConstant;
-import br.com.allin.mobile.pushnotification.entity.allin.MessageEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.AlMessage;
 import br.com.allin.mobile.pushnotification.http.DownloadImage;
 
 /**
  * Class that provides the notification of receipt of a push GCM.
  */
 public class AllInGcmNotification {
-    private Context context;
+    private WeakReference<Context> contextWeakReference;
     private PreferencesManager preferencesManager;
 
     public AllInGcmNotification(Context context) {
-        this.context = context;
         this.preferencesManager = new PreferencesManager(context);
+        this.contextWeakReference = new WeakReference<>(context);
     }
 
     /**
@@ -46,7 +49,7 @@ public class AllInGcmNotification {
      *
      * @param extras ParametersConstant to be included in the notification.
      */
-    public void showNotification(final Bundle extras) {
+    void showNotification(final Bundle extras) {
         if (extras == null) {
             return;
         }
@@ -92,30 +95,30 @@ public class AllInGcmNotification {
     }
 
     private void showNotification(Bitmap bitmap, Bundle extras) {
-        final String title = extras.getString(NotificationConstant.SUBJECT);
-        final String content = extras.getString(NotificationConstant.DESCRIPTION);
+        String title = extras.getString(NotificationConstant.SUBJECT);
+        String content = extras.getString(NotificationConstant.DESCRIPTION);
 
         if (title == null || title.trim().length() == 0 || content == null || content.trim().length() == 0) {
             return;
         }
 
-        int color = preferencesManager.getData(PreferencesConstant.KEY_BACKGROUND_NOTIFICATION, 0);
-        int whiteIcon = preferencesManager.getData(PreferencesConstant.KEY_WHITE_ICON_NOTIFICATION, 0);
-        int icon = preferencesManager.getData(PreferencesConstant.KEY_ICON_NOTIFICATION, 0);
-        long idMessage = AlliNPush.getInstance().addMessage(context, new MessageEntity(extras));
+        Context context = contextWeakReference.get();
+        int color = preferencesManager.getData(PreferencesConstant.BACKGROUND_NOTIFICATION, 0);
+        int whiteIcon = preferencesManager.getData(PreferencesConstant.WHITE_ICON_NOTIFICATION, 0);
+        int icon = preferencesManager.getData(PreferencesConstant.ICON_NOTIFICATION, 0);
+        long idMessage = AlliNPush.getInstance().addMessage(new AlMessage(extras));
 
         extras.putLong(NotificationConstant.ID, idMessage);
 
         Intent intent = new Intent();
-        intent.setAction(BroadcastNotification.ACTION);
+        intent.setAction(BroadcastNotificationConstant.ACTION);
         intent.putExtras(extras);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent =
                 PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder
-                notificationCompatBuilder = new NotificationCompat.Builder(context);
+        Builder notificationCompatBuilder = new Builder(context);
 
         if (icon == 0) {
             notificationCompatBuilder
@@ -151,11 +154,13 @@ public class AllInGcmNotification {
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify((int) idMessage, notificationCompatBuilder.build());
+
+        if (notificationManager != null) {
+            notificationManager.notify((int) idMessage, notificationCompatBuilder.build());
+        }
     }
 
-    private void addActions(Context context,
-                                   NotificationCompat.Builder notificationBuilder, Bundle extras) {
+    private void addActions(Context context, Builder notificationBuilder, Bundle extras) {
         String actions = extras.getString(NotificationConstant.ACTIONS);
 
         if (actions != null && !TextUtils.isEmpty(actions)) {
@@ -168,7 +173,7 @@ public class AllInGcmNotification {
                     String text = jsonObject.getString(ActionConstant.TEXT);
 
                     Intent intentAction = new Intent();
-                    intentAction.setAction(BroadcastNotification.ACTION);
+                    intentAction.setAction(BroadcastNotificationConstant.ACTION);
                     intentAction.putExtra(ActionConstant.class.toString(), action);
 
                     PendingIntent pendingIntent = PendingIntent
@@ -196,8 +201,8 @@ public class AllInGcmNotification {
         int iconResource = 0;
 
         try {
-            ApplicationInfo applicationInfo = packageManager
-                    .getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+            ApplicationInfo applicationInfo =
+                    packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
             iconResource = applicationInfo.icon;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

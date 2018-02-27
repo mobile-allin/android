@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.allin.mobile.pushnotification.constants.MessageConstant;
-import br.com.allin.mobile.pushnotification.entity.allin.MessageEntity;
+import br.com.allin.mobile.pushnotification.entity.allin.AlMessage;
 
 /**
  * Created by lucasrodrigues on 05/04/17.
@@ -19,7 +19,7 @@ public class MessageDAO extends BaseDAO {
         super(context, MessageConstant.DB_NAME, MessageConstant.CREATE_TABLE);
     }
 
-    public long insert(MessageEntity message) {
+    public long insert(AlMessage message) {
         long idInsert = 0;
 
         openDatabase();
@@ -80,10 +80,10 @@ public class MessageDAO extends BaseDAO {
         return success;
     }
 
-    public List<MessageEntity> getAll() {
+    public List<AlMessage> getAll() {
         openDatabase();
 
-        List<MessageEntity> messageEntityList = new ArrayList<>();
+        List<AlMessage> alMessageList = new ArrayList<>();
 
         if (sqliteDatabase != null) {
             Cursor cursor = sqliteDatabase.rawQuery(MessageConstant.SELECT, null);
@@ -92,7 +92,7 @@ public class MessageDAO extends BaseDAO {
                 cursor.moveToFirst();
 
                 while (!cursor.isAfterLast()) {
-                    messageEntityList.add(new MessageEntity(cursor));
+                    alMessageList.add(new AlMessage(cursor));
 
                     cursor.moveToNext();
                 }
@@ -103,6 +103,6 @@ public class MessageDAO extends BaseDAO {
 
         closeDatabase();
 
-        return messageEntityList;
+        return alMessageList;
     }
 }
