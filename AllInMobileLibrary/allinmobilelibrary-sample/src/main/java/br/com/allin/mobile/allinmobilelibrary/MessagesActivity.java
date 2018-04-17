@@ -31,7 +31,7 @@ public class MessagesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_messages);
 
         lvMessages = (ListView) findViewById(R.id.lvMessages);
-        lvMessages.setAdapter(new Adapter(AlliNPush.getInstance().getMessages(this)));
+        lvMessages.setAdapter(new Adapter(AlliNPush.getInstance().getMessages()));
     }
 
     private class Adapter extends BaseAdapter {
