@@ -50,7 +50,7 @@ public class GCMService extends AsyncTask<Void, Void, String> {
         String senderId = AIConfiguration.getSenderId();
 
         PreferencesManager preferencesManager = new PreferencesManager(context);
-        preferencesManager.storeData(PreferencesConstant.DEVICE_ID, token);
+        preferencesManager.storeData(PreferencesConstant.DEVICE_TOKEN, token);
         preferencesManager.storeData(PreferencesConstant.PROJECT_ID, senderId);
 
         return token;

@@ -134,7 +134,7 @@ public class AlliNPush {
         this.registerForPushNotifications(context, null);
     }
 
-    public void registerForPushNotifications(@NonNull Context context, AllInDelegate allInDelegate) {
+    public void registerForPushNotifications(@NonNull Context context, AllInDelegate delegate) {
         this.contextWeakReference = new WeakReference<>(context);
 
         try {
@@ -157,7 +157,7 @@ public class AlliNPush {
                 } else if (appId == null || TextUtils.isEmpty(appId.trim())) {
                     Log.e("AlliN Push", "Required meta-data 'allin.appid' in MANIFEST");
                 } else {
-                    AlliNConfiguration.getInstance().init(allInDelegate);
+                    AlliNConfiguration.getInstance().init(delegate);
 
                     AINotification notification = new AINotification(background, icon, whiteIcon);
                     AIConfiguration configuration = new AIConfiguration(senderId, notification);
@@ -172,6 +172,10 @@ public class AlliNPush {
 
     public Context getContext() {
         return contextWeakReference.get();
+    }
+
+    public void setContext(Context context) {
+        this.contextWeakReference = new WeakReference<>(context);
     }
 
     public void finish() {
@@ -245,6 +249,10 @@ public class AlliNPush {
         return new DeviceService().getDeviceToken();
     }
 
+    public void setDeviceToken(String deviceToken) {
+        new DeviceService().setDeviceToken(deviceToken);
+    }
+
     /**
      * @return History push's received in application
      */
@@ -255,12 +263,12 @@ public class AlliNPush {
     /**
      * This method is used to remove a history message
      *
-     * @param alMessage The AlMessage object is created automatically by the framework
+     * @param message The AlMessage object is created automatically by the framework
      *
      * @return Identification of push received in application
      */
-    public long addMessage(AlMessage alMessage) {
-        return new MessageService().addMessage(alMessage);
+    public long addMessage(AlMessage message) {
+        return new MessageService().addMessage(message);
     }
 
     /**

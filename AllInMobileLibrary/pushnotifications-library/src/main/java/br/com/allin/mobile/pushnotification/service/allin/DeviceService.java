@@ -72,7 +72,14 @@ public class DeviceService {
         Context context = AlliNPush.getInstance().getContext();
         PreferencesManager preferencesManager = new PreferencesManager(context);
 
-        return preferencesManager.getData(PreferencesConstant.DEVICE_ID, null);
+        return preferencesManager.getData(PreferencesConstant.DEVICE_TOKEN, null);
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        Context context = AlliNPush.getInstance().getContext();
+        PreferencesManager preferencesManager = new PreferencesManager(context);
+
+        preferencesManager.storeData(PreferencesConstant.DEVICE_TOKEN, deviceToken);
     }
 
     public String getEmail() {
@@ -99,11 +106,16 @@ public class DeviceService {
         Context context = AlliNPush.getInstance().getContext();
         PreferencesManager preferencesManager = new PreferencesManager(context);
 
-        String deviceId = preferencesManager.getData(PreferencesConstant.DEVICE_ID, null);
+        String deviceId = preferencesManager.getData(PreferencesConstant.DEVICE_TOKEN, null);
         Integer appVersion = preferencesManager.getData(PreferencesConstant.APP_VERSION, 1);
+        Integer actualAppVersion = Util.getAppVersion(context);
         String projectId = preferencesManager.getData(PreferencesConstant.PROJECT_ID, null);
+        boolean versionsEquals = appVersion.equals(actualAppVersion);
 
-        return new AIDevice(deviceId,
-                appVersion != Util.getAppVersion(context) || !senderId.equals(projectId));
+        if (!versionsEquals) {
+            preferencesManager.storeData(PreferencesConstant.APP_VERSION, actualAppVersion);
+        }
+
+        return new AIDevice(deviceId, !versionsEquals || !senderId.equals(projectId));
     }
 }

@@ -1,5 +1,7 @@
 package br.com.allin.mobile.pushnotification;
 
+import android.content.Context;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -22,6 +24,11 @@ import br.com.allin.mobile.pushnotification.service.btg.WishListService;
  * Created by lucasrodrigues on 06/02/18.
  */
 public class BTG360 {
+    public static void initialize(Context context, String deviceToken) {
+        AlliNPush.getInstance().setContext(context);
+        AlliNPush.getInstance().setDeviceToken(deviceToken);
+    }
+
     public static void addProduct(String account, AIProduct product) {
         BTG360.addProducts(account, Collections.singletonList(product));
     }

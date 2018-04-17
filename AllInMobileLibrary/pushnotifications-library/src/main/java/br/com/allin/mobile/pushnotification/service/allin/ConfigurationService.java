@@ -36,12 +36,13 @@ public class ConfigurationService {
         }
 
         DeviceService deviceService = new DeviceService();
-        AIDevice AIDevice = deviceService.getDeviceInfos(AIConfiguration.getSenderId());
+        AIDevice device = deviceService.getDeviceInfos(AIConfiguration.getSenderId());
 
-        if (AIDevice == null || TextUtils.isEmpty(AIDevice.getDeviceId()) || AIDevice.isRenewId()) {
-            new GCMService(AIDevice, AIConfiguration).execute();
+        if (device == null || TextUtils.isEmpty(device.getDeviceId()) || device.isRenewId()) {
+            GCMService gcmService = new GCMService(device, AIConfiguration);
+            gcmService.execute();
         } else {
-            new DeviceService().sendDevice(AIDevice);
+            deviceService.sendDevice(device);
         }
     }
 }
