@@ -31,6 +31,7 @@ public abstract class TrackingBaseService<T> {
             jsonObject.put("deviceId", AlliNPush.getInstance().getIdentifier());
             jsonObject.put("deviceToken", AlliNPush.getInstance().getDeviceToken());
             jsonObject.put("items", transform(list));
+            jsonObject.put("plataformId", 1);
 
             new TrackingTask(jsonObject).execute();
         } catch (Exception e) {
