@@ -17,7 +17,7 @@ public class AllInWebViewClient extends WebViewClient {
     private Activity activity;
     private ProgressBar mProgressBar;
 
-    public AllInWebViewClient(Activity activity, ProgressBar mProgressBar) {
+    AllInWebViewClient(Activity activity, ProgressBar mProgressBar) {
         this.activity = activity;
         this.mProgressBar = mProgressBar;
     }

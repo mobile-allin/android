@@ -5,8 +5,8 @@ import org.json.JSONObject;
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.constants.HttpConstant;
 import br.com.allin.mobile.pushnotification.helper.Util;
-import br.com.allin.mobile.pushnotification.constants.HttpBodyConstant;
-import br.com.allin.mobile.pushnotification.constants.RouteConstant;
+import br.com.allin.mobile.pushnotification.constants.HttpBodyIdentifier;
+import br.com.allin.mobile.pushnotification.constants.Routes;
 import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.task.BaseTask;
@@ -40,7 +40,7 @@ public class NotificationCampaignTask extends BaseTask<String> {
 
     @Override
     public String getUrl() {
-        return HttpConstant.URL_ALLIN + RouteConstant.NOTIFICATION_CAMPAIGN;
+        return HttpConstant.URL_ALLIN + Routes.NOTIFICATION_CAMPAIGN;
     }
 
     @Override
@@ -48,14 +48,14 @@ public class NotificationCampaignTask extends BaseTask<String> {
         try {
             JSONObject data = new JSONObject();
 
-            data.put(HttpBodyConstant.ID, this.id);
-            data.put(HttpBodyConstant.DATE, this.date);
-            data.put(HttpBodyConstant.DATE_OPENING, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
-            data.put(HttpBodyConstant.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
+            data.put(HttpBodyIdentifier.ID, this.id);
+            data.put(HttpBodyIdentifier.DATE, this.date);
+            data.put(HttpBodyIdentifier.DATE_OPENING, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
+            data.put(HttpBodyIdentifier.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
 
             if (this.latitude != 0 && this.longitude != 0) {
-                data.put(HttpBodyConstant.LATITUDE, String.valueOf(this.latitude));
-                data.put(HttpBodyConstant.LONGITUDE, String.valueOf(this.longitude));
+                data.put(HttpBodyIdentifier.LATITUDE, String.valueOf(this.latitude));
+                data.put(HttpBodyIdentifier.LONGITUDE, String.valueOf(this.longitude));
             }
 
             return data;

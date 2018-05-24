@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="br.com.allin.mobile.allinmobilelibrary">
 
     <!-- Permissões necessárias para o GCM funcionar -->
@@ -18,7 +19,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:node="replace">
 
         <activity android:name=".SplashActivity">
             <intent-filter>
@@ -44,37 +46,37 @@
         <activity android:name=".MessagesActivity" />
 
         <!-- Activity da Library -->
-        <activity
-            android:name="br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity"
-            android:exported="true"
-            android:label="@string/app_name" />
+        <!--<activity-->
+        <!--android:name="br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity"-->
+        <!--android:exported="true"-->
+        <!--android:label="@string/app_name" />-->
 
-        <!-- Configuração do GCM -->
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="br.com.allin.mobile.pushnotification" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-            </intent-filter>
-        </receiver>
+        <!--&lt;!&ndash; Configuração do GCM &ndash;&gt;-->
+        <!--<receiver-->
+        <!--android:name="com.google.android.gms.gcm.GcmReceiver"-->
+        <!--android:exported="true"-->
+        <!--android:permission="com.google.android.c2dm.permission.SEND">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
+        <!--<category android:name="br.com.allin.mobile.pushnotification" />-->
+        <!--<action android:name="com.google.android.c2dm.intent.REGISTRATION" />-->
+        <!--</intent-filter>-->
+        <!--</receiver>-->
 
         <!-- Servico registrando o GCM Listener da AllIn -->
-        <service
-            android:name="br.com.allin.mobile.pushnotification.gcm.AllInGcmListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
+        <!--<service-->
+        <!--android:name="br.com.allin.mobile.pushnotification.gcm.AllInGcmListenerService"-->
+        <!--android:exported="false">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
+        <!--</intent-filter>-->
+        <!--</service>-->
 
-        <receiver android:name="br.com.allin.mobile.pushnotification.gcm.BroadcastNotification">
-            <intent-filter>
-                <action android:name="br.com.allin.mobile.pushnotification.gcm.BroadcastNotification" />
-            </intent-filter>
-        </receiver>
+        <!--<receiver android:name="br.com.allin.mobile.pushnotification.fcm.BroadcastNotification">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="br.com.allin.mobile.pushnotification.fcm.BroadcastNotification" />-->
+        <!--</intent-filter>-->
+        <!--</receiver>-->
 
         <meta-data
             android:name="io.fabric.ApiKey"

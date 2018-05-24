@@ -1,6 +1,6 @@
 package br.com.allin.mobile.pushnotification.constants;
 
-public interface HttpBodyConstant {
+public interface HttpBodyIdentifier {
     String AUTHORIZATION = "Authorization";
     String UTF_8 = "UTF-8";
     String ENABLED = "ENABLED";

@@ -35,11 +35,14 @@ ext {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '27.0.1'
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 22
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -49,11 +52,6 @@ configurations {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.4.0'
-    compile 'com.google.android.gms:play-services-gcm:11.8.0'
-    compile 'com.google.android.gms:play-services-location:11.8.0'
-
-    jaxDoclet("com.google.doclava:doclava:1.0.6")
 }
 
 buildscript {
@@ -65,9 +63,17 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.2'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:25.4.0'
+    compile 'com.google.android.gms:play-services-location:15.0.1'
+    compileOnly("com.google.firebase:firebase-messaging:11.8.0") {
+        exclude group: 'org.json', module: 'json'
     }
 }
 

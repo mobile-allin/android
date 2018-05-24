@@ -4,9 +4,9 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import br.com.allin.mobile.pushnotification.constants.HttpBodyConstant;
+import br.com.allin.mobile.pushnotification.constants.HttpBodyIdentifier;
 import br.com.allin.mobile.pushnotification.constants.HttpConstant;
-import br.com.allin.mobile.pushnotification.constants.RouteConstant;
+import br.com.allin.mobile.pushnotification.constants.Routes;
 import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
@@ -44,7 +44,7 @@ public class ListTask extends BaseTask<String> {
 
     @Override
     public String getUrl() {
-        return HttpConstant.URL_ALLIN + RouteConstant.ADD_LIST;
+        return HttpConstant.URL_ALLIN + Routes.ADD_LIST;
     }
 
     @Override
@@ -53,18 +53,18 @@ public class ListTask extends BaseTask<String> {
             JSONObject data = new JSONObject();
 
             if (this.campos.endsWith(";")) {
-                data.put(HttpBodyConstant.CAMPOS, this.campos.substring(0, this.campos.length() - 1));
+                data.put(HttpBodyIdentifier.CAMPOS, this.campos.substring(0, this.campos.length() - 1));
             } else {
-                data.put(HttpBodyConstant.CAMPOS, this.campos);
+                data.put(HttpBodyIdentifier.CAMPOS, this.campos);
             }
 
             if (this.valor.endsWith(";")) {
-                data.put(HttpBodyConstant.VALOR, this.valor.substring(0, this.valor.length() - 1));
+                data.put(HttpBodyIdentifier.VALOR, this.valor.substring(0, this.valor.length() - 1));
             } else {
-                data.put(HttpBodyConstant.VALOR, this.valor);
+                data.put(HttpBodyIdentifier.VALOR, this.valor);
             }
 
-            data.put(HttpBodyConstant.NAME_LIST, this.nameList);
+            data.put(HttpBodyIdentifier.NAME_LIST, this.nameList);
 
             return data;
         } catch (Exception e) {

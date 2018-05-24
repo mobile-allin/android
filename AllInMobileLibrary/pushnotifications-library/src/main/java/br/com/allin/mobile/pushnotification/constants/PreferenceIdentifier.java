@@ -1,6 +1,6 @@
 package br.com.allin.mobile.pushnotification.constants;
 
-public interface PreferencesConstant {
+public interface PreferenceIdentifier {
     String APP_VERSION = "allin_key_appversion";
     String DEVICE_TOKEN = "allin_key_device_id";
     String USER_EMAIL = "allin_key_user_email";

@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
-import br.com.allin.mobile.pushnotification.constants.AlliNConstant;
+import br.com.allin.mobile.pushnotification.constants.AlliNConfigIdentifier;
 import br.com.allin.mobile.pushnotification.entity.allin.AIConfiguration;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.entity.allin.AlMessage;
@@ -143,14 +143,14 @@ public class AlliNPush {
 
             if (applicationInfo != null) {
                 @DrawableRes
-                int whiteIcon = FieldHelper.getResId(AlliNConstant.WHITE_ICON, "drawable");
+                int whiteIcon = FieldHelper.getResId(AlliNConfigIdentifier.WHITE_ICON, "drawable");
                 @DrawableRes
-                int icon = FieldHelper.getResId(AlliNConstant.ICON, "drawable");
+                int icon = FieldHelper.getResId(AlliNConfigIdentifier.ICON, "drawable");
                 @ColorRes
-                int background = FieldHelper.getResId(AlliNConstant.BACKGROUND, "color");
+                int background = FieldHelper.getResId(AlliNConfigIdentifier.BACKGROUND, "color");
 
-                String senderId = applicationInfo.metaData.getString(AlliNConstant.SENDER_ID);
-                String appId = applicationInfo.metaData.getString(AlliNConstant.APP_ID);
+                String senderId = applicationInfo.metaData.getString(AlliNConfigIdentifier.SENDER_ID);
+                String appId = applicationInfo.metaData.getString(AlliNConfigIdentifier.APP_ID);
 
                 if (senderId == null || TextUtils.isEmpty(senderId.trim())) {
                     Log.e("AlliN Push", "Required meta-data 'allin.senderid' in MANIFEST");
@@ -287,7 +287,7 @@ public class AlliNPush {
      *
      * @return If successfully updated
      */
-    public boolean messageHasBeenRead(int id) {
+    public boolean messageHasBeenRead(long id) {
         return new MessageService().messageHasBeenRead(id);
     }
 }

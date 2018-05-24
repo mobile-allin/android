@@ -6,11 +6,11 @@ import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.constants.HttpConstant;
-import br.com.allin.mobile.pushnotification.constants.ParametersConstant;
+import br.com.allin.mobile.pushnotification.constants.SystemIdentifier;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
-import br.com.allin.mobile.pushnotification.constants.HttpBodyConstant;
-import br.com.allin.mobile.pushnotification.constants.PreferencesConstant;
-import br.com.allin.mobile.pushnotification.constants.RouteConstant;
+import br.com.allin.mobile.pushnotification.constants.HttpBodyIdentifier;
+import br.com.allin.mobile.pushnotification.constants.PreferenceIdentifier;
+import br.com.allin.mobile.pushnotification.constants.Routes;
 import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -30,16 +30,16 @@ public class EmailTask extends BaseTask<String> {
 
     @Override
     public String getUrl() {
-        return HttpConstant.URL_ALLIN + RouteConstant.EMAIL;
+        return HttpConstant.URL_ALLIN + Routes.EMAIL;
     }
 
     @Override
     public JSONObject getData() {
         try {
             JSONObject data = new JSONObject();
-            data.put(HttpBodyConstant.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
-            data.put(HttpBodyConstant.PLATFORM, ParametersConstant.ANDROID);
-            data.put(HttpBodyConstant.USER_EMAIL, email);
+            data.put(HttpBodyIdentifier.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
+            data.put(HttpBodyIdentifier.PLATFORM, SystemIdentifier.ANDROID);
+            data.put(HttpBodyIdentifier.USER_EMAIL, email);
 
             return data;
         } catch (Exception e) {
@@ -53,7 +53,7 @@ public class EmailTask extends BaseTask<String> {
     public String onSuccess(AIResponse AIResponse) {
         Context context = AlliNPush.getInstance().getContext();
         PreferencesManager preferencesManager = new PreferencesManager(context);
-        preferencesManager.storeData(PreferencesConstant.USER_EMAIL, email);
+        preferencesManager.storeData(PreferenceIdentifier.USER_EMAIL, email);
 
         return AIResponse.getMessage();
     }

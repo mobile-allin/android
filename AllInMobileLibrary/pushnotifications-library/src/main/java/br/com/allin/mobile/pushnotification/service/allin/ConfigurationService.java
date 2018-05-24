@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
-import br.com.allin.mobile.pushnotification.constants.PreferencesConstant;
+import br.com.allin.mobile.pushnotification.constants.PreferenceIdentifier;
 import br.com.allin.mobile.pushnotification.entity.allin.AIConfiguration;
 import br.com.allin.mobile.pushnotification.entity.allin.AIDevice;
 import br.com.allin.mobile.pushnotification.entity.allin.AINotification;
@@ -28,11 +28,11 @@ public class ConfigurationService {
 
         if (AINotification != null) {
             preferencesManager.storeData(
-                    PreferencesConstant.ICON_NOTIFICATION, AINotification.getIcon());
+                    PreferenceIdentifier.ICON_NOTIFICATION, AINotification.getIcon());
             preferencesManager.storeData(
-                    PreferencesConstant.WHITE_ICON_NOTIFICATION, AINotification.getWhiteIcon());
+                    PreferenceIdentifier.WHITE_ICON_NOTIFICATION, AINotification.getWhiteIcon());
             preferencesManager.storeData(
-                    PreferencesConstant.BACKGROUND_NOTIFICATION, AINotification.getBackground());
+                    PreferenceIdentifier.BACKGROUND_NOTIFICATION, AINotification.getBackground());
         }
 
         DeviceService deviceService = new DeviceService();

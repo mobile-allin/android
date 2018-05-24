@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.UUID;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.constants.ListConstant;
-import br.com.allin.mobile.pushnotification.constants.ParametersConstant;
-import br.com.allin.mobile.pushnotification.constants.PreferencesConstant;
+import br.com.allin.mobile.pushnotification.constants.ListIdentifier;
+import br.com.allin.mobile.pushnotification.constants.SystemIdentifier;
+import br.com.allin.mobile.pushnotification.constants.PreferenceIdentifier;
 import br.com.allin.mobile.pushnotification.entity.allin.AIDevice;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
@@ -40,11 +40,11 @@ public class DeviceService {
                 String pushId = AlliNPush.getInstance().getDeviceToken();
 
                 List<AIValues> list = new ArrayList<>();
-                list.add(new AIValues(ListConstant.ID_PUSH, Util.md5(pushId)));
-                list.add(new AIValues(ListConstant.PUSH_ID, pushId));
-                list.add(new AIValues(ListConstant.PLATAFORMA, ParametersConstant.ANDROID));
+                list.add(new AIValues(ListIdentifier.ID_PUSH, Util.md5(pushId)));
+                list.add(new AIValues(ListIdentifier.PUSH_ID, pushId));
+                list.add(new AIValues(ListIdentifier.PLATAFORMA, SystemIdentifier.ANDROID));
 
-                AlliNPush.getInstance().sendList(ListConstant.LISTA_PADRAO, list);
+                AlliNPush.getInstance().sendList(ListIdentifier.LISTA_PADRAO, list);
             }
 
             @Override
@@ -72,31 +72,31 @@ public class DeviceService {
         Context context = AlliNPush.getInstance().getContext();
         PreferencesManager preferencesManager = new PreferencesManager(context);
 
-        return preferencesManager.getData(PreferencesConstant.DEVICE_TOKEN, null);
+        return preferencesManager.getData(PreferenceIdentifier.DEVICE_TOKEN, null);
     }
 
     public void setDeviceToken(String deviceToken) {
         Context context = AlliNPush.getInstance().getContext();
         PreferencesManager preferencesManager = new PreferencesManager(context);
 
-        preferencesManager.storeData(PreferencesConstant.DEVICE_TOKEN, deviceToken);
+        preferencesManager.storeData(PreferenceIdentifier.DEVICE_TOKEN, deviceToken);
     }
 
     public String getEmail() {
         Context context = AlliNPush.getInstance().getContext();
         PreferencesManager preferencesManager = new PreferencesManager(context);
 
-        return preferencesManager.getData(PreferencesConstant.USER_EMAIL, null);
+        return preferencesManager.getData(PreferenceIdentifier.USER_EMAIL, null);
     }
 
     public String getIdentifier() {
         Context context = AlliNPush.getInstance().getContext();
         PreferencesManager preferencesManager = new PreferencesManager(context);
-        String identifier = preferencesManager.getData(PreferencesConstant.IDENTIFIER, null);
+        String identifier = preferencesManager.getData(PreferenceIdentifier.IDENTIFIER, null);
 
         if (Util.isNullOrClear(identifier)) {
             identifier = Util.md5(UUID.randomUUID().toString());
-            preferencesManager.storeData(PreferencesConstant.IDENTIFIER, identifier);
+            preferencesManager.storeData(PreferenceIdentifier.IDENTIFIER, identifier);
         }
 
         return identifier;
@@ -106,14 +106,14 @@ public class DeviceService {
         Context context = AlliNPush.getInstance().getContext();
         PreferencesManager preferencesManager = new PreferencesManager(context);
 
-        String deviceId = preferencesManager.getData(PreferencesConstant.DEVICE_TOKEN, null);
-        Integer appVersion = preferencesManager.getData(PreferencesConstant.APP_VERSION, 1);
+        String deviceId = preferencesManager.getData(PreferenceIdentifier.DEVICE_TOKEN, null);
+        Integer appVersion = preferencesManager.getData(PreferenceIdentifier.APP_VERSION, 1);
         Integer actualAppVersion = Util.getAppVersion(context);
-        String projectId = preferencesManager.getData(PreferencesConstant.PROJECT_ID, null);
+        String projectId = preferencesManager.getData(PreferenceIdentifier.PROJECT_ID, null);
         boolean versionsEquals = appVersion.equals(actualAppVersion);
 
         if (!versionsEquals) {
-            preferencesManager.storeData(PreferencesConstant.APP_VERSION, actualAppVersion);
+            preferencesManager.storeData(PreferenceIdentifier.APP_VERSION, actualAppVersion);
         }
 
         return new AIDevice(deviceId, !versionsEquals || !senderId.equals(projectId));

@@ -13,10 +13,10 @@ import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.entity.allin.AIConfiguration;
 import br.com.allin.mobile.pushnotification.entity.allin.AIDevice;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
-import br.com.allin.mobile.pushnotification.constants.PreferencesConstant;
+import br.com.allin.mobile.pushnotification.constants.PreferenceIdentifier;
 
 /**
- * The service class for GCM (Google Cloud MessageConstant) has the responsibility
+ * The service class for GCM (Google Cloud MessageDatabaseConstant) has the responsibility
  * of the sender's ID number generator for Google properly send notification according to the record
  */
 public class GCMService extends AsyncTask<Void, Void, String> {
@@ -50,8 +50,8 @@ public class GCMService extends AsyncTask<Void, Void, String> {
         String senderId = AIConfiguration.getSenderId();
 
         PreferencesManager preferencesManager = new PreferencesManager(context);
-        preferencesManager.storeData(PreferencesConstant.DEVICE_TOKEN, token);
-        preferencesManager.storeData(PreferencesConstant.PROJECT_ID, senderId);
+        preferencesManager.storeData(PreferenceIdentifier.DEVICE_TOKEN, token);
+        preferencesManager.storeData(PreferenceIdentifier.PROJECT_ID, senderId);
 
         return token;
     }

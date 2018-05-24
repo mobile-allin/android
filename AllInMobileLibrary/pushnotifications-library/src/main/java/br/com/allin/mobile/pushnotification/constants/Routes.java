@@ -1,6 +1,6 @@
 package br.com.allin.mobile.pushnotification.constants;
 
-public interface RouteConstant {
+public interface Routes {
     String EMAIL = "/email";
     String ADD_LIST = "/addlist";
     String DEVICE = "/device";

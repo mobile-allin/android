@@ -21,11 +21,11 @@ public class MessageService {
         return messageDAO.insert(alMessage);
     }
 
-    public boolean deleteMessage(int id) {
+    public boolean deleteMessage(long id) {
         return messageDAO.delete(id);
     }
 
-    public boolean messageHasBeenRead(int id) {
+    public boolean messageHasBeenRead(long id) {
         return messageDAO.messageHasBeenRead(id);
     }
 

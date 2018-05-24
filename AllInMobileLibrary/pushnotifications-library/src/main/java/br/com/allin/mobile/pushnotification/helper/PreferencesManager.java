@@ -5,8 +5,7 @@ import android.content.SharedPreferences;
 
 import java.lang.ref.WeakReference;
 
-import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.constants.PreferencesConstant;
+import br.com.allin.mobile.pushnotification.constants.PreferenceIdentifier;
 
 /**
  * Manager preferences in the library.
@@ -21,7 +20,7 @@ public class PreferencesManager {
      */
     public PreferencesManager(Context context) {
         this.contextWeakReference = new WeakReference<>(context);
-        this.preferences = context.getSharedPreferences(PreferencesConstant.PREFERENCES_ID, Context.MODE_PRIVATE);
+        this.preferences = context.getSharedPreferences(PreferenceIdentifier.PREFERENCES_ID, Context.MODE_PRIVATE);
     }
 
     /**

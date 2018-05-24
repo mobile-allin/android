@@ -18,7 +18,7 @@ import java.net.URL;
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
 import br.com.allin.mobile.pushnotification.helper.Util;
-import br.com.allin.mobile.pushnotification.constants.HttpBodyConstant;
+import br.com.allin.mobile.pushnotification.constants.HttpBodyIdentifier;
 import br.com.allin.mobile.pushnotification.constants.HttpConstant;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
@@ -31,9 +31,9 @@ public class HttpManager extends HttpCertificate {
     /**
      * Sends data to the server AllIn
      *
-     * @param url  ActionConstant to complete the URL of the request
-     * @param data    ParametersConstant passed in the request header
-     * @param params  ParametersConstant that will be passed in the URL
+     * @param url  ActionIdentifier to complete the URL of the request
+     * @param data    SystemIdentifier passed in the request header
+     * @param params  SystemIdentifier that will be passed in the URL
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
@@ -45,9 +45,9 @@ public class HttpManager extends HttpCertificate {
     /**
      * Sends data to the server AllIn
      *
-     * @param url    ActionConstant to complete the URL of the request
-     * @param data      ParametersConstant passed in the request header
-     * @param params    ParametersConstant that will be passed in the URL
+     * @param url    ActionIdentifier to complete the URL of the request
+     * @param data      SystemIdentifier passed in the request header
+     * @param params    SystemIdentifier that will be passed in the URL
      * @param withCache Determine whether there is any connection problem that
      *                  should be written to the cache for future synchronization
      * @return Returns the responseData object according to the server information
@@ -61,8 +61,8 @@ public class HttpManager extends HttpCertificate {
     /**
      * Receives from the server data AllIn
      *
-     * @param url  ActionConstant to complete the URL of the request
-     * @param params  ParametersConstant that will be passed in the URL
+     * @param url  ActionIdentifier to complete the URL of the request
+     * @param params  SystemIdentifier that will be passed in the URL
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
@@ -73,8 +73,8 @@ public class HttpManager extends HttpCertificate {
     /**
      * Receives from the server data AllIn
      *
-     * @param url    ActionConstant to complete the URL of the request
-     * @param params    ParametersConstant that will be passed in the URL
+     * @param url    ActionIdentifier to complete the URL of the request
+     * @param params    SystemIdentifier that will be passed in the URL
      * @param withCache Determine whether there is any connection problem that should
      *                  be written to the cache for future synchronization
      * @return Returns the responseData object according to the server information
@@ -103,7 +103,7 @@ public class HttpManager extends HttpCertificate {
      * @param urlString   URL to make the request to the server
      * @param requestType Tells whether a GET or a POST type of request param
      *                    arameters data that will be sent to the server
-     * @param data        ParametersConstant passed in the request header
+     * @param data        SystemIdentifier passed in the request header
      * @param withCache   Determine whether there is any connection problem that
      *                    should be written to the cache for future synchronization
      * @return Returns the responseData object according to the server information
@@ -139,7 +139,7 @@ public class HttpManager extends HttpCertificate {
 
             connection.setDoInput(true);
             connection.setConnectTimeout(HttpConstant.DEFAULT_REQUEST_TIMEOUT);
-            connection.setRequestProperty(HttpBodyConstant.AUTHORIZATION, token);
+            connection.setRequestProperty(HttpBodyIdentifier.AUTHORIZATION, token);
             connection.setRequestProperty("Content-Type", "application/json");
 
             String responseString = "";
@@ -150,7 +150,7 @@ public class HttpManager extends HttpCertificate {
                 if (data != null) {
                     OutputStream outputStream = connection.getOutputStream();
                     BufferedWriter bufferedWriter =
-                            new BufferedWriter(new OutputStreamWriter(outputStream, HttpBodyConstant.UTF_8));
+                            new BufferedWriter(new OutputStreamWriter(outputStream, HttpBodyIdentifier.UTF_8));
                     bufferedWriter.write(data.toString());
                     bufferedWriter.flush();
                     bufferedWriter.close();

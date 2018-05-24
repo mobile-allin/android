@@ -3,7 +3,9 @@ package br.com.allin.mobile.pushnotification.entity.allin;
 import android.database.Cursor;
 import android.os.Bundle;
 
-import br.com.allin.mobile.pushnotification.constants.MessageConstant;
+import java.util.Map;
+
+import br.com.allin.mobile.pushnotification.constants.MessageDatabaseConstant;
 
 /**
  * Created by lucasrodrigues on 05/04/17.
@@ -62,18 +64,18 @@ public class AlMessage {
     }
 
     public AlMessage(Cursor cursor) {
-        this.id = getCursorValue(cursor, MessageConstant.DB_FIELD_ID, 0);
-        this.idSend = getCursorValue(cursor, MessageConstant.DB_FIELD_ID_SEND, "");
-        this.subject = getCursorValue(cursor, MessageConstant.DB_FIELD_SUBJECT, "");
-        this.description = getCursorValue(cursor, MessageConstant.DB_FIELD_DESCRIPTION, "");
-        this.idCampaign = getCursorValue(cursor, MessageConstant.DB_FIELD_ID_CAMPAIGN, "");
-        this.idLogin = getCursorValue(cursor, MessageConstant.DB_FIELD_ID_LOGIN, "");
-        this.urlScheme = getCursorValue(cursor, MessageConstant.DB_FIELD_URL_SCHEME, "");
-        this.action = getCursorValue(cursor, MessageConstant.DB_FIELD_ACTION, "");
-        this.date = getCursorValue(cursor, MessageConstant.DB_FIELD_DATE_NOTIFICATION, "");
-        this.urlTransactional = getCursorValue(cursor, MessageConstant.DB_FIELD_URL_TRANSACTIONAL, "");
-        this.urlCampaign = getCursorValue(cursor, MessageConstant.DB_FIELD_URL_CAMPAIGN, "");
-        this.read = getCursorValue(cursor, MessageConstant.DB_FIELD_READ, false);
+        this.id = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_ID, 0);
+        this.idSend = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_ID_SEND, "");
+        this.subject = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_SUBJECT, "");
+        this.description = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_DESCRIPTION, "");
+        this.idCampaign = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_ID_CAMPAIGN, "");
+        this.idLogin = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_ID_LOGIN, "");
+        this.urlScheme = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_URL_SCHEME, "");
+        this.action = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_ACTION, "");
+        this.date = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_DATE_NOTIFICATION, "");
+        this.urlTransactional = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_URL_TRANSACTIONAL, "");
+        this.urlCampaign = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_URL_CAMPAIGN, "");
+        this.read = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_READ, false);
 
         updateNullValues();
     }
@@ -94,18 +96,18 @@ public class AlMessage {
     }
 
     public AlMessage(Bundle bundle) {
-        this.id = bundle.getInt(MessageConstant.DB_FIELD_ID);
-        this.idSend = bundle.getString(MessageConstant.DB_FIELD_ID_SEND);
-        this.subject = bundle.getString(MessageConstant.DB_FIELD_SUBJECT);
-        this.description = bundle.getString(MessageConstant.DB_FIELD_DESCRIPTION);
-        this.idCampaign = bundle.getString(MessageConstant.DB_FIELD_ID_CAMPAIGN);
-        this.idLogin = bundle.getString(MessageConstant.DB_FIELD_ID_LOGIN);
-        this.urlScheme = bundle.getString(MessageConstant.DB_FIELD_URL_SCHEME);
-        this.action = bundle.getString(MessageConstant.DB_FIELD_ACTION);
-        this.date = bundle.getString(MessageConstant.DB_FIELD_DATE_NOTIFICATION);
-        this.urlTransactional = bundle.getString(MessageConstant.DB_FIELD_URL_TRANSACTIONAL);
-        this.urlCampaign = bundle.getString(MessageConstant.DB_FIELD_URL_CAMPAIGN);
-        this.read = bundle.getInt(MessageConstant.DB_FIELD_READ) == 1;
+        this.id = bundle.getInt(MessageDatabaseConstant.DB_FIELD_ID);
+        this.idSend = bundle.getString(MessageDatabaseConstant.DB_FIELD_ID_SEND);
+        this.subject = bundle.getString(MessageDatabaseConstant.DB_FIELD_SUBJECT);
+        this.description = bundle.getString(MessageDatabaseConstant.DB_FIELD_DESCRIPTION);
+        this.idCampaign = bundle.getString(MessageDatabaseConstant.DB_FIELD_ID_CAMPAIGN);
+        this.idLogin = bundle.getString(MessageDatabaseConstant.DB_FIELD_ID_LOGIN);
+        this.urlScheme = bundle.getString(MessageDatabaseConstant.DB_FIELD_URL_SCHEME);
+        this.action = bundle.getString(MessageDatabaseConstant.DB_FIELD_ACTION);
+        this.date = bundle.getString(MessageDatabaseConstant.DB_FIELD_DATE_NOTIFICATION);
+        this.urlTransactional = bundle.getString(MessageDatabaseConstant.DB_FIELD_URL_TRANSACTIONAL);
+        this.urlCampaign = bundle.getString(MessageDatabaseConstant.DB_FIELD_URL_CAMPAIGN);
+        this.read = bundle.getInt(MessageDatabaseConstant.DB_FIELD_READ) == 1;
 
         updateNullValues();
     }

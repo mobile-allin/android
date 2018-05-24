@@ -1,6 +1,6 @@
 package br.com.allin.mobile.pushnotification.service.allin;
 
-import br.com.allin.mobile.pushnotification.gcm.AllInLocation;
+import br.com.allin.mobile.pushnotification.location.AllInLocation;
 import br.com.allin.mobile.pushnotification.interfaces.OnAllInLocationChange;
 import br.com.allin.mobile.pushnotification.task.allin.NotificationCampaignTask;
 import br.com.allin.mobile.pushnotification.task.allin.NotificationTransactionalTask;
