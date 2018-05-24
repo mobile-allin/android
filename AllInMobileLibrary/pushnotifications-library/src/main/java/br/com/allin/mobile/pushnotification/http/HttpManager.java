@@ -16,12 +16,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
-import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.constants.HttpBodyIdentifier;
 import br.com.allin.mobile.pushnotification.constants.HttpConstant;
+import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
 import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
+import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.service.allin.CacheService;
 
 /**
@@ -31,9 +31,9 @@ public class HttpManager extends HttpCertificate {
     /**
      * Sends data to the server AllIn
      *
-     * @param url  ActionIdentifier to complete the URL of the request
-     * @param data    SystemIdentifier passed in the request header
-     * @param params  SystemIdentifier that will be passed in the URL
+     * @param url    ActionIdentifier to complete the URL of the request
+     * @param data   SystemIdentifier passed in the request header
+     * @param params SystemIdentifier that will be passed in the URL
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
@@ -45,7 +45,7 @@ public class HttpManager extends HttpCertificate {
     /**
      * Sends data to the server AllIn
      *
-     * @param url    ActionIdentifier to complete the URL of the request
+     * @param url       ActionIdentifier to complete the URL of the request
      * @param data      SystemIdentifier passed in the request header
      * @param params    SystemIdentifier that will be passed in the URL
      * @param withCache Determine whether there is any connection problem that
@@ -61,8 +61,8 @@ public class HttpManager extends HttpCertificate {
     /**
      * Receives from the server data AllIn
      *
-     * @param url  ActionIdentifier to complete the URL of the request
-     * @param params  SystemIdentifier that will be passed in the URL
+     * @param url    ActionIdentifier to complete the URL of the request
+     * @param params SystemIdentifier that will be passed in the URL
      * @return Returns the responseData object according to the server information
      * @throws WebServiceException If the server is in trouble
      */
@@ -73,7 +73,7 @@ public class HttpManager extends HttpCertificate {
     /**
      * Receives from the server data AllIn
      *
-     * @param url    ActionIdentifier to complete the URL of the request
+     * @param url       ActionIdentifier to complete the URL of the request
      * @param params    SystemIdentifier that will be passed in the URL
      * @param withCache Determine whether there is any connection problem that should
      *                  be written to the cache for future synchronization

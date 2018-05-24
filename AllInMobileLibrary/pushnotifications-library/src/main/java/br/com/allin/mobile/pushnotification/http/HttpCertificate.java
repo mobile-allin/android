@@ -15,8 +15,8 @@ import javax.net.ssl.X509TrustManager;
 /**
  * Class responsible for generating the certificate Https
  */
-public abstract class HttpCertificate {
-    protected static void generateCertificate() {
+abstract class HttpCertificate {
+    static void generateCertificate() {
         try {
             TrustManager[] trustManagerArray = new TrustManager[] {
                     new X509TrustManager() {
@@ -52,12 +52,7 @@ public abstract class HttpCertificate {
             SSLContext sslContext = SSLContext.getInstance("SSL");
             sslContext.init(null, trustManagerArray, new SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String s, SSLSession sslSession) {
-                    return true;
-                }
-            });
+            HttpsURLConnection.setDefaultHostnameVerifier((s, sslSession) -> true);
         } catch (Exception e) {
             e.printStackTrace();
         }
