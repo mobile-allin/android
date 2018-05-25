@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.constants;
+package br.com.allin.mobile.pushnotification.identifiers;
 
 /**
  * Created by lucasrodrigues on 01/12/16.

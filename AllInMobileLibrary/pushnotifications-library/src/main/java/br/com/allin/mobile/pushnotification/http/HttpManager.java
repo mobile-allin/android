@@ -16,10 +16,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.constants.HttpBodyIdentifier;
+import br.com.allin.mobile.pushnotification.identifiers.HttpBodyIdentifier;
 import br.com.allin.mobile.pushnotification.constants.HttpConstant;
 import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
-import br.com.allin.mobile.pushnotification.enumarator.RequestType;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.service.allin.CacheService;

@@ -3,7 +3,7 @@ package br.com.allin.mobile.pushnotification.configuration;
 import android.content.IntentFilter;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.constants.BroadcastNotificationIdentifier;
+import br.com.allin.mobile.pushnotification.identifiers.BroadcastNotificationIdentifier;
 import br.com.allin.mobile.pushnotification.fcm.BroadcastNotification;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 

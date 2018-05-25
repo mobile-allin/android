@@ -8,8 +8,8 @@ import java.util.UUID;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.constants.ListIdentifier;
-import br.com.allin.mobile.pushnotification.constants.SystemIdentifier;
-import br.com.allin.mobile.pushnotification.constants.PreferenceIdentifier;
+import br.com.allin.mobile.pushnotification.identifiers.SystemIdentifier;
+import br.com.allin.mobile.pushnotification.identifiers.PreferenceIdentifier;
 import br.com.allin.mobile.pushnotification.entity.allin.AIDevice;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;

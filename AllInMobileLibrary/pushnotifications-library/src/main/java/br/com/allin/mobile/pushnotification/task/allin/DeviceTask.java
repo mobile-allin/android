@@ -5,13 +5,13 @@ import android.text.TextUtils;
 import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.constants.HttpBodyIdentifier;
+import br.com.allin.mobile.pushnotification.identifiers.HttpBodyIdentifier;
 import br.com.allin.mobile.pushnotification.constants.HttpConstant;
-import br.com.allin.mobile.pushnotification.constants.SystemIdentifier;
-import br.com.allin.mobile.pushnotification.constants.Routes;
+import br.com.allin.mobile.pushnotification.identifiers.SystemIdentifier;
+import br.com.allin.mobile.pushnotification.http.Routes;
 import br.com.allin.mobile.pushnotification.entity.allin.AIDevice;
 import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
-import br.com.allin.mobile.pushnotification.enumarator.RequestType;
+import br.com.allin.mobile.pushnotification.http.RequestType;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 import br.com.allin.mobile.pushnotification.task.BaseTask;
 

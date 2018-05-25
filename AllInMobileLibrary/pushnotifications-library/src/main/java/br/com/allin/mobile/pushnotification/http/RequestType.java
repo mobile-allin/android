@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.enumarator;
+package br.com.allin.mobile.pushnotification.http;
 
 /**
  * Type of request to the server

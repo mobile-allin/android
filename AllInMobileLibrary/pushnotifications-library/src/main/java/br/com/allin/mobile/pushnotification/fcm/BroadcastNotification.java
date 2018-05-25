@@ -8,7 +8,7 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
-import br.com.allin.mobile.pushnotification.constants.PushIdentifier;
+import br.com.allin.mobile.pushnotification.identifiers.PushIdentifier;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.service.allin.NotificationService;
 import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;

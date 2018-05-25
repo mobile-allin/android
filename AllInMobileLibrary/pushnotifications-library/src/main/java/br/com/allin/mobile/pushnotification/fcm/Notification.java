@@ -21,10 +21,10 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.constants.ActionIdentifier;
-import br.com.allin.mobile.pushnotification.constants.BroadcastNotificationIdentifier;
-import br.com.allin.mobile.pushnotification.constants.PreferenceIdentifier;
-import br.com.allin.mobile.pushnotification.constants.PushIdentifier;
+import br.com.allin.mobile.pushnotification.identifiers.ActionIdentifier;
+import br.com.allin.mobile.pushnotification.identifiers.BroadcastNotificationIdentifier;
+import br.com.allin.mobile.pushnotification.identifiers.PreferenceIdentifier;
+import br.com.allin.mobile.pushnotification.identifiers.PushIdentifier;
 import br.com.allin.mobile.pushnotification.entity.allin.AlMessage;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
 import br.com.allin.mobile.pushnotification.helper.Util;

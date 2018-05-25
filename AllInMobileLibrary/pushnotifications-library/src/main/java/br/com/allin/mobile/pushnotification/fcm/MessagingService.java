@@ -11,8 +11,8 @@ import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
-import br.com.allin.mobile.pushnotification.constants.PushIdentifier;
 import br.com.allin.mobile.pushnotification.helper.Util;
+import br.com.allin.mobile.pushnotification.identifiers.PushIdentifier;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 
 public class MessagingService extends FirebaseMessagingService {
@@ -45,7 +45,7 @@ public class MessagingService extends FirebaseMessagingService {
             try {
                 scheme = URLDecoder.decode(scheme, "UTF-8");
             } catch (Exception e) {
-                Log.e(AllInGcmNotification.class.toString(), "ERRO IN DECODE URL");
+                Log.e(MessagingService.class.toString(), "ERRO IN DECODE URL");
             } finally {
                 if (scheme != null && scheme.contains("##id_push##")) {
                     String md5DeviceToken = Util.md5(AlliNPush.getInstance().getDeviceToken());

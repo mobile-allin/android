@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import org.json.JSONObject;
 
 import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
-import br.com.allin.mobile.pushnotification.enumarator.RequestType;
+import br.com.allin.mobile.pushnotification.http.RequestType;
 import br.com.allin.mobile.pushnotification.exception.WebServiceException;
 import br.com.allin.mobile.pushnotification.http.HttpManager;
 import br.com.allin.mobile.pushnotification.interfaces.OnInvoke;

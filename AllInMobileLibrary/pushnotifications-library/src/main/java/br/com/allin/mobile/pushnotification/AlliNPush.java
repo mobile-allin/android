@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
-import br.com.allin.mobile.pushnotification.constants.AlliNConfigIdentifier;
+import br.com.allin.mobile.pushnotification.identifiers.AlliNConfigIdentifier;
 import br.com.allin.mobile.pushnotification.entity.allin.AIConfiguration;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.entity.allin.AlMessage;

@@ -13,7 +13,7 @@ import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.entity.allin.AIConfiguration;
 import br.com.allin.mobile.pushnotification.entity.allin.AIDevice;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
-import br.com.allin.mobile.pushnotification.constants.PreferenceIdentifier;
+import br.com.allin.mobile.pushnotification.identifiers.PreferenceIdentifier;
 
 /**
  * The service class for GCM (Google Cloud MessageDatabaseConstant) has the responsibility

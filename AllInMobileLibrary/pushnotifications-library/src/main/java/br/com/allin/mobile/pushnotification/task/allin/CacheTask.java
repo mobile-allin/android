@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import br.com.allin.mobile.pushnotification.dao.CacheDAO;
 import br.com.allin.mobile.pushnotification.entity.allin.AICache;
 import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
-import br.com.allin.mobile.pushnotification.enumarator.RequestType;
+import br.com.allin.mobile.pushnotification.http.RequestType;
 import br.com.allin.mobile.pushnotification.http.HttpManager;
 
 /**

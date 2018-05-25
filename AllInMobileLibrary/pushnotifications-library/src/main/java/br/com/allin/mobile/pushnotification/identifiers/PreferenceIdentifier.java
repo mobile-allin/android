@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.constants;
+package br.com.allin.mobile.pushnotification.identifiers;
 
 public interface PreferenceIdentifier {
     String APP_VERSION = "allin_key_appversion";

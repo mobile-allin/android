@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.constants;
+package br.com.allin.mobile.pushnotification.http;
 
 public interface Routes {
     String EMAIL = "/email";

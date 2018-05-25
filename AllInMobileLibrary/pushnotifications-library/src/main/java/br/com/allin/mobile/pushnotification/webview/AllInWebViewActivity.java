@@ -19,7 +19,7 @@ import android.widget.RelativeLayout;
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.constants.HttpConstant;
 import br.com.allin.mobile.pushnotification.helper.Util;
-import br.com.allin.mobile.pushnotification.constants.PushIdentifier;
+import br.com.allin.mobile.pushnotification.identifiers.PushIdentifier;
 
 /**
  * Activity to search the HTML and display it or redirects

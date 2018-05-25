@@ -8,7 +8,5 @@ package br.com.allin.mobile.pushnotification.interfaces;
 public interface AllInDelegate {
     void onSilentMessageReceived(String identifier);
 
-    void onClickPush();
-
     void onClickAction(String identifier);
 }
