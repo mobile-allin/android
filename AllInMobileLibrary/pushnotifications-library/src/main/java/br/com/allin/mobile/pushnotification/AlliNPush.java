@@ -13,12 +13,11 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
-import br.com.allin.mobile.pushnotification.identifiers.AlliNConfigIdentifier;
-import br.com.allin.mobile.pushnotification.entity.allin.AIConfiguration;
+import br.com.allin.mobile.pushnotification.entity.allin.AINotification;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.entity.allin.AlMessage;
-import br.com.allin.mobile.pushnotification.entity.allin.AINotification;
 import br.com.allin.mobile.pushnotification.helper.FieldHelper;
+import br.com.allin.mobile.pushnotification.identifiers.AlliNConfigIdentifier;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 import br.com.allin.mobile.pushnotification.service.allin.ConfigurationService;
@@ -103,7 +102,7 @@ import br.com.allin.mobile.pushnotification.service.allin.StatusService;
  * <br>
  * compile 'com.google.android.gms:play-services-gcm:7.8.0'
  * <br>
- * compile 'com.google.android.gms:play-services-location:7.8.0'
+ * compile 'com.google.android.gms:play-services-location:15.0.1'
  * <br>
  * compile 'com.android.support:appcompat-v7:23.4.0'
  * <br>
@@ -149,21 +148,11 @@ public class AlliNPush {
                 @ColorRes
                 int background = FieldHelper.getResId(AlliNConfigIdentifier.BACKGROUND, "color");
 
-                String senderId = applicationInfo.metaData.getString(AlliNConfigIdentifier.SENDER_ID);
-                String appId = applicationInfo.metaData.getString(AlliNConfigIdentifier.APP_ID);
+                AlliNConfiguration.getInstance().init(delegate);
 
-                if (senderId == null || TextUtils.isEmpty(senderId.trim())) {
-                    Log.e("AlliN Push", "Required meta-data 'allin.senderid' in MANIFEST");
-                } else if (appId == null || TextUtils.isEmpty(appId.trim())) {
-                    Log.e("AlliN Push", "Required meta-data 'allin.appid' in MANIFEST");
-                } else {
-                    AlliNConfiguration.getInstance().init(delegate);
+                AINotification notification = new AINotification(background, icon, whiteIcon);
 
-                    AINotification notification = new AINotification(background, icon, whiteIcon);
-                    AIConfiguration configuration = new AIConfiguration(senderId, notification);
-
-                    new ConfigurationService(configuration).init();
-                }
+                new ConfigurationService(notification).init();
             }
         } catch (PackageManager.NameNotFoundException nameNotFoundException) {
             nameNotFoundException.printStackTrace();

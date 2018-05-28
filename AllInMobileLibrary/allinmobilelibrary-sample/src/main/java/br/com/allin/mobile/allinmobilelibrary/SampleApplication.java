@@ -1,7 +1,6 @@
 package br.com.allin.mobile.allinmobilelibrary;
 
 import android.app.Application;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -17,7 +16,12 @@ public class SampleApplication extends Application implements AllInDelegate {
     }
 
     @Override
-    public void onAction(String action, boolean sentFromServer) {
-        Toast.makeText(this, action, Toast.LENGTH_SHORT).show();
+    public void onSilentMessageReceived(String identifier) {
+
+    }
+
+    @Override
+    public void onClickAction(String identifier) {
+
     }
 }

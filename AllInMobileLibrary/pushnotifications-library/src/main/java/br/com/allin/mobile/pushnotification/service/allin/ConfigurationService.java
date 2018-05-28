@@ -1,48 +1,43 @@
 package br.com.allin.mobile.pushnotification.service.allin;
 
-import android.text.TextUtils;
+import android.content.Context;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
-import br.com.allin.mobile.pushnotification.identifiers.PreferenceIdentifier;
-import br.com.allin.mobile.pushnotification.entity.allin.AIConfiguration;
-import br.com.allin.mobile.pushnotification.entity.allin.AIDevice;
 import br.com.allin.mobile.pushnotification.entity.allin.AINotification;
+import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
+import br.com.allin.mobile.pushnotification.helper.Util;
+import br.com.allin.mobile.pushnotification.identifiers.PreferenceIdentifier;
 
 /**
  * Service class for push configuration
  */
 public class ConfigurationService {
-    private AIConfiguration AIConfiguration;
-    private AINotification AINotification;
-    private PreferencesManager preferencesManager;
+    private AINotification notification;
 
-    public ConfigurationService(AIConfiguration AIConfiguration) {
-        this.AIConfiguration = AIConfiguration;
-        this.AINotification = AIConfiguration.getNotification();
-        this.preferencesManager = new PreferencesManager(AlliNPush.getInstance().getContext());
+    public ConfigurationService(AINotification notification) {
+        this.notification = notification;
     }
 
     public void init() {
         new CacheService().sync();
 
-        if (AINotification != null) {
-            preferencesManager.storeData(
-                    PreferenceIdentifier.ICON_NOTIFICATION, AINotification.getIcon());
-            preferencesManager.storeData(
-                    PreferenceIdentifier.WHITE_ICON_NOTIFICATION, AINotification.getWhiteIcon());
-            preferencesManager.storeData(
-                    PreferenceIdentifier.BACKGROUND_NOTIFICATION, AINotification.getBackground());
+        if (notification != null) {
+            int icon = notification.getIcon();
+            int whiteIcon = notification.getWhiteIcon();
+            int background = notification.getBackground();
+
+            Context context = AlliNPush.getInstance().getContext();
+            PreferencesManager preferences = new PreferencesManager(context);
+
+            preferences.storeData(PreferenceIdentifier.ICON_NOTIFICATION, icon);
+            preferences.storeData(PreferenceIdentifier.WHITE_ICON_NOTIFICATION, whiteIcon);
+            preferences.storeData(PreferenceIdentifier.BACKGROUND_NOTIFICATION, background);
         }
 
-        DeviceService deviceService = new DeviceService();
-        AIDevice device = deviceService.getDeviceInfos(AIConfiguration.getSenderId());
+        String token = AlliNPush.getInstance().getDeviceToken();
 
-        if (device == null || TextUtils.isEmpty(device.getDeviceId()) || device.isRenewId()) {
-            GCMService gcmService = new GCMService(device, AIConfiguration);
-            gcmService.execute();
-        } else {
-            deviceService.sendDevice(device);
+        if (Util.isNullOrClear(token)) {
+            new PushService().execute();
         }
     }
 }

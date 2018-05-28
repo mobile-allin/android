@@ -40,7 +40,7 @@ public class Notification {
         this.contextWeakReference = new WeakReference<>(context);
     }
 
-    void showNotification(@NonNull Bundle bundle) {
+    void showNotification(@NonNull final Bundle bundle) {
         if (bundle.containsKey(PushIdentifier.IMAGE)) {
             new DownloadImage(bundle.getString(PushIdentifier.IMAGE), new OnDownloadCompleted() {
                 @Override

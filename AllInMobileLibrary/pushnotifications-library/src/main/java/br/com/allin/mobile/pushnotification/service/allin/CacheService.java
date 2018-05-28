@@ -21,8 +21,8 @@ public class CacheService {
         List<AICache> cacheList = cacheDAO.getAll();
 
         if (cacheList != null) {
-            for (AICache AICache : cacheList) {
-                sync(AICache);
+            for (AICache cache : cacheList) {
+                sync(cache);
             }
         }
     }

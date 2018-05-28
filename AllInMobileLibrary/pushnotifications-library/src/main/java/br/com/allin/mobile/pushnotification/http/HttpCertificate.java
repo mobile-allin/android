@@ -52,7 +52,12 @@ abstract class HttpCertificate {
             SSLContext sslContext = SSLContext.getInstance("SSL");
             sslContext.init(null, trustManagerArray, new SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-            HttpsURLConnection.setDefaultHostnameVerifier((s, sslSession) -> true);
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String s, SSLSession sslSession) {
+                    return true;
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

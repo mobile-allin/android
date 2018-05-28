@@ -1,8 +1,12 @@
 package br.com.allin.mobile.pushnotification.location;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -49,7 +53,15 @@ public class AllInLocation implements GoogleApiClient.ConnectionCallbacks,
 
     @Override
     public void onConnected(Bundle bundle) {
-        try {
+        Context context = AlliNPush.getInstance().getContext();
+
+        String strCoarseLocation = Manifest.permission.ACCESS_COARSE_LOCATION;
+        String strFineLocation = Manifest.permission.ACCESS_FINE_LOCATION;
+
+        int coarseLocation = ContextCompat.checkSelfPermission(context, strCoarseLocation);
+        int fineLocation = ContextCompat.checkSelfPermission(context, strFineLocation);
+
+        if (coarseLocation == PackageManager.PERMISSION_GRANTED || fineLocation == PackageManager.PERMISSION_GRANTED) {
             Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
 
             if (location != null) {
@@ -57,7 +69,7 @@ public class AllInLocation implements GoogleApiClient.ConnectionCallbacks,
             } else {
                 onAllInLocationChange.locationNotFound();
             }
-        } catch (Exception e) {
+        } else {
             onAllInLocationChange.locationNotFound();
         }
     }

@@ -110,11 +110,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         AlliNPush.getInstance().finish();
     }
 
-    @Override
-    public void onAction(String action, boolean sentFromServer) {
-
-    }
-
     public void deviceIsEnable() {
         showNotificationLoad();
 
@@ -179,6 +174,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onSilentMessageReceived(String identifier) {
+
+    }
+
+    @Override
+    public void onClickAction(String identifier) {
+
     }
 
     private void showNotificationLoad() {

@@ -5,8 +5,6 @@ package br.com.allin.mobile.pushnotification.identifiers;
  */
 
 public interface AlliNConfigIdentifier {
-    String SENDER_ID = "allin.senderid";
-    String APP_ID = "allin.token";
     String WHITE_ICON = "allin_notification_white_icon";
     String ICON = "allin_notification_icon";
     String BACKGROUND = "allin_notification_background";
