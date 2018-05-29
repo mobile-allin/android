@@ -11,14 +11,18 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.NotificationCompat;
-import android.support.v7.app.NotificationCompat.Builder;
+import android.util.Log;
+
+import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
+import java.net.URLDecoder;
+import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.identifiers.ActionIdentifier;
@@ -40,36 +44,46 @@ public class Notification {
         this.contextWeakReference = new WeakReference<>(context);
     }
 
-    void showNotification(@NonNull final Bundle bundle) {
-        if (bundle.containsKey(PushIdentifier.IMAGE)) {
-            new DownloadImage(bundle.getString(PushIdentifier.IMAGE), new OnDownloadCompleted() {
+    void showNotification(@NonNull final RemoteMessage remoteMessage) {
+        Map<String, String> data = remoteMessage.getData();
+
+        if (data.containsKey(PushIdentifier.IMAGE)) {
+            new DownloadImage(data.get(PushIdentifier.IMAGE), new OnDownloadCompleted() {
                 @Override
                 public void onCompleted(Bitmap bitmap) {
-                    showNotification(bitmap, bundle);
+                    showNotification(bitmap, remoteMessage);
                 }
 
                 @Override
                 public void onError() {
-                    showNotification(null, bundle);
+                    showNotification(null, remoteMessage);
                 }
             }).execute();
         } else {
-            showNotification(null, bundle);
+            showNotification(null, remoteMessage);
         }
     }
 
-    private void showNotification(Bitmap bitmap, Bundle bundle) {
-        String title = bundle.getString(PushIdentifier.SUBJECT);
-        String content = bundle.getString(PushIdentifier.DESCRIPTION);
+    private void showNotification(Bitmap bitmap, RemoteMessage remoteMessage) {
+        Map<String, String> data = remoteMessage.getData();
+
+        RemoteMessage.Notification notification = remoteMessage.getNotification();
+
+        if (notification == null) {
+            return;
+        }
+
+        String title = notification.getTitle();
+        String content = notification.getBody();
 
         if (!Util.isNullOrClear(title) && !Util.isNullOrClear(content)) {
             Context context = contextWeakReference.get();
+            Bundle bundle = generateBundle(remoteMessage);
+
             int color = preferences.getData(PreferenceIdentifier.BACKGROUND_NOTIFICATION, 0);
             int whiteIcon = preferences.getData(PreferenceIdentifier.WHITE_ICON_NOTIFICATION, 0);
             int icon = preferences.getData(PreferenceIdentifier.ICON_NOTIFICATION, 0);
             long idMessage = AlliNPush.getInstance().addMessage(new AlMessage(bundle));
-
-            bundle.putLong(PushIdentifier.ID, idMessage);
 
             Intent intent = new Intent();
             intent.setAction(BroadcastNotificationIdentifier.ACTION);
@@ -77,7 +91,7 @@ public class Notification {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
             PendingIntent pendingIntent = getPending(context, 0, intent);
-            Builder builder = new Builder(context);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "");
 
             if (icon == 0) {
                 builder.setSmallIcon(whiteIcon != 0 ? whiteIcon : getNotificationIcon(context));
@@ -113,7 +127,7 @@ public class Notification {
         }
     }
 
-    private void addActions(Context context, Builder notificationBuilder, Bundle extras) {
+    private void addActions(Context context, NotificationCompat.Builder notificationBuilder, Bundle extras) {
         if (extras.containsKey(PushIdentifier.ACTIONS)) {
             try {
                 JSONArray jsonArray = new JSONArray(extras.getString(PushIdentifier.ACTIONS));
@@ -148,5 +162,42 @@ public class Notification {
 
     private PendingIntent getPending(Context context, int code, Intent intent) {
         return PendingIntent.getBroadcast(context, code, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private Bundle generateBundle(RemoteMessage remoteMessage) {
+        Map<String, String> map = remoteMessage.getData();
+
+        if (map.containsKey(PushIdentifier.URL_SCHEME)) {
+            String scheme = map.get(PushIdentifier.URL_SCHEME);
+
+            try {
+                scheme = URLDecoder.decode(scheme, "UTF-8");
+            } catch (Exception e) {
+                Log.e(MessagingService.class.toString(), "ERRO IN DECODE URL");
+            } finally {
+                if (scheme != null && scheme.contains("##id_push##")) {
+                    String md5DeviceToken = Util.md5(AlliNPush.getInstance().getDeviceToken());
+
+                    scheme = scheme.replace("##id_push##", md5DeviceToken);
+                }
+
+                map.put(PushIdentifier.URL_SCHEME, scheme);
+            }
+        }
+
+        Bundle bundle = new Bundle();
+
+        for (Map.Entry<String, String> entry : remoteMessage.getData().entrySet()) {
+            bundle.putString(entry.getKey(), entry.getValue());
+        }
+
+        RemoteMessage.Notification notification = remoteMessage.getNotification();
+
+        if (notification != null) {
+            bundle.putString(PushIdentifier.SUBJECT, notification.getTitle());
+            bundle.putString(PushIdentifier.DESCRIPTION, notification.getBody());
+        }
+
+        return bundle;
     }
 }
