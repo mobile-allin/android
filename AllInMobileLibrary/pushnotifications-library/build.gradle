@@ -35,7 +35,7 @@ ext {
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 14
@@ -44,10 +44,6 @@ android {
 
 configurations {
     jaxDoclet
-}
-
-dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
 }
 
 buildscript {
@@ -66,15 +62,22 @@ buildscript {
 }
 
 dependencies {
+    // SUPPORT LIBRARY
     implementation 'com.android.support:appcompat-v7:26.1.0'
+
+    // FIREBASE
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+    implementation 'com.google.firebase:firebase-messaging:17.0.0'
+
+    // LOCATION
     implementation 'com.google.android.gms:play-services-location:15.0.1'
-    implementation('com.google.firebase:firebase-messaging:17.0.0') {
-        exclude group: 'org.json', module: 'json'
-    }
+
+    // ROOM
     implementation 'android.arch.persistence.room:runtime:1.1.0'
     implementation 'android.arch.persistence.room:rxjava2:1.1.0'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.0'
 }
 
+// BINTRAY
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

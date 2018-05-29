@@ -34,10 +34,10 @@ public class ConfigurationService {
             preferences.storeData(PreferenceIdentifier.BACKGROUND_NOTIFICATION, background);
         }
 
-        String token = AlliNPush.getInstance().getDeviceToken();
-
-        if (Util.isNullOrClear(token)) {
-            new PushService().execute();
-        }
+//        String token = AlliNPush.getInstance().getDeviceToken();
+//
+//        if (Util.isNullOrClear(token)) {
+//            new PushService().execute();
+//        }
     }
 }

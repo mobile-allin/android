@@ -3,7 +3,9 @@ package br.com.allin.mobile.pushnotification.service.allin;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.lang.ref.WeakReference;
@@ -25,7 +27,17 @@ public class PushService extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... params) {
-        return FirebaseInstanceId.getInstance().getToken();
+        try {
+            String token = FirebaseInstanceId.getInstance().getToken();
+
+            Log.d("DEBUG", "TOKEN: " + token);
+
+            return token;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
     }
 
     @Override

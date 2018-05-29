@@ -15,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import br.com.allin.mobile.pushnotification.identifiers.ConfigIdentifier;
+
 /**
  * Class that contains common methods that will be used throughout the library.
  */
@@ -99,7 +101,7 @@ public class Util {
      */
     public static String getToken(Context context) {
         int tokenId = context.getResources()
-                .getIdentifier("allin_token", "string", context.getPackageName());
+                .getIdentifier(ConfigIdentifier.TOKEN, "string", context.getPackageName());
 
         if (tokenId > 0) {
             return context.getString(tokenId);

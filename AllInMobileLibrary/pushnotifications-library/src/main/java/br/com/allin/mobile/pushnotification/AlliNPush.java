@@ -3,10 +3,10 @@ package br.com.allin.mobile.pushnotification;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.util.Log;
 
 import java.lang.ref.WeakReference;
@@ -17,7 +17,8 @@ import br.com.allin.mobile.pushnotification.entity.allin.AINotification;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.entity.allin.AlMessage;
 import br.com.allin.mobile.pushnotification.helper.FieldHelper;
-import br.com.allin.mobile.pushnotification.identifiers.AlliNConfigIdentifier;
+import br.com.allin.mobile.pushnotification.helper.Util;
+import br.com.allin.mobile.pushnotification.identifiers.ConfigIdentifier;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 import br.com.allin.mobile.pushnotification.service.allin.ConfigurationService;
@@ -34,37 +35,37 @@ import br.com.allin.mobile.pushnotification.service.allin.StatusService;
  * <br>
  * <b>To add value to the strings file with the name "all_in_token"</b>
  * and own lib will try to get this information
- *
+ * <p>
  * <br><br>
  * <b>Required Permissions:</b>
- *
+ * <p>
  * <br><br>
  * <u><b>Permission to receive push notification:</b></u>
  * <br><br>
- *
+ * <p>
  * {@code <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />}
  * {@code <uses-permission android:name="android.permission.WAKE_LOCK" />}
- *
+ * <p>
  * <br><br>
  * <u><b>Permission to access the internet:</b></u>
  * <br><br>
- *
+ * <p>
  * {@code <uses-permission android:name="android.permission.INTERNET" />}
- *
+ * <p>
  * <br><br>
  * <u><b>Permission to view status of the internet (online or offline):</b></u>
  * <br><br>
- *
+ * <p>
  * {@code <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />}
- *
+ * <p>
  * <br><br>
  * <u><b>Geolocation permissions:</b></u>
  * <br><br>
- *
+ * <p>
  * {@code <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />}
  * <br>
  * {@code <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />}
- *
+ * <p>
  * <br><br><br>
  * You must also <b>add to Manifest</b> the following lines:
  * <br><br>
@@ -72,8 +73,8 @@ import br.com.allin.mobile.pushnotification.service.allin.StatusService;
  * <br><br>
  * {@code
  * <activity
- *     android:name="br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity"
- *     android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+ * android:name="br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity"
+ * android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
  * }
  * <br><br>
  * <u><b>To configure the GCM:</b></u>
@@ -120,8 +121,16 @@ public class AlliNPush {
      * Singleton instance of class
      */
     public static AlliNPush getInstance() {
+        return AlliNPush.getInstance(null);
+    }
+
+    public static AlliNPush getInstance(Context context) {
         if (alliNPush == null) {
             alliNPush = new AlliNPush();
+        }
+
+        if (context != null) {
+            alliNPush.setContext(context);
         }
 
         return alliNPush;
@@ -141,20 +150,26 @@ public class AlliNPush {
                     .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
 
             if (applicationInfo != null) {
-                @DrawableRes
-                int whiteIcon = FieldHelper.getResId(AlliNConfigIdentifier.WHITE_ICON, "drawable");
-                @DrawableRes
-                int icon = FieldHelper.getResId(AlliNConfigIdentifier.ICON, "drawable");
-                @ColorRes
-                int background = FieldHelper.getResId(AlliNConfigIdentifier.BACKGROUND, "color");
+                String appId = applicationInfo.metaData.getString(ConfigIdentifier.TOKEN);
 
-                AlliNConfiguration.getInstance().init(delegate);
+                if (Util.isNullOrClear(appId)) {
+                    Log.e("AlliN Push", "Required meta-data 'allin.senderid' in MANIFEST");
+                } else {
+                    @DrawableRes
+                    int whiteIcon = FieldHelper.getResId(ConfigIdentifier.WHITE_ICON, "drawable");
+                    @DrawableRes
+                    int icon = FieldHelper.getResId(ConfigIdentifier.ICON, "drawable");
+                    @ColorRes
+                    int background = FieldHelper.getResId(ConfigIdentifier.BACKGROUND, "color");
 
-                AINotification notification = new AINotification(background, icon, whiteIcon);
+                    AlliNConfiguration.getInstance().init(delegate);
 
-                new ConfigurationService(notification).init();
+                    AINotification notification = new AINotification(background, icon, whiteIcon);
+
+                    new ConfigurationService(notification).init();
+                }
             }
-        } catch (PackageManager.NameNotFoundException nameNotFoundException) {
+        } catch (NameNotFoundException nameNotFoundException) {
             nameNotFoundException.printStackTrace();
         }
     }
@@ -217,7 +232,7 @@ public class AlliNPush {
     /**
      * <b>Asynchronous</b> - Shipping to list
      *
-     * @param nmList Mailing list that will be sent
+     * @param nmList           Mailing list that will be sent
      * @param columnsAndValues Map with key and value for formation of the JSON API
      */
     public void sendList(String nmList, List<AIValues> columnsAndValues) {
@@ -253,7 +268,6 @@ public class AlliNPush {
      * This method is used to remove a history message
      *
      * @param message The AlMessage object is created automatically by the framework
-     *
      * @return Identification of push received in application
      */
     public long addMessage(AlMessage message) {
@@ -264,7 +278,6 @@ public class AlliNPush {
      * This method is used to remove a history message
      *
      * @param id Identification of push received in application
-     *
      * @return If successfully deleted
      */
     public boolean deleteMessage(int id) {
@@ -273,7 +286,6 @@ public class AlliNPush {
 
     /**
      * @param id Identification of push received in application
-     *
      * @return If successfully updated
      */
     public boolean messageHasBeenRead(long id) {

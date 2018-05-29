@@ -1,10 +1,10 @@
 package br.com.allin.mobile.allinmobilelibrary;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,7 +23,7 @@ import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AllInDelegate {
+public class MainActivity extends Activity implements AdapterView.OnItemClickListener, AllInDelegate {
 
     private ListView lvAllIn;
     private Switch swAllInNotification;

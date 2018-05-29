@@ -54,15 +54,15 @@ public abstract class BaseTask<T> extends AsyncTask<Void, Void, Object> implemen
         super.onPostExecute(object);
 
         if (object instanceof AIResponse) {
-            AIResponse AIResponse = (AIResponse) object;
+            AIResponse response = (AIResponse) object;
 
-            if (!AIResponse.isSuccess()) {
+            if (!response.isSuccess()) {
                 if (onRequest != null) {
-                    onRequest.onError(new WebServiceException(AIResponse.getMessage()));
+                    onRequest.onError(new WebServiceException(response.getMessage()));
                 }
             } else {
                 if (onRequest != null) {
-                    onRequest.onFinish(onSuccess(AIResponse));
+                    onRequest.onFinish(onSuccess(response));
                 }
             }
         } else {
