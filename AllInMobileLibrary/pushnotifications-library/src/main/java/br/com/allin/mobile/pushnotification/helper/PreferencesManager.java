@@ -12,14 +12,12 @@ import br.com.allin.mobile.pushnotification.identifiers.PreferenceIdentifier;
  * Responsible for saving/edit the saved values in the device preferences.
  */
 public class PreferencesManager {
-    private WeakReference<Context> contextWeakReference;
     private final SharedPreferences preferences;
 
     /**
      * Default constructor.
      */
     public PreferencesManager(Context context) {
-        this.contextWeakReference = new WeakReference<>(context);
         this.preferences = context.getSharedPreferences(PreferenceIdentifier.PREFERENCES_ID, Context.MODE_PRIVATE);
     }
 

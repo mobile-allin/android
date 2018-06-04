@@ -111,21 +111,6 @@ public class HttpManager extends HttpCertificate {
     public static AIResponse makeRequestURL(String urlString, RequestType requestType,
                                             JSONObject data, boolean withCache) throws WebServiceException {
         Context context = AlliNPush.getInstance().getContext();
-
-        if (withCache && !Util.isNetworkAvailable(context)) {
-            new CacheService().insert(urlString, data != null ? data.toString() : "");
-
-            throw new WebServiceException("Internet is not available");
-        }
-
-        URL url;
-
-        try {
-            url = new URL(urlString);
-        } catch (MalformedURLException e) {
-            throw new WebServiceException("Invalid URL: " + e.getMessage());
-        }
-
         String token = Util.getToken(context);
 
         AIResponse response;
@@ -134,6 +119,8 @@ public class HttpManager extends HttpCertificate {
         generateCertificate();
 
         try {
+            URL url = new URL(urlString);
+
             connection = (HttpURLConnection) url.openConnection();
 
             connection.setDoInput(true);

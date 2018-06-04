@@ -41,57 +41,6 @@ public class Util {
     }
 
     /**
-     * Verifies that the device has Google Play Services (APK) installed.
-     *
-     * @param context Application context.
-     *
-     * @return If the device has the apk Google Play Services installed returns {@code true}.
-     * Otherwise, returns {@code false}.
-     */
-    public static boolean checkPlayServices(Context context) {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
-
-        return resultCode == ConnectionResult.SUCCESS;
-    }
-
-    /**
-     * Return the application version. The version is set in the key
-     * {@code android:versionCode} of {@code AndroidManifest.xml}.
-     *
-     * @param context Application context.
-     *
-     * @return Application version.
-     */
-    public static int getAppVersion(Context context) {
-        try {
-            PackageInfo packageInfo = context.getPackageManager()
-                    .getPackageInfo(context.getPackageName(), 0);
-            return packageInfo.versionCode;
-        } catch (Exception e) {
-            throw new RuntimeException("Could not get package name: " + e);
-        }
-    }
-
-    /**
-     * Verifies that the device is connected to any network (WiFi or Mobile).
-     *
-     * <b>Attention:</b> This method only checks if the device is connected,
-     * there is no connectivity (eg does not check for
-     * available WiFi networks or if there is 3G signal).
-     *
-     * @param context Application context.
-     *
-     * @return If the device is connected returns {@code true}. Otherwise, returns {@code false}.
-     */
-    public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager connectivityManager =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
-
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
-
-    /**
      * Returns the AllIn token saved in the
      * key {@code all_in_token}. The token must be informed in the XML string.
      *
@@ -119,9 +68,8 @@ public class Util {
      * @return MD5 value
      */
     public static String md5(String value) {
-        final String MD5 = "MD5";
         try {
-            MessageDigest digest = java.security.MessageDigest.getInstance(MD5);
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
             digest.update(value.getBytes());
             byte messageDigest[] = digest.digest();
 
@@ -130,7 +78,7 @@ public class Util {
                 String h = Integer.toHexString(0xFF & aMessageDigest);
 
                 while (h.length() < 2) {
-                    h = "0" + h;
+                    h = "0".concat(h);
                 }
 
                 hexString.append(h);
