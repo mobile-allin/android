@@ -61,15 +61,20 @@ public class AllInLocation implements GoogleApiClient.ConnectionCallbacks,
         int coarseLocation = ContextCompat.checkSelfPermission(context, strCoarseLocation);
         int fineLocation = ContextCompat.checkSelfPermission(context, strFineLocation);
 
-        if (coarseLocation == PackageManager.PERMISSION_GRANTED || fineLocation == PackageManager.PERMISSION_GRANTED) {
-            Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        try {
+            if (coarseLocation == PackageManager.PERMISSION_GRANTED
+                    || fineLocation == PackageManager.PERMISSION_GRANTED) {
+                Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
 
-            if (location != null) {
-                onAllInLocationChange.locationFound(location.getLatitude(), location.getLongitude());
+                if (location != null) {
+                    onAllInLocationChange.locationFound(location.getLatitude(), location.getLongitude());
+                } else {
+                    onAllInLocationChange.locationNotFound();
+                }
             } else {
                 onAllInLocationChange.locationNotFound();
             }
-        } else {
+        } catch (Exception e) {
             onAllInLocationChange.locationNotFound();
         }
     }

@@ -89,8 +89,10 @@ public class AllInWebViewActivity extends AppCompatActivity {
         relativeLayout.addView(wvAllIn, layoutParamsWebView);
 
         // PROGRESS BAR ============================================================================
-        RelativeLayout.LayoutParams layoutParamsProgress =
-                new RelativeLayout.LayoutParams(getPx(60), getPx(60));
+        float density = getResources().getDisplayMetrics().density;
+        int size = (int) (60 * density + 0.5f);
+
+        RelativeLayout.LayoutParams layoutParamsProgress = new RelativeLayout.LayoutParams(size, size);
         layoutParamsProgress.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
 
         pbAllIn = new ProgressBar(AllInWebViewActivity.this);
@@ -138,12 +140,6 @@ public class AllInWebViewActivity extends AppCompatActivity {
         }
 
         wvAllIn.loadUrl(url);
-    }
-
-    private int getPx(int dimensionDp) {
-        float density = getResources().getDisplayMetrics().density;
-
-        return (int) (dimensionDp * density + 0.5f);
     }
 
     @Override

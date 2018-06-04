@@ -68,5 +68,4 @@ public class BroadcastNotification extends WakefulBroadcastReceiver {
             context.startActivity(intent);
         }
     }
-
 }
