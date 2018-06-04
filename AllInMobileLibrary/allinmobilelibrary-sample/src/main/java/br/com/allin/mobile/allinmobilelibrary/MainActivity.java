@@ -13,11 +13,14 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
+import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -154,14 +157,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
                 String pushId = AlliNPush.getInstance().getDeviceToken();
 
-                Map<String, String> map = new HashMap<>();
-                map.put("id_push", Util.md5(pushId));
-                map.put("push_id", pushId);
-                map.put("plataforma", "android");
-                map.put("dt_ultima_abertura", null);
-                map.put("dt_ultimo_clique", null);
+                List<AIValues> list = new ArrayList<>();
+                list.add(new AIValues("id_push", Util.md5(pushId)));
+                list.add(new AIValues("push_id", pushId));
+                list.add(new AIValues("plataforma", "android"));
+                list.add(new AIValues("dt_ultima_abertura", null));
+                list.add(new AIValues("dt_ultimo_clique", null));
 
-//                AlliNPush.getInstance().sendList("Lista Padrao Push", map);
+                AlliNPush.getInstance().sendList("Lista Padrao Push", list);
 
                 break;
 

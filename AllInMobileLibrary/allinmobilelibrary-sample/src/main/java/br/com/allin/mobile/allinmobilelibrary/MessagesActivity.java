@@ -30,7 +30,7 @@ public class MessagesActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_messages);
 
-        lvMessages = (ListView) findViewById(R.id.lvMessages);
+        lvMessages = findViewById(R.id.lvMessages);
         lvMessages.setAdapter(new Adapter(AlliNPush.getInstance().getMessages()));
     }
 
@@ -60,11 +60,11 @@ public class MessagesActivity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            final View view = LayoutInflater.from(MessagesActivity.this)
+            View view = LayoutInflater.from(MessagesActivity.this)
                     .inflate(R.layout.adapter_message, parent, false);
 
-            final TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-            final TextView tvMessage = (TextView) view.findViewById(R.id.tvMessage);
+            TextView tvTitle = view.findViewById(R.id.tvTitle);
+            TextView tvMessage = view.findViewById(R.id.tvMessage);
 
             tvTitle.setText(getItem(position).getSubject());
             tvMessage.setText(getItem(position).getDescription());
