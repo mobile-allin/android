@@ -25,7 +25,7 @@ public abstract class AbstractException extends Exception {
      * @param params The error message parameters
      *
      */
-    public AbstractException(String message, Object... params) {
+    AbstractException(String message, Object... params) {
         super(String.format(message, params));
     }
 }
