@@ -2,7 +2,7 @@ package br.com.allin.mobile.pushnotification.identifiers;
 
 public interface PushIdentifier {
     String ID = "id";
-    String SUBJECT = "subject";
+    String TITLE = "title";
     String ID_SEND = "id_send";
     String SILENT_ACTION = "silent_message";
     String ID_CAMPAIGN = "id_campaign";
@@ -12,5 +12,5 @@ public interface PushIdentifier {
     String DATE = "date";
     String IMAGE = "image";
     String ACTIONS = "actions";
-    String DESCRIPTION = "description";
+    String BODY = "body";
 }

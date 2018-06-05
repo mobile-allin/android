@@ -45,7 +45,7 @@ public class AllInWebViewActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getIntent().getStringExtra(PushIdentifier.SUBJECT));
+            getSupportActionBar().setTitle(getIntent().getStringExtra(PushIdentifier.TITLE));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 

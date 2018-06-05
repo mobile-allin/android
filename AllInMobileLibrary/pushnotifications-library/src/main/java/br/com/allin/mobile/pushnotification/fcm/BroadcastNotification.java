@@ -62,7 +62,7 @@ public class BroadcastNotification extends WakefulBroadcastReceiver {
             intent.putExtra(PushIdentifier.DATE, bundle.getString(PushIdentifier.DATE));
             intent.putExtra(PushIdentifier.ID_CAMPAIGN, bundle.getString(PushIdentifier.ID_CAMPAIGN));
             intent.putExtra(PushIdentifier.ID_LOGIN, bundle.getString(PushIdentifier.ID_LOGIN));
-            intent.putExtra(PushIdentifier.SUBJECT, bundle.getString(PushIdentifier.SUBJECT));
+            intent.putExtra(PushIdentifier.TITLE, bundle.getString(PushIdentifier.TITLE));
             intent.putExtra(PushIdentifier.URL_SCHEME, bundle.getString(PushIdentifier.URL_SCHEME));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);

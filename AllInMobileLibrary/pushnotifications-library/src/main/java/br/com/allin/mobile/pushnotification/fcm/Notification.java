@@ -36,12 +36,12 @@ import br.com.allin.mobile.pushnotification.http.DownloadImage;
 import br.com.allin.mobile.pushnotification.http.DownloadImage.OnDownloadCompleted;
 
 public class Notification {
-    private WeakReference<Context> contextWeakReference;
     private PreferencesManager preferences;
 
     Notification(Context context) {
+        AlliNPush.getInstance(context);
+
         this.preferences = new PreferencesManager(context);
-        this.contextWeakReference = new WeakReference<>(context);
     }
 
     void showNotification(@NonNull final RemoteMessage remoteMessage) {
@@ -65,20 +65,13 @@ public class Notification {
     }
 
     private void showNotification(Bitmap bitmap, RemoteMessage remoteMessage) {
-        Map<String, String> data = remoteMessage.getData();
+        Bundle bundle = generateBundle(remoteMessage);
 
-        RemoteMessage.Notification notification = remoteMessage.getNotification();
+        String title = bundle.getString(PushIdentifier.TITLE);
+        String body = bundle.getString(PushIdentifier.BODY);
 
-        if (notification == null) {
-            return;
-        }
-
-        String title = notification.getTitle();
-        String content = notification.getBody();
-
-        if (!Util.isNullOrClear(title) && !Util.isNullOrClear(content)) {
-            Context context = contextWeakReference.get();
-            Bundle bundle = generateBundle(remoteMessage);
+        if (!Util.isNullOrClear(title) && !Util.isNullOrClear(body)) {
+            Context context = AlliNPush.getInstance().getContext();
 
             int color = preferences.getData(PreferenceIdentifier.BACKGROUND_NOTIFICATION, 0);
             int whiteIcon = preferences.getData(PreferenceIdentifier.WHITE_ICON_NOTIFICATION, 0);
@@ -106,14 +99,14 @@ public class Notification {
                     .setGroupSummary(true)
                     .setGroup("messages")
                     .setContentIntent(pendingIntent)
-                    .setContentText(content)
+                    .setContentText(body)
                     .setContentTitle(title)
                     .setAutoCancel(true);
 
             if (bitmap != null) {
                 builder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap));
             } else {
-                builder.setStyle(new NotificationCompat.BigTextStyle().bigText(content));
+                builder.setStyle(new NotificationCompat.BigTextStyle().bigText(body));
             }
 
             addActions(context, builder, bundle);
@@ -194,8 +187,8 @@ public class Notification {
         RemoteMessage.Notification notification = remoteMessage.getNotification();
 
         if (notification != null) {
-            bundle.putString(PushIdentifier.SUBJECT, notification.getTitle());
-            bundle.putString(PushIdentifier.DESCRIPTION, notification.getBody());
+            bundle.putString(PushIdentifier.TITLE, notification.getTitle());
+            bundle.putString(PushIdentifier.BODY, notification.getBody());
         }
 
         return bundle;

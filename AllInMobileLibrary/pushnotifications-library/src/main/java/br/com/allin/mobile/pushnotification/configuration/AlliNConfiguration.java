@@ -1,6 +1,7 @@
 package br.com.allin.mobile.pushnotification.configuration;
 
 import android.content.IntentFilter;
+import android.util.Log;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.identifiers.BroadcastNotificationIdentifier;
@@ -42,7 +43,11 @@ public class AlliNConfiguration {
     }
 
     public void finish() {
-        AlliNPush.getInstance().getContext().unregisterReceiver(broadcastNotification);
+        try {
+            AlliNPush.getInstance().getContext().unregisterReceiver(broadcastNotification);
+        } catch (Exception e) {
+            Log.i("BroadcastNotification", "Receiver not registered");
+        }
 
         broadcastNotification = null;
     }
