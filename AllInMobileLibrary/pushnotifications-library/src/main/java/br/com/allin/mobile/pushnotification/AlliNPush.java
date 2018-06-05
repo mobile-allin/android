@@ -273,8 +273,8 @@ public class AlliNPush {
      * @param message The AIMessage object is created automatically by the framework
      * @return Identification of push received in application
      */
-    public void addMessage(AIMessage message) {
-        new MessageService().addMessage(message);
+    public long addMessage(AIMessage message) {
+        return new MessageService().addMessage(message);
     }
 
     /**

@@ -37,7 +37,7 @@ public class CacheTask extends AsyncTask<Void, Void, Object> {
         super.onPostExecute(object);
 
         if (object instanceof AIResponse) {
-            cacheDAO.delete(cache.getId());
+            cacheDAO.deleteById(cache.getId());
         }
     }
 }

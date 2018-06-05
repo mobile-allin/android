@@ -1,6 +1,7 @@
 package br.com.allin.mobile.pushnotification.entity.allin;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 /**
@@ -22,29 +23,33 @@ public class AICache {
       @param url URL attempt request
       @param json JSON attempt request
     */
+    @Ignore
     public AICache(String url, String json) {
         this.url = url;
         this.json = json;
     }
 
-    /**
-      @return Recorded cache Id
-    */
     public long getId() {
         return id;
     }
 
-    /**
-       @return URL cache recorded
-     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getUrl() {
         return url;
     }
 
-    /**
-       @return JSON recorded cache
-     */
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public String getJson() {
         return json;
+    }
+
+    public void setJson(String json) {
+        this.json = json;
     }
 }

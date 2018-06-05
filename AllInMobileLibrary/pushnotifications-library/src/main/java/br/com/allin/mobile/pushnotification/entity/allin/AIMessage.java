@@ -29,6 +29,9 @@ public class AIMessage {
     private String urlCampaign;
     private boolean read;
 
+    public AIMessage() {
+    }
+
     @Ignore
     public AIMessage(Bundle bundle) {
         this.id = bundle.getInt(MessageDatabaseConstant.DB_FIELD_ID);
