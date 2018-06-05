@@ -1,5 +1,8 @@
 package br.com.allin.mobile.pushnotification.entity.allin;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.database.Cursor;
 import android.os.Bundle;
 
@@ -10,8 +13,9 @@ import br.com.allin.mobile.pushnotification.constants.MessageDatabaseConstant;
 /**
  * Created by lucasrodrigues on 05/04/17.
  */
-
-public class AlMessage {
+@Entity(tableName = "message")
+public class AIMessage {
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String idSend;
     private String subject;
@@ -25,77 +29,8 @@ public class AlMessage {
     private String urlCampaign;
     private boolean read;
 
-    public AlMessage(int id, String idSend, String subject, String description,
-                     String idCampaign, String idLogin, String urlScheme,
-                     String action, String date, String urlCampaign, String urlTransactional) {
-        this.id = id;
-        this.idSend = idSend;
-        this.subject = subject;
-        this.description = description;
-        this.idCampaign = idCampaign;
-        this.idLogin = idLogin;
-        this.urlScheme = urlScheme;
-        this.action = action;
-        this.date = date;
-        this.urlTransactional = urlTransactional;
-        this.urlCampaign = urlCampaign;
-
-        updateNullValues();
-    }
-
-    public AlMessage(int id, String idSend, String subject, String description,
-                     String idCampaign, String idLogin, String urlScheme,
-                     String action, String date, String urlCampaign,
-                     String urlTransactional, boolean read) {
-        this.id = id;
-        this.idSend = idSend;
-        this.subject = subject;
-        this.description = description;
-        this.idCampaign = idCampaign;
-        this.idLogin = idLogin;
-        this.urlScheme = urlScheme;
-        this.action = action;
-        this.date = date;
-        this.urlTransactional = urlTransactional;
-        this.urlCampaign = urlCampaign;
-        this.read = read;
-
-        updateNullValues();
-    }
-
-    public AlMessage(Cursor cursor) {
-        this.id = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_ID, 0);
-        this.idSend = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_ID_SEND, "");
-        this.subject = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_SUBJECT, "");
-        this.description = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_DESCRIPTION, "");
-        this.idCampaign = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_ID_CAMPAIGN, "");
-        this.idLogin = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_ID_LOGIN, "");
-        this.urlScheme = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_URL_SCHEME, "");
-        this.action = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_ACTION, "");
-        this.date = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_DATE_NOTIFICATION, "");
-        this.urlTransactional = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_URL_TRANSACTIONAL, "");
-        this.urlCampaign = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_URL_CAMPAIGN, "");
-        this.read = getCursorValue(cursor, MessageDatabaseConstant.DB_FIELD_READ, false);
-
-        updateNullValues();
-    }
-
-    public <T> T getCursorValue(Cursor cursor, String key, Object valueDefault) {
-        int index = cursor.getColumnIndex(key);
-        Object object = null;
-
-        if (index >= 0) {
-            if (valueDefault instanceof String) {
-                object = cursor.getString(index);
-            } else if (valueDefault instanceof Integer) {
-                object = cursor.getInt(index);
-            }
-        }
-
-        return (T) (object == null ? valueDefault : object);
-    }
-
-    public AlMessage(Bundle bundle) {
+    @Ignore
+    public AIMessage(Bundle bundle) {
         this.id = bundle.getInt(MessageDatabaseConstant.DB_FIELD_ID);
         this.idSend = bundle.getString(MessageDatabaseConstant.DB_FIELD_ID_SEND);
         this.subject = bundle.getString(MessageDatabaseConstant.DB_FIELD_SUBJECT);

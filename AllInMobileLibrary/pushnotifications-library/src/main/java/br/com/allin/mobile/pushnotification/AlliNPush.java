@@ -13,9 +13,10 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
+import br.com.allin.mobile.pushnotification.dao.AlliNDatabase;
+import br.com.allin.mobile.pushnotification.entity.allin.AIMessage;
 import br.com.allin.mobile.pushnotification.entity.allin.AINotification;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
-import br.com.allin.mobile.pushnotification.entity.allin.AlMessage;
 import br.com.allin.mobile.pushnotification.helper.FieldHelper;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.identifiers.ConfigIdentifier;
@@ -112,10 +113,10 @@ import br.com.allin.mobile.pushnotification.service.allin.StatusService;
  * <b>OBS: These settings are required for the proper functioning of lib.</b>
  */
 public class AlliNPush {
+    private static AlliNPush alliNPush;
+
     private AlliNPush() {
     }
-
-    private static AlliNPush alliNPush;
 
     /**
      * Singleton instance of class
@@ -133,6 +134,8 @@ public class AlliNPush {
             alliNPush.setContext(context);
         }
 
+        AlliNDatabase.init(context);
+
         return alliNPush;
     }
 
@@ -143,7 +146,7 @@ public class AlliNPush {
     }
 
     public void registerForPushNotifications(@NonNull Context context, AllInDelegate delegate) {
-        this.contextWeakReference = new WeakReference<>(context);
+        this.setContext(context);
 
         try {
             ApplicationInfo applicationInfo = context.getPackageManager()
@@ -260,28 +263,27 @@ public class AlliNPush {
     /**
      * @return History push's received in application
      */
-    public List<AlMessage> getMessages() {
+    public List<AIMessage> getMessages() {
         return new MessageService().getMessages();
     }
 
     /**
      * This method is used to remove a history message
      *
-     * @param message The AlMessage object is created automatically by the framework
+     * @param message The AIMessage object is created automatically by the framework
      * @return Identification of push received in application
      */
-    public long addMessage(AlMessage message) {
-        return new MessageService().addMessage(message);
+    public void addMessage(AIMessage message) {
+        new MessageService().addMessage(message);
     }
 
     /**
      * This method is used to remove a history message
      *
      * @param id Identification of push received in application
-     * @return If successfully deleted
      */
-    public boolean deleteMessage(int id) {
-        return new MessageService().deleteMessage(id);
+    public void deleteMessage(int id) {
+        new MessageService().deleteMessage(id);
     }
 
     /**
@@ -289,6 +291,6 @@ public class AlliNPush {
      * @return If successfully updated
      */
     public boolean messageHasBeenRead(long id) {
-        return new MessageService().messageHasBeenRead(id);
+        return new MessageService().hasBeenRead(id);
     }
 }

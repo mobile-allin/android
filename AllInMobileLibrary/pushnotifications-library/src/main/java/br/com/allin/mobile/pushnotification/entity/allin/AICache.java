@@ -1,22 +1,28 @@
 package br.com.allin.mobile.pushnotification.entity.allin;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 /**
     AICache object from local database
  */
+@Entity(tableName = "cache")
 public class AICache {
-    private int id;
+    @PrimaryKey(autoGenerate = true)
+    private long id;
     private String url;
     private String json;
+
+    public AICache() {
+    }
 
     /**
       Initializes the object by setting the URL and JSON (the ID is generated automatically in the local database)
 
-      @param id request attempt ID
       @param url URL attempt request
       @param json JSON attempt request
     */
-    public AICache(int id, String url, String json) {
-        this.id = id;
+    public AICache(String url, String json) {
         this.url = url;
         this.json = json;
     }
@@ -24,7 +30,7 @@ public class AICache {
     /**
       @return Recorded cache Id
     */
-    public int getId() {
+    public long getId() {
         return id;
     }
 

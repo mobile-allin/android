@@ -20,16 +20,15 @@ import com.google.firebase.messaging.RemoteMessage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.ref.WeakReference;
 import java.net.URLDecoder;
 import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
+import br.com.allin.mobile.pushnotification.entity.allin.AIMessage;
 import br.com.allin.mobile.pushnotification.identifiers.ActionIdentifier;
 import br.com.allin.mobile.pushnotification.identifiers.BroadcastNotificationIdentifier;
 import br.com.allin.mobile.pushnotification.identifiers.PreferenceIdentifier;
 import br.com.allin.mobile.pushnotification.identifiers.PushIdentifier;
-import br.com.allin.mobile.pushnotification.entity.allin.AlMessage;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.http.DownloadImage;
@@ -76,7 +75,7 @@ public class Notification {
             int color = preferences.getData(PreferenceIdentifier.BACKGROUND_NOTIFICATION, 0);
             int whiteIcon = preferences.getData(PreferenceIdentifier.WHITE_ICON_NOTIFICATION, 0);
             int icon = preferences.getData(PreferenceIdentifier.ICON_NOTIFICATION, 0);
-            long idMessage = AlliNPush.getInstance().addMessage(new AlMessage(bundle));
+            long idMessage = AlliNPush.getInstance().addMessage(new AIMessage(bundle));
 
             Intent intent = new Intent();
             intent.setAction(BroadcastNotificationIdentifier.ACTION);
