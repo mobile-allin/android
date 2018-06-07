@@ -22,10 +22,6 @@ public class BroadcastNotification extends WakefulBroadcastReceiver {
         Bundle bundle = intentReceive.getExtras();
 
         if (bundle != null) {
-            if (bundle.containsKey(PushIdentifier.ID)) {
-                AlliNPush.getInstance().messageHasBeenRead((int) bundle.getLong(PushIdentifier.ID));
-            }
-
             if (bundle.containsKey(PushIdentifier.ACTION)) {
                 AllInDelegate delegate = AlliNConfiguration.getInstance().getDelegate();
 
@@ -49,6 +45,8 @@ public class BroadcastNotification extends WakefulBroadcastReceiver {
         } else if (bundle.containsKey(PushIdentifier.ID_SEND)) {
             service.sendTransactional(bundle.getInt(PushIdentifier.ID_SEND), date);
         }
+
+        AlliNPush.getInstance().messageHasBeenRead(bundle.getLong(PushIdentifier.ID));
     }
 
     private void start(Context context, Bundle bundle) {

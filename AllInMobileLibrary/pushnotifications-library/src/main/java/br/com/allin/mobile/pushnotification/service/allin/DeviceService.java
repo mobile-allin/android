@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.constants.ListIdentifier;
+import br.com.allin.mobile.pushnotification.identifiers.ListIdentifier;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
 import br.com.allin.mobile.pushnotification.helper.Util;

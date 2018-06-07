@@ -75,7 +75,8 @@ public class Notification {
             int color = preferences.getData(PreferenceIdentifier.BACKGROUND_NOTIFICATION, 0);
             int whiteIcon = preferences.getData(PreferenceIdentifier.WHITE_ICON_NOTIFICATION, 0);
             int icon = preferences.getData(PreferenceIdentifier.ICON_NOTIFICATION, 0);
-            long idMessage = AlliNPush.getInstance().addMessage(new AIMessage(bundle));
+
+            AlliNPush.getInstance().addMessage(new AIMessage(bundle));
 
             Intent intent = new Intent();
             intent.setAction(BroadcastNotificationIdentifier.ACTION);
@@ -114,7 +115,7 @@ public class Notification {
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             if (notificationManager != null) {
-                notificationManager.notify((int) idMessage, builder.build());
+                notificationManager.notify((int) bundle.getLong(PushIdentifier.ID), builder.build());
             }
         }
     }

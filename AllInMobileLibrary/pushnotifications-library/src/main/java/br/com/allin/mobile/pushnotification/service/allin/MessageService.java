@@ -18,16 +18,16 @@ public class MessageService {
         this.messageDAO = AlliNDatabase.get().messageTable();
     }
 
-    public long addMessage(AIMessage message) {
-        return messageDAO.insert(message);
+    public void addMessage(AIMessage message) {
+        messageDAO.insert(message);
     }
 
     public void deleteMessage(long id) {
         messageDAO.deleteById(id);
     }
 
-    public boolean hasBeenRead(long id) {
-        return messageDAO.hasBeenRead(id);
+    public void hasBeenRead(long id) {
+        messageDAO.hasBeenReaded(id);
     }
 
     public List<AIMessage> getMessages() {

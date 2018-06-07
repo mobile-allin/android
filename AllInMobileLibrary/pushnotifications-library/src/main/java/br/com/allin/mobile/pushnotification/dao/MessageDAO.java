@@ -20,7 +20,7 @@ public interface MessageDAO {
     List<AIMessage> get();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long insert(AIMessage message);
+    void insert(AIMessage message);
 
     @Delete
     void delete(AIMessage message);
@@ -28,6 +28,6 @@ public interface MessageDAO {
     @Query("DELETE FROM message WHERE id = :id")
     void deleteById(long id);
 
-    @Query("SELECT read FROM message WHERE id = :id")
-    boolean hasBeenRead(long id);
+    @Query("UPDATE message SET read = 1 WHERE id = :id")
+    void hasBeenReaded(long id);
 }

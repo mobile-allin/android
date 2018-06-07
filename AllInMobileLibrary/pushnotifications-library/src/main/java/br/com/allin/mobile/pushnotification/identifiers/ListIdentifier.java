@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.constants;
+package br.com.allin.mobile.pushnotification.identifiers;
 
 public interface ListIdentifier {
     String LISTA_PADRAO = "Lista Padrao Push";

@@ -271,10 +271,9 @@ public class AlliNPush {
      * This method is used to remove a history message
      *
      * @param message The AIMessage object is created automatically by the framework
-     * @return Identification of push received in application
      */
-    public long addMessage(AIMessage message) {
-        return new MessageService().addMessage(message);
+    public void addMessage(AIMessage message) {
+        new MessageService().addMessage(message);
     }
 
     /**
@@ -288,9 +287,8 @@ public class AlliNPush {
 
     /**
      * @param id Identification of push received in application
-     * @return If successfully updated
      */
-    public boolean messageHasBeenRead(long id) {
-        return new MessageService().hasBeenRead(id);
+    public void messageHasBeenRead(long id) {
+        new MessageService().hasBeenRead(id);
     }
 }
