@@ -134,8 +134,6 @@ public class AlliNPush {
             alliNPush.setContext(context);
         }
 
-        AlliNDatabase.init(context);
-
         return alliNPush;
     }
 
@@ -183,6 +181,8 @@ public class AlliNPush {
 
     public void setContext(Context context) {
         this.contextWeakReference = new WeakReference<>(context);
+
+        AlliNDatabase.init(context);
     }
 
     public void finish() {

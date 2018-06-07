@@ -4,6 +4,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import br.com.allin.mobile.pushnotification.entity.allin.AICache;
 import br.com.allin.mobile.pushnotification.entity.allin.AIMessage;
@@ -27,8 +28,8 @@ public abstract class AlliNDatabase extends RoomDatabase {
 
     private static AlliNDatabase instance;
 
-    public static void init(Context context) {
-        if (instance == null && context != null) {
+    public static void init(@NonNull Context context) {
+        if (instance == null) {
             instance = Room.databaseBuilder(context, AlliNDatabase.class,
                     DatabaseIdentifier.DB_NAME).allowMainThreadQueries().build();
         }

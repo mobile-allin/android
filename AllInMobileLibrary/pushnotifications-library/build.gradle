@@ -22,7 +22,7 @@ ext {
     siteUrl = 'http://allin.com.br/'
     gitUrl = 'https://github.com/giep-br/mobile-android.git'
 
-    libraryVersion = '0.1.10-beta'
+    libraryVersion = '0.1.11-beta'
 
     developerId = 'lbrsilva-allin'
     developerName = 'Lucas Barbosa Rodrigues Silva'
@@ -74,7 +74,6 @@ dependencies {
 
     // ROOM
     implementation 'android.arch.persistence.room:runtime:1.1.0'
-    implementation 'android.arch.persistence.room:rxjava2:1.1.0'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.0'
 }
 
