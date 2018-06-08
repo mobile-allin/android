@@ -20,7 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
+import br.com.allin.mobile.pushnotification.BTG360;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
+import br.com.allin.mobile.pushnotification.entity.btg.AISearch;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -39,11 +41,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         AlliNPush.getInstance().registerForPushNotifications(this);
 
 //        ADD SEARCH ================================================
-//        List<AISearch> list = new ArrayList<>();
-//        list.add(new AISearch("iPhone BAGAÇA"));
-//        BTG360.addSearchs("60:1", list);
+        List<AISearch> list = new ArrayList<>();
+        list.add(new AISearch("iPhone BAGAÇA"));
+        BTG360.addSearchs("60:1", list);
 
-//        BTG360.addSearch("60:1", new AISearch("TESTE SINGLE"));
+        BTG360.addSearch("60:1", new AISearch("TESTE SINGLE"));
 
 //        ADD CART ==================================================
 //        List<AICart> carts = new ArrayList<>();
