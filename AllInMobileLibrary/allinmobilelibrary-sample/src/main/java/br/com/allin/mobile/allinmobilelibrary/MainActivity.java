@@ -23,6 +23,7 @@ import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.BTG360;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.entity.btg.AISearch;
+import br.com.allin.mobile.pushnotification.entity.btg.AITransaction;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
@@ -41,11 +42,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         AlliNPush.getInstance().registerForPushNotifications(this);
 
 //        ADD SEARCH ================================================
-        List<AISearch> list = new ArrayList<>();
-        list.add(new AISearch("iPhone BAGAÇA"));
-        BTG360.addSearchs("60:1", list);
-
-        BTG360.addSearch("60:1", new AISearch("TESTE SINGLE"));
+//        List<AISearch> list = new ArrayList<>();
+//        list.add(new AISearch("iPhone BAGAÇA"));
+//        BTG360.addSearchs("60:1", list);
+//
+//        BTG360.addSearch("60:1", new AISearch("TESTE SINGLE"));
 
 //        ADD CART ==================================================
 //        List<AICart> carts = new ArrayList<>();
@@ -63,9 +64,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 //        BTG360.addClients("60:1", clients);
 
 //        ADD TRANSACTIONS ==========================================
-//        List<AITransaction> transactions = new ArrayList<>();
-//        transactions.add(new AITransaction("01010101Trans", "AC1231231"));
-//        BTG360.addTransactions("60:1", transactions);
+        List<AITransaction> transactions = new ArrayList<>();
+        transactions.add(new AITransaction("01010101Trans", "AC1231231"));
+        BTG360.addTransactions("60:1", transactions);
 
 //        ADD WARNS =================================================
 //        List<AIWarn> warns = new ArrayList<>();
