@@ -24,8 +24,11 @@ import br.com.allin.mobile.pushnotification.service.btg.WishListService;
  * Created by lucasrodrigues on 06/02/18.
  */
 public class BTG360 {
-    public static void initialize(Context context, String deviceToken) {
+    public static void initialize(Context context) {
         AlliNPush.getInstance().setContext(context);
+    }
+
+    public static void setDeviceToken(String deviceToken) {
         AlliNPush.getInstance().setDeviceToken(deviceToken);
     }
 
