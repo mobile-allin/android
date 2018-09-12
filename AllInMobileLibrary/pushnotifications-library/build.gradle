@@ -10,18 +10,17 @@ apply plugin: 'com.android.library'
 // ./gradlew bintrayUpload
 
 ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'AllInMobileLibrary'
+    bintrayRepo = 'allin'
+    bintrayName = 'allin-mobile'
+    bintrayUserOrg = 'allinmarketingcloud'
 
     publishedGroupId = 'br.com.allin.mobile.pushnotification'
-    libraryName = 'pushnotifications-library'
-    artifact = 'pushnotifications-library'
+    libraryName = 'All iN Mobile'
+    artifact = 'allin-mobile'
 
-    libraryDescription = 'Biblioteca de push da AllIn'
-
+    libraryDescription = 'Versão Beta da Ferramenta de Push e BTG360 (Remarketing)'
     siteUrl = 'http://allin.com.br/'
     gitUrl = 'https://github.com/giep-br/mobile-android.git'
-
     libraryVersion = '0.1.11-beta'
 
     developerId = 'lbrsilva-allin'
@@ -55,9 +54,9 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
 }
 
@@ -66,15 +65,15 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:26.1.0'
 
     // FIREBASE
-    implementation 'com.google.firebase:firebase-core:16.0.0'
-    implementation 'com.google.firebase:firebase-messaging:17.0.0'
+    implementation 'com.google.firebase:firebase-core:16.0.3'
+    implementation 'com.google.firebase:firebase-messaging:17.3.1'
 
     // LOCATION
     implementation 'com.google.android.gms:play-services-location:15.0.1'
 
     // ROOM
-    implementation 'android.arch.persistence.room:runtime:1.1.0'
-    annotationProcessor 'android.arch.persistence.room:compiler:1.1.0'
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
 }
 
 // BINTRAY
