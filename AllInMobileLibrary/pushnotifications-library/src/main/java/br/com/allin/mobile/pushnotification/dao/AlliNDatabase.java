@@ -23,19 +23,18 @@ import br.com.allin.mobile.pushnotification.identifiers.DatabaseIdentifier;
         exportSchema = false)
 public abstract class AlliNDatabase extends RoomDatabase {
     public abstract CacheDAO cacheTable();
-
     public abstract MessageDAO messageTable();
 
     private static AlliNDatabase instance;
 
-    public static void init(@NonNull Context context) {
-        if (instance == null) {
-            instance = Room.databaseBuilder(context, AlliNDatabase.class,
+    public static void initialize(@NonNull Context context) {
+        if (AlliNDatabase.instance == null) {
+            AlliNDatabase.instance = Room.databaseBuilder(context, AlliNDatabase.class,
                     DatabaseIdentifier.DB_NAME).allowMainThreadQueries().build();
         }
     }
 
     public static AlliNDatabase get() {
-        return instance;
+        return AlliNDatabase.instance;
     }
 }

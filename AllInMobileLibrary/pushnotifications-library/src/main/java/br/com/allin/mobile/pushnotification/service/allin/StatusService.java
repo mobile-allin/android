@@ -18,14 +18,14 @@ public class StatusService {
     }
 
     public void enable() {
-        new ToggleTask(true, onRequest).execute();
+        new ToggleTask(true, this.onRequest).execute();
     }
 
     public void disable() {
-        new ToggleTask(false, onRequest).execute();
+        new ToggleTask(false, this.onRequest).execute();
     }
 
     public void deviceIsEnable() {
-        new StatusTask(onRequest).execute();
+        new StatusTask(this.onRequest).execute();
     }
 }

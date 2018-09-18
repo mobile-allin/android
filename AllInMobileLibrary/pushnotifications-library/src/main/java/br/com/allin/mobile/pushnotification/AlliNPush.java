@@ -126,15 +126,15 @@ public class AlliNPush {
     }
 
     public static AlliNPush getInstance(Context context) {
-        if (alliNPush == null) {
-            alliNPush = new AlliNPush();
+        if (AlliNPush.alliNPush == null) {
+            AlliNPush.alliNPush = new AlliNPush();
         }
 
         if (context != null) {
-            alliNPush.setContext(context);
+            AlliNPush.alliNPush.setContext(context);
         }
 
-        return alliNPush;
+        return AlliNPush.alliNPush;
     }
 
     private WeakReference<Context> contextWeakReference;
@@ -147,8 +147,11 @@ public class AlliNPush {
         this.setContext(context);
 
         try {
-            ApplicationInfo applicationInfo = context.getPackageManager()
-                    .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            PackageManager packageManager = context.getPackageManager();
+            String packageName = context.getPackageName();
+
+            ApplicationInfo applicationInfo = packageManager
+                    .getApplicationInfo(packageName, PackageManager.GET_META_DATA);
 
             if (applicationInfo != null) {
                 String appId = applicationInfo.metaData.getString(ConfigIdentifier.TOKEN);
@@ -163,32 +166,30 @@ public class AlliNPush {
                     @ColorRes
                     int background = FieldHelper.getResId(ConfigIdentifier.BACKGROUND, "color");
 
-                    AlliNConfiguration.getInstance().init(delegate);
-
+                    AlliNConfiguration.getInstance().initialize(delegate);
                     AINotification notification = new AINotification(background, icon, whiteIcon);
 
                     new ConfigurationService(notification).init();
                 }
             }
-        } catch (NameNotFoundException nameNotFoundException) {
-            nameNotFoundException.printStackTrace();
+        } catch (NameNotFoundException ex) {
+            ex.printStackTrace();
         }
     }
 
     public Context getContext() {
-        return contextWeakReference.get();
+        return this.contextWeakReference.get();
     }
 
     public void setContext(Context context) {
         this.contextWeakReference = new WeakReference<>(context);
 
-        AlliNDatabase.init(context);
+        AlliNDatabase.initialize(context);
     }
 
     public void finish() {
         AlliNConfiguration.getInstance().finish();
     }
-
     /**
      * <b>Asynchronous</b> - Disable notifications on the server
      */

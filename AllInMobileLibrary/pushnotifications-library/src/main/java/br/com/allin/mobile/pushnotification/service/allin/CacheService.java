@@ -19,20 +19,20 @@ public class CacheService {
     }
 
     void sync() {
-        List<AICache> cacheList = cacheDAO.get();
+        List<AICache> cacheList = this.cacheDAO.get();
 
         if (cacheList != null) {
             for (AICache cache : cacheList) {
-                sync(cache);
+                this.sync(cache);
             }
         }
     }
 
-    private void sync(final AICache cache) {
-        new CacheTask(cache, cacheDAO).execute();
+    private void sync(AICache cache) {
+        new CacheTask(cache, this.cacheDAO).execute();
     }
 
     public void insert(String url, String json) {
-        cacheDAO.insert(new AICache(url, json));
+        this.cacheDAO.insert(new AICache(url, json));
     }
 }

@@ -1,4 +1,4 @@
-package br.com.allin.mobile.pushnotification.fcm;
+package br.com.allin.mobile.pushnotification.notification;
 
 import android.content.Context;
 import android.content.Intent;

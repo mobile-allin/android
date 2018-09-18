@@ -5,5 +5,5 @@ package br.com.allin.mobile.pushnotification.identifiers;
  */
 
 public interface BroadcastNotificationIdentifier {
-    String ACTION = "br.com.allin.mobile.pushnotification.fcm.BroadcastNotification";
+    String ACTION = "br.com.allin.mobile.pushnotification.notification.BroadcastNotification";
 }

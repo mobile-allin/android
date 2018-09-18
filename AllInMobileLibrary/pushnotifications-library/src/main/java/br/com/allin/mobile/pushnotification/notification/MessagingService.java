@@ -1,13 +1,15 @@
-package br.com.allin.mobile.pushnotification.fcm;
+package br.com.allin.mobile.pushnotification.notification;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
 
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.identifiers.PushIdentifier;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
+import br.com.allin.mobile.pushnotification.service.allin.DeviceService;
 
 public class MessagingService extends FirebaseMessagingService {
     @Override
@@ -28,5 +30,12 @@ public class MessagingService extends FirebaseMessagingService {
                 notification.showNotification(remoteMessage);
             }
         }
+    }
+
+    @Override
+    public void onNewToken(String newToken) {
+        super.onNewToken(newToken);
+
+        new DeviceService().sendDevice(AlliNPush.getInstance(this).getDeviceToken(), newToken);
     }
 }

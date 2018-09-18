@@ -19,18 +19,18 @@ public class MessageService {
     }
 
     public void addMessage(AIMessage message) {
-        messageDAO.insert(message);
+        this.messageDAO.insert(message);
     }
 
     public void deleteMessage(long id) {
-        messageDAO.deleteById(id);
+        this.messageDAO.deleteById(id);
     }
 
     public void hasBeenRead(long id) {
-        messageDAO.hasBeenReaded(id);
+        this.messageDAO.hasBeenReaded(id);
     }
 
     public List<AIMessage> getMessages() {
-        return messageDAO.get();
+        return this.messageDAO.get();
     }
 }

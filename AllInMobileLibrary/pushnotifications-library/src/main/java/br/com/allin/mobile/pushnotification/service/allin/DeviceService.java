@@ -29,10 +29,6 @@ public class DeviceService {
         this.onRequest = onRequest;
     }
 
-    public void sendDevice(String token) {
-        this.sendDevice(null, token);
-    }
-
     public void sendDevice(String oldToken, String newToken) {
         setDeviceToken(newToken);
 
@@ -59,15 +55,15 @@ public class DeviceService {
     }
 
     public void logout() {
-        new LogoutTask(onRequest).execute();
+        new LogoutTask(this.onRequest).execute();
     }
 
     public void sendList(String nameList, List<AIValues> columnsAndValues) {
-        new ListTask(nameList, columnsAndValues, onRequest).execute();
+        new ListTask(nameList, columnsAndValues, this.onRequest).execute();
     }
 
     public void registerEmail(String email) {
-        new EmailTask(email, onRequest).execute();
+        new EmailTask(email, this.onRequest).execute();
     }
 
     public String getDeviceToken() {

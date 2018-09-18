@@ -21,10 +21,10 @@ public class ConfigurationService {
     public void init() {
         new CacheService().sync();
 
-        if (notification != null) {
-            int icon = notification.getIcon();
-            int whiteIcon = notification.getWhiteIcon();
-            int background = notification.getBackground();
+        if (this.notification != null) {
+            int icon = this.notification.getIcon();
+            int whiteIcon = this.notification.getWhiteIcon();
+            int background = this.notification.getBackground();
 
             Context context = AlliNPush.getInstance().getContext();
             PreferencesManager preferences = new PreferencesManager(context);
@@ -33,11 +33,5 @@ public class ConfigurationService {
             preferences.storeData(PreferenceIdentifier.WHITE_ICON_NOTIFICATION, whiteIcon);
             preferences.storeData(PreferenceIdentifier.BACKGROUND_NOTIFICATION, background);
         }
-
-//        String token = AlliNPush.getInstance().getDeviceToken();
-//
-//        if (Util.isNullOrClear(token)) {
-//            new PushService().execute();
-//        }
     }
 }
