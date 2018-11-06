@@ -1,16 +1,19 @@
 package br.com.allin.mobile.pushnotification.gcm;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -18,7 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URLDecoder;
-import java.util.Random;
 
 import br.com.allin.mobile.pushnotification.AllInPush;
 import br.com.allin.mobile.pushnotification.SharedPreferencesManager;
@@ -32,11 +34,11 @@ import br.com.allin.mobile.pushnotification.http.DownloadImage;
 /**
  * Class that provides the notification of receipt of a push GCM.
  */
-public class AllInGcmNotification {
+class AllInGcmNotification {
     private Context context;
     private SharedPreferencesManager sharedPreferencesManager;
 
-    public AllInGcmNotification(Context context) {
+    AllInGcmNotification(Context context) {
         this.context = context;
         this.sharedPreferencesManager = new SharedPreferencesManager(context);
     }
@@ -46,10 +48,12 @@ public class AllInGcmNotification {
      *
      * @param extras ParametersConstants to be included in the notification.
      */
-    public void showNotification(final Bundle extras) {
+    void showNotification(final Bundle extras) {
         if (extras == null) {
             return;
         }
+
+        this.context.registerReceiver(new BroadcastNotification(), new IntentFilter(BroadcastNotification.ACTION));
 
         dealScheme(extras);
 
@@ -111,11 +115,11 @@ public class AllInGcmNotification {
         intent.putExtras(extras);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        PendingIntent pendingIntent =
-                PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder
-                notificationCompatBuilder = new NotificationCompat.Builder(context);
+                notificationCompatBuilder = new NotificationCompat.Builder(context, "notify_001");
 
         if (icon == 0) {
             notificationCompatBuilder
@@ -151,11 +155,23 @@ public class AllInGcmNotification {
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify((int) idMessage, notificationCompatBuilder.build());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && notificationManager != null) {
+            NotificationChannel channel = new NotificationChannel("notify_001",
+                    "Channel " + idMessage, NotificationManager.IMPORTANCE_HIGH);
+            channel.enableVibration(true);
+            channel.enableLights(true);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+
+        if (notificationManager != null) {
+            notificationManager.notify((int) idMessage, notificationCompatBuilder.build());
+        }
     }
 
     private void addActions(Context context,
-                                   NotificationCompat.Builder notificationBuilder, Bundle extras) {
+                            NotificationCompat.Builder notificationBuilder, Bundle extras) {
         String actions = extras.getString(NotificationConstants.ACTIONS);
 
         if (actions != null && !TextUtils.isEmpty(actions)) {

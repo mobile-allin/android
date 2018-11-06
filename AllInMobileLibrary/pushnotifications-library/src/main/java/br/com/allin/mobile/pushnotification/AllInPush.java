@@ -175,10 +175,10 @@ public class AllInPush {
         new ConfigurationService(configurationEntity, onRequest).init();
     }
 
-    /*
+
     public static void finish() {
         AllInConfiguration.getInstance().finish();
-    } */
+    }
 
     /**
      * <b>Asynchronous</b> - Disable notifications on the server

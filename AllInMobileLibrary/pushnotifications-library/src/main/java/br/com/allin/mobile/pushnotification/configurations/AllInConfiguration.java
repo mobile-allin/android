@@ -3,6 +3,8 @@ package br.com.allin.mobile.pushnotification.configurations;
 import android.content.Context;
 import android.content.IntentFilter;
 
+import java.lang.ref.WeakReference;
+
 import br.com.allin.mobile.pushnotification.gcm.BroadcastNotification;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 
@@ -25,15 +27,19 @@ public class AllInConfiguration {
     }
 
     private AllInDelegate allInDelegate;
-    private BroadcastNotification broadcastNotification;
-    private Context context;
+//    private BroadcastNotification broadcastNotification;
+    private WeakReference<Context> context;
 
     public Context getContext() {
-        return context;
+        if (this.context == null) {
+            return null;
+        }
+
+        return this.context.get();
     }
 
     public void setContext(Context context) {
-        this.context = context;
+        this.context = new WeakReference<>(context);
     }
 
     public AllInDelegate getAllInDelegate() {
@@ -45,14 +51,14 @@ public class AllInConfiguration {
     }
 
     public void init() {
-        broadcastNotification = new BroadcastNotification();
-
-        context.registerReceiver(broadcastNotification, new IntentFilter(BroadcastNotification.ACTION));
+//        broadcastNotification = new BroadcastNotification();
+//
+//        context.registerReceiver(broadcastNotification, new IntentFilter(BroadcastNotification.ACTION));
     }
 
     public void finish() {
-        context.unregisterReceiver(broadcastNotification);
-
-        broadcastNotification = null;
+//        context.unregisterReceiver(broadcastNotification);
+//
+//        broadcastNotification = null;
     }
 }

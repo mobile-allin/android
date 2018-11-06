@@ -1,6 +1,7 @@
 package br.com.allin.mobile.allinmobilelibrary;
 
 import android.app.Application;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -16,7 +17,16 @@ public class SampleApplication extends Application implements AllInDelegate {
     public void onCreate() {
         super.onCreate();
 
+        Log.d("DEBUG", "ALL IN onCreate");
+
         Fabric.with(this, new Crashlytics());
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+
+        Log.d("DEBUG", "ALL IN onTerminate");
     }
 
     @Override

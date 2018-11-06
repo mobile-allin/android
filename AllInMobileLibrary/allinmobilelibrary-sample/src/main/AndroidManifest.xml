@@ -63,6 +63,11 @@
             </intent-filter>
         </receiver>
 
+        <service
+            android:name="br.com.allin.mobile.pushnotification.gcm.AllInJobService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <!-- Servico registrando o GCM Listener da AllIn -->
         <service
             android:name="br.com.allin.mobile.pushnotification.gcm.AllInGcmListenerService"
@@ -72,11 +77,9 @@
             </intent-filter>
         </service>
 
-        <receiver android:name="br.com.allin.mobile.pushnotification.gcm.BroadcastNotification">
-            <intent-filter>
-                <action android:name="br.com.allin.mobile.pushnotification.gcm.BroadcastNotification" />
-            </intent-filter>
-        </receiver>
+        <service
+            android:name="br.com.allin.mobile.pushnotification.gcm.BroadcastNotification"
+            android:exported="false" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

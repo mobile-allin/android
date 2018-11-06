@@ -1,5 +1,6 @@
 package br.com.allin.mobile.pushnotification.gcm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -35,7 +36,10 @@ public class AllInGcmListenerService extends GcmListenerService {
                 }.sendEmptyMessage(0);
             }
         } else {
-            new AllInGcmNotification(this).showNotification(data);
+            Intent intent = new Intent();
+            intent.putExtras(data);
+
+            AllInJobService.enqueueWork(this, intent);
         }
     }
 }
