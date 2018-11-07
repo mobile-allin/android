@@ -1,11 +1,10 @@
 package br.com.allin.mobile.allinmobilelibrary;
 
-import android.app.ProgressDialog;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,30 +12,67 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Switch;
-import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-import br.com.allin.mobile.pushnotification.AllInPush;
-import br.com.allin.mobile.pushnotification.Util;
-import br.com.allin.mobile.pushnotification.entity.ConfigurationEntity;
-import br.com.allin.mobile.pushnotification.entity.NotificationEntity;
+import br.com.allin.mobile.pushnotification.AlliNPush;
+import br.com.allin.mobile.pushnotification.BTG360;
+import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
+import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AllInDelegate {
+public class MainActivity extends Activity implements AdapterView.OnItemClickListener, AllInDelegate {
 
     private ListView lvAllIn;
     private Switch swAllInNotification;
     private ProgressBar pbLoadNotification;
-    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AlliNPush.getInstance().registerForPushNotifications(this);
+
+//        ADD SEARCH ================================================
+//        List<AISearch> list = new ArrayList<>();
+//        list.add(new AISearch("iPhone BAGAÇA"));
+//        BTG360.addSearchs("60:1", list);
+//
+//        BTG360.addSearch("60:1", new AISearch("TESTE SINGLE"));
+
+//        ADD CART ==================================================
+//        List<AICart> carts = new ArrayList<>();
+//        carts.add(new AICart("131231231"));
+//        BTG360.addCarts("60:1", carts);
+
+//        ADD PRODUCTS ==============================================
+//        List<AIProduct> products = new ArrayList<>();
+//        products.add(new AIProduct("01010101"));
+//        BTG360.addProducts("60:1", products);
+
+//        ADD CLIENTS ===============================================
+//        List<AIClient> clients = new ArrayList<>();
+//        clients.add(new AIClient("lucasbrsilva@gmail.com"));
+//        BTG360.addClients("60:1", clients);
+
+//        ADD TRANSACTIONS ==========================================
+//        List<AITransaction> transactions = new ArrayList<>();
+//        transactions.add(new AITransaction("01010101Trans", "AC1231231"));
+//        BTG360.addTransactions("60:1", transactions);
+
+//        ADD WARNS =================================================
+//        List<AIWarn> warns = new ArrayList<>();
+//        warns.add(new AIWarn("01010101Warn", true));
+//        BTG360.addWarnMe("60:1", warns);
+
+//        ADD WARNS =================================================
+//        List<AIWish> wishs = new ArrayList<>();
+//        wishs.add(new AIWish("01010101Warn", true));
+//        BTG360.addWishList("60:1", wishs);
 
         setContentView(R.layout.activity_main);
 
@@ -51,89 +87,30 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         swAllInNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                MainActivity.this.showNotificationLoad();
+                showNotificationLoad();
 
-                OnRequest onRequest = toggleSwitch(isChecked);
+                swAllInNotification.setChecked(isChecked);
 
                 if (isChecked) {
-                    AllInPush.getInstance().enable(onRequest);
+                    AlliNPush.getInstance().enable();
                 } else {
-                    AllInPush.getInstance().disable(onRequest);
+                    AlliNPush.getInstance().disable();
                 }
+
+                deviceIsEnable();
             }
         });
 
         deviceIsEnable();
-
-        initPushAlliN();
-    }
-
-    private void initPushAlliN() {
-        try {
-            String projectId = getString(R.string.project_id);
-
-            NotificationEntity notification = new NotificationEntity(
-                    "#000000", R.mipmap.ic_launcher, android.R.drawable.sym_def_app_icon);
-
-            ConfigurationEntity configurationEntity = new ConfigurationEntity(projectId);
-            configurationEntity.setNotificationEntity(notification);
-
-            AllInPush.configure(this, this, configurationEntity);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        // Finalizar os serviços de push
-        AllInPush.finish();
-    }
-
-    @Override
-    public void onAction(String action, boolean sentFromServer) {
-
-    }
-
-    private OnRequest toggleSwitch(final boolean enable) {
-        return new OnRequest<String>() {
-            @Override
-            public void onFinish(final String value) {
-                MainActivity.this.hideNotificationLoad();
-
-                swAllInNotification.setChecked(enable);
-            }
-
-            @Override
-            public void onError(final Exception exception) {
-                MainActivity.this.hideNotificationLoad();
-
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-                alertDialog.setTitle("Erro");
-                alertDialog.setMessage(exception.getMessage());
-                alertDialog.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-
-                        swAllInNotification.setChecked(!enable);
-                    }
-                });
-
-                alertDialog.create().show();
-            }
-        };
     }
 
     public void deviceIsEnable() {
-        MainActivity.this.showNotificationLoad();
+        showNotificationLoad();
 
-        AllInPush.getInstance().deviceIsEnable(new OnRequest<Boolean>() {
+        AlliNPush.getInstance().deviceIsEnable(new OnRequest<Boolean>() {
             @Override
             public void onFinish(final Boolean value) {
-                MainActivity.this.hideNotificationLoad();
+                hideNotificationLoad();
 
                 swAllInNotification.setChecked(value);
             }
@@ -169,30 +146,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     return;
                 }
 
-                progressDialog = ProgressDialog.show(MainActivity.this, null, "Enviando informações");
+                String pushId = AlliNPush.getInstance().getDeviceToken();
 
-                String pushId = AllInPush.getInstance().getDeviceId();
+                List<AIValues> list = new ArrayList<>();
+                list.add(new AIValues("id_push", Util.md5(pushId)));
+                list.add(new AIValues("push_id", pushId));
+                list.add(new AIValues("plataforma", "android"));
+                list.add(new AIValues("dt_ultima_abertura", null));
+                list.add(new AIValues("dt_ultimo_clique", null));
 
-                Map<String, String> map = new HashMap<>();
-                map.put("id_push", Util.md5(pushId));
-                map.put("push_id", pushId);
-                map.put("plataforma", "android");
-                map.put("dt_ultima_abertura", null);
-                map.put("dt_ultimo_clique", null);
-
-                AllInPush.getInstance().sendList("Lista Padrao Push", map, new OnRequest<String>() {
-                    @Override
-                    public void onFinish(String value) {
-                        progressDialog.dismiss();
-
-                        Toast.makeText(MainActivity.this, value, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onError(Exception exception) {
-                        progressDialog.dismiss();
-                    }
-                });
+                AlliNPush.getInstance().sendList("Lista Padrao Push", list);
 
                 break;
 
@@ -205,6 +168,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onSilentMessageReceived(String identifier) {
+
+    }
+
+    @Override
+    public void onClickAction(String identifier) {
+
     }
 
     private void showNotificationLoad() {

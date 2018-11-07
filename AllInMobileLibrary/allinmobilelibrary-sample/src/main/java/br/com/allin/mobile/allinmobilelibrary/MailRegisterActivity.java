@@ -3,9 +3,7 @@ package br.com.allin.mobile.allinmobilelibrary;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -14,8 +12,7 @@ import android.widget.EditText;
 
 import java.util.regex.Pattern;
 
-import br.com.allin.mobile.pushnotification.AllInPush;
-import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
+import br.com.allin.mobile.pushnotification.AlliNPush;
 
 /**
  * Created by lucasrodrigues on 4/8/16.
@@ -32,7 +29,7 @@ public class MailRegisterActivity extends AppCompatActivity {
 
         etEmail = (EditText) findViewById(R.id.etEmail);
 
-        String email = AllInPush.getInstance().getUserEmail();
+        String email = AlliNPush.getInstance().getEmail();
 
         if (email == null || TextUtils.isEmpty(email)) {
             Pattern emailPattern = Patterns.EMAIL_ADDRESS;
@@ -52,44 +49,7 @@ public class MailRegisterActivity extends AppCompatActivity {
     }
 
     public void register(View view) {
-        progressDialog = ProgressDialog.show(this, null, "Cadastrando e-mail");
-
-        AllInPush.getInstance().updateUserEmail(etEmail.getText().toString(), new OnRequest<String>() {
-            @Override
-            public void onFinish(String value) {
-                progressDialog.dismiss();
-
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MailRegisterActivity.this);
-                alertDialog.setMessage(value);
-                alertDialog.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-
-                        finish();
-                    }
-                });
-
-                alertDialog.create().show();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                progressDialog.dismiss();
-
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MailRegisterActivity.this);
-                alertDialog.setTitle("Erro");
-                alertDialog.setMessage(exception.getMessage());
-                alertDialog.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-                alertDialog.create().show();
-            }
-        });
+        AlliNPush.getInstance().registerEmail(etEmail.getText().toString());
     }
 
     public void cancel(View view) {

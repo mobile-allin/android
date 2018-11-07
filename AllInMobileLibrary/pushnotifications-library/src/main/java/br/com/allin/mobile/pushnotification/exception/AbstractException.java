@@ -8,8 +8,6 @@ public abstract class AbstractException extends Exception {
     /**
      * Error message that gave rise to the error (in the treatment of an exception or Java platform)
      */
-    private String originalMessage = null;
-
     protected static final long serialVersionUID = 1L;
 
     /**
@@ -27,7 +25,7 @@ public abstract class AbstractException extends Exception {
      * @param params The error message parameters
      *
      */
-    public AbstractException(String message, Object... params) {
+    AbstractException(String message, Object... params) {
         super(String.format(message, params));
     }
 }

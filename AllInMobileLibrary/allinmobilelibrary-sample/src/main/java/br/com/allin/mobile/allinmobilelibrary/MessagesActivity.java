@@ -14,8 +14,8 @@ import android.widget.TextView;
 import java.util.Collections;
 import java.util.List;
 
-import br.com.allin.mobile.pushnotification.AllInPush;
-import br.com.allin.mobile.pushnotification.entity.MessageEntity;
+import br.com.allin.mobile.pushnotification.AlliNPush;
+import br.com.allin.mobile.pushnotification.entity.allin.AIMessage;
 
 /**
  * Created by lucasrodrigues on 24/04/17.
@@ -30,14 +30,14 @@ public class MessagesActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_messages);
 
-        lvMessages = (ListView) findViewById(R.id.lvMessages);
-        lvMessages.setAdapter(new Adapter(AllInPush.getInstance().getMessages()));
+        lvMessages = findViewById(R.id.lvMessages);
+        lvMessages.setAdapter(new Adapter(AlliNPush.getInstance().getMessages()));
     }
 
     private class Adapter extends BaseAdapter {
-        private List<MessageEntity> messages;
+        private List<AIMessage> messages;
 
-        Adapter(List<MessageEntity> messages) {
+        Adapter(List<AIMessage> messages) {
             Collections.reverse(messages);
 
             this.messages = messages;
@@ -49,7 +49,7 @@ public class MessagesActivity extends AppCompatActivity {
         }
 
         @Override
-        public MessageEntity getItem(int position) {
+        public AIMessage getItem(int position) {
             return messages.get(position);
         }
 
@@ -60,11 +60,11 @@ public class MessagesActivity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            final View view = LayoutInflater.from(MessagesActivity.this)
+            View view = LayoutInflater.from(MessagesActivity.this)
                     .inflate(R.layout.adapter_message, parent, false);
 
-            final TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-            final TextView tvMessage = (TextView) view.findViewById(R.id.tvMessage);
+            TextView tvTitle = view.findViewById(R.id.tvTitle);
+            TextView tvMessage = view.findViewById(R.id.tvMessage);
 
             tvTitle.setText(getItem(position).getSubject());
             tvMessage.setText(getItem(position).getDescription());

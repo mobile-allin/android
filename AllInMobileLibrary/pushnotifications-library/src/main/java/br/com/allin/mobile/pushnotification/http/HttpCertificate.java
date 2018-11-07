@@ -15,8 +15,8 @@ import javax.net.ssl.X509TrustManager;
 /**
  * Class responsible for generating the certificate Https
  */
-public abstract class HttpCertificate {
-    protected static void generateCertificate() {
+abstract class HttpCertificate {
+    static void generateCertificate() {
         try {
             TrustManager[] trustManagerArray = new TrustManager[] {
                     new X509TrustManager() {
