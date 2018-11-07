@@ -18,8 +18,8 @@ public class MessageService {
         this.messageDAO = AlliNDatabase.get().messageTable();
     }
 
-    public void addMessage(AIMessage message) {
-        this.messageDAO.insert(message);
+    public long addMessage(AIMessage message) {
+        return this.messageDAO.insert(message);
     }
 
     public void deleteMessage(long id) {

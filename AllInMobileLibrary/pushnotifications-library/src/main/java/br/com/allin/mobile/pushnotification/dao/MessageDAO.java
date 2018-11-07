@@ -20,7 +20,7 @@ public interface MessageDAO {
     List<AIMessage> get();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(AIMessage message);
+    long insert(AIMessage message);
 
     @Delete
     void delete(AIMessage message);

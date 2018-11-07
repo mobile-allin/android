@@ -18,7 +18,7 @@ public class CacheService {
         this.cacheDAO = AlliNDatabase.get().cacheTable();
     }
 
-    void sync() {
+    public void sync() {
         List<AICache> cacheList = this.cacheDAO.get();
 
         if (cacheList != null) {

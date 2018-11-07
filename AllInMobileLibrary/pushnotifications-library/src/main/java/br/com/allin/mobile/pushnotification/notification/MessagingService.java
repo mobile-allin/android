@@ -36,6 +36,7 @@ public class MessagingService extends FirebaseMessagingService {
     public void onNewToken(String newToken) {
         super.onNewToken(newToken);
 
-        new DeviceService().sendDevice(AlliNPush.getInstance(this).getDeviceToken(), newToken);
+        DeviceService deviceService = new DeviceService();
+        deviceService.sendDevice(AlliNPush.getInstance(this).getDeviceToken(), newToken);
     }
 }

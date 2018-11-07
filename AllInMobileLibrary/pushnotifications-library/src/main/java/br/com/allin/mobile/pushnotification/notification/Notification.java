@@ -1,14 +1,17 @@
 package br.com.allin.mobile.pushnotification.notification;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
@@ -25,22 +28,16 @@ import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.entity.allin.AIMessage;
-import br.com.allin.mobile.pushnotification.identifiers.ActionIdentifier;
-import br.com.allin.mobile.pushnotification.identifiers.BroadcastNotificationIdentifier;
-import br.com.allin.mobile.pushnotification.identifiers.PreferenceIdentifier;
-import br.com.allin.mobile.pushnotification.identifiers.PushIdentifier;
-import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.http.DownloadImage;
 import br.com.allin.mobile.pushnotification.http.DownloadImage.OnDownloadCompleted;
+import br.com.allin.mobile.pushnotification.identifiers.ActionIdentifier;
+import br.com.allin.mobile.pushnotification.identifiers.BroadcastNotificationIdentifier;
+import br.com.allin.mobile.pushnotification.identifiers.PushIdentifier;
 
-public class Notification {
-    private PreferencesManager preferences;
-
+class Notification {
     Notification(Context context) {
         AlliNPush.getInstance(context);
-
-        this.preferences = new PreferencesManager(context);
     }
 
     void showNotification(@NonNull final RemoteMessage remoteMessage) {
@@ -72,19 +69,18 @@ public class Notification {
         if (!Util.isNullOrClear(title) && !Util.isNullOrClear(body)) {
             Context context = AlliNPush.getInstance().getContext();
 
-            int color = preferences.getData(PreferenceIdentifier.BACKGROUND_NOTIFICATION, 0);
-            int whiteIcon = preferences.getData(PreferenceIdentifier.WHITE_ICON_NOTIFICATION, 0);
-            int icon = preferences.getData(PreferenceIdentifier.ICON_NOTIFICATION, 0);
+            long idMessage = AlliNPush.getInstance().addMessage(new AIMessage(bundle));
 
-            AlliNPush.getInstance().addMessage(new AIMessage(bundle));
-
-            Intent intent = new Intent();
-            intent.setAction(BroadcastNotificationIdentifier.ACTION);
+            Intent intent = new Intent(context, Register.class);
             intent.putExtras(bundle);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            String channelId = this.getChannelId(context);
+            int icon = this.getBigIcon(context);
+            int whiteIcon = this.getWhiteIcon(context);
+            int color = this.getColor(context);
 
             PendingIntent pendingIntent = getPending(context, 0, intent);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "");
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId);
 
             if (icon == 0) {
                 builder.setSmallIcon(whiteIcon != 0 ? whiteIcon : getNotificationIcon(context));
@@ -113,6 +109,15 @@ public class Notification {
 
             NotificationManager notificationManager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && notificationManager != null) {
+                NotificationChannel channel = new NotificationChannel(channelId,
+                        "Channel " + idMessage, NotificationManager.IMPORTANCE_HIGH);
+                channel.enableVibration(true);
+                channel.enableLights(true);
+                notificationManager.createNotificationChannel(channel);
+            }
+
 
             if (notificationManager != null) {
                 notificationManager.notify((int) bundle.getLong(PushIdentifier.ID), builder.build());
@@ -154,7 +159,8 @@ public class Notification {
     }
 
     private PendingIntent getPending(Context context, int code, Intent intent) {
-        return PendingIntent.getBroadcast(context, code, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getActivity(context, code,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 
     private Bundle generateBundle(RemoteMessage remoteMessage) {
@@ -184,13 +190,75 @@ public class Notification {
             bundle.putString(entry.getKey(), entry.getValue());
         }
 
-        RemoteMessage.Notification notification = remoteMessage.getNotification();
-
-        if (notification != null) {
-            bundle.putString(PushIdentifier.TITLE, notification.getTitle());
-            bundle.putString(PushIdentifier.BODY, notification.getBody());
+        if (remoteMessage.getNotification() != null) {
+            bundle.putString(PushIdentifier.TITLE, remoteMessage.getNotification().getTitle());
+            bundle.putString(PushIdentifier.BODY, remoteMessage.getNotification().getBody());
         }
 
         return bundle;
+    }
+
+    private String getChannelId(Context context) {
+        try {
+            String key = "br.com.allin.messaging.messaging.notification_channel_id";
+
+            PackageManager packageManager = context.getPackageManager();
+            String packageName = context.getPackageName();
+
+            ApplicationInfo applicationInfo = packageManager
+                    .getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+
+            return applicationInfo.metaData.getString(key);
+        } catch (Exception e) {
+            return "notify_001";
+        }
+    }
+
+    private int getWhiteIcon(Context context) {
+        try {
+            String key = "br.com.allin.messaging.notification_white_icon";
+
+            PackageManager packageManager = context.getPackageManager();
+            String packageName = context.getPackageName();
+
+            ApplicationInfo applicationInfo = packageManager
+                    .getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+
+            return applicationInfo.metaData.getInt(key, 0);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    private int getBigIcon(Context context) {
+        try {
+            String key = "br.com.allin.messaging.notification_big_icon";
+
+            PackageManager packageManager = context.getPackageManager();
+            String packageName = context.getPackageName();
+
+            ApplicationInfo applicationInfo = packageManager
+                    .getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+
+            return applicationInfo.metaData.getInt(key, 0);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    private int getColor(Context context) {
+        try {
+            String key = "br.com.allin.messaging.messaging.notification_color";
+
+            PackageManager packageManager = context.getPackageManager();
+            String packageName = context.getPackageName();
+
+            ApplicationInfo applicationInfo = packageManager
+                    .getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+
+            return applicationInfo.metaData.getInt(key, 0);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }

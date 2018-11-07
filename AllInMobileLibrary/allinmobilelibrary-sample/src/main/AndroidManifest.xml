@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.allin.mobile.allinmobilelibrary">
 
-    <!-- Permissões necessárias para o GCM funcionar -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -44,25 +43,18 @@
         </activity>
         <activity android:name=".MessagesActivity" />
 
-        <!-- INÍCIO -->
+        <!-- ALL IN - INÍCIO -->
+        <activity android:name="br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity" />
+
         <activity
-            android:name="br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity"
-            android:exported="true"
-            android:label="@string/app_name" />
+            android:name="br.com.allin.mobile.pushnotification.notification.Register"
+            android:theme="@style/Theme.AppCompat.Translucent" />
 
         <service
-            android:name="br.com.allin.mobile.pushnotification.fcm.MessagingService"
+            android:name="br.com.allin.mobile.pushnotification.notification.MessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name="br.com.allin.mobile.pushnotification.fcm.InstanceIdService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
@@ -70,10 +62,27 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <!-- CONFIG DAS NOTIFICAÇÕES -->
+        <meta-data
+            android:name="br.com.allin.messaging.messaging.notification_channel_id"
+            android:value="notify_001" />
+
+        <meta-data
+            android:name="br.com.allin.messaging.notification_white_icon"
+            android:resource="@mipmap/ic_launcher" />
+
+        <meta-data
+            android:name="br.com.allin.messaging.notification_big_icon"
+            android:resource="@mipmap/ic_launcher" />
+
+        <meta-data
+            android:name="br.com.allin.messaging.messaging.notification_color"
+            android:resource="@color/design_default_color_primary_dark" />
+
         <meta-data
             android:name="allin.token"
             android:value="@string/allin_token" />
-        <!-- FINAL -->
+        <!-- ALL IN - FINAL -->
 
         <meta-data
             android:name="io.fabric.ApiKey"

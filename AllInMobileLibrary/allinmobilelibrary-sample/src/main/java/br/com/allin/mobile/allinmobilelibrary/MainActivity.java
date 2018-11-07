@@ -104,14 +104,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         deviceIsEnable();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        // Finalizar os serviços de push
-        AlliNPush.getInstance().finish();
-    }
-
     public void deviceIsEnable() {
         showNotificationLoad();
 

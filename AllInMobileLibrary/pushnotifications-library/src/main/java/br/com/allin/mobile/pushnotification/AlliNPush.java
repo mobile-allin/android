@@ -1,13 +1,7 @@
 package br.com.allin.mobile.pushnotification;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -15,14 +9,10 @@ import java.util.List;
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.dao.AlliNDatabase;
 import br.com.allin.mobile.pushnotification.entity.allin.AIMessage;
-import br.com.allin.mobile.pushnotification.entity.allin.AINotification;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
-import br.com.allin.mobile.pushnotification.helper.FieldHelper;
-import br.com.allin.mobile.pushnotification.helper.Util;
-import br.com.allin.mobile.pushnotification.identifiers.ConfigIdentifier;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
-import br.com.allin.mobile.pushnotification.service.allin.ConfigurationService;
+import br.com.allin.mobile.pushnotification.service.allin.CacheService;
 import br.com.allin.mobile.pushnotification.service.allin.DeviceService;
 import br.com.allin.mobile.pushnotification.service.allin.MessageService;
 import br.com.allin.mobile.pushnotification.service.allin.StatusService;
@@ -146,35 +136,9 @@ public class AlliNPush {
     public void registerForPushNotifications(@NonNull Context context, AllInDelegate delegate) {
         this.setContext(context);
 
-        try {
-            PackageManager packageManager = context.getPackageManager();
-            String packageName = context.getPackageName();
+        AlliNConfiguration.getInstance().initialize(delegate);
 
-            ApplicationInfo applicationInfo = packageManager
-                    .getApplicationInfo(packageName, PackageManager.GET_META_DATA);
-
-            if (applicationInfo != null) {
-                String appId = applicationInfo.metaData.getString(ConfigIdentifier.TOKEN);
-
-                if (Util.isNullOrClear(appId)) {
-                    Log.e("AlliN Push", "Required meta-data 'allin.senderid' in MANIFEST");
-                } else {
-                    @DrawableRes
-                    int whiteIcon = FieldHelper.getResId(ConfigIdentifier.WHITE_ICON, "drawable");
-                    @DrawableRes
-                    int icon = FieldHelper.getResId(ConfigIdentifier.ICON, "drawable");
-                    @ColorRes
-                    int background = FieldHelper.getResId(ConfigIdentifier.BACKGROUND, "color");
-
-                    AlliNConfiguration.getInstance().initialize(delegate);
-                    AINotification notification = new AINotification(background, icon, whiteIcon);
-
-                    new ConfigurationService(notification).init();
-                }
-            }
-        } catch (NameNotFoundException ex) {
-            ex.printStackTrace();
-        }
+        new CacheService().sync();
     }
 
     public Context getContext() {
@@ -187,9 +151,6 @@ public class AlliNPush {
         AlliNDatabase.initialize(context);
     }
 
-    public void finish() {
-        AlliNConfiguration.getInstance().finish();
-    }
     /**
      * <b>Asynchronous</b> - Disable notifications on the server
      */
@@ -273,8 +234,8 @@ public class AlliNPush {
      *
      * @param message The AIMessage object is created automatically by the framework
      */
-    public void addMessage(AIMessage message) {
-        new MessageService().addMessage(message);
+    public long addMessage(AIMessage message) {
+        return new MessageService().addMessage(message);
     }
 
     /**
