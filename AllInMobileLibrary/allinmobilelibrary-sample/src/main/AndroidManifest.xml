@@ -44,12 +44,18 @@
         <activity android:name=".MessagesActivity" />
 
         <!-- ALL IN - INÍCIO -->
-        <activity android:name="br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity" />
 
+        <!-- Activity que exibe o conteúdo HTML do push -->
+        <activity
+            android:name="br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity"
+            android:theme="@style/AppTheme" />
+
+        <!-- Activity que envia as informações do usuário -->
         <activity
             android:name="br.com.allin.mobile.pushnotification.notification.Register"
             android:theme="@style/Theme.AppCompat.Translucent" />
 
+        <!-- Registro da classe que recebe o push -->
         <service
             android:name="br.com.allin.mobile.pushnotification.notification.MessagingService"
             android:exported="false">
@@ -58,30 +64,38 @@
             </intent-filter>
         </service>
 
+        <!-- Identificação do GMS do Google -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
         <!-- CONFIG DAS NOTIFICAÇÕES -->
+
+        <!-- Channel ID - Necessário em dispositivos com Android 8.0+-->
         <meta-data
             android:name="br.com.allin.messaging.messaging.notification_channel_id"
             android:value="notify_001" />
 
+        <!-- Ícone branco do push notification -->
         <meta-data
             android:name="br.com.allin.messaging.notification_white_icon"
             android:resource="@mipmap/ic_launcher" />
 
+        <!-- Ícone grande do push notification -->
         <meta-data
             android:name="br.com.allin.messaging.notification_big_icon"
             android:resource="@mipmap/ic_launcher" />
 
+        <!-- Cor da notificação -->
         <meta-data
             android:name="br.com.allin.messaging.messaging.notification_color"
             android:resource="@color/design_default_color_primary_dark" />
 
+        <!-- Token da All iN -->
         <meta-data
             android:name="allin.token"
             android:value="@string/allin_token" />
+
         <!-- ALL IN - FINAL -->
 
         <meta-data

@@ -1,11 +1,8 @@
 package br.com.allin.mobile.allinmobilelibrary;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import io.fabric.sdk.android.Fabric;
