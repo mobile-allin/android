@@ -3,6 +3,11 @@ package br.com.allin.mobile.pushnotification;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
 import java.lang.ref.WeakReference;
 import java.util.List;
 
@@ -133,10 +138,24 @@ public class AlliNPush {
         this.registerForPushNotifications(context, null);
     }
 
-    public void registerForPushNotifications(@NonNull Context context, AllInDelegate delegate) {
+    public void registerForPushNotifications(@NonNull final Context context, AllInDelegate delegate) {
         this.setContext(context);
 
+        FirebaseApp.initializeApp(context);
         AlliNConfiguration.getInstance().initialize(delegate);
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String oldToken = AlliNPush.getInstance(context).getDeviceToken();
+                String newToken = instanceIdResult.getToken();
+
+                if (oldToken.isEmpty() || !newToken.equals(oldToken)) {
+                    DeviceService deviceService = new DeviceService();
+                    deviceService.sendDevice(oldToken, newToken);
+                }
+            }
+        });
 
         new CacheService().sync();
     }

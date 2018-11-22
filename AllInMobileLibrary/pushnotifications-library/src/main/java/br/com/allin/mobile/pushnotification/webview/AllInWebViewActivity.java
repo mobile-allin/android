@@ -112,31 +112,25 @@ public class AllInWebViewActivity extends AppCompatActivity {
     }
 
     private void start() {
-        boolean isScheme = getIntent().hasExtra(PushIdentifier.URL_SCHEME);
-        boolean isTransactional = getIntent().hasExtra(PushIdentifier.ID_LOGIN);
-        boolean isCampaign = getIntent().hasExtra(PushIdentifier.ID_CAMPAIGN);
+        boolean isScheme = getIntent().getStringExtra(PushIdentifier.URL_SCHEME) != null;
+        boolean isTransactional = getIntent().getStringExtra(PushIdentifier.ID_LOGIN) != null;
+        boolean isCampaign = getIntent().getStringExtra(PushIdentifier.ID_CAMPAIGN) != null;
 
         String url = null;
 
         if (isScheme) {
-
             url = getIntent().getStringExtra(PushIdentifier.URL_SCHEME);
-
         } else if (isTransactional) {
-
             String urlTransactional = HttpConstant.URL_TEMPLATE_TRANSACTIONAL;
             String idLogin = getIntent().getStringExtra(PushIdentifier.ID_LOGIN);
             String idSend = getIntent().getStringExtra(PushIdentifier.ID_SEND);
             String date = getIntent().getStringExtra(PushIdentifier.DATE);
             url = String.format("%s/%s/%s/%s", urlTransactional, date, idLogin, idSend);
-
         } else if (isCampaign) {
-
             String urlCampaign = HttpConstant.URL_TEMPLATE_CAMPAIGN;
             String idCampaign = getIntent().getStringExtra(PushIdentifier.ID_CAMPAIGN);
             String idPush = Util.md5(AlliNPush.getInstance().getDeviceToken());
-            url = String.format("%s/%s/%s", urlCampaign, idPush, idCampaign);
-
+            url = String.format("%s/%s/%s?type=mobile", urlCampaign, idPush, idCampaign);
         }
 
         wvAllIn.loadUrl(url);
