@@ -2,6 +2,7 @@ package br.com.allin.mobile.pushnotification;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
@@ -150,7 +151,7 @@ public class AlliNPush {
                 String oldToken = AlliNPush.getInstance(context).getDeviceToken();
                 String newToken = instanceIdResult.getToken();
 
-                if (oldToken.isEmpty() || !newToken.equals(oldToken)) {
+                if (TextUtils.isEmpty(oldToken) || !newToken.equals(oldToken)) {
                     DeviceService deviceService = new DeviceService();
                     deviceService.sendDevice(oldToken, newToken);
                 }
