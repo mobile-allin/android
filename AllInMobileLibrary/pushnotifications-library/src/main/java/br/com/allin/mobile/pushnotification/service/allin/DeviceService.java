@@ -59,7 +59,7 @@ public class DeviceService {
     }
 
     public void sendList(String nameList, List<AIValues> columnsAndValues) {
-        new ListTask(nameList, columnsAndValues, this.onRequest).execute();
+        new ListTask(nameList, this.updateList(columnsAndValues), this.onRequest).execute();
     }
 
     public void registerEmail(String email) {
@@ -98,5 +98,37 @@ public class DeviceService {
         }
 
         return identifier;
+    }
+
+    private List<AIValues> updateList(List<AIValues> columnsAndValues) {
+        boolean containIdPush = false;
+        boolean containPushId = false;
+        boolean containPlatform = false;
+
+        for (AIValues values : columnsAndValues) {
+            if (values.getKey().equalsIgnoreCase(ListIdentifier.ID_PUSH)) {
+                containIdPush = true;
+            } else if (values.getKey().equalsIgnoreCase(ListIdentifier.PUSH_ID)) {
+                containPushId = true;
+            } else if (values.getKey().equalsIgnoreCase(ListIdentifier.PLATAFORMA)) {
+                containPlatform = true;
+            }
+        }
+
+        String pushId = AlliNPush.getInstance().getDeviceToken();
+
+        if (!containIdPush) {
+            columnsAndValues.add(new AIValues(ListIdentifier.ID_PUSH, Util.md5(pushId)));
+        }
+
+        if (!containPushId) {
+            columnsAndValues.add(new AIValues(ListIdentifier.PUSH_ID, pushId));
+        }
+
+        if (!containPlatform) {
+            columnsAndValues.add(new AIValues(ListIdentifier.PLATAFORMA, SystemIdentifier.ANDROID));
+        }
+
+        return columnsAndValues;
     }
 }
