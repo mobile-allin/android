@@ -111,8 +111,6 @@ public class HttpManager extends HttpCertificate {
     public static AIResponse makeRequestURL(String urlString, RequestType requestType,
                                             JSONObject data, boolean withCache) throws WebServiceException {
         Context context = AlliNPush.getInstance().getContext();
-        String token = Util.getToken(context);
-
         AIResponse response;
         HttpURLConnection connection = null;
 
@@ -125,7 +123,7 @@ public class HttpManager extends HttpCertificate {
 
             connection.setDoInput(true);
             connection.setConnectTimeout(HttpConstant.DEFAULT_REQUEST_TIMEOUT);
-            connection.setRequestProperty(HttpBodyIdentifier.AUTHORIZATION, token);
+            connection.setRequestProperty(HttpBodyIdentifier.AUTHORIZATION, Util.getToken(context));
             connection.setRequestProperty("Content-Type", "application/json");
 
             String responseString = "";
@@ -135,8 +133,7 @@ public class HttpManager extends HttpCertificate {
 
                 if (data != null) {
                     OutputStream outputStream = connection.getOutputStream();
-                    BufferedWriter bufferedWriter =
-                            new BufferedWriter(new OutputStreamWriter(outputStream, HttpBodyIdentifier.UTF_8));
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
                     bufferedWriter.write(data.toString());
                     bufferedWriter.flush();
                     bufferedWriter.close();

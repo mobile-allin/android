@@ -27,7 +27,6 @@ import java.net.URLDecoder;
 import java.util.Map;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.entity.allin.AIMessage;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.http.DownloadImage;
 import br.com.allin.mobile.pushnotification.http.DownloadImage.OnDownloadCompleted;
@@ -63,13 +62,12 @@ class Notification {
     private void showNotification(Bitmap bitmap, RemoteMessage remoteMessage) {
         Bundle bundle = generateBundle(remoteMessage);
 
+        long id = bundle.getLong(PushIdentifier.ID);
         String title = bundle.getString(PushIdentifier.TITLE);
         String body = bundle.getString(PushIdentifier.BODY);
 
         if (!Util.isNullOrClear(title) && !Util.isNullOrClear(body)) {
             Context context = AlliNPush.getInstance().getContext();
-
-            long idMessage = AlliNPush.getInstance().addMessage(new AIMessage(bundle));
 
             Intent intent = new Intent(context, Register.class);
             intent.putExtras(bundle);
@@ -112,7 +110,7 @@ class Notification {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && notificationManager != null) {
                 NotificationChannel channel = new NotificationChannel(channelId,
-                        "Channel " + idMessage, NotificationManager.IMPORTANCE_HIGH);
+                        "Channel 001", NotificationManager.IMPORTANCE_HIGH);
                 channel.enableVibration(true);
                 channel.enableLights(true);
                 notificationManager.createNotificationChannel(channel);
@@ -120,7 +118,7 @@ class Notification {
 
 
             if (notificationManager != null) {
-                notificationManager.notify((int) bundle.getLong(PushIdentifier.ID), builder.build());
+                notificationManager.notify(1, builder.build());
             }
         }
     }

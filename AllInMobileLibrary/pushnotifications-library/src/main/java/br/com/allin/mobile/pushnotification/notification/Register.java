@@ -10,6 +10,7 @@ import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.identifiers.PushIdentifier;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
+import br.com.allin.mobile.pushnotification.service.allin.MessageService;
 import br.com.allin.mobile.pushnotification.service.allin.NotificationService;
 import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
 
@@ -49,7 +50,7 @@ public class Register extends AppCompatActivity {
             service.sendTransactional(bundle.getInt(PushIdentifier.ID_SEND), date);
         }
 
-        AlliNPush.getInstance().messageHasBeenRead(bundle.getLong(PushIdentifier.ID));
+        MessageService.markAsRead(bundle.getLong(PushIdentifier.ID));
     }
 
     private void start(Bundle bundle) {

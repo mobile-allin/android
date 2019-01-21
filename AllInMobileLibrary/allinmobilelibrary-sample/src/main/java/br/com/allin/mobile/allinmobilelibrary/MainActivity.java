@@ -107,7 +107,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     public void deviceIsEnable() {
         showNotificationLoad();
 
-        AlliNPush.getInstance().deviceIsEnable(new OnRequest<Boolean>() {
+        AlliNPush.getInstance().isEnable(new OnRequest<Boolean>() {
             @Override
             public void onFinish(final Boolean value) {
                 hideNotificationLoad();
@@ -156,12 +156,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 list.add(new AIValues("dt_ultimo_clique", null));
 
                 AlliNPush.getInstance().sendList("Lista Padrao Push", list);
-
-                break;
-
-            case 2:
-
-                startActivity(new Intent(this, MessagesActivity.class));
 
                 break;
 

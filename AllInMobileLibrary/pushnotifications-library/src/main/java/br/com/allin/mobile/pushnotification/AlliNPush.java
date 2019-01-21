@@ -14,13 +14,11 @@ import java.util.List;
 
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.dao.AlliNDatabase;
-import br.com.allin.mobile.pushnotification.entity.allin.AIMessage;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 import br.com.allin.mobile.pushnotification.service.allin.CacheService;
 import br.com.allin.mobile.pushnotification.service.allin.DeviceService;
-import br.com.allin.mobile.pushnotification.service.allin.MessageService;
 import br.com.allin.mobile.pushnotification.service.allin.StatusService;
 
 /**
@@ -190,7 +188,7 @@ public class AlliNPush {
      *
      * @param onRequest Interface that returns success or error in the request
      */
-    public void deviceIsEnable(OnRequest onRequest) {
+    public void isEnable(OnRequest onRequest) {
         new StatusService(onRequest).deviceIsEnable();
     }
 
@@ -240,37 +238,5 @@ public class AlliNPush {
 
     public void setDeviceToken(String deviceToken) {
         new DeviceService().setDeviceToken(deviceToken);
-    }
-
-    /**
-     * @return History push's received in application
-     */
-    public List<AIMessage> getMessages() {
-        return new MessageService().getMessages();
-    }
-
-    /**
-     * This method is used to remove a history message
-     *
-     * @param message The AIMessage object is created automatically by the framework
-     */
-    public long addMessage(AIMessage message) {
-        return new MessageService().addMessage(message);
-    }
-
-    /**
-     * This method is used to remove a history message
-     *
-     * @param id Identification of push received in application
-     */
-    public void deleteMessage(int id) {
-        new MessageService().deleteMessage(id);
-    }
-
-    /**
-     * @param id Identification of push received in application
-     */
-    public void messageHasBeenRead(long id) {
-        new MessageService().hasBeenRead(id);
     }
 }

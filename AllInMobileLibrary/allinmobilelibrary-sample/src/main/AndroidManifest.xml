@@ -39,7 +39,6 @@
                     android:scheme="allin" />
             </intent-filter>
         </activity>
-        <activity android:name=".MessagesActivity" />
 
         <!-- ALL IN - INÍCIO -->
 
