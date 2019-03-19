@@ -17,7 +17,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.constants.HttpConstant;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.identifiers.PushIdentifier;
 
@@ -121,13 +120,13 @@ public class AllInWebViewActivity extends AppCompatActivity {
         if (isScheme) {
             url = getIntent().getStringExtra(PushIdentifier.URL_SCHEME);
         } else if (isTransactional) {
-            String urlTransactional = HttpConstant.URL_TEMPLATE_TRANSACTIONAL;
+            String urlTransactional = getIntent().getStringExtra(PushIdentifier.URL_TRANSACTIONAL);
             String idLogin = getIntent().getStringExtra(PushIdentifier.ID_LOGIN);
             String idSend = getIntent().getStringExtra(PushIdentifier.ID_SEND);
             String date = getIntent().getStringExtra(PushIdentifier.DATE);
             url = String.format("%s/%s/%s/%s", urlTransactional, date, idLogin, idSend);
         } else if (isCampaign) {
-            String urlCampaign = HttpConstant.URL_TEMPLATE_CAMPAIGN;
+            String urlCampaign = getIntent().getStringExtra(PushIdentifier.URL_CAMPAIGN);
             String idCampaign = getIntent().getStringExtra(PushIdentifier.ID_CAMPAIGN);
             String idPush = Util.md5(AlliNPush.getInstance().getDeviceToken());
             url = String.format("%s/%s/%s?type=mobile", urlCampaign, idPush, idCampaign);
