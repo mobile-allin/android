@@ -39,10 +39,10 @@ android {
     defaultConfig {
         minSdkVersion 14
     }
-}
+    lintOptions {
+        abortOnError false
+    }
 
-configurations {
-    jaxDoclet
 }
 
 buildscript {
