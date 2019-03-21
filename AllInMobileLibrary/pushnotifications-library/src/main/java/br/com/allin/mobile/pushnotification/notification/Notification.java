@@ -62,7 +62,7 @@ class Notification {
     private void showNotification(Bitmap bitmap, RemoteMessage remoteMessage) {
         Bundle bundle = generateBundle(remoteMessage);
 
-        long id = bundle.getLong(PushIdentifier.ID);
+        int id = bundle.getInt(PushIdentifier.ID, 1);
         String title = bundle.getString(PushIdentifier.TITLE);
         String body = bundle.getString(PushIdentifier.BODY);
 
@@ -118,7 +118,7 @@ class Notification {
 
 
             if (notificationManager != null) {
-                notificationManager.notify(1, builder.build());
+                notificationManager.notify(id, builder.build());
             }
         }
     }
