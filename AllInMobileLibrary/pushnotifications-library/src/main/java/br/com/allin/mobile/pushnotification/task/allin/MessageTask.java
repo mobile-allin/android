@@ -7,10 +7,10 @@ import br.com.allin.mobile.pushnotification.http.Routes;
 import br.com.allin.mobile.pushnotification.task.BaseTask;
 
 public class MessageTask extends BaseTask<String> {
-    private long notificationId;
+    private int notificationId;
 
-    public MessageTask(long notificationId) {
-        super(RequestType.PUT, true, null);
+    public MessageTask(int notificationId) {
+        super(RequestType.POST, true, null);
 
         this.notificationId = notificationId;
     }

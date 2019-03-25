@@ -45,12 +45,24 @@ public class Register extends AppCompatActivity {
         String date = bundle.getString(PushIdentifier.DATE);
 
         if (bundle.containsKey(PushIdentifier.ID_CAMPAIGN)) {
-            service.sendCampaign(bundle.getInt(PushIdentifier.ID_CAMPAIGN), date);
+            String campaignId = bundle.getString(PushIdentifier.ID_CAMPAIGN);
+
+            if (campaignId != null) {
+                service.sendCampaign(Integer.parseInt(campaignId), date);
+            }
         } else if (bundle.containsKey(PushIdentifier.ID_SEND)) {
-            service.sendTransactional(bundle.getInt(PushIdentifier.ID_SEND), date);
+            String sendId = bundle.getString(PushIdentifier.ID_SEND);
+
+            if (sendId != null) {
+                service.sendTransactional(Integer.parseInt(sendId), date);
+            }
         }
 
-        MessageService.markAsRead(bundle.getLong(PushIdentifier.ID));
+        String id = bundle.getString(PushIdentifier.ID);
+
+        if (id != null) {
+            MessageService.markAsRead(Integer.parseInt(id));
+        }
     }
 
     private void start(Bundle bundle) {

@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
@@ -25,6 +26,7 @@ import org.json.JSONObject;
 
 import java.net.URLDecoder;
 import java.util.Map;
+import java.util.Random;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.helper.Util;
@@ -62,7 +64,13 @@ class Notification {
     private void showNotification(Bitmap bitmap, RemoteMessage remoteMessage) {
         Bundle bundle = generateBundle(remoteMessage);
 
-        int id = bundle.getInt(PushIdentifier.ID, 1);
+        String notificationId = bundle.getString(PushIdentifier.ID);
+        int id = 1;
+
+        if (notificationId != null && TextUtils.isDigitsOnly(notificationId)) {
+            id = Integer.parseInt(notificationId);
+        }
+
         String title = bundle.getString(PushIdentifier.TITLE);
         String body = bundle.getString(PushIdentifier.BODY);
 
