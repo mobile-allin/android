@@ -32,19 +32,28 @@ public class AllInWebViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(initViews());
+        Bundle bundle = this.getIntent().getExtras();
 
-        setup();
-        start();
+        setContentView(this.initViews(bundle));
+
+        if (this.getIntent().getExtras() != null) {
+            this.setup();
+            this.start(this.getIntent().getExtras());
+        } else {
+            this.finish();
+        }
     }
 
-    private View initViews() {
+    private View initViews(Bundle bundle) {
         Toolbar toolbar = createToolbar();
 
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getIntent().getStringExtra(PushIdentifier.TITLE));
+            if (bundle != null) {
+                getSupportActionBar().setTitle(bundle.getString(PushIdentifier.TITLE));
+            }
+
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
@@ -110,24 +119,24 @@ public class AllInWebViewActivity extends AppCompatActivity {
         }
     }
 
-    private void start() {
-        boolean isScheme = getIntent().getStringExtra(PushIdentifier.URL_SCHEME) != null;
-        boolean isTransactional = getIntent().getStringExtra(PushIdentifier.ID_LOGIN) != null;
-        boolean isCampaign = getIntent().getStringExtra(PushIdentifier.ID_CAMPAIGN) != null;
+    private void start(Bundle bundle) {
+        boolean isScheme = bundle.getString(PushIdentifier.URL_SCHEME) != null;
+        boolean isTransactional = bundle.getString(PushIdentifier.ID_LOGIN) != null;
+        boolean isCampaign = bundle.getString(PushIdentifier.ID_CAMPAIGN) != null;
 
         String url = null;
 
         if (isScheme) {
-            url = getIntent().getStringExtra(PushIdentifier.URL_SCHEME);
+            url = bundle.getString(PushIdentifier.URL_SCHEME);
         } else if (isTransactional) {
-            String urlTransactional = getIntent().getStringExtra(PushIdentifier.URL_TRANSACTIONAL);
-            String idLogin = getIntent().getStringExtra(PushIdentifier.ID_LOGIN);
-            String idSend = getIntent().getStringExtra(PushIdentifier.ID_SEND);
-            String date = getIntent().getStringExtra(PushIdentifier.DATE);
+            String urlTransactional = bundle.getString(PushIdentifier.URL_TRANSACTIONAL);
+            String idLogin = bundle.getString(PushIdentifier.ID_LOGIN);
+            String idSend = bundle.getString(PushIdentifier.ID_SEND);
+            String date = bundle.getString(PushIdentifier.DATE);
             url = String.format("%s/%s/%s/%s", urlTransactional, date, idLogin, idSend);
         } else if (isCampaign) {
-            String urlCampaign = getIntent().getStringExtra(PushIdentifier.URL_CAMPAIGN);
-            String idCampaign = getIntent().getStringExtra(PushIdentifier.ID_CAMPAIGN);
+            String urlCampaign = bundle.getString(PushIdentifier.URL_CAMPAIGN);
+            String idCampaign = bundle.getString(PushIdentifier.ID_CAMPAIGN);
             String idPush = Util.md5(AlliNPush.getInstance().getDeviceToken());
             url = String.format("%s/%s/%s?type=mobile", urlCampaign, idPush, idCampaign);
         }

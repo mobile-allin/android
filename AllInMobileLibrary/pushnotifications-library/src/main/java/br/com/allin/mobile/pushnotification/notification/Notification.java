@@ -184,9 +184,9 @@ class Notification {
                     String md5DeviceToken = Util.md5(AlliNPush.getInstance().getDeviceToken());
 
                     scheme = scheme.replace("##id_push##", md5DeviceToken);
-                }
 
-                map.put(PushIdentifier.URL_SCHEME, scheme);
+                    map.put(PushIdentifier.URL_SCHEME, scheme);
+                }
             }
         }
 
