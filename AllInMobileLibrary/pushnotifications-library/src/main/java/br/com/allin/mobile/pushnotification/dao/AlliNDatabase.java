@@ -26,8 +26,9 @@ public abstract class AlliNDatabase extends RoomDatabase {
 
     public static void initialize(@NonNull Context context) {
         if (AlliNDatabase.instance == null) {
-            AlliNDatabase.instance = Room.databaseBuilder(context, AlliNDatabase.class,
-                    DatabaseIdentifier.DB_NAME).allowMainThreadQueries().build();
+            AlliNDatabase.instance =
+                    Room.databaseBuilder(context, AlliNDatabase.class, DatabaseIdentifier.DB_NAME)
+                            .fallbackToDestructiveMigration().allowMainThreadQueries().build();
         }
     }
 
