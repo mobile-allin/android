@@ -5,4 +5,6 @@ public interface PreferenceIdentifier {
     String USER_EMAIL = "allin_key_user_email";
     String IDENTIFIER = "allin_key_identifier";
     String PREFERENCES_ID = "allin_notifications";
+    String SHOW_ALERT_SCHEME = "allin_show_alert_scheme";
+    String SHOW_ALERT_HTML = "allin_show_alert_html";
 }

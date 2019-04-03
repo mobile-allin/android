@@ -66,6 +66,34 @@ public class DeviceService {
         new EmailTask(email, this.onRequest).execute();
     }
 
+    public void showAlertScheme(boolean show) {
+        Context context = AlliNPush.getInstance().getContext();
+        PreferencesManager preferencesManager = new PreferencesManager(context);
+
+        preferencesManager.storeData(PreferenceIdentifier.SHOW_ALERT_SCHEME, show);
+    }
+
+    public boolean isShowAlertScheme() {
+        Context context = AlliNPush.getInstance().getContext();
+        PreferencesManager preferencesManager = new PreferencesManager(context);
+
+        return preferencesManager.getData(PreferenceIdentifier.SHOW_ALERT_SCHEME, false);
+    }
+
+    public void showAlertHTML(boolean show) {
+        Context context = AlliNPush.getInstance().getContext();
+        PreferencesManager preferencesManager = new PreferencesManager(context);
+
+        preferencesManager.storeData(PreferenceIdentifier.SHOW_ALERT_HTML, show);
+    }
+
+    public boolean isShowAlertHTML() {
+        Context context = AlliNPush.getInstance().getContext();
+        PreferencesManager preferencesManager = new PreferencesManager(context);
+
+        return preferencesManager.getData(PreferenceIdentifier.SHOW_ALERT_HTML, false);
+    }
+
     public String getDeviceToken() {
         Context context = AlliNPush.getInstance().getContext();
         PreferencesManager preferencesManager = new PreferencesManager(context);

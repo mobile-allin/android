@@ -159,6 +159,22 @@ public class AlliNPush {
         new CacheService().sync();
     }
 
+    public void showAlertHTML(boolean show) {
+        new DeviceService().showAlertHTML(show);
+    }
+
+    public boolean isShowAlertHTML() {
+        return new DeviceService().isShowAlertHTML();
+    }
+
+    public void showAlertScheme(boolean show) {
+        new DeviceService().showAlertScheme(show);
+    }
+
+    public boolean isShowAlertScheme() {
+        return new DeviceService().isShowAlertScheme();
+    }
+
     public Context getContext() {
         return this.contextWeakReference.get();
     }
