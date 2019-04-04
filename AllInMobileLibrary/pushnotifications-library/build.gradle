@@ -21,7 +21,7 @@ ext {
     libraryDescription = 'Versão Beta da Ferramenta de Push e BTG360 (Remarketing)'
     siteUrl = 'http://allin.com.br/'
     gitUrl = 'https://github.com/giep-br/mobile-android.git'
-    libraryVersion = '0.2.11'
+    libraryVersion = '0.2.12'
 
     developerId = 'lbrsilva-allin'
     developerName = 'Lucas Barbosa Rodrigues Silva'

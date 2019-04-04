@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,7 +19,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
-import br.com.allin.mobile.pushnotification.BTG360;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
@@ -36,6 +36,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         super.onCreate(savedInstanceState);
 
         AlliNPush.getInstance().registerForPushNotifications(this);
+        AlliNPush.getInstance().showAlertScheme(true);
+        AlliNPush.getInstance().showAlertHTML(true);
 
 //        ADD SEARCH ================================================
 //        List<AISearch> list = new ArrayList<>();
@@ -102,6 +104,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         });
 
         deviceIsEnable();
+
+        Log.d("DEBUG", "DEVICE TOKEN: " + AlliNPush.getInstance().getDeviceToken());
     }
 
     public void deviceIsEnable() {

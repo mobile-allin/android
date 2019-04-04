@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
@@ -70,7 +71,16 @@ public class Register extends AppCompatActivity {
     private void start(final Bundle bundle) {
         if (bundle.containsKey(PushIdentifier.URL_SCHEME)) {
             if (AlliNPush.getInstance().isShowAlertScheme()) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                int resID = this.getResources().getIdentifier("AlliNDialogTheme", "style", this.getPackageName());
+
+                AlertDialog.Builder builder;
+
+                if (resID != -1) {
+                    builder = new AlertDialog.Builder(new ContextThemeWrapper(this, resID));
+                } else {
+                    builder = new AlertDialog.Builder(this);
+                }
+
                 builder.setTitle(bundle.getString(PushIdentifier.TITLE));
                 builder.setMessage(bundle.getString(PushIdentifier.BODY));
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
