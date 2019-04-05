@@ -1,5 +1,7 @@
 package br.com.allin.mobile.pushnotification.interfaces;
 
+import android.content.Context;
+
 /**
  * @author lucasbrsilva
  *
@@ -10,5 +12,5 @@ public interface AllInDelegate {
 
     void onClickAction(String identifier);
 
-    boolean onShowAlert(String title, String body, AlertCallback callback);
+    boolean onShowAlert(Context context, String title, String body, AlertCallback callback);
 }

@@ -77,7 +77,7 @@ public class Register extends AppCompatActivity {
         if (bundle.containsKey(PushIdentifier.URL_SCHEME)) {
             if (AlliNPush.getInstance().isShowAlertScheme()) {
                 if (delegate != null) {
-                    boolean alert = delegate.onShowAlert(title, body, new AlertCallback() {
+                    boolean alert = delegate.onShowAlert(this, title, body, new AlertCallback() {
                         @Override
                         public void show() {
                             startIntentScheme(bundle);
@@ -96,7 +96,7 @@ public class Register extends AppCompatActivity {
         } else {
             if (AlliNPush.getInstance().isShowAlertHTML()) {
                 if (delegate != null) {
-                    boolean alert = delegate.onShowAlert(title, body, new AlertCallback() {
+                    boolean alert = delegate.onShowAlert(this, title, body, new AlertCallback() {
                         @Override
                         public void show() {
                             startIntentHTML(bundle);
