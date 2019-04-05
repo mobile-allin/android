@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.crashlytics.android.Crashlytics;
 
+import br.com.allin.mobile.pushnotification.interfaces.AlertCallback;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import io.fabric.sdk.android.Fabric;
 
@@ -23,5 +24,12 @@ public class SampleApplication extends Application implements AllInDelegate {
     @Override
     public void onClickAction(String identifier) {
 
+    }
+
+    @Override
+    public boolean onShowAlert(String title, String body, AlertCallback alertCallback) {
+        alertCallback.show();
+
+        return false;
     }
 }
