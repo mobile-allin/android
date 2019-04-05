@@ -12,6 +12,7 @@ import android.support.v7.view.ContextThemeWrapper;
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.identifiers.PushIdentifier;
+import br.com.allin.mobile.pushnotification.interfaces.AlertCallback;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.service.allin.MessageService;
 import br.com.allin.mobile.pushnotification.service.allin.NotificationService;
@@ -69,60 +70,47 @@ public class Register extends AppCompatActivity {
     }
 
     private void start(final Bundle bundle) {
+        String title = bundle.getString(PushIdentifier.TITLE);
+        String body = bundle.getString(PushIdentifier.BODY);
+        AllInDelegate delegate = AlliNConfiguration.getInstance().getDelegate();
+
         if (bundle.containsKey(PushIdentifier.URL_SCHEME)) {
             if (AlliNPush.getInstance().isShowAlertScheme()) {
-                int resID = this.getResources().getIdentifier("AlliNDialogTheme", "style", this.getPackageName());
+                if (delegate != null) {
+                    boolean alert = delegate.onShowAlert(title, body, new AlertCallback() {
+                        @Override
+                        public void show() {
+                            startIntentScheme(bundle);
+                        }
+                    });
 
-                AlertDialog.Builder builder;
-
-                if (resID != -1) {
-                    builder = new AlertDialog.Builder(new ContextThemeWrapper(this, resID));
+                    if (!alert) {
+                        this.showAlert(bundle, true);
+                    }
                 } else {
-                    builder = new AlertDialog.Builder(this);
+                    this.showAlert(bundle, true);
                 }
-
-                builder.setTitle(bundle.getString(PushIdentifier.TITLE));
-                builder.setMessage(bundle.getString(PushIdentifier.BODY));
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-
-                        startIntentScheme(bundle);
-                    }
-                });
-                builder.setNegativeButton("Fechar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                builder.show();
             } else {
-                startIntentScheme(bundle);
+                this.startIntentScheme(bundle);
             }
         } else {
             if (AlliNPush.getInstance().isShowAlertHTML()) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(bundle.getString(PushIdentifier.TITLE));
-                builder.setMessage(bundle.getString(PushIdentifier.BODY));
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
+                if (delegate != null) {
+                    boolean alert = delegate.onShowAlert(title, body, new AlertCallback() {
+                        @Override
+                        public void show() {
+                            startIntentHTML(bundle);
+                        }
+                    });
 
-                        startIntentHTML(bundle);
+                    if (!alert) {
+                        this.showAlert(bundle, false);
                     }
-                });
-                builder.setNegativeButton("Fechar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                builder.show();
+                } else {
+                    this.showAlert(bundle, false);
+                }
             } else {
-                startIntentHTML(bundle);
+                this.startIntentHTML(bundle);
             }
         }
     }
@@ -141,5 +129,43 @@ public class Register extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         this.startActivity(intent);
         this.finish();
+    }
+
+    private void showAlert(final Bundle bundle, final boolean scheme) {
+        String title = bundle.getString(PushIdentifier.TITLE);
+        String body = bundle.getString(PushIdentifier.BODY);
+        int resID = this.getResources().getIdentifier("AlliNDialogTheme", "style", this.getPackageName());
+
+        AlertDialog.Builder builder;
+
+        if (resID != -1) {
+            builder = new AlertDialog.Builder(new ContextThemeWrapper(this, resID));
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+
+        builder.setTitle(body);
+        builder.setMessage(title);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
+                if (scheme) {
+                    startIntentScheme(bundle);
+                } else {
+                    startIntentHTML(bundle);
+                }
+            }
+        });
+
+        builder.setNegativeButton("Fechar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        builder.show();
     }
 }

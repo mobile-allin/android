@@ -9,4 +9,6 @@ public interface AllInDelegate {
     void onSilentMessageReceived(String identifier);
 
     void onClickAction(String identifier);
+
+    boolean onShowAlert(String title, String body, AlertCallback callback);
 }
