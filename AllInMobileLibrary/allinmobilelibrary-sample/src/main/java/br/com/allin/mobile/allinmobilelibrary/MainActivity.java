@@ -25,7 +25,7 @@ import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 
-public class MainActivity extends Activity implements AdapterView.OnItemClickListener, AllInDelegate {
+public class MainActivity extends Activity implements AdapterView.OnItemClickListener {
 
     private ListView lvAllIn;
     private Switch swAllInNotification;
@@ -36,8 +36,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         super.onCreate(savedInstanceState);
 
         AlliNPush.getInstance().registerForPushNotifications(this);
-        AlliNPush.getInstance().showAlertScheme(true);
-        AlliNPush.getInstance().showAlertHTML(true);
+        AlliNPush.getInstance().showAlertScheme(false);
+        AlliNPush.getInstance().showAlertHTML(false);
 
 //        ADD SEARCH ================================================
 //        List<AISearch> list = new ArrayList<>();
@@ -78,9 +78,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
         setContentView(R.layout.activity_main);
 
-        lvAllIn = (ListView) findViewById(R.id.lvAllIn);
-        swAllInNotification = (Switch) findViewById(R.id.swAllInNotification);
-        pbLoadNotification = (ProgressBar) findViewById(R.id.pbLoadNotification);
+        lvAllIn = findViewById(R.id.lvAllIn);
+        swAllInNotification = findViewById(R.id.swAllInNotification);
+        pbLoadNotification = findViewById(R.id.pbLoadNotification);
 
         lvAllIn.setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,
                 Arrays.asList(getResources().getStringArray(R.array.allin_list))));
@@ -166,16 +166,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
             default:
                 break;
         }
-    }
-
-    @Override
-    public void onSilentMessageReceived(String identifier) {
-
-    }
-
-    @Override
-    public void onClickAction(String identifier) {
-
     }
 
     private void showNotificationLoad() {

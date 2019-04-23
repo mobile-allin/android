@@ -89,12 +89,13 @@ public class AllInWebViewActivity extends AppCompatActivity {
         RelativeLayout relativeLayout = new RelativeLayout(AllInWebViewActivity.this);
 
         // WEB VIEW ================================================================================
-        wvAllIn = new WebView(AllInWebViewActivity.this);
+        this.wvAllIn = new WebView(AllInWebViewActivity.this);
+
         RelativeLayout.LayoutParams layoutParamsWebView = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.MATCH_PARENT);
 
-        relativeLayout.addView(wvAllIn, layoutParamsWebView);
+        relativeLayout.addView(this.wvAllIn, layoutParamsWebView);
 
         // PROGRESS BAR ============================================================================
         float density = getResources().getDisplayMetrics().density;
@@ -103,9 +104,9 @@ public class AllInWebViewActivity extends AppCompatActivity {
         RelativeLayout.LayoutParams layoutParamsProgress = new RelativeLayout.LayoutParams(size, size);
         layoutParamsProgress.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
 
-        pbAllIn = new ProgressBar(AllInWebViewActivity.this);
+        this.pbAllIn = new ProgressBar(AllInWebViewActivity.this);
 
-        relativeLayout.addView(pbAllIn, layoutParamsProgress);
+        relativeLayout.addView(this.pbAllIn, layoutParamsProgress);
 
         return relativeLayout;
     }
@@ -141,14 +142,22 @@ public class AllInWebViewActivity extends AppCompatActivity {
             url = String.format("%s/%s/%s?type=mobile", urlCampaign, idPush, idCampaign);
         }
 
-        wvAllIn.loadUrl(url);
+        this.startURL(url);
+    }
+
+    private void startURL(final String url) {
+        this.wvAllIn.post(new Runnable() {
+            @Override
+            public void run() {
+                wvAllIn.loadUrl(url);
+            }
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                return back();
+        if (item.getItemId() == android.R.id.home) {
+            return back();
         }
 
         return super.onOptionsItemSelected(item);
@@ -157,9 +166,8 @@ public class AllInWebViewActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            switch (keyCode) {
-                case KeyEvent.KEYCODE_BACK:
-                    return back();
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                return back();
             }
         }
 

@@ -1,6 +1,7 @@
 package br.com.allin.mobile.allinmobilelibrary;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -27,9 +28,7 @@ public class SampleApplication extends Application implements AllInDelegate {
     }
 
     @Override
-    public boolean onShowAlert(String title, String body, AlertCallback alertCallback) {
-        alertCallback.show();
-
+    public boolean onShowAlert(Context context, String title, String body, AlertCallback alertCallback) {
         return false;
     }
 }

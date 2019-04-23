@@ -27,7 +27,7 @@ public class MailRegisterActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_mail_register);
 
-        etEmail = (EditText) findViewById(R.id.etEmail);
+        etEmail = findViewById(R.id.etEmail);
 
         String email = AlliNPush.getInstance().getEmail();
 
