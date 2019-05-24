@@ -146,7 +146,7 @@ public class AlliNPush {
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
-                String oldToken = AlliNPush.getInstance(context).getDeviceToken();
+                String oldToken = AlliNPush.getInstance(getContext()).getDeviceToken();
                 String newToken = instanceIdResult.getToken();
 
                 if (TextUtils.isEmpty(oldToken) || !newToken.equals(oldToken)) {
