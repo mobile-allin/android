@@ -12,12 +12,16 @@ import br.com.allin.mobile.pushnotification.identifiers.PreferenceIdentifier;
  * Responsible for saving/edit the saved values in the device preferences.
  */
 public class PreferencesManager {
-    private final SharedPreferences preferences;
+    private SharedPreferences preferences = null;
 
     /**
      * Default constructor.
      */
     public PreferencesManager(Context context) {
+        if (context == null) {
+            return;
+        }
+
         this.preferences = context.getSharedPreferences(PreferenceIdentifier.PREFERENCES_ID, Context.MODE_PRIVATE);
     }
 
@@ -25,11 +29,15 @@ public class PreferencesManager {
      * Write a value in the
      * <a href="http://developer.android.com/guide/topics/data/data-storage.html#pref" >SharedPreferences</a>.
      *
-     * @param key Identifier value
+     * @param key   Identifier value
      * @param value Value that will be recorder
      */
     public <T> void storeData(String key, T value) {
-        SharedPreferences.Editor editor = preferences.edit();
+        if (this.preferences == null) {
+            return;
+        }
+
+        SharedPreferences.Editor editor = this.preferences.edit();
 
         if (value instanceof Integer) {
             editor.putInt(key, (Integer) value);
@@ -48,23 +56,26 @@ public class PreferencesManager {
      * Returns a value recorded in
      * <a href="http://developer.android.com/guide/topics/data/data-storage.html#pref">SharedPreferences</a>.
      *
-     * @param key Identifier value
+     * @param key          Identifier value
      * @param defaultValue Default value if the value is not found or NULL.
-     *
      * @return Object with the return value (recovered from SharedPreferences)
      */
     @SuppressWarnings("unchecked")
     public <T> T getData(String key, Object defaultValue) {
+        if (this.preferences == null) {
+            return null;
+        }
+
         Object value;
 
         if (defaultValue instanceof Integer) {
-            value = preferences.getInt(key, (Integer) defaultValue);
+            value = this.preferences.getInt(key, (Integer) defaultValue);
         } else if (defaultValue instanceof Float) {
-            value =  preferences.getFloat(key, (Float) defaultValue);
+            value = this.preferences.getFloat(key, (Float) defaultValue);
         } else if (defaultValue instanceof Boolean) {
-            value =  preferences.getBoolean(key, (Boolean) defaultValue);
+            value = this.preferences.getBoolean(key, (Boolean) defaultValue);
         } else {
-            value =  preferences.getString(key, (String) defaultValue);
+            value = this.preferences.getString(key, (String) defaultValue);
         }
 
         return (T) value;
@@ -76,7 +87,11 @@ public class PreferencesManager {
      */
     @SuppressWarnings("unused")
     public void clear() {
-        SharedPreferences.Editor editor = preferences.edit();
+        if (this.preferences == null) {
+            return;
+        }
+
+        SharedPreferences.Editor editor = this.preferences.edit();
         editor.clear();
         editor.apply();
     }

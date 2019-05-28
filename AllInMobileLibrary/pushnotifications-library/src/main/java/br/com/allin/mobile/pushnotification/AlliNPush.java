@@ -1,5 +1,7 @@
 package br.com.allin.mobile.pushnotification;
 
+import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -176,13 +178,27 @@ public class AlliNPush {
     }
 
     public Context getContext() {
-        return this.contextWeakReference.get();
+        if (this.contextWeakReference != null && this.contextWeakReference.get() != null) {
+            return this.contextWeakReference.get();
+        } else {
+            try {
+                return this.getApplication().getApplicationContext();
+            } catch (Exception e) {
+                return null;
+            }
+        }
     }
 
     public void setContext(Context context) {
         this.contextWeakReference = new WeakReference<>(context);
 
         AlliNDatabase.initialize(context);
+    }
+
+    @SuppressLint({"PrivateApi"})
+    private Application getApplication() throws Exception {
+        return (Application)Class.forName("android.app.AppGlobals")
+                .getMethod("getInitialApplication").invoke(null, (Object[])null);
     }
 
     /**
