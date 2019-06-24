@@ -17,16 +17,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.URLDecoder;
 import java.util.Map;
-import java.util.Random;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.helper.Util;
@@ -170,26 +167,6 @@ class Notification {
     }
 
     private Bundle generateBundle(RemoteMessage remoteMessage) {
-        Map<String, String> map = remoteMessage.getData();
-
-        if (map.containsKey(PushIdentifier.URL_SCHEME)) {
-            String scheme = map.get(PushIdentifier.URL_SCHEME);
-
-            try {
-                scheme = URLDecoder.decode(scheme, "UTF-8");
-            } catch (Exception e) {
-                Log.e(MessagingService.class.toString(), "ERRO IN DECODE URL");
-            } finally {
-                if (scheme != null && scheme.contains("##id_push##")) {
-                    String md5DeviceToken = Util.md5(AlliNPush.getInstance().getDeviceToken());
-
-                    scheme = scheme.replace("##id_push##", md5DeviceToken);
-
-                    map.put(PushIdentifier.URL_SCHEME, scheme);
-                }
-            }
-        }
-
         Bundle bundle = new Bundle();
 
         for (Map.Entry<String, String> entry : remoteMessage.getData().entrySet()) {
