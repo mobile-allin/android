@@ -121,7 +121,6 @@ class Notification {
                 notificationManager.createNotificationChannel(channel);
             }
 
-
             if (notificationManager != null) {
                 notificationManager.notify(id, builder.build());
             }

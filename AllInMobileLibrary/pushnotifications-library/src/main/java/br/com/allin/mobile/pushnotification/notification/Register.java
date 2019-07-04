@@ -1,15 +1,11 @@
 package br.com.allin.mobile.pushnotification.notification;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ContextThemeWrapper;
 
-import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.identifiers.PushIdentifier;
 import br.com.allin.mobile.pushnotification.interfaces.AlertCallback;
@@ -69,55 +65,18 @@ public class Register extends AppCompatActivity {
         }
     }
 
-    private void start(final Bundle bundle) {
-        String title = bundle.getString(PushIdentifier.TITLE);
-        String body = bundle.getString(PushIdentifier.BODY);
-        AllInDelegate delegate = AlliNConfiguration.getInstance().getDelegate();
-
+    private void start(Bundle bundle) {
         if (bundle.containsKey(PushIdentifier.URL_SCHEME)) {
-            if (AlliNPush.getInstance().isShowAlertScheme()) {
-                if (delegate != null) {
-                    boolean alert = delegate.onShowAlert(this, title, body, new AlertCallback() {
-                        @Override
-                        public void show() {
-                            startIntentScheme(bundle);
-                        }
-                    });
-
-                    if (!alert) {
-                        this.showAlert(bundle, true);
-                    }
-                } else {
-                    this.showAlert(bundle, true);
-                }
-            } else {
-                this.startIntentScheme(bundle);
-            }
+            this.startIntentScheme(bundle);
         } else {
-            if (AlliNPush.getInstance().isShowAlertHTML()) {
-                if (delegate != null) {
-                    boolean alert = delegate.onShowAlert(this, title, body, new AlertCallback() {
-                        @Override
-                        public void show() {
-                            startIntentHTML(bundle);
-                        }
-                    });
-
-                    if (!alert) {
-                        this.showAlert(bundle, false);
-                    }
-                } else {
-                    this.showAlert(bundle, false);
-                }
-            } else {
-                this.startIntentHTML(bundle);
-            }
+            this.startIntentHTML(bundle);
         }
     }
 
     private void startIntentScheme(Bundle bundle) {
         Uri uri = Uri.parse(bundle.getString(PushIdentifier.URL_SCHEME));
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.putExtras(bundle);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         this.startActivity(intent);
         this.finish();
@@ -129,43 +88,5 @@ public class Register extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         this.startActivity(intent);
         this.finish();
-    }
-
-    private void showAlert(final Bundle bundle, final boolean scheme) {
-        String title = bundle.getString(PushIdentifier.TITLE);
-        String body = bundle.getString(PushIdentifier.BODY);
-        int resID = this.getResources().getIdentifier("AlliNDialogTheme", "style", this.getPackageName());
-
-        AlertDialog.Builder builder;
-
-        if (resID != -1) {
-            builder = new AlertDialog.Builder(new ContextThemeWrapper(this, resID));
-        } else {
-            builder = new AlertDialog.Builder(this);
-        }
-
-        builder.setTitle(body);
-        builder.setMessage(title);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-
-                if (scheme) {
-                    startIntentScheme(bundle);
-                } else {
-                    startIntentHTML(bundle);
-                }
-            }
-        });
-
-        builder.setNegativeButton("Fechar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-
-        builder.show();
     }
 }
