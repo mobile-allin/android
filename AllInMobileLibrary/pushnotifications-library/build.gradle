@@ -21,7 +21,7 @@ ext {
     libraryDescription = 'Versão Beta da Ferramenta de Push e BTG360 (Remarketing)'
     siteUrl = 'http://allin.com.br/'
     gitUrl = 'https://github.com/giep-br/mobile-android.git'
-    libraryVersion = '0.2.19'
+    libraryVersion = '0.2.20'
 
     developerId = 'lbrsilva-allin'
     developerName = 'Lucas Barbosa Rodrigues Silva'
@@ -55,7 +55,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.android.tools.build:gradle:3.5.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
@@ -64,18 +64,15 @@ buildscript {
 dependencies {
     // SUPPORT LIBRARY
     //noinspection GradleCompatible
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
 
     // FIREBASE
-    implementation 'com.google.firebase:firebase-core:16.0.9'
-    implementation 'com.google.firebase:firebase-messaging:18.0.0'
-
-    // LOCATION
-    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.google.firebase:firebase-core:17.2.0'
+    implementation 'com.google.firebase:firebase-messaging:20.0.0'
 
     // ROOM
-    implementation 'android.arch.persistence.room:runtime:1.1.1'
-    annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
+    implementation 'androidx.room:room-runtime:2.1.0'
+    annotationProcessor 'androidx.room:room-compiler:2.1.0'
 }
 
 // BINTRAY

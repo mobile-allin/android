@@ -3,14 +3,13 @@ package br.com.allin.mobile.pushnotification.notification;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.identifiers.PushIdentifier;
-import br.com.allin.mobile.pushnotification.interfaces.AlertCallback;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
-import br.com.allin.mobile.pushnotification.service.allin.MessageService;
 import br.com.allin.mobile.pushnotification.service.allin.NotificationService;
 import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
 
@@ -56,12 +55,6 @@ public class Register extends AppCompatActivity {
             if (sendId != null) {
                 service.sendTransactional(Integer.parseInt(sendId), date);
             }
-        }
-
-        String id = bundle.getString(PushIdentifier.ID);
-
-        if (id != null) {
-            MessageService.markAsRead(Integer.parseInt(id));
         }
     }
 

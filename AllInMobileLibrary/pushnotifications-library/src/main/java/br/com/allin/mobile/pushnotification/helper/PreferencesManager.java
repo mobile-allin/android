@@ -3,8 +3,6 @@ package br.com.allin.mobile.pushnotification.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.lang.ref.WeakReference;
-
 import br.com.allin.mobile.pushnotification.identifiers.PreferenceIdentifier;
 
 /**

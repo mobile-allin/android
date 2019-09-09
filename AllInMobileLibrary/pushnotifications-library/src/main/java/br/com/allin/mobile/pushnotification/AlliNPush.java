@@ -3,8 +3,10 @@ package br.com.allin.mobile.pushnotification;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
@@ -18,10 +20,8 @@ import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.dao.AlliNDatabase;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
-import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 import br.com.allin.mobile.pushnotification.service.allin.CacheService;
 import br.com.allin.mobile.pushnotification.service.allin.DeviceService;
-import br.com.allin.mobile.pushnotification.service.allin.StatusService;
 
 /**
  * @author lucasrodrigues
@@ -136,10 +136,16 @@ public class AlliNPush {
     private WeakReference<Context> contextWeakReference;
 
     public void registerForPushNotifications(@NonNull Context context) {
-        this.registerForPushNotifications(context, null);
+        this.registerForPushNotifications(context, null, null);
     }
 
-    public void registerForPushNotifications(@NonNull final Context context, AllInDelegate delegate) {
+    public void registerForPushNotifications(@NonNull Context context, AllInDelegate delegate) {
+        this.registerForPushNotifications(context, null, delegate);
+    }
+
+    public void registerForPushNotifications(@NonNull final Context context,
+                                             @Nullable final String tokenToUpdate,
+                                             @Nullable final AllInDelegate delegate) {
         this.setContext(context);
 
         FirebaseApp.initializeApp(context);
@@ -148,7 +154,7 @@ public class AlliNPush {
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
-                String oldToken = AlliNPush.getInstance(getContext()).getDeviceToken();
+                String oldToken = TextUtils.isEmpty(tokenToUpdate) ? AlliNPush.getInstance(getContext()).getDeviceToken() : tokenToUpdate;
                 String newToken = instanceIdResult.getToken();
 
                 if (TextUtils.isEmpty(oldToken) || !newToken.equals(oldToken)) {
@@ -185,45 +191,6 @@ public class AlliNPush {
                 .getMethod("getInitialApplication").invoke(null, (Object[])null);
     }
 
-    /**
-     * <b>Asynchronous</b> - Disable notifications on the server
-     */
-    public void disable() {
-        new StatusService().disable();
-    }
-
-    /**
-     * <b>Asynchronous</b> - Enable notifications on the server
-     */
-    public void enable() {
-        new StatusService().enable();
-    }
-
-    /**
-     * <b>Asynchronous</b> - Checks whether notifications are enabled on the server
-     *
-     * @param onRequest Interface that returns success or error in the request
-     */
-    public void isEnable(OnRequest onRequest) {
-        new StatusService(onRequest).deviceIsEnable();
-    }
-
-    /**
-     * <b>Asynchronous</b> - Updates the e-mail in the database and save in SharedPreferences
-     *
-     * @param userEmail E-mail that is registered in the database of AllIn
-     */
-    public void registerEmail(String userEmail) {
-        new DeviceService().registerEmail(userEmail);
-    }
-
-    /**
-     * @return E-mail saved in SharedPreferences
-     */
-    public String getEmail() {
-        return new DeviceService().getEmail();
-    }
-
     public String getIdentifier() {
         return new DeviceService().getIdentifier();
     }
@@ -239,20 +206,9 @@ public class AlliNPush {
     }
 
     /**
-     * <b>Asynchronous</b> - This method removes the link between the email and the device
-     */
-    public void logout() {
-        new DeviceService().logout();
-    }
-
-    /**
      * @return Device identification on Google saved in SharedPreferences
      */
     public String getDeviceToken() {
         return new DeviceService().getDeviceToken();
-    }
-
-    public void setDeviceToken(String deviceToken) {
-        new DeviceService().setDeviceToken(deviceToken);
     }
 }

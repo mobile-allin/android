@@ -12,6 +12,7 @@ import br.com.allin.mobile.pushnotification.entity.btg.AISearch;
 import br.com.allin.mobile.pushnotification.entity.btg.AITransaction;
 import br.com.allin.mobile.pushnotification.entity.btg.AIWarn;
 import br.com.allin.mobile.pushnotification.entity.btg.AIWish;
+import br.com.allin.mobile.pushnotification.service.allin.DeviceService;
 import br.com.allin.mobile.pushnotification.service.btg.CartService;
 import br.com.allin.mobile.pushnotification.service.btg.ClientService;
 import br.com.allin.mobile.pushnotification.service.btg.ProductService;
@@ -29,7 +30,7 @@ public class BTG360 {
     }
 
     public static void setDeviceToken(String deviceToken) {
-        AlliNPush.getInstance().setDeviceToken(deviceToken);
+        new DeviceService().setDeviceToken(deviceToken);
     }
 
     public static void addProduct(String account, AIProduct product) {

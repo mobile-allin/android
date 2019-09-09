@@ -1,13 +1,7 @@
 package br.com.allin.mobile.pushnotification.helper;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.text.TextUtils;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -36,8 +30,8 @@ public class Util {
      * @return If the string value is null or empty, returns {@code true}.
      * Otherwise, returns {@code false}.
      */
-    public static boolean isNullOrClear(String value) {
-        return value == null || TextUtils.isEmpty(value.trim());
+    public static boolean isEmpty(String value) {
+        return TextUtils.isEmpty(value.trim());
     }
 
     /**
@@ -71,7 +65,7 @@ public class Util {
         try {
             MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
             digest.update(value.getBytes());
-            byte messageDigest[] = digest.digest();
+            byte[] messageDigest = digest.digest();
 
             StringBuilder hexString = new StringBuilder();
             for (byte aMessageDigest : messageDigest) {

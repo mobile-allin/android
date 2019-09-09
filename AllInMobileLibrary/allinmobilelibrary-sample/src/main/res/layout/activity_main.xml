@@ -46,6 +46,7 @@
                 android:layout_height="wrap_content" />
 
             <ProgressBar
+                android:visibility="gone"
                 android:id="@+id/pbLoadNotification"
                 android:layout_width="30dip"
                 android:layout_height="30dip"

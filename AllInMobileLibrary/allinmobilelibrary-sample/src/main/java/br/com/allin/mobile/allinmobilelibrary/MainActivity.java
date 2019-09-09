@@ -1,15 +1,17 @@
 package br.com.allin.mobile.allinmobilelibrary;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.os.SystemClock;
+import androidx.appcompat.app.AlertDialog;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Switch;
@@ -34,10 +36,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        AlliNPush.getInstance().registerForPushNotifications(this);
-        AlliNPush.getInstance().showAlertScheme(false);
-        AlliNPush.getInstance().showAlertHTML(false);
 
 //        ADD SEARCH ================================================
 //        List<AISearch> list = new ArrayList<>();
@@ -86,49 +84,13 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 Arrays.asList(getResources().getStringArray(R.array.allin_list))));
         lvAllIn.setOnItemClickListener(MainActivity.this);
 
-        swAllInNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                showNotificationLoad();
+        Log.d("DEBUG", AlliNPush.getInstance().getDeviceToken());
 
-                swAllInNotification.setChecked(isChecked);
-
-                if (isChecked) {
-                    AlliNPush.getInstance().enable();
-                } else {
-                    AlliNPush.getInstance().disable();
-                }
-
-                deviceIsEnable();
-            }
-        });
-
-        deviceIsEnable();
-
-        Log.d("DEBUG", "DEVICE TOKEN: " + AlliNPush.getInstance().getDeviceToken());
-    }
-
-    public void deviceIsEnable() {
-        showNotificationLoad();
-
-        AlliNPush.getInstance().isEnable(new OnRequest<Boolean>() {
-            @Override
-            public void onFinish(final Boolean value) {
-                hideNotificationLoad();
-
-                swAllInNotification.setChecked(value);
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                MainActivity.this.hideNotificationLoad();
-            }
-        });
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (position) {
+    public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+        switch (pos) {
             case 0:
                 startActivity(new Intent(this, MailRegisterActivity.class));
                 break;
@@ -150,16 +112,39 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                     return;
                 }
 
-                String pushId = AlliNPush.getInstance().getDeviceToken();
+//                String pushId = AlliNPush.getInstance().getDeviceToken();
+//
+//                List<AIValues> list = new ArrayList<>();
+//                list.add(new AIValues("id_push", Util.md5(pushId)));
+//                list.add(new AIValues("push_id", pushId));
+//                list.add(new AIValues("plataforma", "android"));
+//                list.add(new AIValues("dt_ultima_abertura", null));
+//                list.add(new AIValues("dt_ultimo_clique", null));
+//
+//                AlliNPush.getInstance().sendList("Lista Padrao Push", list);
 
-                List<AIValues> list = new ArrayList<>();
-                list.add(new AIValues("id_push", Util.md5(pushId)));
-                list.add(new AIValues("push_id", pushId));
-                list.add(new AIValues("plataforma", "android"));
-                list.add(new AIValues("dt_ultima_abertura", null));
-                list.add(new AIValues("dt_ultimo_clique", null));
+                final ProgressDialog progressDialog = ProgressDialog.show(this, null, "TESTE");
 
-                AlliNPush.getInstance().sendList("Lista Padrao Push", list);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int position = 0; position < 1000; position++) {
+                            String pushId = "PUSH_ID_" + position;
+
+                            List<AIValues> list = new ArrayList<>();
+                            list.add(new AIValues("id_push", Util.md5(pushId)));
+                            list.add(new AIValues("push_id", pushId));
+                            list.add(new AIValues("plataforma", "android"));
+                            list.add(new AIValues("request_number", String.valueOf(position)));
+
+                            AlliNPush.getInstance().sendList("stress_test", list);
+
+                            SystemClock.sleep(300);
+                        }
+
+                        progressDialog.dismiss();
+                    }
+                }).start();
 
                 break;
 

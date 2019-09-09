@@ -7,8 +7,8 @@ import org.json.JSONObject;
 import br.com.allin.mobile.pushnotification.dao.CacheDAO;
 import br.com.allin.mobile.pushnotification.entity.allin.AICache;
 import br.com.allin.mobile.pushnotification.entity.allin.AIResponse;
-import br.com.allin.mobile.pushnotification.http.RequestType;
 import br.com.allin.mobile.pushnotification.http.HttpManager;
+import br.com.allin.mobile.pushnotification.http.RequestType;
 
 /**
  * Created by lucasrodrigues on 18/01/18.

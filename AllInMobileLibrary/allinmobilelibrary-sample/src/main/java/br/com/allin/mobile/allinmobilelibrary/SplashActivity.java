@@ -3,7 +3,7 @@ package br.com.allin.mobile.allinmobilelibrary;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by lucasrodrigues on 4/8/16.

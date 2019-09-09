@@ -33,7 +33,7 @@ public class DeviceTask extends BaseTask<String> {
 
     @Override
     public String[] getParams() {
-        if (!Util.isNullOrClear(this.oldToken)) {
+        if (!Util.isEmpty(this.oldToken)) {
             return new String[] { Routes.UPDATE, this.oldToken };
         }
 

@@ -11,7 +11,6 @@ public interface PushIdentifier {
     String ACTION = "action";
     String DATE = "date";
     String IMAGE = "image";
-    String ACTIONS = "actions";
     String BODY = "description";
     String URL_TRANSACTIONAL = "url_transactional";
     String URL_CAMPAIGN = "url_campaign";

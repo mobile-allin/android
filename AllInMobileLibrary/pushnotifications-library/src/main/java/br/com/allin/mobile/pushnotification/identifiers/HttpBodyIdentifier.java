@@ -2,10 +2,6 @@ package br.com.allin.mobile.pushnotification.identifiers;
 
 public interface HttpBodyIdentifier {
     String AUTHORIZATION = "Authorization";
-    String UTF_8 = "UTF-8";
-    String ENABLED = "ENABLED";
-    String DISABLED = "DISABLED";
-    String USER_EMAIL = "user_email";
     String DEVICE_TOKEN = "device_token";
     String PLATFORM = "platform";
     String NAME_LIST = "name_list";

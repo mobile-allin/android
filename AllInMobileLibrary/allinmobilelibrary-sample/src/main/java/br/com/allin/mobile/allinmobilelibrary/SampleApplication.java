@@ -1,11 +1,10 @@
 package br.com.allin.mobile.allinmobilelibrary;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
 
-import br.com.allin.mobile.pushnotification.interfaces.AlertCallback;
+import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import io.fabric.sdk.android.Fabric;
 
@@ -15,20 +14,15 @@ public class SampleApplication extends Application implements AllInDelegate {
         super.onCreate();
 
         Fabric.with(this, new Crashlytics());
+
+        AlliNPush.getInstance().registerForPushNotifications(this.getApplicationContext(), this);
     }
 
     @Override
-    public void onSilentMessageReceived(String identifier) {
-
+    public void onSilentMessageReceived(String s) {
     }
 
     @Override
-    public void onClickAction(String identifier) {
-
-    }
-
-    @Override
-    public boolean onShowAlert(Context context, String title, String body, AlertCallback alertCallback) {
-        return false;
+    public void onClickAction(String s) {
     }
 }
