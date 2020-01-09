@@ -16,6 +16,7 @@ import br.com.allin.mobile.pushnotification.identifiers.SystemIdentifier;
 import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 import br.com.allin.mobile.pushnotification.task.allin.DeviceTask;
 import br.com.allin.mobile.pushnotification.task.allin.ListTask;
+import br.com.allin.mobile.pushnotification.task.allin.LogoutTask;
 
 /**
  * Service class for device information and configuration
@@ -107,5 +108,9 @@ public class DeviceService {
         }
 
         return columnsAndValues;
+    }
+
+    public void logout(String email) {
+        new LogoutTask(email).execute();
     }
 }

@@ -31,7 +31,7 @@ public class Util {
      * Otherwise, returns {@code false}.
      */
     public static boolean isEmpty(String value) {
-        return TextUtils.isEmpty(value.trim());
+        return TextUtils.isEmpty(value) || TextUtils.isEmpty(value.trim());
     }
 
     /**

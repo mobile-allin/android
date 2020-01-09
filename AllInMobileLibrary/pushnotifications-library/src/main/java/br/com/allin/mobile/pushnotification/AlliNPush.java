@@ -211,4 +211,11 @@ public class AlliNPush {
     public String getDeviceToken() {
         return new DeviceService().getDeviceToken();
     }
+
+    /**
+     * <b>Asynchronous</b> - This method removes the link between the email and the device
+     */
+    public void logout(String email) {
+        new DeviceService().logout(email);
+    }
 }

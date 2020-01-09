@@ -6,4 +6,5 @@ public interface Routes {
     String UPDATE = "update";
     String NOTIFICATION_CAMPAIGN = "/notification/campaign";
     String NOTIFICATION_TRANSACTIONAL = "/notification/transactional";
+    String DEVICE_LOGOUT = "/device/logout";
 }

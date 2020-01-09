@@ -16,7 +16,7 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
  */
 
 public abstract class BaseTask<T> extends AsyncTask<Void, Void, Object> implements OnInvoke<T> {
-    protected OnRequest onRequest;
+    private OnRequest onRequest;
     private RequestType requestType;
     private boolean withCache;
 
