@@ -2,7 +2,6 @@ package br.com.allin.mobile.pushnotification.service.allin;
 
 import android.content.Context;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,25 +31,7 @@ public class DeviceService {
         setDeviceToken(newToken);
 
         if (Util.isEmpty(oldToken) || !oldToken.equals(newToken)) {
-            new DeviceTask(oldToken, newToken, new OnRequest() {
-                @Override
-                public void onFinish(Object value) {
-                    String pushId = AlliNPush.getInstance().getDeviceToken();
-
-                    List<AIValues> list = new ArrayList<>();
-                    list.add(new AIValues(ListIdentifier.PUSH_ID, pushId));
-                    list.add(new AIValues(ListIdentifier.PLATAFORMA, SystemIdentifier.ANDROID));
-
-                    AlliNPush.getInstance().sendList(ListIdentifier.LISTA_PADRAO, list);
-                }
-
-                @Override
-                public void onError(Exception exception) {
-                    if (onRequest != null) {
-                        onRequest.onError(exception);
-                    }
-                }
-            }).execute();
+            new DeviceTask(oldToken, newToken, this.onRequest).execute();
         }
     }
 

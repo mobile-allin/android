@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
-import androidx.appcompat.app.AlertDialog;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +14,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 
+import androidx.appcompat.app.AlertDialog;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,8 +23,6 @@ import java.util.List;
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.helper.Util;
-import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
-import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
 
 
 public class MainActivity extends Activity implements AdapterView.OnItemClickListener {
@@ -111,17 +109,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
                     return;
                 }
-
-//                String pushId = AlliNPush.getInstance().getDeviceToken();
-//
-//                List<AIValues> list = new ArrayList<>();
-//                list.add(new AIValues("id_push", Util.md5(pushId)));
-//                list.add(new AIValues("push_id", pushId));
-//                list.add(new AIValues("plataforma", "android"));
-//                list.add(new AIValues("dt_ultima_abertura", null));
-//                list.add(new AIValues("dt_ultimo_clique", null));
-//
-//                AlliNPush.getInstance().sendList("Lista Padrao Push", list);
 
                 final ProgressDialog progressDialog = ProgressDialog.show(this, null, "TESTE");
 
