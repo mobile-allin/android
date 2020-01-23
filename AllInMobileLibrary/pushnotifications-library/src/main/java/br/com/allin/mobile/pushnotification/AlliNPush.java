@@ -18,10 +18,12 @@ import java.util.List;
 
 import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.dao.AlliNDatabase;
+import br.com.allin.mobile.pushnotification.entity.allin.AINotification;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.service.allin.CacheService;
 import br.com.allin.mobile.pushnotification.service.allin.DeviceService;
+import br.com.allin.mobile.pushnotification.service.allin.NotificationService;
 
 /**
  * @author lucasrodrigues
@@ -183,6 +185,10 @@ public class AlliNPush {
         this.contextWeakReference = new WeakReference<>(context);
 
         AlliNDatabase.initialize(context);
+    }
+
+    public List<AINotification> getNotifications() {
+        return new NotificationService().getList();
     }
 
     @SuppressLint({"PrivateApi"})
