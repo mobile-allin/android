@@ -7,9 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.identifiers.PushIdentifier;
-import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.service.allin.NotificationService;
 import br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity;
 
@@ -25,16 +23,7 @@ public class Register extends AppCompatActivity {
 
     private void setup(Bundle bundle) {
         if (bundle != null) {
-            if (bundle.containsKey(PushIdentifier.ACTION)) {
-                AllInDelegate delegate = AlliNConfiguration.getInstance().getDelegate();
-
-                if (delegate != null) {
-                    delegate.onClickAction(bundle.getString(PushIdentifier.ACTION));
-                }
-            } else {
-                this.sendNotificationType(bundle);
-            }
-
+            this.sendNotificationType(bundle);
             this.start(bundle);
         }
     }

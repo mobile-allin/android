@@ -94,44 +94,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 break;
 
             case 1:
-                if (!swAllInNotification.isChecked()) {
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-                    alertDialog.setTitle("Aviso");
-                    alertDialog.setMessage("Para enviar a lista, é necessário estar com as notificações habilitadas.");
-                    alertDialog.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+                List<AIValues> list = new ArrayList<>();
+                list.add(new AIValues("push_id", AlliNPush.getInstance().getDeviceToken()));
+                list.add(new AIValues("plataforma", "android"));
+                list.add(new AIValues("email", "lrodriguesteste@gmail.com"));
+                list.add(new AIValues("estado", "SP"));
+                list.add(new AIValues("cel", "11987482000"));
 
-                    alertDialog.create().show();
-
-                    return;
-                }
-
-                final ProgressDialog progressDialog = ProgressDialog.show(this, null, "TESTE");
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int position = 0; position < 1000; position++) {
-                            String pushId = "PUSH_ID_" + position;
-
-                            List<AIValues> list = new ArrayList<>();
-                            list.add(new AIValues("id_push", Util.md5(pushId)));
-                            list.add(new AIValues("push_id", pushId));
-                            list.add(new AIValues("plataforma", "android"));
-                            list.add(new AIValues("request_number", String.valueOf(position)));
-
-                            AlliNPush.getInstance().sendList("stress_test", list);
-
-                            SystemClock.sleep(300);
-                        }
-
-                        progressDialog.dismiss();
-                    }
-                }).start();
+                AlliNPush.getInstance().sendList("Mobile_10_Jan_V1", list);
 
                 break;
 

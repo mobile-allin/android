@@ -16,10 +16,8 @@ import com.google.firebase.iid.InstanceIdResult;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import br.com.allin.mobile.pushnotification.configuration.AlliNConfiguration;
 import br.com.allin.mobile.pushnotification.dao.AlliNDatabase;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
-import br.com.allin.mobile.pushnotification.interfaces.AllInDelegate;
 import br.com.allin.mobile.pushnotification.service.allin.CacheService;
 import br.com.allin.mobile.pushnotification.service.allin.DeviceService;
 
@@ -136,20 +134,14 @@ public class AlliNPush {
     private WeakReference<Context> contextWeakReference;
 
     public void registerForPushNotifications(@NonNull Context context) {
-        this.registerForPushNotifications(context, null, null);
-    }
-
-    public void registerForPushNotifications(@NonNull Context context, AllInDelegate delegate) {
-        this.registerForPushNotifications(context, null, delegate);
+        this.registerForPushNotifications(context, null);
     }
 
     public void registerForPushNotifications(@NonNull final Context context,
-                                             @Nullable final String tokenToUpdate,
-                                             @Nullable final AllInDelegate delegate) {
+                                             @Nullable final String tokenToUpdate) {
         this.setContext(context);
 
         FirebaseApp.initializeApp(context);
-        AlliNConfiguration.getInstance().initialize(delegate);
 
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
             @Override
