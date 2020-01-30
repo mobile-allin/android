@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.UUID;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
+import br.com.allin.mobile.pushnotification.dao.AlliNDatabase;
+import br.com.allin.mobile.pushnotification.entity.allin.AIList;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
+import br.com.allin.mobile.pushnotification.helper.ListPersistence;
 import br.com.allin.mobile.pushnotification.helper.PreferencesManager;
 import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.identifiers.ListIdentifier;
@@ -36,7 +39,13 @@ public class DeviceService {
     }
 
     public void sendList(String nameList, List<AIValues> columnsAndValues) {
-        new ListTask(nameList, this.updateList(columnsAndValues), this.onRequest).execute();
+        String md5 = ListPersistence.getMD5(nameList, columnsAndValues);
+
+        if (AlliNDatabase.get().listTable().exist(md5) == 0) {
+            AlliNDatabase.get().listTable().insert(new AIList(md5));
+
+            new ListTask(nameList, this.updateList(columnsAndValues), this.onRequest).execute();
+        }
     }
 
     public String getDeviceToken() {

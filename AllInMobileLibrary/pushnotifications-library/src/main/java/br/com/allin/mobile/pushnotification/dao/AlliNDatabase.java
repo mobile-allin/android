@@ -8,6 +8,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import br.com.allin.mobile.pushnotification.entity.allin.AICache;
+import br.com.allin.mobile.pushnotification.entity.allin.AIList;
 import br.com.allin.mobile.pushnotification.identifiers.DatabaseIdentifier;
 
 /**
@@ -15,13 +16,15 @@ import br.com.allin.mobile.pushnotification.identifiers.DatabaseIdentifier;
  */
 
 @Database(
-        version = 2,
+        version = 3,
         entities = {
-                AICache.class
-        },
-        exportSchema = false)
+                AICache.class,
+                AIList.class
+        })
 public abstract class AlliNDatabase extends RoomDatabase {
     public abstract CacheDAO cacheTable();
+
+    public abstract ListDAO listTable();
 
     private static AlliNDatabase instance;
 
@@ -29,7 +32,9 @@ public abstract class AlliNDatabase extends RoomDatabase {
         if (AlliNDatabase.instance == null) {
             AlliNDatabase.instance =
                     Room.databaseBuilder(context, AlliNDatabase.class, DatabaseIdentifier.DB_NAME)
-                            .fallbackToDestructiveMigration().allowMainThreadQueries().build();
+                            .fallbackToDestructiveMigration()
+                            .allowMainThreadQueries()
+                            .build();
         }
     }
 
