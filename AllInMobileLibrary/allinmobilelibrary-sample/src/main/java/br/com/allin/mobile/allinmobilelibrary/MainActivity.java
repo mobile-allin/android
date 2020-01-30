@@ -95,8 +95,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
             case 1:
                 List<AIValues> list = new ArrayList<>();
-                list.add(new AIValues("push_id", AlliNPush.getInstance().getDeviceToken()));
-                list.add(new AIValues("plataforma", "android"));
+//                list.add(new AIValues("push_id", AlliNPush.getInstance().getDeviceToken()));
+//                list.add(new AIValues("plataforma", "android"));
                 list.add(new AIValues("email", "lrodriguesteste@gmail.com"));
                 list.add(new AIValues("estado", "SP"));
                 list.add(new AIValues("cel", "11987482000"));

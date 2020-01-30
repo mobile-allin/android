@@ -39,12 +39,14 @@ public class DeviceService {
     }
 
     public void sendList(String nameList, List<AIValues> columnsAndValues) {
+        this.updateList(columnsAndValues);
+
         String md5 = ListPersistence.getMD5(nameList, columnsAndValues);
 
         if (AlliNDatabase.get().listTable().exist(md5) == 0) {
             AlliNDatabase.get().listTable().insert(new AIList(md5));
 
-            new ListTask(nameList, this.updateList(columnsAndValues), this.onRequest).execute();
+            new ListTask(nameList, columnsAndValues, this.onRequest).execute();
         }
     }
 
@@ -75,7 +77,7 @@ public class DeviceService {
         return identifier;
     }
 
-    private List<AIValues> updateList(List<AIValues> columnsAndValues) {
+    private void updateList(List<AIValues> columnsAndValues) {
         boolean containPushId = false;
         boolean containPlatform = false;
 
@@ -96,8 +98,6 @@ public class DeviceService {
         if (!containPlatform) {
             columnsAndValues.add(new AIValues(ListIdentifier.PLATAFORMA, SystemIdentifier.ANDROID));
         }
-
-        return columnsAndValues;
     }
 
     public void logout(String email) {
