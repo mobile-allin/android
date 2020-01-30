@@ -28,6 +28,7 @@ import br.com.allin.mobile.pushnotification.helper.Util;
 import br.com.allin.mobile.pushnotification.http.DownloadImage;
 import br.com.allin.mobile.pushnotification.http.DownloadImage.OnDownloadCompleted;
 import br.com.allin.mobile.pushnotification.identifiers.PushIdentifier;
+import br.com.allin.mobile.pushnotification.service.allin.NotificationService;
 
 class Notification {
     Notification(Context context) {
@@ -68,6 +69,8 @@ class Notification {
         String body = bundle.getString(PushIdentifier.BODY);
 
         if (!Util.isEmpty(title) && !Util.isEmpty(body)) {
+            new NotificationService().insert(id, title, body);
+
             Context context = AlliNPush.getInstance().getContext();
 
             Intent intent = new Intent(context, Register.class);

@@ -17,9 +17,11 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import br.com.allin.mobile.pushnotification.dao.AlliNDatabase;
+import br.com.allin.mobile.pushnotification.entity.allin.AINotification;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
 import br.com.allin.mobile.pushnotification.service.allin.CacheService;
 import br.com.allin.mobile.pushnotification.service.allin.DeviceService;
+import br.com.allin.mobile.pushnotification.service.allin.NotificationService;
 
 /**
  * @author lucasrodrigues
@@ -210,4 +212,9 @@ public class AlliNPush {
     public void logout(String email) {
         new DeviceService().logout(email);
     }
+
+    public List<AINotification> getNotifications() {
+        return new NotificationService().getList();
+    }
+
 }

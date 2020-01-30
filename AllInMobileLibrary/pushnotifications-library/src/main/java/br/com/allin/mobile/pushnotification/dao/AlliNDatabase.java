@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase;
 
 import br.com.allin.mobile.pushnotification.entity.allin.AICache;
 import br.com.allin.mobile.pushnotification.entity.allin.AIList;
+import br.com.allin.mobile.pushnotification.entity.allin.AINotification;
 import br.com.allin.mobile.pushnotification.identifiers.DatabaseIdentifier;
 
 /**
@@ -16,15 +17,18 @@ import br.com.allin.mobile.pushnotification.identifiers.DatabaseIdentifier;
  */
 
 @Database(
-        version = 3,
+        version = 4,
         entities = {
                 AICache.class,
-                AIList.class
+                AIList.class,
+                AINotification.class
         })
 public abstract class AlliNDatabase extends RoomDatabase {
     public abstract CacheDAO cacheTable();
 
     public abstract ListDAO listTable();
+
+    public abstract NotificationDAO notificationTable();
 
     private static AlliNDatabase instance;
 
