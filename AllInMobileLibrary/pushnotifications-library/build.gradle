@@ -18,10 +18,10 @@ ext {
     libraryName = 'All iN Mobile'
     artifact = 'allin-mobile'
 
-    libraryDescription = 'Versão Beta da Ferramenta de Push e BTG360 (Remarketing)'
+    libraryDescription = 'Versão da Ferramenta de Push e BTG360 (Remarketing)'
     siteUrl = 'http://allin.com.br/'
     gitUrl = 'https://github.com/giep-br/mobile-android.git'
-    libraryVersion = '0.2.24'
+    libraryVersion = '0.2.25'
 
     developerId = 'lbrsilva-allin'
     developerName = 'Lucas Barbosa Rodrigues Silva'
@@ -33,8 +33,8 @@ ext {
 }
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.2'
 
     defaultConfig {
         minSdkVersion 16
@@ -42,7 +42,6 @@ android {
     lintOptions {
         abortOnError false
     }
-
 }
 
 buildscript {
@@ -55,7 +54,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.android.tools.build:gradle:4.0.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
@@ -67,12 +66,12 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
 
     // FIREBASE
-    implementation 'com.google.firebase:firebase-core:17.2.2'
-    implementation 'com.google.firebase:firebase-messaging:20.1.0'
+    implementation 'com.google.firebase:firebase-core:17.4.3'
+    implementation 'com.google.firebase:firebase-messaging:20.2.1'
 
     // ROOM
-    implementation 'androidx.room:room-runtime:2.2.3'
-    annotationProcessor 'androidx.room:room-compiler:2.2.3'
+    implementation 'androidx.room:room-runtime:2.2.5'
+    annotationProcessor 'androidx.room:room-compiler:2.2.5'
 }
 
 // BINTRAY
