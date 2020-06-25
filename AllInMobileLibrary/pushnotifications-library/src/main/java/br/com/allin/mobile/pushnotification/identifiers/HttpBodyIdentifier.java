@@ -10,7 +10,5 @@ public interface HttpBodyIdentifier {
     String ID = "id";
     String DATE = "date";
     String DATE_OPENING = "date_opening";
-    String LATITUDE = "latitude";
-    String LONGITUDE = "longitude";
     String USER_EMAIL = "user_email";
 }

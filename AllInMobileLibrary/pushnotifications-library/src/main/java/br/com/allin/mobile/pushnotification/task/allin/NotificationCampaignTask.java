@@ -17,25 +17,12 @@ import br.com.allin.mobile.pushnotification.task.BaseTask;
 public class NotificationCampaignTask extends BaseTask<String> {
     private int id;
     private String date;
-    private double latitude;
-    private double longitude;
 
     public NotificationCampaignTask(int id, String date) {
         super(RequestType.POST, true, null);
 
         this.id = id;
         this.date = date;
-        this.latitude = 0;
-        this.longitude = 0;
-    }
-
-    public NotificationCampaignTask(int id, String date, double latitude, double longitude) {
-        super(RequestType.POST, true, null);
-
-        this.id = id;
-        this.date = date;
-        this.latitude = latitude;
-        this.longitude = longitude;
     }
 
     @Override
@@ -52,11 +39,6 @@ public class NotificationCampaignTask extends BaseTask<String> {
             data.put(HttpBodyIdentifier.DATE, this.date);
             data.put(HttpBodyIdentifier.DATE_OPENING, Util.currentDate("yyyy-MM-dd HH:mm:ss"));
             data.put(HttpBodyIdentifier.DEVICE_TOKEN, AlliNPush.getInstance().getDeviceToken());
-
-            if (this.latitude != 0 && this.longitude != 0) {
-                data.put(HttpBodyIdentifier.LATITUDE, String.valueOf(this.latitude));
-                data.put(HttpBodyIdentifier.LONGITUDE, String.valueOf(this.longitude));
-            }
 
             return data;
         } catch (Exception e) {
