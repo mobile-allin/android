@@ -12,36 +12,20 @@ import br.com.allin.mobile.pushnotification.task.allin.NotificationTransactional
  * Service class for notification click
  */
 public class NotificationService {
-    private NotificationDAO notificationDAO;
-
-    public NotificationService() {
-        this.notificationDAO = AlliNDatabase.get().notificationTable();
+    public static List<AINotification> getList() {
+        return AlliNDatabase.get().notificationTable().get();
     }
 
-    public List<AINotification> getList() {
-        return this.notificationDAO.get();
-    }
-
-    public void insert(int idMessage, String title, String body) {
-        this.notificationDAO.insert(new AINotification(idMessage, title, body));
+    public static void insert(int idMessage, String title, String body) {
+        AlliNDatabase.get().notificationTable().insert(new AINotification(idMessage, title, body));
     }
 
 
-    public void sendCampaign(int idCampaign, String date) {
-        try {
-            NotificationCampaignTask task = new NotificationCampaignTask(idCampaign, date);
-            task.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static void sendCampaign(int idCampaign, String date) {
+        new NotificationCampaignTask(idCampaign, date).execute();
     }
 
-    public void sendTransactional(int idSend, String date) {
-        try {
-            NotificationTransactionalTask task = new NotificationTransactionalTask(idSend, date);
-            task.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static void sendTransactional(int idSend, String date) {
+        new NotificationTransactionalTask(idSend, date).execute();
     }
 }

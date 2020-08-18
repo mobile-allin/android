@@ -216,7 +216,7 @@ public class AlliNPush {
     }
 
     public List<AINotification> getNotifications() {
-        return new NotificationService().getList();
+        return NotificationService.getList();
     }
 
     public static void showNotification(Context context, RemoteMessage remoteMessage) {

@@ -29,22 +29,19 @@ public class Register extends AppCompatActivity {
     }
 
     private void sendNotificationType(Bundle bundle) {
-        NotificationService service = new NotificationService();
         String date = bundle.getString(PushIdentifier.DATE);
 
         if (bundle.containsKey(PushIdentifier.ID_CAMPAIGN)) {
             String campaignId = bundle.getString(PushIdentifier.ID_CAMPAIGN);
 
             if (campaignId != null) {
-                int id = Integer.parseInt(campaignId);
-
-                service.sendCampaign(id, date);
+                NotificationService.sendCampaign(Integer.parseInt(campaignId), date);
             }
         } else if (bundle.containsKey(PushIdentifier.ID_SEND)) {
             String sendId = bundle.getString(PushIdentifier.ID_SEND);
 
             if (sendId != null) {
-                service.sendTransactional(Integer.parseInt(sendId), date);
+                NotificationService.sendTransactional(Integer.parseInt(sendId), date);
             }
         }
     }
