@@ -36,7 +36,9 @@ public class Register extends AppCompatActivity {
             String campaignId = bundle.getString(PushIdentifier.ID_CAMPAIGN);
 
             if (campaignId != null) {
-                service.sendCampaign(Integer.parseInt(campaignId), date);
+                int id = Integer.parseInt(campaignId);
+                
+                service.sendCampaign(id, date);
             }
         } else if (bundle.containsKey(PushIdentifier.ID_SEND)) {
             String sendId = bundle.getString(PushIdentifier.ID_SEND);
