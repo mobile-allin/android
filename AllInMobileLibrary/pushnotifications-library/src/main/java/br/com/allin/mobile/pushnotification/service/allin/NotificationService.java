@@ -27,7 +27,7 @@ public class NotificationService {
     }
 
 
-    public void sendCampaign(final int idCampaign, final String date) {
+    public void sendCampaign(int idCampaign, String date) {
         new NotificationCampaignTask(idCampaign, date).execute();
     }
 
