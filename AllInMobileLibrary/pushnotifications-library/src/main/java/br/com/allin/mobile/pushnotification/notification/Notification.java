@@ -30,12 +30,12 @@ import br.com.allin.mobile.pushnotification.http.DownloadImage.OnDownloadComplet
 import br.com.allin.mobile.pushnotification.identifiers.PushIdentifier;
 import br.com.allin.mobile.pushnotification.service.allin.NotificationService;
 
-class Notification {
-    Notification(Context context) {
+public class Notification {
+    public Notification(Context context) {
         AlliNPush.getInstance(context);
     }
 
-    void showNotification(@NonNull final RemoteMessage remoteMessage) {
+    public void showNotification(@NonNull final RemoteMessage remoteMessage) {
         Map<String, String> data = remoteMessage.getData();
 
         if (data.containsKey(PushIdentifier.IMAGE)) {

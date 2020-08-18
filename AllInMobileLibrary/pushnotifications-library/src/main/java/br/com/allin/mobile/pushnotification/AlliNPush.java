@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 import br.com.allin.mobile.pushnotification.dao.AlliNDatabase;
 import br.com.allin.mobile.pushnotification.entity.allin.AINotification;
 import br.com.allin.mobile.pushnotification.entity.allin.AIValues;
+import br.com.allin.mobile.pushnotification.notification.Notification;
 import br.com.allin.mobile.pushnotification.service.allin.CacheService;
 import br.com.allin.mobile.pushnotification.service.allin.DeviceService;
 import br.com.allin.mobile.pushnotification.service.allin.NotificationService;
@@ -217,4 +219,13 @@ public class AlliNPush {
         return new NotificationService().getList();
     }
 
+    public static void showNotification(Context context, RemoteMessage remoteMessage) {
+        Notification notification = new Notification(context);
+        notification.showNotification(remoteMessage);
+    }
+
+    public static void updateDeviceToken(Context context, String newToken) {
+        DeviceService deviceService = new DeviceService();
+        deviceService.sendDevice(AlliNPush.getInstance(context).getDeviceToken(), newToken);
+    }
 }
