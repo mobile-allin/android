@@ -28,10 +28,20 @@ public class NotificationService {
 
 
     public void sendCampaign(int idCampaign, String date) {
-        new NotificationCampaignTask(idCampaign, date).execute();
+        try {
+            NotificationCampaignTask task = new NotificationCampaignTask(idCampaign, date);
+            task.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void sendTransactional(int idSend, String date) {
-        new NotificationTransactionalTask(idSend, date).execute();
+        try {
+            NotificationTransactionalTask task = new NotificationTransactionalTask(idSend, date);
+            task.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
