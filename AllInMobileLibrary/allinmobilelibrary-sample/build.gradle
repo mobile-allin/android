@@ -25,11 +25,11 @@ android {
 
 dependencies {
     //noinspection GradleCompatible
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
 
     // FIREBASE - NECESSÁRIO PARA RECEBIMENTO DE PUSH
-    implementation 'com.google.firebase:firebase-messaging:20.2.1'
+    implementation 'com.google.firebase:firebase-messaging:20.2.4'
 
     // ANDROID ROOM - NECESSÁRIO PARA AS CONSULTAS DO BANCO DE DADOS
     implementation 'androidx.room:room-runtime:2.2.5'
