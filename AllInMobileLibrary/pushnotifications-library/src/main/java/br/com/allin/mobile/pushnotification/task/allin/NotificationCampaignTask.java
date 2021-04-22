@@ -15,10 +15,10 @@ import br.com.allin.mobile.pushnotification.task.BaseTask;
  * Thread for notification campaign request
  */
 public class NotificationCampaignTask extends BaseTask<String> {
-    private int id;
+    private String id;
     private String date;
 
-    public NotificationCampaignTask(int id, String date) {
+    public NotificationCampaignTask(String id, String date) {
         super(RequestType.POST, true, null);
 
         this.id = id;

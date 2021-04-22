@@ -121,10 +121,11 @@ public class AllInWebViewActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressWarnings("all")
     private void start(Bundle bundle) {
         boolean isScheme = bundle.getString(PushIdentifier.URL_SCHEME) != null;
         boolean isTransactional = bundle.getString(PushIdentifier.ID_LOGIN) != null;
-        boolean isCampaign = bundle.getString(PushIdentifier.ID_CAMPAIGN) != null;
+        boolean isCampaign = bundle.get(PushIdentifier.ID_CAMPAIGN) != null;
 
         String url = null;
 
@@ -133,12 +134,12 @@ public class AllInWebViewActivity extends AppCompatActivity {
         } else if (isTransactional) {
             String urlTransactional = bundle.getString(PushIdentifier.URL_TRANSACTIONAL);
             String idLogin = bundle.getString(PushIdentifier.ID_LOGIN);
-            String idSend = bundle.getString(PushIdentifier.ID_SEND);
+            String idSend = bundle.get(PushIdentifier.ID_SEND).toString();
             String date = bundle.getString(PushIdentifier.DATE);
             url = String.format("%s/%s/%s/%s", urlTransactional, date, idLogin, idSend);
         } else if (isCampaign) {
             String urlCampaign = bundle.getString(PushIdentifier.URL_CAMPAIGN);
-            String idCampaign = bundle.getString(PushIdentifier.ID_CAMPAIGN);
+            String idCampaign = bundle.get(PushIdentifier.ID_CAMPAIGN).toString();
             String idPush = Util.md5(AlliNPush.getInstance().getDeviceToken());
             url = String.format("%s/%s/%s?type=mobile", urlCampaign, idPush, idCampaign);
         }

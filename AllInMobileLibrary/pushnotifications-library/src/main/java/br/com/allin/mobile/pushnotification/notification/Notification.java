@@ -13,7 +13,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -22,6 +21,7 @@ import androidx.core.content.ContextCompat;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
+import java.util.Random;
 
 import br.com.allin.mobile.pushnotification.AlliNPush;
 import br.com.allin.mobile.pushnotification.helper.Util;
@@ -55,16 +55,11 @@ public class Notification {
         }
     }
 
+    @SuppressWarnings("all")
     private void showNotification(Bitmap bitmap, RemoteMessage remoteMessage) {
         Bundle bundle = generateBundle(remoteMessage);
 
-        String notificationId = bundle.getString(PushIdentifier.ID);
-        int id = 1;
-
-        if (notificationId != null && TextUtils.isDigitsOnly(notificationId)) {
-            id = Integer.parseInt(notificationId);
-        }
-
+        String id = bundle.get(PushIdentifier.ID).toString();
         String title = bundle.getString(PushIdentifier.TITLE);
         String body = bundle.getString(PushIdentifier.BODY);
 
@@ -81,7 +76,7 @@ public class Notification {
             int whiteIcon = this.getWhiteIcon(context);
             int color = this.getColor(context);
 
-            PendingIntent pendingIntent = getPending(context, 0, intent);
+            PendingIntent pendingIntent = getPending(context, intent);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId);
 
             if (icon == 0) {
@@ -119,7 +114,7 @@ public class Notification {
             }
 
             if (notificationManager != null) {
-                notificationManager.notify(id, builder.build());
+                notificationManager.notify(new Random().nextInt(), builder.build());
             }
         }
     }
@@ -135,8 +130,8 @@ public class Notification {
         }
     }
 
-    private PendingIntent getPending(Context context, int code, Intent intent) {
-        return PendingIntent.getActivity(context, code,
+    private PendingIntent getPending(Context context, Intent intent) {
+        return PendingIntent.getActivity(context, 0,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 

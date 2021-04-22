@@ -1,16 +1,20 @@
 package br.com.allin.mobile.pushnotification.entity.allin;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.util.UUID;
+
 /**
- AINotification object from local database
+ * AINotification object from local database
  */
-@Entity(tableName = "notification")
+@Entity(tableName = "notifications_history")
 public class AINotification {
     @PrimaryKey
-    private long idMessage;
+    @NonNull
+    private String idMessage = UUID.randomUUID().toString();
     private String body;
     private String title;
 
@@ -18,17 +22,18 @@ public class AINotification {
     }
 
     @Ignore
-    public AINotification(long idMessage, String title, String body) {
+    public AINotification(@NonNull String idMessage, String title, String body) {
         this.idMessage = idMessage;
         this.title = title;
         this.body = body;
     }
 
-    public long getIdMessage() {
+    @NonNull
+    public String getIdMessage() {
         return idMessage;
     }
 
-    public void setIdMessage(long idMessage) {
+    public void setIdMessage(@NonNull String idMessage) {
         this.idMessage = idMessage;
     }
 

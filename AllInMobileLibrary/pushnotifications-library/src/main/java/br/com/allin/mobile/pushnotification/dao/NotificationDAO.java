@@ -12,7 +12,7 @@ import br.com.allin.mobile.pushnotification.entity.allin.AINotification;
 
 @Dao
 public interface NotificationDAO {
-    @Query("SELECT * FROM notification")
+    @Query("SELECT * FROM notifications_history")
     List<AINotification> get();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -21,7 +21,7 @@ public interface NotificationDAO {
     @Delete
     void delete(AINotification notification);
 
-    @Query("DELETE FROM notification WHERE idMessage = :id")
-    void deleteById(long id);
+    @Query("DELETE FROM notifications_history WHERE idMessage = :id")
+    void deleteById(String id);
 }
 

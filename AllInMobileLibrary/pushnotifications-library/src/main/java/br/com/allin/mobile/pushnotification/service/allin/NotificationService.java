@@ -16,16 +16,16 @@ public class NotificationService {
         return AlliNDatabase.get().notificationTable().get();
     }
 
-    public static void insert(int idMessage, String title, String body) {
+    public static void insert(String idMessage, String title, String body) {
         AlliNDatabase.get().notificationTable().insert(new AINotification(idMessage, title, body));
     }
 
 
-    public static void sendCampaign(int idCampaign, String date) {
+    public static void sendCampaign(String idCampaign, String date) {
         new NotificationCampaignTask(idCampaign, date).execute();
     }
 
-    public static void sendTransactional(int idSend, String date) {
+    public static void sendTransactional(String idSend, String date) {
         new NotificationTransactionalTask(idSend, date).execute();
     }
 }

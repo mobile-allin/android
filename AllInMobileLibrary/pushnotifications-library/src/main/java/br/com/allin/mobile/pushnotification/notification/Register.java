@@ -3,6 +3,7 @@ package br.com.allin.mobile.pushnotification.notification;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,16 +33,16 @@ public class Register extends AppCompatActivity {
         String date = bundle.getString(PushIdentifier.DATE);
 
         if (bundle.containsKey(PushIdentifier.ID_CAMPAIGN)) {
-            String campaignId = bundle.getString(PushIdentifier.ID_CAMPAIGN);
+            Object campaignId = bundle.get(PushIdentifier.ID_CAMPAIGN);
 
             if (campaignId != null) {
-                NotificationService.sendCampaign(Integer.parseInt(campaignId), date);
+                NotificationService.sendCampaign(campaignId.toString(), date);
             }
         } else if (bundle.containsKey(PushIdentifier.ID_SEND)) {
-            String sendId = bundle.getString(PushIdentifier.ID_SEND);
+            Object sendId = bundle.get(PushIdentifier.ID_SEND);
 
             if (sendId != null) {
-                NotificationService.sendTransactional(Integer.parseInt(sendId), date);
+                NotificationService.sendTransactional(sendId.toString(), date);
             }
         }
     }

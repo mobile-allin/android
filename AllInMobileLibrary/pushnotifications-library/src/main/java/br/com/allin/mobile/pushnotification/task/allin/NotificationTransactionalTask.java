@@ -14,10 +14,10 @@ import br.com.allin.mobile.pushnotification.task.BaseTask;
  * Thread for notification transactional request
  */
 public class NotificationTransactionalTask extends BaseTask<String> {
-    private int id;
+    private String id;
     private String date;
 
-    public NotificationTransactionalTask(int id, String date) {
+    public NotificationTransactionalTask(String id, String date) {
         super(RequestType.POST, true, null);
 
         this.id = id;
