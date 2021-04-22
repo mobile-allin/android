@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,12 +57,16 @@ public class Register extends AppCompatActivity {
     }
 
     private void startIntentScheme(Bundle bundle) {
-        Uri uri = Uri.parse(bundle.getString(PushIdentifier.URL_SCHEME));
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        intent.putExtras(bundle);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        this.startActivity(intent);
-        this.finish();
+        try {
+            Uri uri = Uri.parse(bundle.getString(PushIdentifier.URL_SCHEME));
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.putExtras(bundle);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            this.startActivity(intent);
+            this.finish();
+        } catch (Exception e) {
+            Log.d("ALLIN", "Invalid URL Scheme");
+        }
     }
 
     private void startIntentHTML(Bundle bundle) {
