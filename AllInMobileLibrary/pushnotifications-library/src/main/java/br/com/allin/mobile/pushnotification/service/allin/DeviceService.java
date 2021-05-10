@@ -23,6 +23,7 @@ import br.com.allin.mobile.pushnotification.task.allin.LogoutTask;
 /**
  * Service class for device information and configuration
  */
+@SuppressWarnings("all")
 public class DeviceService {
     private OnRequest onRequest;
 

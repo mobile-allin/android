@@ -14,7 +14,7 @@ import br.com.allin.mobile.pushnotification.task.BaseTask;
  * Thread for logout request
  */
 public class LogoutTask extends BaseTask<String> {
-    private String email;
+    private final String email;
 
     public LogoutTask(String email) {
         super(RequestType.POST, true, null);

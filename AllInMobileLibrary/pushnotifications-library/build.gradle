@@ -1,40 +1,8 @@
 apply plugin: 'com.android.library'
 
-// To Publish the library execute the command in console:
-//
-// Add in local properties:
-// bintray.user=<USEr>
-// bintray.apikey=<API_KEY>
-//
-// Execute in Terminal:
-// ./gradlew bintrayUpload
-
-ext {
-    bintrayRepo = 'allin'
-    bintrayName = 'allin-mobile'
-    bintrayUserOrg = 'allinmarketingcloud'
-
-    publishedGroupId = 'br.com.allin.mobile.pushnotification'
-    libraryName = 'All iN Mobile'
-    artifact = 'allin-mobile'
-
-    libraryDescription = 'Versão da Ferramenta de Push e BTG360 (Remarketing)'
-    siteUrl = 'http://allin.com.br/'
-    gitUrl = 'https://github.com/giep-br/mobile-android.git'
-    libraryVersion = '0.2.33'
-
-    developerId = 'lbrsilva-allin'
-    developerName = 'Lucas Barbosa Rodrigues Silva'
-    developerEmail = 'lrodrigues@allin.com.br'
-
-    licenseName = 'The JSON License'
-    licenseUrl = 'http://www.json.org/license.html'
-    allLicenses = ["JSON"]
-}
-
 android {
-    compileSdkVersion 29
-    buildToolsVersion '29.0.2'
+    compileSdkVersion 30
+    buildToolsVersion '30.0.2'
 
     defaultConfig {
         minSdkVersion 16
@@ -46,17 +14,12 @@ android {
 
 buildscript {
     repositories {
-        jcenter()
-        maven {
-            url 'https://maven.google.com/'
-        }
         google()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.2'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.android.tools.build:gradle:4.2.0'
     }
 }
 
@@ -66,14 +29,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
     // FIREBASE
-    implementation 'com.google.firebase:firebase-core:18.0.2'
-    implementation 'com.google.firebase:firebase-messaging:21.0.1'
+    implementation 'com.google.firebase:firebase-core:18.0.3'
+    implementation 'com.google.firebase:firebase-messaging:21.1.0'
 
     // ROOM
-    implementation 'androidx.room:room-runtime:2.2.6'
-    annotationProcessor 'androidx.room:room-compiler:2.2.6'
+    implementation 'androidx.room:room-runtime:2.3.0'
+    annotationProcessor 'androidx.room:room-compiler:2.3.0'
 }
-
-// BINTRAY
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

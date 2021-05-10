@@ -16,6 +16,7 @@ public class WebServiceException extends AbstractException {
     }
 
     @Override
+    @SuppressWarnings("all")
     public String toString() {
         return getMessage();
     }

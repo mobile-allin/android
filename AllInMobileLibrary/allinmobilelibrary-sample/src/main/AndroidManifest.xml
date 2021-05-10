@@ -6,7 +6,6 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
@@ -84,7 +83,7 @@
         <!-- Cor da notificação -->
         <meta-data
             android:name="br.com.allin.messaging.messaging.notification_color"
-            android:resource="@color/design_default_color_primary_dark" />
+            android:resource="@android:color/white" />
 
         <!-- Token da All iN -->
         <meta-data
@@ -92,11 +91,6 @@
             android:value="@string/allin_token" />
 
         <!-- ALL IN - FINAL -->
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="c8628b9a1003d64ac34987e03f44aa6cdb07c5b6" />
-
     </application>
 
 </manifest>

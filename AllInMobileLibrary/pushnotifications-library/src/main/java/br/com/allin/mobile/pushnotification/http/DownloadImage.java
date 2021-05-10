@@ -13,8 +13,8 @@ import java.net.URL;
  */
 
 public class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
-    private String imageUrl;
-    private OnDownloadCompleted onDownloadCompleted;
+    private final String imageUrl;
+    private final OnDownloadCompleted onDownloadCompleted;
 
     public DownloadImage(String imageUrl, OnDownloadCompleted onDownloadCompleted) {
         this.imageUrl = imageUrl;
@@ -24,7 +24,7 @@ public class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected Bitmap doInBackground(Void... params) {
         try {
-            URL url = new URL(imageUrl);
+            URL url = new URL(this.imageUrl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setDoInput(true);
             httpURLConnection.connect();
@@ -41,9 +41,9 @@ public class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
         super.onPostExecute(bitmap);
 
         if (bitmap == null) {
-            onDownloadCompleted.onError();
+            this.onDownloadCompleted.onError();
         } else {
-            onDownloadCompleted.onCompleted(bitmap);
+            this.onDownloadCompleted.onCompleted(bitmap);
         }
     }
 

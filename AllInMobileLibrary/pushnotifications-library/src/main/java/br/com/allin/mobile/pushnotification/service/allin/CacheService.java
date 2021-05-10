@@ -11,7 +11,7 @@ import br.com.allin.mobile.pushnotification.task.allin.CacheTask;
  * Service class for cache
  */
 public class CacheService {
-    private CacheDAO cacheDAO;
+    private final CacheDAO cacheDAO;
 
     public CacheService() {
         this.cacheDAO = AlliNDatabase.get().cacheTable();

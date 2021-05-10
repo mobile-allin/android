@@ -16,10 +16,11 @@ import br.com.allin.mobile.pushnotification.task.BaseTask;
 /**
  * Thread for list request
  */
+@SuppressWarnings("all")
 public class ListTask extends BaseTask<String> {
-    private String nameList;
-    private String campos;
-    private String valor;
+    private final String nameList;
+    private final String campos;
+    private final String valor;
 
     public ListTask(String nameList, List<AIValues> columnsAndValues, OnRequest onRequest) {
         super(RequestType.POST, true, onRequest);

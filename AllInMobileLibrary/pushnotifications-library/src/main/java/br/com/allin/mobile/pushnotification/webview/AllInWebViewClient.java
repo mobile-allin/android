@@ -14,8 +14,8 @@ import android.widget.ProgressBar;
  * WebClient callbacks of webview
  */
 public class AllInWebViewClient extends WebViewClient {
-    private Activity activity;
-    private ProgressBar mProgressBar;
+    private final Activity activity;
+    private final ProgressBar mProgressBar;
 
     AllInWebViewClient(Activity activity, ProgressBar mProgressBar) {
         this.activity = activity;

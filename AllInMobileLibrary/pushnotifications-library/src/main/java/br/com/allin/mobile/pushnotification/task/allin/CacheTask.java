@@ -15,8 +15,8 @@ import br.com.allin.mobile.pushnotification.http.RequestType;
  */
 
 public class CacheTask extends AsyncTask<Void, Void, Object> {
-    private AICache cache;
-    private CacheDAO cacheDAO;
+    private final AICache cache;
+    private final CacheDAO cacheDAO;
 
     public CacheTask(AICache cache, CacheDAO cacheDAO) {
         this.cache = cache;

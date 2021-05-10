@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AllInMobileLibrary.iml" filepath="$PROJECT_DIR$/AllInMobileLibrary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/allinmobilelibrary-sample/allinmobilelibrary-sample.iml" filepath="$PROJECT_DIR$/allinmobilelibrary-sample/allinmobilelibrary-sample.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pushnotifications-library/pushnotifications-library.iml" filepath="$PROJECT_DIR$/pushnotifications-library/pushnotifications-library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/allinmobilelibrary-sample/AllInMobileLibrary.allinmobilelibrary-sample.iml" filepath="$PROJECT_DIR$/.idea/modules/allinmobilelibrary-sample/AllInMobileLibrary.allinmobilelibrary-sample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pushnotifications-library/AllInMobileLibrary.pushnotifications-library.iml" filepath="$PROJECT_DIR$/.idea/modules/pushnotifications-library/AllInMobileLibrary.pushnotifications-library.iml" />
     </modules>
   </component>
 </project>

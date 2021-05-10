@@ -12,7 +12,7 @@ import br.com.allin.mobile.pushnotification.task.BaseTask;
  */
 
 public class TrackingTask extends BaseTask<String> {
-    private JSONObject jsonObject;
+    private final JSONObject jsonObject;
 
     public TrackingTask(JSONObject jsonObject) {
         super(RequestType.POST, false, null);

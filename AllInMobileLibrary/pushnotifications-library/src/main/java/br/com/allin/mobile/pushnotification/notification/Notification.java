@@ -152,7 +152,7 @@ public class Notification {
 
     private String getChannelId(Context context) {
         try {
-            String key = "br.com.allin.messaging.messaging.notification_channel_id";
+            String key = "br.com.allin.messaging.notification_channel_id";
 
             PackageManager packageManager = context.getPackageManager();
             String packageName = context.getPackageName();
@@ -200,7 +200,7 @@ public class Notification {
 
     private int getColor(Context context) {
         try {
-            String key = "br.com.allin.messaging.messaging.notification_color";
+            String key = "br.com.allin.messaging.notification_color";
 
             PackageManager packageManager = context.getPackageManager();
             String packageName = context.getPackageName();

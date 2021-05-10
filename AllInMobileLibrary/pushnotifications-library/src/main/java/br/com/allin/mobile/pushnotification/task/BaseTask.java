@@ -15,10 +15,11 @@ import br.com.allin.mobile.pushnotification.interfaces.OnRequest;
  * Base class that implements interface to return the request
  */
 
+@SuppressWarnings("all")
 public abstract class BaseTask<T> extends AsyncTask<Void, Void, Object> implements OnInvoke<T> {
-    private OnRequest onRequest;
-    private RequestType requestType;
-    private boolean withCache;
+    private final OnRequest onRequest;
+    private final RequestType requestType;
+    private final boolean withCache;
 
     public BaseTask(RequestType requestType, boolean withCache, OnRequest onRequest) {
         this.onRequest = onRequest;

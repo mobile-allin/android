@@ -17,12 +17,14 @@ import br.com.allin.mobile.pushnotification.identifiers.DatabaseIdentifier;
  */
 
 @Database(
-        version = 4,
-        entities = {
-                AICache.class,
-                AIList.class,
-                AINotification.class
-        })
+    version = 4,
+    entities = {
+            AICache.class,
+            AIList.class,
+            AINotification.class
+    },
+    exportSchema = false
+)
 public abstract class AlliNDatabase extends RoomDatabase {
     public abstract CacheDAO cacheTable();
 

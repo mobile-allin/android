@@ -15,9 +15,10 @@ import br.com.allin.mobile.pushnotification.task.BaseTask;
 /**
  * Thread for device information request
  */
+@SuppressWarnings("all")
 public class DeviceTask extends BaseTask<String> {
-    private String oldToken;
-    private String newToken;
+    private final String oldToken;
+    private final String newToken;
 
     public DeviceTask(String oldToken, String newToken, OnRequest onRequest) {
         super(RequestType.POST, true, onRequest);
