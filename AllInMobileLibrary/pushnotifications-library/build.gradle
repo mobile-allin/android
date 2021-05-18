@@ -6,6 +6,8 @@ android {
 
     defaultConfig {
         minSdkVersion 16
+
+        buildConfigField "String", "ALLIN_VERSION", '"1.0.2"'
     }
     lintOptions {
         abortOnError false
@@ -19,7 +21,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.0'
+        classpath 'com.android.tools.build:gradle:4.2.1'
     }
 }
 
@@ -29,8 +31,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
     // FIREBASE
-    implementation 'com.google.firebase:firebase-core:18.0.3'
-    implementation 'com.google.firebase:firebase-messaging:21.1.0'
+    implementation 'com.google.firebase:firebase-core:19.0.0'
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
 
     // ROOM
     implementation 'androidx.room:room-runtime:2.3.0'

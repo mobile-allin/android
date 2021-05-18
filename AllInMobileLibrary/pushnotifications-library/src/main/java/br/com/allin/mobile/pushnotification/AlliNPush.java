@@ -8,10 +8,9 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.installations.FirebaseInstallations;
+import com.google.firebase.installations.InstallationTokenResult;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.lang.ref.WeakReference;
@@ -147,11 +146,12 @@ public class AlliNPush {
 
         FirebaseApp.initializeApp(context);
 
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
-            @Override
-            public void onSuccess(InstanceIdResult instanceIdResult) {
+        FirebaseInstallations.getInstance().getToken(false).addOnCompleteListener(task -> {
+            InstallationTokenResult result = task.getResult();
+
+            if (result != null) {
                 String oldToken = TextUtils.isEmpty(tokenToUpdate) ? AlliNPush.getInstance(getContext()).getDeviceToken() : tokenToUpdate;
-                String newToken = instanceIdResult.getToken();
+                String newToken = result.getToken();
 
                 if (TextUtils.isEmpty(oldToken) || !newToken.equals(oldToken)) {
                     DeviceService deviceService = new DeviceService();

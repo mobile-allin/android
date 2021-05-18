@@ -82,7 +82,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 Arrays.asList(getResources().getStringArray(R.array.allin_list))));
         lvAllIn.setOnItemClickListener(MainActivity.this);
 
-        Log.d("DEBUG", AlliNPush.getInstance().getDeviceToken());
+        Log.d("DEBUG 2", AlliNPush.getInstance().getDeviceToken());
 
     }
 

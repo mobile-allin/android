@@ -29,6 +29,8 @@ public class SplashActivity extends AppCompatActivity {
             }
         }).start();
 
-        Log.d("DEBUG", AlliNPush.getInstance().getDeviceToken());
+        if (AlliNPush.getInstance().getDeviceToken() != null) {
+            Log.d("DEBUG 1", AlliNPush.getInstance().getDeviceToken());
+        }
     }
 }

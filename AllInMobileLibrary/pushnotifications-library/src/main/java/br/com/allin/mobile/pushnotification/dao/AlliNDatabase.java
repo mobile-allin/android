@@ -17,7 +17,7 @@ import br.com.allin.mobile.pushnotification.identifiers.DatabaseIdentifier;
  */
 
 @Database(
-    version = 4,
+    version = 5,
     entities = {
             AICache.class,
             AIList.class,
