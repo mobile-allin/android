@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +18,6 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
-import java.util.Objects;
 
 import br.com.allin.mobile.pushnotification.dao.AlliNDatabase;
 import br.com.allin.mobile.pushnotification.entity.allin.AINotification;
@@ -152,16 +150,12 @@ public class AlliNPush {
         FirebaseApp.initializeApp(context);
 
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                return;
-            }
-
             String newToken = task.getResult();
 
-            if (!TextUtils.isEmpty(newToken)) {
+            if (newToken != null) {
                 String oldToken = TextUtils.isEmpty(tokenToUpdate) ? AlliNPush.getInstance(getContext()).getDeviceToken() : tokenToUpdate;
 
-                if (!Objects.equals(newToken, oldToken)) {
+                if (TextUtils.isEmpty(oldToken) || !newToken.equals(oldToken)) {
                     DeviceService deviceService = new DeviceService();
                     deviceService.sendDevice(oldToken, newToken);
                 }
@@ -187,10 +181,6 @@ public class AlliNPush {
         this.contextWeakReference = new WeakReference<>(context);
 
         AlliNDatabase.initialize(context);
-    }
-
-    public List<AINotification> getNotifications() {
-        return new NotificationService().getList();
     }
 
     @SuppressLint({"PrivateApi"})

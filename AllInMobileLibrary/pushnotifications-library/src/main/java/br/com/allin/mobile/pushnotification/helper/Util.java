@@ -63,7 +63,7 @@ public class Util {
      */
     public static String md5(String value) {
         try {
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            MessageDigest digest = MessageDigest.getInstance("MD5");
             digest.update(value.getBytes());
             byte[] messageDigest = digest.digest();
 
