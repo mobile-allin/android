@@ -59,6 +59,19 @@
             app:layout_constraintStart_toStartOf="@+id/email"
             app:layout_constraintTop_toBottomOf="@+id/email" />
 
+        <Button
+            android:id="@+id/copy"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/around_button"
+            android:text="Copiar Push Id"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/register"
+            app:layout_constraintStart_toStartOf="@+id/register"
+            app:layout_constraintTop_toBottomOf="@+id/register" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

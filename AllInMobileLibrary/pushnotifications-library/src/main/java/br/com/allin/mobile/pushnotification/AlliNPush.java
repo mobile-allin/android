@@ -4,17 +4,22 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.installations.InstallationTokenResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Objects;
 
 import br.com.allin.mobile.pushnotification.dao.AlliNDatabase;
 import br.com.allin.mobile.pushnotification.entity.allin.AINotification;
@@ -146,14 +151,17 @@ public class AlliNPush {
 
         FirebaseApp.initializeApp(context);
 
-        FirebaseInstallations.getInstance().getToken(false).addOnCompleteListener(task -> {
-            InstallationTokenResult result = task.getResult();
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                return;
+            }
 
-            if (result != null) {
+            String newToken = task.getResult();
+
+            if (!TextUtils.isEmpty(newToken)) {
                 String oldToken = TextUtils.isEmpty(tokenToUpdate) ? AlliNPush.getInstance(getContext()).getDeviceToken() : tokenToUpdate;
-                String newToken = result.getToken();
 
-                if (TextUtils.isEmpty(oldToken) || !newToken.equals(oldToken)) {
+                if (!Objects.equals(newToken, oldToken)) {
                     DeviceService deviceService = new DeviceService();
                     deviceService.sendDevice(oldToken, newToken);
                 }

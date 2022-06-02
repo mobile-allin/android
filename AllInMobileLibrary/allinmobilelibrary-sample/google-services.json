@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "370841525295",
-    "firebase_url": "https://all-in-poc.firebaseio.com",
-    "project_id": "all-in-poc",
-    "storage_bucket": "all-in-poc.appspot.com"
+    "project_number": "1087094180910",
+    "project_id": "all-in-teste",
+    "storage_bucket": "all-in-teste.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:370841525295:android:73439e99d92e01739a7ada",
+        "mobilesdk_app_id": "1:1087094180910:android:a1702444eb45f39526e3bf",
         "android_client_info": {
           "package_name": "br.com.allin.mobile.allinmobilelibrary"
         }
       },
       "oauth_client": [
         {
-          "client_id": "370841525295-deqihkjua9dsqe8kbas4gb2p2cikomj0.apps.googleusercontent.com",
+          "client_id": "1087094180910-p6emqher4fhkerb4c83higck4dto3dfc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCenTc9752gzPqPBr09L79w_VPniSMs3jA"
+          "current_key": "AIzaSyD4YsX7ozu9d0eMhVX6phflmy4FwCUvO1I"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "370841525295-deqihkjua9dsqe8kbas4gb2p2cikomj0.apps.googleusercontent.com",
+              "client_id": "1087094180910-p6emqher4fhkerb4c83higck4dto3dfc.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

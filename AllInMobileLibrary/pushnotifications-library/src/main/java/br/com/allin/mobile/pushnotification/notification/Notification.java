@@ -1,5 +1,6 @@
 package br.com.allin.mobile.pushnotification.notification;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -130,9 +132,17 @@ public class Notification {
         }
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     private PendingIntent getPending(Context context, Intent intent) {
-        return PendingIntent.getActivity(context, 0,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return PendingIntent.getActivity(
+                    context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+            );
+        } else {
+            return PendingIntent.getActivity(
+                    context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT
+            );
+        }
     }
 
     private Bundle generateBundle(RemoteMessage remoteMessage) {
@@ -160,7 +170,13 @@ public class Notification {
             ApplicationInfo applicationInfo = packageManager
                     .getApplicationInfo(packageName, PackageManager.GET_META_DATA);
 
-            return applicationInfo.metaData.getString(key);
+            String channel = applicationInfo.metaData.getString(key);
+
+            if (TextUtils.isEmpty(channel)) {
+                throw new Exception();
+            }
+
+            return channel;
         } catch (Exception e) {
             return "notify_001";
         }

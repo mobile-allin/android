@@ -15,7 +15,9 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".SplashActivity">
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,24 +25,28 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
 
         <!-- ALL IN - INÍCIO -->
 
         <!-- Activity que exibe o conteúdo HTML do push -->
         <activity
             android:name="br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity"
+            android:exported="true"
             android:theme="@style/AppTheme" />
 
         <!-- Activity que envia as informações do usuário -->
         <activity
             android:name="br.com.allin.mobile.pushnotification.notification.Register"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.Translucent" />
 
         <!-- Registro da classe que recebe o push -->
         <service
             android:name="br.com.allin.mobile.pushnotification.notification.MessagingService"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
