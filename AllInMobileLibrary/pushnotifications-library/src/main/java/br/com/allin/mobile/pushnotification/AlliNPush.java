@@ -189,6 +189,10 @@ public class AlliNPush {
         AlliNDatabase.initialize(context);
     }
 
+    public List<AINotification> getNotifications() {
+        return new NotificationService().getList();
+    }
+
     @SuppressLint({"PrivateApi"})
     private Application getApplication() throws Exception {
         return (Application)Class.forName("android.app.AppGlobals")

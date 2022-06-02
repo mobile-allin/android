@@ -66,8 +66,12 @@ public class Notification {
         String body = bundle.getString(PushIdentifier.BODY);
 
         if (!Util.isEmpty(title) && !Util.isEmpty(body)) {
+<<<<<<< HEAD
             NotificationService.insert(id, title, body);
 
+=======
+            new NotificationService().insert(id, title, body);
+>>>>>>> 350efc96fc364224c48e0b253b6f750ba8f711ce
             Context context = AlliNPush.getInstance().getContext();
 
             Intent intent = new Intent(context, Register.class);
