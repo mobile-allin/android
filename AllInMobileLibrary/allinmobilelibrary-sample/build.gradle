@@ -25,8 +25,8 @@ android {
 
 dependencies {
     //noinspection GradleCompatible
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'com.google.android.material:material:1.6.1'
 
     // ANDROID ROOM - NECESSÁRIO PARA AS CONSULTAS DO BANCO DE DADOS
     implementation 'androidx.room:room-runtime:2.4.2'
