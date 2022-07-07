@@ -31,12 +31,6 @@
 
         <!-- ALL IN - INÍCIO -->
 
-        <!-- Activity que exibe o conteúdo HTML do push -->
-        <activity
-            android:name="br.com.allin.mobile.pushnotification.webview.AllInWebViewActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme" />
-
         <!-- Activity que envia as informações do usuário -->
         <activity
             android:name="br.com.allin.mobile.pushnotification.notification.Register"

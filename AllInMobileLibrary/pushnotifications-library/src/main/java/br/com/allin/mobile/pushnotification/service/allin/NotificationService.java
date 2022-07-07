@@ -3,10 +3,8 @@ package br.com.allin.mobile.pushnotification.service.allin;
 import java.util.List;
 
 import br.com.allin.mobile.pushnotification.dao.AlliNDatabase;
-import br.com.allin.mobile.pushnotification.dao.NotificationDAO;
 import br.com.allin.mobile.pushnotification.entity.allin.AINotification;
-import br.com.allin.mobile.pushnotification.task.allin.NotificationCampaignTask;
-import br.com.allin.mobile.pushnotification.task.allin.NotificationTransactionalTask;
+import br.com.allin.mobile.pushnotification.task.allin.NotificationViewTask;
 
 /**
  * Service class for notification click
@@ -20,12 +18,7 @@ public class NotificationService {
         AlliNDatabase.get().notificationTable().insert(new AINotification(idMessage, title, body));
     }
 
-
-    public static void sendCampaign(String idCampaign, String date) {
-        new NotificationCampaignTask(idCampaign, date).execute();
-    }
-
-    public static void sendTransactional(String idSend, String date) {
-        new NotificationTransactionalTask(idSend, date).execute();
+    public static void sendView(String idCampaign) {
+        new NotificationViewTask(idCampaign).execute();
     }
 }

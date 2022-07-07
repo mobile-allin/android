@@ -7,7 +7,7 @@ android {
     defaultConfig {
         minSdkVersion 16
 
-        buildConfigField "String", "ALLIN_VERSION", '"1.0.2"'
+        buildConfigField "String", "ALLIN_VERSION", '"1.0.3"'
     }
     lintOptions {
         abortOnError false
